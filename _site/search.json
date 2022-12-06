@@ -11,7 +11,7 @@
     "href": "posts/post-with-code/index.html",
     "title": "Post With Code",
     "section": "",
-    "text": "This is a post with executable code."
+    "text": "library(shiny)\n\n# module UI:\nmod1_ui <- function(id) {\n  ns <- NS(id)\n\n  # ----downloadHandler----\n  tagList(\n    tags$h3(\n      \"We're in mod1 UI\"\n    ),\n\n    downloadButton(ns(\"download_here\"), \"Download\")\n  )\n}\n\n# module server:\nmod1_server <- function(id) {\n  moduleServer(\n    id = id, \n    module = function(input, output, session) {\n      # ----downloadHandler----\n      # Our dataset:\n      data <- mtcars\n\n      output$download_here <- downloadHandler(\n        filename = function() {\n          paste(\"data-\", Sys.Date(), \".csv\", sep=\"\")\n        },\n        content = function(file) {\n          write.csv(data, file)\n        }\n      )\n    }\n  )\n}\n\n# app UI:\nui <- fluidPage(\n  mod1_ui(id = \"thismod\")\n)\n\n# app server:\nserver <- function(input, output, session) {\n  # Get return value from module server:\n  k <- mod1_server(id = \"thismod\")\n\n  # Observe changes in the return value:\n  observeEvent(k(), {\n    print(\"Didn't I throw an error!?\")\n  })\n}\n\nshinyApp(ui, server)"
   },
   {
     "objectID": "posts/welcome/index.html",
@@ -23,8 +23,8 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "blog",
+    "title": "Kennedy Mwavu",
     "section": "",
-    "text": "news\n\n\ncode\n\n\nanalysis\n\n\n\n\n\n\n\n\n\n\n\nDec 6, 2022\n\n\nHarlow Malloc\n\n\n\n\n\n\n  \n\n\n\n\n\n\n\n\n\n\nnews\n\n\n\n\n\n\n\n\n\n\n\nDec 3, 2022\n\n\nTristan O’Malley\n\n\n\n\n\n\nNo matching items"
+    "text": "Date\n\n\nTitle\n\n\nAuthor\n\n\n\n\n\n\nDec 6, 2022\n\n\nPost With Code\n\n\nHarlow Malloc\n\n\n\n\nDec 3, 2022\n\n\nWelcome To My Blog\n\n\nTristan O’Malley\n\n\n\n\n\n\nNo matching items"
   }
 ]
