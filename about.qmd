@@ -1,0 +1,24 @@
+---
+title: "About"
+image: profile.jpg
+about:
+  template: jolla
+  links:
+    - icon: twitter
+      text: Twitter
+      href: https://twitter.com/kennedymwavu
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/mwavukennedy/
+    - icon: github
+      text: Github
+      href: https://github.com/kennedymwavu
+
+---
+
+Welcome to my blog about R programming and the life of a programmer! 
+
+Here, I will share my thoughts and experiences on a wide range of topics related to R, including R Shiny, data visualization, and more. 
+I will also occasionally share insights from my own life as an R programmer, and discuss the challenges and rewards of working in this field. 
+
+My goal is to provide valuable information and inspiration to other R enthusiasts, and to foster a community of like-minded individuals who are passionate about data and programming.
