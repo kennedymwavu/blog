@@ -13,12 +13,13 @@ about:
     - icon: github
       text: Github
       href: https://github.com/kennedymwavu
+    - icon: website
+      text: Portfolio
+      href: https://kennedymwavu.github.io/
 
 ---
 
-Hi there! My name is Kennedy Mwavu, an R shiny developer.
-
-Welcome to my blog about R programming and the life of a programmer! 
+Hi, glad you visited!
 
 Here, I will share my knowledge and experience with the R community and provide helpful tips and resources for other R programmers.
 
