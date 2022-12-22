@@ -4,7 +4,7 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "Here, I will share my thoughts and experiences on a wide range of topics related to R, including R Shiny, data visualization, and more. I will also occasionally share insights from my own life as an R programmer, and discuss the challenges and rewards of working in this field.\nMy goal is to provide valuable information and inspiration to other R enthusiasts, and to foster a community of like-minded individuals who are passionate about data and programming."
+    "text": "Welcome to my blog about R programming and the life of a programmer!\nHere, I will share my knowledge and experience with the R community and provide helpful tips and resources for other R programmers.\nOn this blog, you can expect to find articles on topics such as:\n- R shiny development\n- Overviews and tutorials on specific R packages or functions\n- Tips and tricks for improving R code efficiency\n- Personal musings and reflections on my experiences as an R programmer"
   },
   {
     "objectID": "posts/post-with-code/index.html",
