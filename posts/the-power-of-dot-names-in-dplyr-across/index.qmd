@@ -6,9 +6,9 @@ categories: [rlang, dplyr]
 image: "across.jpg"
 ---
 
-![](across.jpg)
-
 ### Introduction
+
+----
 
 My project manager is a die-hard fan of the tidyverse. I go to the office once a week, and last Friday was one of those days.
 
@@ -19,6 +19,8 @@ He comes up to me and says:
 ![](broken-pipe.webp)
 
 ### Problem statement
+
+----
 
 "Say I have this tibble:
 
@@ -46,6 +48,8 @@ In other words, how do I not break my pipeline? Also, I have around 20 such colu
 
 ### Have you tried across()?
 
+----
+
 "Yes I have but it overwrites my previous columns. Look at this:
 
 ```{r}
@@ -63,6 +67,8 @@ prem_sum |>
 All `prem_*` columns are overwritten, and I don't want that to happen."
 
 ### What about the .names argument to across()?
+
+----
 
 "No, not yet."
 
@@ -86,6 +92,8 @@ prem_sum |>
 That's the best I can think of now.
 
 ### Really?!
+
+----
 
 A week down the line and today I found myself messing around with `across()`. I remembered my PM's question and his words "... I was kinda hoping for something better and straightforward though."
 
@@ -121,6 +129,8 @@ That means I can manipulate the .names arg even further.
 It can get easier.
 
 ### Better, huh?
+
+----
 
 Let's start small. Say I have this vector:
 
