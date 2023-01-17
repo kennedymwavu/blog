@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "Blog"
+  title: "A Hobbit's Tale"
   navbar:
     right:
       - about.qmd
@@ -11,10 +11,21 @@ website:
         href: https://github.com/kennedymwavu
       - icon: twitter
         href: https://twitter.com/kennedymwavu
+      - icon: linkedin
+        href: https://www.linkedin.com/in/mwavukennedy/
+  page-footer: 
+    border: true
+    center:
+      - text: "About"
+        href: about.qmd
 format:
   html:
     theme: default
     css: styles.css
+    toc: true
+    toc-location: left
+    monofont: Inconsolata
+    monobackgroundcolor: '#f6f6f6'
 
 
 

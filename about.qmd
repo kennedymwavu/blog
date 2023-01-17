@@ -13,7 +13,7 @@ about:
     - icon: github
       text: Github
       href: https://github.com/kennedymwavu
-    - icon: website
+    - icon: globe
       text: Portfolio
       href: https://kennedymwavu.github.io/
 
@@ -21,11 +21,27 @@ about:
 
 Hi, glad you visited!
 
-Here, I will share my knowledge and experience with the R community and provide helpful tips and resources for other R programmers.
+Welcome to The One Blog to Rule Them All!
+<br>
+Here, you'll find a mix of technical know-how and nerdy Middle-earth goodness.
 
-On this blog, you can expect to find articles on topics such as:
+----
 
-    - R shiny development
-    - Overviews and tutorials on specific R packages or functions
-    - Tips and tricks for improving R code efficiency
-    - Personal musings and reflections on my experiences as an R programmer
+I'll be sharing my knowledge and experience with the R community and provide helpful tips and resources for other R programmers.
+
+Expect to find things like:
+
+  - R shiny development
+  - Overviews and tutorials on specific R packages or functions
+  - Tips and tricks for improving R code efficiency using the 
+  wisdom of Gandalf
+  - Personal musings and reflections on my experiences as an 
+  R programmer and a Lord of the Rings fan
+
+----
+
+Whether you're a lifelong fan or new to Middle-earth, join me as we explore the programming world with a touch of fantasy and adventure.
+
+Like the hobbits of the Shire, we will take our time, learn and enjoy the journey. So grab a second breakfast, and meet me in the articles section!
+
+*~ A Hobbit's Tale, Kennedy Mwavu.*

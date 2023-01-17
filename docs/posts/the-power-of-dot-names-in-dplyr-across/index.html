@@ -9,7 +9,7 @@
 <meta name="author" content="Kennedy Mwavu">
 <meta name="dcterms.date" content="2022-12-14">
 
-<title>Blog - The power of .names in dplyr::across()</title>
+<title>A Hobbit’s Tale - The power of .names in dplyr::across()</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -123,14 +123,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <link rel="stylesheet" href="../../styles.css">
 </head>
 
-<body class="nav-fixed fullcontent">
+<body class="floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <a class="navbar-brand" href="../../index.html">
-    <span class="navbar-title">Blog</span>
+    <span class="navbar-title">A Hobbit’s Tale</span>
   </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
   <span class="navbar-toggler-icon"></span>
@@ -150,6 +150,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </i> 
  </a>
   </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/mwavukennedy/"><i class="bi bi-linkedin" role="img">
+</i> 
+ </a>
+  </li>  
 </ul>
               <div id="quarto-search" class="" title="Search"></div>
           </div> <!-- /navcollapse -->
@@ -157,7 +162,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     </nav>
 </header>
 <!-- content -->
-<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+<header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">The power of .names in dplyr::across()</h1>
@@ -190,17 +195,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   
   </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#problem-statement" id="toc-problem-statement" class="nav-link" data-scroll-target="#problem-statement">Problem statement</a></li>
+  <li><a href="#have-you-tried-across" id="toc-have-you-tried-across" class="nav-link" data-scroll-target="#have-you-tried-across">Have you tried across()?</a></li>
+  <li><a href="#what-about-the-.names-argument-to-across" id="toc-what-about-the-.names-argument-to-across" class="nav-link" data-scroll-target="#what-about-the-.names-argument-to-across">What about the .names argument to across()?</a></li>
+  <li><a href="#really" id="toc-really" class="nav-link" data-scroll-target="#really">Really?!</a></li>
+  <li><a href="#better-huh" id="toc-better-huh" class="nav-link" data-scroll-target="#better-huh">Better, huh?</a></li>
+  </ul>
+</nav>
+</nav>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+    </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
-<p><img src="across.jpg" class="img-fluid"></p>
 <section id="introduction" class="level3">
 <h3 class="anchored" data-anchor-id="introduction">Introduction</h3>
+<hr>
 <p>My project manager is a die-hard fan of the tidyverse. I go to the office once a week, and last Friday was one of those days.</p>
 <p>He comes up to me and says:</p>
 <p>“Good afternoon Mwavu, you know how much I’m into the tidyverse and piping. But today, it seems, I have to break my pipeline. Come have a look.”</p>
@@ -208,6 +228,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="problem-statement" class="level3">
 <h3 class="anchored" data-anchor-id="problem-statement">Problem statement</h3>
+<hr>
 <p>“Say I have this tibble:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>prem_sum <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
@@ -240,6 +261,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="have-you-tried-across" class="level3">
 <h3 class="anchored" data-anchor-id="have-you-tried-across">Have you tried across()?</h3>
+<hr>
 <p>“Yes I have but it overwrites my previous columns. Look at this:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>prem_sum <span class="sc">|&gt;</span> </span>
@@ -267,6 +289,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="what-about-the-.names-argument-to-across" class="level3">
 <h3 class="anchored" data-anchor-id="what-about-the-.names-argument-to-across">What about the .names argument to across()?</h3>
+<hr>
 <p>“No, not yet.”</p>
 <p>Okay, let’s give it a shot:</p>
 <div class="cell">
@@ -298,6 +321,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="really" class="level3">
 <h3 class="anchored" data-anchor-id="really">Really?!</h3>
+<hr>
 <p>A week down the line and today I found myself messing around with <code>across()</code>. I remembered my PM’s question and his words “… I was kinda hoping for something better and straightforward though.”</p>
 <p>Does he have to <code>dplyr::rename()</code>?</p>
 <p>First, let’s have a look at the documentation of <code>.names</code> arg in <code>across()</code>:</p>
@@ -340,6 +364,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </section>
 <section id="better-huh" class="level3">
 <h3 class="anchored" data-anchor-id="better-huh">Better, huh?</h3>
+<hr>
 <p>Let’s start small. Say I have this vector:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">'prem_'</span>, letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])</span>
@@ -473,6 +498,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+      <div class="nav-footer-center">
+        <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../../about.html">About</a>
+  </li>  
+</ul>
+      </div>
+  </div>
+</footer>
 
 
 

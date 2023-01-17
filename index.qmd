@@ -3,7 +3,7 @@ title: "Kennedy Mwavu"
 listing:
   contents: posts
   sort: "date desc"
-  type: table
+  type: grid
   categories: false
   sort-ui: false
   filter-ui: false
