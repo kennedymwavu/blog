@@ -42,6 +42,6 @@ Expect to find things like:
 
 Whether you're a lifelong fan or new to Middle-earth, join me as we explore the programming world with a touch of fantasy and adventure.
 
-Like the hobbits of the Shire, we will take our time, learn and enjoy the journey. So grab a second breakfast, and meet me in the articles section!
+Like the hobbits of the Shire, we will take our time, learn and enjoy the journey. So grab a second breakfast, and meet me in the [articles section](index.qmd)!
 
 *~ A Hobbit's Tale, Kennedy Mwavu.*
