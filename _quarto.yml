@@ -20,12 +20,9 @@ website:
         href: about.qmd
 format:
   html:
-    theme: default
+    theme: sketchy
     css: styles.css
     toc: true
     toc-location: left
     monofont: Inconsolata
-    monobackgroundcolor: '#f6f6f6'
-
-
 
