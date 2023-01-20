@@ -89,7 +89,7 @@ prem_sum |>
 
 "Ahaa, that's nice! I can now rename the columns starting with `PREMSUM` to whatever I need. I was kinda hoping for something better and straightforward though."
 
-That's the best I can think of now.
+That's the best I can think of for now.
 
 ### Really?!
 
