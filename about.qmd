@@ -7,9 +7,6 @@ about:
     - icon: twitter
       text: Twitter
       href: https://twitter.com/kennedymwavu
-    - icon: linkedin
-      text: LinkedIn
-      href: https://www.linkedin.com/in/mwavukennedy/
     - icon: github
       text: Github
       href: https://github.com/kennedymwavu
@@ -19,29 +16,15 @@ about:
 
 ---
 
-Hi, glad you visited!
-
-Welcome to The One Blog to Rule Them All!
-<br>
-Here, you'll find a mix of technical know-how and nerdy Middle-earth goodness.
-
 ----
 
-I'll be sharing my knowledge and experience with the R community and provide helpful tips and resources for other R programmers.
+Dear Future Self,
 
-Expect to find things like:
+Here lies your footprints in the sands of time,<br>
+The memories and musings of a mind.<br>
+The hopes and dreams that once did shine,<br>
+And the journey that you left behind.
 
-  - R shiny development
-  - Overviews and tutorials on specific R packages or functions
-  - Tips and tricks for improving R code efficiency using the 
-  wisdom of Gandalf
-  - Personal musings and reflections on my experiences as an 
-  R programmer and a Lord of the Rings fan
+Past Self.
 
 ----
-
-Whether you're a lifelong fan or new to Middle-earth, join me as we explore the programming world with a touch of fantasy and adventure.
-
-Like the hobbits of the Shire, we will take our time, learn and enjoy the journey. So grab a second breakfast, and meet me in the [articles section](index.qmd)!
-
-*~ A Hobbit's Tale, Kennedy Mwavu.*
