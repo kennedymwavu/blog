@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "A Hobbit's Tale",
     "section": "",
-    "text": "All the UI/UX tricks I’ve learnt along the way and their implementations.  Want to increase the success of your Shiny apps? Then this series is for you."
+    "text": "As R Shiny applications become increasingly complex, it’s important to provide users with a smooth and intuitive user experience.  This series will cover all the UI/UX tricks I’ve learnt along the way and their implementations."
   },
   {
     "objectID": "about.html",
