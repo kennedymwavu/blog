@@ -2,7 +2,13 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/the-power-of-dot-names-in-dplyr-across/index.html"
+      "/posts/ui-ux-r-shiny-series/download-button-spinner/index.html"
+    ]
+  },
+  {
+    "listing": "/ui-ux-r-shiny-series.html",
+    "items": [
+      "/posts/ui-ux-r-shiny-series/download-button-spinner/index.html"
     ]
   }
 ]
