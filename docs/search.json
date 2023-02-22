@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "A Hobbit's Tale",
     "section": "",
-    "text": "As R Shiny applications become increasingly complex, it’s important to provide users with a smooth and intuitive user experience.  This series will cover all the UI/UX tricks I’ve learnt along the way and their implementations."
+    "text": "As R Shiny applications become increasingly complex, it’s important to provide users with a smooth and intuitive user experience."
   },
   {
     "objectID": "about.html",
@@ -18,7 +18,7 @@
     "href": "ui-ux-r-shiny-series.html",
     "title": "Series: UI/UX in R Shiny",
     "section": "",
-    "text": "Sorry to burst your bubble but when building applications, it’s NOT about you. It’s about your users.\nThe sole purpose of creating an application is for it to be adopted by your users.\n“ If people cannot understand how to use your application, or if your application front-end does not work at all, your application is not successful no matter how innovative and incredible the computation algorithms in the back-end are. ” — Engineering Production-Grade Shiny Apps"
+    "text": "Sorry to burst your bubble but when building applications, it’s NOT about you. It’s about your users.\nThe sole purpose of creating an application is for it to be adopted by your users.\n“ If people [users] cannot understand how to use your application, or if your application front-end does not work at all, your application is not successful no matter how innovative and incredible the computation algorithms in the back-end are. ” — Engineering Production-Grade Shiny Apps\nUsers can tell a lot about your application from the first few seconds of interacting with it. Your goal should always be to maximize user satisfaction.\nThat’s where UI/UX comes in."
   },
   {
     "objectID": "ui-ux-r-shiny-series.html#posts-in-this-series",
@@ -32,7 +32,7 @@
     "href": "posts/ui-ux-r-shiny-series/download-button-spinner/index.html",
     "title": "Adding a Spinner to Download Buttons in R Shiny",
     "section": "",
-    "text": "As R Shiny applications become increasingly complex, it’s important to provide users with a smooth and intuitive user experience. One way to do this is by adding a spinner to download buttons.\n\nThis is useful when you have a large dataset that takes a while to download. The spinner will give your users a visual cue that the download is in progress.\nIn this blog post, I’ll show you how to add a spinner to a download button in Shiny using a module.\nWhy a module? Because it’s a great way to encapsulate the logic of the spinner and make it reusable. You can use the same module in multiple Shiny apps."
+    "text": "Here is a demo of what we will build today:"
   },
   {
     "objectID": "posts/ui-ux-r-shiny-series/download-button-spinner/index.html#creating-the-download-button-module",
@@ -61,5 +61,19 @@
     "title": "Adding a Spinner to Download Buttons in R Shiny",
     "section": "Conclusion",
     "text": "Conclusion\nUsers can tell a lot about your application from the first few seconds of using it. Your goal should always be to maximize user satisfaction.\nGo out into the world and make your users happy."
+  },
+  {
+    "objectID": "posts/ui-ux-r-shiny-series/download-button-spinner/index.html#introduction",
+    "href": "posts/ui-ux-r-shiny-series/download-button-spinner/index.html#introduction",
+    "title": "Adding a Spinner to Download Buttons in R Shiny",
+    "section": "Introduction",
+    "text": "Introduction\n\n\nI hope nobody is reading. But if you are, then keep this to yourself.\n\n\nMwavu\n\n\nOftentimes you have a large dataset that takes a while to download. The spinner will give your users a visual cue that the download is in progress.\nI’ll show you how to add a spinner to a download button in Shiny using a module.\nWhy a module? Because it’s a great way to encapsulate the logic of the spinner and make it reusable. You can use the same module in multiple Shiny apps."
+  },
+  {
+    "objectID": "posts/ui-ux-r-shiny-series/download-button-spinner/index.html#demo",
+    "href": "posts/ui-ux-r-shiny-series/download-button-spinner/index.html#demo",
+    "title": "Adding a Spinner to Download Buttons in R Shiny",
+    "section": "Demo",
+    "text": "Demo\nHere is a demo of what we will build today:"
   }
 ]

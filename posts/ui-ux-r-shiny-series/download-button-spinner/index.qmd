@@ -1,5 +1,6 @@
 ---
 title: "Adding a Spinner to Download Buttons in R Shiny"
+description: "Inform users that the download is in progress"
 author: "Kennedy Mwavu"
 date: "2023-02-21"
 categories: [R, Shiny, UI/UX]
@@ -7,15 +8,22 @@ image: "spinner.jpg"
 draft: false
 ---
 
-## Introduction
+## Demo
 
-As R Shiny applications become increasingly complex, it's important to provide users with a smooth and intuitive user experience. One way to do this is by adding a spinner to download buttons.
+Here is a demo of what we will build today:
 
 <img src="dnld-spinner.gif" alt="A gif showing what we will build today">
 
-This is useful when you have a large dataset that takes a while to download. The spinner will give your users a visual cue that the download is in progress.
+## Introduction
 
-In this blog post, I'll show you how to add a spinner to a download button in Shiny using a module. 
+<blockquote class="blockquote text-right text-black">
+<p class="mb-4">I hope nobody is reading. But if you are, then keep this to yourself.</p>
+<footer class="blockquote-footer">Mwavu</footer>
+</blockquote>
+
+Oftentimes you have a large dataset that takes a while to download. The spinner will give your users a visual cue that the download is in progress.
+
+I'll show you how to add a spinner to a download button in Shiny using a module. 
 
 Why a module? Because it's a great way to encapsulate the logic of the spinner and make it reusable. You can use the same module in multiple Shiny apps.
 
@@ -288,11 +296,4 @@ shiny::shinyApp(ui, server)
 ```
 
 The full code is available on [this GitHub Gist](https://gist.github.com/kennedymwavu/bbcbe3a2373f103c98f52a9d8d79dabc).
-
-## Conclusion
-
-Users can tell a lot about your application from the first few seconds of using it.
-Your goal should always be to maximize user satisfaction.
-
-Go out into the world and make your users happy.
 
