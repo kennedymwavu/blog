@@ -1,6 +1,6 @@
 ---
 listing:
-  contents: posts
+  contents: posts/**/*.qmd
   sort: "date desc"
   type: grid
   categories: true
@@ -8,6 +8,13 @@ listing:
   filter-ui: false
 page-layout: full
 title-block-banner: true
+toc: false
 ---
 
+# Series
 
+## [UI/UX in R Shiny](ui-ux-r-shiny-series.qmd)
+
+All the UI/UX tricks I've learnt along the way and their implementations. <br> Want to  increase the success of your Shiny apps? Then this series is for you.
+
+# All Posts
