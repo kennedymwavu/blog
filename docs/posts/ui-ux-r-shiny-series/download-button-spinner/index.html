@@ -8,6 +8,7 @@
 
 <meta name="author" content="Kennedy Mwavu">
 <meta name="dcterms.date" content="2023-02-21">
+<meta name="description" content="Inform users that the download is in progress">
 
 <title>A Hobbit’s Tale - Adding a Spinner to Download Buttons in R Shiny</title>
 <style>
@@ -169,7 +170,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">Adding a Spinner to Download Buttons in R Shiny</h1>
-                                <div class="quarto-categories">
+                  <div>
+        <div class="description">
+          Inform users that the download is in progress
+        </div>
+      </div>
+                          <div class="quarto-categories">
                 <div class="quarto-category">R</div>
                 <div class="quarto-category">Shiny</div>
                 <div class="quarto-category">UI/UX</div>
@@ -205,11 +211,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#demo" id="toc-demo" class="nav-link active" data-scroll-target="#demo">Demo</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
   <li><a href="#creating-the-download-button-module" id="toc-creating-the-download-button-module" class="nav-link" data-scroll-target="#creating-the-download-button-module">Creating the download button module</a></li>
   <li><a href="#adding-a-spinner-to-the-download-button" id="toc-adding-a-spinner-to-the-download-button" class="nav-link" data-scroll-target="#adding-a-spinner-to-the-download-button">Adding a spinner to the download button</a></li>
   <li><a href="#putting-it-all-together" id="toc-putting-it-all-together" class="nav-link" data-scroll-target="#putting-it-all-together">Putting it all together</a></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul>
 </nav>
 </nav>
@@ -222,12 +228,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
+<section id="demo" class="level2">
+<h2 class="anchored" data-anchor-id="demo">Demo</h2>
+<p>Here is a demo of what we will build today:</p>
+<p><img src="dnld-spinner.gif" alt="A gif showing what we will build today"></p>
+</section>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>As R Shiny applications become increasingly complex, it’s important to provide users with a smooth and intuitive user experience. One way to do this is by adding a spinner to download buttons.</p>
-<p><img src="dnld-spinner.gif" alt="A gif showing what we will build today"></p>
-<p>This is useful when you have a large dataset that takes a while to download. The spinner will give your users a visual cue that the download is in progress.</p>
-<p>In this blog post, I’ll show you how to add a spinner to a download button in Shiny using a module.</p>
+<blockquote class="blockquote text-right text-black">
+<p class="mb-4">
+I hope nobody is reading. But if you are, then keep this to yourself.
+</p>
+<footer class="blockquote-footer">
+Mwavu
+</footer>
+</blockquote>
+<p>Oftentimes you have a large dataset that takes a while to download. The spinner will give your users a visual cue that the download is in progress.</p>
+<p>I’ll show you how to add a spinner to a download button in Shiny using a module.</p>
 <p>Why a module? Because it’s a great way to encapsulate the logic of the spinner and make it reusable. You can use the same module in multiple Shiny apps.</p>
 <div class="d-flex justify-content-center">
 <p><img src="it-is-modules.png" alt="A meme: I don't always talk about R Shiny 
@@ -463,11 +480,6 @@ But when I do, it's usually about modules"></p>
 <span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>shiny<span class="sc">::</span><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The full code is available on <a href="https://gist.github.com/kennedymwavu/bbcbe3a2373f103c98f52a9d8d79dabc">this GitHub Gist</a>.</p>
-</section>
-<section id="conclusion" class="level2">
-<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
-<p>Users can tell a lot about your application from the first few seconds of using it. Your goal should always be to maximize user satisfaction.</p>
-<p>Go out into the world and make your users happy.</p>
 
 
 </section>
