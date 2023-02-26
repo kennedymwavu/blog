@@ -61,5 +61,12 @@
     "title": "Adding a Spinner to Download Buttons in R Shiny",
     "section": "Putting it all together",
     "text": "Putting it all together\nNow that we have the UI and server modules, we can put them together in a Shiny app.\nThe app is as simple as it can get:\nui <- bslib::page(\n  theme = bslib::bs_theme(version = 5),\n  shinyjs::useShinyjs(),\n\n  shiny::tags$div(\n    class = \"bg-light\",\n\n    shiny::tags$div(\n    class = paste(\n      \"container min-vh-100\",\n      \"d-flex justify-content-center align-items-center bg-white\"\n    ),\n\n    # module UI:\n    shiny::tags$div(\n      mod_dnld_ui(\"this\")\n    )\n  )\n  )\n)\n\nserver <- function(input, output, session) {\n  # module server:\n  mod_dnld_server(\"this\")\n}\n\nshiny::shinyApp(ui, server)\nThe full code is available on this GitHub Gist."
+  },
+  {
+    "objectID": "posts/ui-ux-r-shiny-series/defensive-programming/index.html",
+    "href": "posts/ui-ux-r-shiny-series/defensive-programming/index.html",
+    "title": "Defensive Programming",
+    "section": "",
+    "text": "I hope nobody is reading. But if you are, then keep this to yourself.\n\n\nMwavu"
   }
 ]

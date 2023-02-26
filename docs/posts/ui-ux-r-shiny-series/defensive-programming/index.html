@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Kennedy Mwavu">
+<meta name="dcterms.date" content="2023-02-26">
+<meta name="description" content="Hello tryCatch()">
 
-<title>A Hobbit’s Tale - Series: UI/UX in R Shiny</title>
+<title>A Hobbit’s Tale - Defensive Programming</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,24 +26,22 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<script src="../../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -60,39 +61,9 @@ ul.task-list li input[type="checkbox"] {
     "search-submit-button-title": "Submit"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
 
-    const options = {
-      valueNames: ['listing-title','listing-author','listing-date','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../../../styles.css">
 </head>
 
 <body class="floating nav-fixed">
@@ -102,7 +73,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg navbar-dark ">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../../index.html">
     <span class="navbar-title">A Hobbit’s Tale</span>
     </a>
   </div>
@@ -112,7 +83,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html">
+    <a class="nav-link" href="../../../about.html">
  <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
@@ -134,129 +105,68 @@ ul.task-list li input[type="checkbox"] {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page-left">
-      <h1 class="title">Series: UI/UX in R Shiny</h1>
-                      </div>
+    <div class="quarto-title column-body">
+      <h1 class="title">Defensive Programming</h1>
+                  <div>
+        <div class="description">
+          Hello tryCatch()
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">R</div>
+                <div class="quarto-category">Shiny</div>
+                <div class="quarto-category">UI/UX</div>
+              </div>
+                  </div>
   </div>
     
   
   <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Kennedy Mwavu </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">February 26, 2023</p>
+      </div>
+    </div>
     
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    
+</nav>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Bootstrap">Bootstrap <span class="quarto-category-count">(1)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(2)</span></div><div class="category" data-category="Shiny">Shiny <span class="quarto-category-count">(2)</span></div><div class="category" data-category="UI/UX">UI/UX <span class="quarto-category-count">(2)</span></div></div></div>
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
-<section id="why-uiux-is-important" class="level2">
-<h2 class="anchored" data-anchor-id="why-uiux-is-important">Why UI/UX is important</h2>
-<p>Sorry to burst your bubble but when building applications, it’s NOT about you. It’s about your <strong>users</strong>.</p>
-<p>The sole purpose of creating an application is for it to be adopted by your <strong>users</strong>.</p>
-<p>“ If people [<strong>users</strong>] cannot understand how to use your application, or if your application front-end does not work at all, your application is not successful no matter how innovative and incredible the computation algorithms in the back-end are. ” <br>— <a href="https://engineering-shiny.org/">Engineering Production-Grade Shiny Apps</a></p>
-<p><strong>Users</strong> can tell a lot about your application from the first few seconds of interacting with it. Your goal should always be to maximize <strong>user</strong> satisfaction.</p>
-<p>That’s where UI/UX comes in.</p>
-</section>
-<section id="posts-in-this-series" class="level2">
-<h2 class="anchored" data-anchor-id="posts-in-this-series">Posts in this series</h2>
-
-
-
-</section>
-
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="R,Shiny,UI/UX" data-listing-date-sort="1677358800000" data-listing-file-modified-sort="1677394571922" data-listing-reading-time-sort="0.095">
-<a href="./posts/ui-ux-r-shiny-series/defensive-programming/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/ui-ux-r-shiny-series/defensive-programming/tc.png" class="thumbnail-image card-img" style="height: 150px;">
+<blockquote class="blockquote text-right text-black">
+<p class="mb-4">
+I hope nobody is reading. But if you are, then keep this to yourself.
 </p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Defensive Programming
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
-R
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Shiny'); return false;">
-Shiny
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('UI/UX'); return false;">
-UI/UX
-</div>
-</div>
-<div class="card-text listing-description">
-Hello tryCatch()
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Kennedy Mwavu
-</div>
-<div class="listing-date">
-Feb 26, 2023
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-categories="R,Shiny,UI/UX,Bootstrap" data-listing-date-sort="1676926800000" data-listing-file-modified-sort="1677415493830" data-listing-reading-time-sort="9.09">
-<a href="./posts/ui-ux-r-shiny-series/download-button-spinner/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/ui-ux-r-shiny-series/download-button-spinner/loader.webp" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Adding a Spinner to Download Buttons in R Shiny
-</h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
-R
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Shiny'); return false;">
-Shiny
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('UI/UX'); return false;">
-UI/UX
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Bootstrap'); return false;">
-Bootstrap
-</div>
-</div>
-<div class="card-text listing-description">
-Inform users that the download is in progress
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Kennedy Mwavu
-</div>
-<div class="listing-date">
-Feb 21, 2023
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div></main> <!-- /main -->
+<footer class="blockquote-footer">
+Mwavu
+</footer>
+</blockquote>
+
+
+
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
@@ -396,7 +306,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       <div class="nav-footer-center">
         <ul class="footer-items list-unstyled">
     <li class="nav-item">
-    <a class="nav-link" href="./about.html">About</a>
+    <a class="nav-link" href="../../../about.html">About</a>
   </li>  
 </ul>
       </div>

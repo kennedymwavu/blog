@@ -1,0 +1,15 @@
+---
+title: "Defensive Programming"
+description: "Hello tryCatch()"
+author: "Kennedy Mwavu"
+date: "2023-02-26"
+categories: [R, Shiny, UI/UX]
+image: "tc.png"
+draft: false
+---
+
+<blockquote class="blockquote text-right text-black">
+<p class="mb-4">I hope nobody is reading. But if you are, then keep this to yourself.</p>
+<footer class="blockquote-footer">Mwavu</footer>
+</blockquote>
+
