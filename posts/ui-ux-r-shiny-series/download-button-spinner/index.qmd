@@ -3,8 +3,8 @@ title: "Adding a Spinner to Download Buttons in R Shiny"
 description: "Inform users that the download is in progress"
 author: "Kennedy Mwavu"
 date: "2023-02-21"
-categories: [R, Shiny, UI/UX]
-image: "spinner.jpg"
+categories: [R, Shiny, UI/UX, Bootstrap]
+image: "loader.webp"
 draft: false
 ---
 
