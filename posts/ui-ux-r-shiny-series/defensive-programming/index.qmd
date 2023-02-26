@@ -1,6 +1,6 @@
 ---
 title: "Defensive Programming"
-description: "Hello tryCatch()"
+description: "Say hello to your new friend: tryCatch()"
 author: "Kennedy Mwavu"
 date: "2023-02-26"
 categories: [R, Shiny, UI/UX]
@@ -8,8 +8,71 @@ image: "tc.png"
 draft: false
 ---
 
+## Introduction
+
 <blockquote class="blockquote text-right text-black">
 <p class="mb-4">I hope nobody is reading. But if you are, then keep this to yourself.</p>
 <footer class="blockquote-footer">Mwavu</footer>
 </blockquote>
 
+I understand that self-help gurus tell you to eat the frog first thing in the 
+morning. I really do.
+
+But if I take that approach, you won't understand what I'm trying to convey and 
+why it's important.
+
+So I'll start this post with some low-hanging fruits: a tour of a typical 
+shiny app.
+
+## Your typical shiny app
+
+### Case I: Error on the UI
+
+Here's a very simple shiny app based on the `iris` dataset:
+
+1. The user selects columns
+2. The first 6 rows of the selected columns are displayed
+
+```r
+library(shiny)
+
+ui <- fluidPage(
+  titlePanel("First 6 rows of selected columns"),
+  sidebarLayout(
+    sidebarPanel(
+      selectInput(
+        inputId = "col",
+        label = "Column",
+        choices = colnames(iris),
+        selected = "Sepal.Length",
+        multiple = TRUE
+      )
+    ),
+    mainPanel(
+      tableOutput("iris")
+    )
+  )
+)
+
+server <- function(input, output) {
+  output$iris <- renderTable({
+    iris[, input$col, drop = FALSE] |> head()
+  })
+}
+
+shinyApp(ui, server)
+```
+
+Working fine, right?
+
+But what happens if the user doesn't select any columns?
+
+![](error-on-ui.gif){alt="error on UI when no columns are selected"}
+
+Notice that the **user** expected to see a table, but instead, they saw an
+error message. An explicit error message.
+
+It might not be a big deal to you, the developer, but it's a big deal to the
+**user**.
+
+### Case II: App crashes

@@ -1,0 +1,14 @@
+{
+  "hash": "ee3e310e82dbcb0664913b5870f64351",
+  "result": {
+    "markdown": "---\ntitle: \"Defensive Programming\"\ndescription: \"Say hello to your new friend: tryCatch()\"\nauthor: \"Kennedy Mwavu\"\ndate: \"2023-02-26\"\ncategories: [R, Shiny, UI/UX]\nimage: \"tc.png\"\ndraft: false\n---\n\n\n## Introduction\n\n<blockquote class=\"blockquote text-right text-black\">\n<p class=\"mb-4\">I hope nobody is reading. But if you are, then keep this to yourself.</p>\n<footer class=\"blockquote-footer\">Mwavu</footer>\n</blockquote>\n\nI understand that self-help books tell you to eat the frog first thing in the \nmorning. I really do.\n\nBut if I take that approach, you won't understand what I'm trying to convey and \nwhy it's important.\n\nSo I'll start this post with some low-hanging fruits: a tour of a typical \nshiny app.\n\n## Your typical shiny app\n\nHere's a very simple shiny app based on the `iris` dataset.\n\n1. The user selects columns\n2. The first 6 rows of the selected columns are displayed\n\n\n::: {.cell}\n\n```{.r .cell-code}\nlibrary(shiny)\n\nui <- fluidPage(\n  titlePanel(\"First 6 rows of selected columns\"),\n  sidebarLayout(\n    sidebarPanel(\n      selectInput(\n        inputId = \"col\",\n        label = \"Column\",\n        choices = colnames(iris),\n        selected = \"Sepal.Length\",\n        multiple = TRUE\n      )\n    ),\n    mainPanel(\n      tableOutput(\"iris\")\n    )\n  )\n)\n\nserver <- function(input, output) {\n  output$iris <- renderTable({\n    iris[, input$col, drop = FALSE] |> head()\n  })\n}\n\nshinyApp(ui, server)\n```\n\n::: {.cell-output-display}\n`<div style=\"width: 100% ; height: 400px ; text-align: center; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;\" class=\"muted well\">Shiny applications not supported in static R Markdown documents</div>`{=html}\n:::\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

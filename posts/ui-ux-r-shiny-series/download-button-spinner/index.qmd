@@ -12,7 +12,7 @@ draft: false
 
 Here is a demo of what we will build today:
 
-<img src="dnld-spinner.gif" alt="A gif showing what we will build today">
+![](dnld-spinner.gif){alt="A gif showing what we will build today"}
 
 ## Introduction
 
