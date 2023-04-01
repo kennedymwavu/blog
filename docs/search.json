@@ -67,7 +67,7 @@
     "href": "posts/ui-ux-r-shiny-series/defensive-programming/index.html",
     "title": "Defensive Programming",
     "section": "",
-    "text": "I hope nobody is reading. But if you are, then keep this to yourself.\n\n\nMwavu\n\n\nI understand that self-help gurus tell you to eat the frog first thing in the morning. I really do.\nBut if I take that approach, you won’t understand what I’m trying to convey and why it’s important.\nSo I’ll start this post with some low-hanging fruits: a tour of a typical shiny app."
+    "text": "Your app should never have to fail, crash or display arcane red lines of errors on the UI.\nIf it has to fail, it should do so gracefully and with dignity. You can then convince the client that it’s not a bug, it’s a feature.\nMeme?"
   },
   {
     "objectID": "posts/ui-ux-r-shiny-series/defensive-programming/index.html#your-typical-shiny-app",
@@ -75,5 +75,33 @@
     "title": "Defensive Programming",
     "section": "Your typical shiny app",
     "text": "Your typical shiny app\n\nCase I: Error on the UI\nHere’s a very simple shiny app based on the iris dataset:\n\nThe user selects columns\nThe first 6 rows of the selected columns are displayed\n\nlibrary(shiny)\n\nui <- fluidPage(\n  titlePanel(\"First 6 rows of selected columns\"),\n  sidebarLayout(\n    sidebarPanel(\n      selectInput(\n        inputId = \"col\",\n        label = \"Column\",\n        choices = colnames(iris),\n        selected = \"Sepal.Length\",\n        multiple = TRUE\n      )\n    ),\n    mainPanel(\n      tableOutput(\"iris\")\n    )\n  )\n)\n\nserver <- function(input, output) {\n  output$iris <- renderTable({\n    iris[, input$col, drop = FALSE] |> head()\n  })\n}\n\nshinyApp(ui, server)\nWorking fine, right?\nBut what happens if the user doesn’t select any columns?\n\nNotice that the user expected to see a table, but instead, they saw an error message. An explicit error message.\nIt might not be a big deal to you, the developer, but it’s a big deal to the user.\n\n\nCase II: App crashes"
+  },
+  {
+    "objectID": "posts/ui-ux-r-shiny-series/defensive-programming/index.html#when-do-errors-arise",
+    "href": "posts/ui-ux-r-shiny-series/defensive-programming/index.html#when-do-errors-arise",
+    "title": "Defensive Programming",
+    "section": "When do errors arise?",
+    "text": "When do errors arise?\nMost, if not all, errors occur when you’re trying to perform a calculation or an operation on data. This can be during app startup or in response to user action.\nCommon cases are:\n\nMathematical calculations eg. +, -, *, /\nData manipulations eg. subsetting (iris[, \"Sepal.Length\"])"
+  },
+  {
+    "objectID": "posts/ui-ux-r-shiny-series/defensive-programming/index.html#defensive-programming",
+    "href": "posts/ui-ux-r-shiny-series/defensive-programming/index.html#defensive-programming",
+    "title": "Defensive Programming",
+    "section": "Defensive programming",
+    "text": "Defensive programming\nDefensive programming is an approach to software development that focuses on anticipating and preventing potential errors, bugs, and vulnerabilities in the code.\nThe fundamental concept of this approach is to develop a program that can function correctly even in the presence of unforeseen circumstances or when users enter unexpected inputs.\nWe’ll focus on 2 key principles of defensive programming, both at the same time:\n\nValidating inputs: Checking that all input values are within expected ranges or formats, and handling unexpected input values appropriately.\nHandling errors: Catching and handling errors/exceptions in a way that allows the program to recover gracefully, without crashing or losing data\n\nThat’s where tryCatch comes in!"
+  },
+  {
+    "objectID": "posts/ui-ux-r-shiny-series/defensive-programming/index.html#trycatch",
+    "href": "posts/ui-ux-r-shiny-series/defensive-programming/index.html#trycatch",
+    "title": "Defensive Programming",
+    "section": "tryCatch()",
+    "text": "tryCatch()\nThe basic syntax of tryCatch() is:\nresult <- tryCatch(\n  expr = {\n    # Code block to be executed\n  },\n  error = function(e) {\n    # Error handling code\n  },\n  warning = function(w) {\n    # Warning handling code\n  },\n  finally = {\n    # Do this, regardless of success or failure of 'expr' block\n  }\n)\nMental model: Hey R, I have this block of code.I’m not sure if it’s flawless, but I need you to try and run it. If you encounter issues, then here’s how you should proceed depending on the reason it didn’t work:\n\nDid it throw an error? Then do <error handling>\nDid it give a warning? Then do <warning handling code>\nFinally, regardless of whether it ran successfully or failed, please do <finally block>"
+  },
+  {
+    "objectID": "posts/ui-ux-r-shiny-series/defensive-programming/index.html#hands-on",
+    "href": "posts/ui-ux-r-shiny-series/defensive-programming/index.html#hands-on",
+    "title": "Defensive Programming",
+    "section": "Hands-On",
+    "text": "Hands-On"
   }
 ]

@@ -212,11 +212,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#your-typical-shiny-app" id="toc-your-typical-shiny-app" class="nav-link" data-scroll-target="#your-typical-shiny-app">Your typical shiny app</a>
-  <ul class="collapse">
-  <li><a href="#case-i-error-on-the-ui" id="toc-case-i-error-on-the-ui" class="nav-link" data-scroll-target="#case-i-error-on-the-ui">Case I: Error on the UI</a></li>
-  <li><a href="#case-ii-app-crashes" id="toc-case-ii-app-crashes" class="nav-link" data-scroll-target="#case-ii-app-crashes">Case II: App crashes</a></li>
-  </ul></li>
+  <li><a href="#when-do-errors-arise" id="toc-when-do-errors-arise" class="nav-link" data-scroll-target="#when-do-errors-arise">When do errors arise?</a></li>
+  <li><a href="#defensive-programming" id="toc-defensive-programming" class="nav-link" data-scroll-target="#defensive-programming">Defensive programming</a></li>
+  <li><a href="#trycatch" id="toc-trycatch" class="nav-link" data-scroll-target="#trycatch">tryCatch()</a></li>
+  <li><a href="#hands-on" id="toc-hands-on" class="nav-link" data-scroll-target="#hands-on">Hands-On</a></li>
   </ul>
 </nav>
 </nav>
@@ -231,65 +230,58 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<blockquote class="blockquote text-right text-black">
-<p class="mb-4">
-I hope nobody is reading. But if you are, then keep this to yourself.
-</p>
-<footer class="blockquote-footer">
-Mwavu
-</footer>
-</blockquote>
-<p>I understand that self-help gurus tell you to eat the frog first thing in the morning. I really do.</p>
-<p>But if I take that approach, you won’t understand what I’m trying to convey and why it’s important.</p>
-<p>So I’ll start this post with some low-hanging fruits: a tour of a typical shiny app.</p>
+<p>Your app should never have to fail, crash or display arcane red lines of errors on the UI.</p>
+<p>If it has to fail, it should do so gracefully and with dignity. You can then convince the client that it’s not a bug, it’s a feature.</p>
+<p>Meme?</p>
 </section>
-<section id="your-typical-shiny-app" class="level2">
-<h2 class="anchored" data-anchor-id="your-typical-shiny-app">Your typical shiny app</h2>
-<section id="case-i-error-on-the-ui" class="level3">
-<h3 class="anchored" data-anchor-id="case-i-error-on-the-ui">Case I: Error on the UI</h3>
-<p>Here’s a very simple shiny app based on the <code>iris</code> dataset:</p>
+<section id="when-do-errors-arise" class="level2">
+<h2 class="anchored" data-anchor-id="when-do-errors-arise">When do errors arise?</h2>
+<p>Most, if not all, errors occur when you’re trying to perform a calculation or an operation on data. This can be during app startup or in response to user action.</p>
+<p>Common cases are:</p>
+<ul>
+<li>Mathematical calculations eg. <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code></li>
+<li>Data manipulations eg. subsetting (<code>iris[, "Sepal.Length"]</code>)</li>
+</ul>
+</section>
+<section id="defensive-programming" class="level2">
+<h2 class="anchored" data-anchor-id="defensive-programming">Defensive programming</h2>
+<p>Defensive programming is an approach to software development that focuses on anticipating and preventing potential errors, bugs, and vulnerabilities in the code.</p>
+<p>The fundamental concept of this approach is to develop a program that can function correctly even in the presence of unforeseen circumstances or when users enter unexpected inputs.</p>
+<p>We’ll focus on 2 key principles of defensive programming, both at the same time:</p>
 <ol type="1">
-<li>The user selects columns</li>
-<li>The first 6 rows of the selected columns are displayed</li>
+<li><p>Validating inputs: Checking that all input values are within expected ranges or formats, and handling unexpected input values appropriately.</p></li>
+<li><p>Handling errors: Catching and handling errors/exceptions in a way that allows the program to recover gracefully, without crashing or losing data</p></li>
 </ol>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">titlePanel</span>(<span class="st">"First 6 rows of selected columns"</span>),</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sidebarLayout</span>(</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">sidebarPanel</span>(</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">selectInput</span>(</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">inputId =</span> <span class="st">"col"</span>,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">label =</span> <span class="st">"Column"</span>,</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">choices =</span> <span class="fu">colnames</span>(iris),</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">selected =</span> <span class="st">"Sepal.Length"</span>,</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">multiple =</span> <span class="cn">TRUE</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mainPanel</span>(</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">tableOutput</span>(<span class="st">"iris"</span>)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output) {</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>iris <span class="ot">&lt;-</span> <span class="fu">renderTable</span>({</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    iris[, input<span class="sc">$</span>col, drop <span class="ot">=</span> <span class="cn">FALSE</span>] <span class="sc">|&gt;</span> <span class="fu">head</span>()</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  })</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Working fine, right?</p>
-<p>But what happens if the user doesn’t select any columns?</p>
-<p><img src="error-on-ui.gif" class="img-fluid" alt="error on UI when no columns are selected"></p>
-<p>Notice that the <strong>user</strong> expected to see a table, but instead, they saw an error message. An explicit error message.</p>
-<p>It might not be a big deal to you, the developer, but it’s a big deal to the <strong>user</strong>.</p>
+<p>That’s where <code>tryCatch</code> comes in!</p>
 </section>
-<section id="case-ii-app-crashes" class="level3">
-<h3 class="anchored" data-anchor-id="case-ii-app-crashes">Case II: App crashes</h3>
+<section id="trycatch" class="level2">
+<h2 class="anchored" data-anchor-id="trycatch">tryCatch()</h2>
+<p>The basic syntax of <code>tryCatch()</code> is:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">tryCatch</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">expr =</span> {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Code block to be executed</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">error =</span> <span class="cf">function</span>(e) {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Error handling code</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">warning =</span> <span class="cf">function</span>(w) {</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Warning handling code</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">finally =</span> {</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Do this, regardless of success or failure of 'expr' block</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Mental model: Hey R, I have this block of code.I’m not sure if it’s flawless, but I need you to try and run it. If you encounter issues, then here’s how you should proceed depending on the reason it didn’t work:</p>
+<ul>
+<li>Did it throw an error? Then do &lt;error handling&gt;</li>
+<li>Did it give a warning? Then do &lt;warning handling code&gt;</li>
+<li>Finally, regardless of whether it ran successfully or failed, please do &lt;finally block&gt;</li>
+</ul>
+</section>
+<section id="hands-on" class="level2">
+<h2 class="anchored" data-anchor-id="hands-on">Hands-On</h2>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
