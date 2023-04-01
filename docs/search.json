@@ -95,7 +95,7 @@
     "href": "posts/ui-ux-r-shiny-series/defensive-programming/index.html#trycatch",
     "title": "Defensive Programming",
     "section": "tryCatch()",
-    "text": "tryCatch()\nThe basic syntax of tryCatch() is:\nresult <- tryCatch(\n  expr = {\n    # Code block to be executed\n  },\n  error = function(e) {\n    # Error handling code\n  },\n  warning = function(w) {\n    # Warning handling code\n  },\n  finally = {\n    # Do this, regardless of success or failure of 'expr' block\n  }\n)\nMental model: Hey R, I have this block of code.I’m not sure if it’s flawless, but I need you to try and run it. If you encounter issues, then here’s how you should proceed depending on the reason it didn’t work:\n\nDid it throw an error? Then do <error handling>\nDid it give a warning? Then do <warning handling code>\nFinally, regardless of whether it ran successfully or failed, please do <finally block>"
+    "text": "tryCatch()\nThe basic syntax of tryCatch() is:\n\nMental model: Hey R, I have this block of code.I’m not sure if it’s flawless, but I need you to try and run it. If you encounter issues, then here’s how you should proceed depending on the reason it didn’t work:\n\nDid it throw an error? Then do <error handling>\nDid it give a warning? Then do <warning handling code>\nFinally, regardless of whether it ran successfully or failed, please do <finally block>"
   },
   {
     "objectID": "posts/ui-ux-r-shiny-series/defensive-programming/index.html#hands-on",

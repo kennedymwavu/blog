@@ -54,22 +54,7 @@ That's where `tryCatch` comes in!
 
 The basic syntax of `tryCatch()` is:
 
-```r
-result <- tryCatch(
-  expr = {
-    # Code block to be executed
-  },
-  error = function(e) {
-    # Error handling code
-  },
-  warning = function(w) {
-    # Warning handling code
-  },
-  finally = {
-    # Do this, regardless of success or failure of 'expr' block
-  }
-)
-```
+![](trycatch.svg)
 
 Mental model: Hey R, I have this block of code.I'm not sure if it's
 flawless, but I need you to try and run it. If you encounter issues,
