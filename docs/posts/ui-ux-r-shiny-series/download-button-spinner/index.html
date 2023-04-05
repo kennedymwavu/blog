@@ -10,7 +10,7 @@
 <meta name="dcterms.date" content="2023-02-21">
 <meta name="description" content="Inform users that the download is in progress">
 
-<title>A Hobbit’s Tale - Adding a Spinner to Download Buttons in R Shiny</title>
+<title>A Hobbit’s Tale - Add a spinner to your download buttons!</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -147,7 +147,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
     <a class="nav-link" href="../../../about.html">
- <span class="menu-text">About</span></a>
+ <span class="menu-text">Mwavu</span></a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/kennedymwavu"><i class="bi bi-github" role="img">
@@ -169,7 +169,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Adding a Spinner to Download Buttons in R Shiny</h1>
+      <h1 class="title">Add a spinner to your download buttons!</h1>
                   <div>
         <div class="description">
           Inform users that the download is in progress
@@ -214,7 +214,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul>
   <li><a href="#demo" id="toc-demo" class="nav-link active" data-scroll-target="#demo">Demo</a></li>
   <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#creating-the-download-button-module" id="toc-creating-the-download-button-module" class="nav-link" data-scroll-target="#creating-the-download-button-module">Creating the download button module</a></li>
+  <li><a href="#the-module" id="toc-the-module" class="nav-link" data-scroll-target="#the-module">The module</a>
+  <ul class="collapse">
+  <li><a href="#ui" id="toc-ui" class="nav-link" data-scroll-target="#ui">UI</a></li>
+  <li><a href="#server" id="toc-server" class="nav-link" data-scroll-target="#server">Server</a></li>
+  </ul></li>
   <li><a href="#adding-a-spinner-to-the-download-button" id="toc-adding-a-spinner-to-the-download-button" class="nav-link" data-scroll-target="#adding-a-spinner-to-the-download-button">Adding a spinner to the download button</a></li>
   <li><a href="#putting-it-all-together" id="toc-putting-it-all-together" class="nav-link" data-scroll-target="#putting-it-all-together">Putting it all together</a></li>
   </ul>
@@ -244,18 +248,15 @@ I hope nobody is reading. But if you are, then keep this to yourself.
 Mwavu
 </footer>
 </blockquote>
-<p>Oftentimes you have a large dataset that takes a while to download. The spinner will give your users a visual cue that the download is in progress.</p>
-<p>I’ll show you how to add a spinner to a download button in Shiny using a module.</p>
-<p>Why a module? Because it’s a great way to encapsulate the logic of the spinner and make it reusable. You can use the same module in multiple Shiny apps.</p>
-<div class="d-flex justify-content-center">
-<p><img src="it-is-modules.png" alt="A meme: I don't always talk about R Shiny 
-But when I do, it's usually about modules"></p>
-</div>
+<p>Oftentimes you have a large dataset that takes a while to download. To give your users a visual cue that the download is in progress, you can (and should) add spinners to your download buttons.</p>
 </section>
-<section id="creating-the-download-button-module" class="level2">
-<h2 class="anchored" data-anchor-id="creating-the-download-button-module">Creating the download button module</h2>
+<section id="the-module" class="level2">
+<h2 class="anchored" data-anchor-id="the-module">The module</h2>
 <p>Let’s first create a basic download button module that we can build upon.</p>
-<p>Starting with the UI piece, we’ll create a button that will trigger the download. We’ll also create the real download button but it will be hidden.</p>
+<section id="ui" class="level3">
+<h3 class="anchored" data-anchor-id="ui">UI</h3>
+<p>We’ll create an action button that will trigger the download (Yes, you read that right, an action button).</p>
+<p>We’ll then add the real download button but it will be hidden.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' Download button module UI</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param id Module ID</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return [shiny::tagList()]</span></span>
@@ -282,6 +283,9 @@ But when I do, it's usually about modules"></p>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="server" class="level3">
+<h3 class="anchored" data-anchor-id="server">Server</h3>
 <p>The basic server piece is also as simple:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' Download button module server</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param id Module ID</span></span>
@@ -309,12 +313,13 @@ But when I do, it's usually about modules"></p>
 <span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>It takes in a reactive data object (<code>given_data</code>) and a <code>filename</code> for the download. We use the downloadHandler function to handle the file download. When the download button is clicked, the write.csv function is used to write the data to a CSV file with the given filename.</p>
-<p>Now that we have a basic download button module, we can move on to adding a spinner to the download button to improve the user experience.</p>
+<p>It takes in a reactive data object (<code>given_data</code>) and a <code>filename</code>. The rest is normal stuff.</p>
+<p>We can now move on to adding the download button spinner.</p>
+</section>
 </section>
 <section id="adding-a-spinner-to-the-download-button" class="level2">
 <h2 class="anchored" data-anchor-id="adding-a-spinner-to-the-download-button">Adding a spinner to the download button</h2>
-<p>Spoiler alert: the <code>mod_dnld_ui</code> function is done. We’ll work on the <code>mod_dnld_server</code> function from now on.</p>
+<p>Spoiler alert: <code>mod_dnld_ui</code> is done. We’ll work on <code>mod_dnld_server</code> from now on.</p>
 <p>In the server module, we’ll use <code>shiny::observeEvent</code> to listen for clicks on the action button.</p>
 <p>When the button is clicked, we update its label to show a spinner and a message indicating that the download is in progress.</p>
 <p>We then trigger a click on the real download button using <code>shinyjs::click</code>:</p>
@@ -345,17 +350,15 @@ But when I do, it's usually about modules"></p>
 <span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">expr =</span> shinyjs<span class="sc">::</span><span class="fu">click</span>(<span class="at">id =</span> <span class="st">"dnld"</span>)</span>
 <span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>We used <code>shinyjs::delay</code> to, well, delay the click for 2 seconds. Wanna know why?</p>
+<p>Two things to note here:</p>
+<ol type="1">
+<li><p>I use <a href="https://getbootstrap.com/docs/5.0/getting-started/introduction/">Bootstrap 5</a> classes.</p></li>
+<li><p>I use <code>shinyjs::delay</code> to, well, delay the click for 2 seconds. Wanna know why?</p></li>
+</ol>
 <div class="d-flex justify-content-center">
 <p><img src="purpose-of-delay.png" alt="The whisper and goosebumps meme: The delay makes the overall UX better"></p>
 </div>
-<p>Next, we need to update the label of the action button back to its original state when the download is complete.</p>
-<p><code>on.exit</code> comes in handy here.</p>
-<p>From the documentation:</p>
-<blockquote class="blockquote">
-<p><code>on.exit</code> records the expression given as its argument as needing to be executed when the current function exits (either naturally or as the result of an error). This is useful for resetting graphical parameters or performing other cleanup actions.</p>
-</blockquote>
-<p>In our case, we’re performing a cleanup action: updating the label of the action button back to its original state.</p>
+<p>Next, after the download is complete, we need to update the label of the action button back to its original value.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>output<span class="sc">$</span>dnld <span class="ot">&lt;-</span> <span class="fu">downloadHandler</span>(</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">filename =</span> filename,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">content =</span> <span class="cf">function</span>(file) {</span>
@@ -377,7 +380,12 @@ But when I do, it's usually about modules"></p>
 <span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">write.csv</span>(<span class="fu">given_data</span>(), file)</span>
 <span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The complete server module is as follows:</p>
+<p><code>?on.exit</code>:</p>
+<blockquote class="blockquote">
+<p>on.exit records the expression given as its argument as needing to be executed when the current function exits (either naturally or as the result of an error). This is useful for resetting graphical parameters or performing other cleanup actions.</p>
+</blockquote>
+<p>In our case, we’re performing a cleanup action: updating the label of the action button back to its original state.</p>
+<p>The complete module server function is as follows:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' Download button module server</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param id Module id</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param given_data Data to download, as a reactive.</span></span>
@@ -451,7 +459,7 @@ But when I do, it's usually about modules"></p>
 </section>
 <section id="putting-it-all-together" class="level2">
 <h2 class="anchored" data-anchor-id="putting-it-all-together">Putting it all together</h2>
-<p>Now that we have the UI and server modules, we can put them together in a Shiny app.</p>
+<p>Now that we have the module UI and server parts, we can put them together in a shiny app.</p>
 <p>The app is as simple as it can get:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> bslib<span class="sc">::</span><span class="fu">page</span>(</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">theme =</span> bslib<span class="sc">::</span><span class="fu">bs_theme</span>(<span class="at">version =</span> <span class="dv">5</span>),</span>

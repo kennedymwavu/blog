@@ -13,8 +13,6 @@ toc: false
 
 # Series
 
-## [UI/UX in R Shiny](ui-ux-r-shiny-series.qmd)
-
-As R Shiny applications become increasingly complex, it’s important to provide users with a smooth and intuitive user experience.
+1. [UI/UX in R Shiny](ui-ux-r-shiny-series.qmd)
 
 # All Posts
