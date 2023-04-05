@@ -70,13 +70,6 @@
     "text": "Your app should never have to fail, crash or display arcane red lines of errors on the UI.\nIf it has to fail, it should do so gracefully and with dignity. You can then convince the client that it’s not a bug, it’s a feature.\nMeme?"
   },
   {
-    "objectID": "posts/ui-ux-r-shiny-series/defensive-programming/index.html#your-typical-shiny-app",
-    "href": "posts/ui-ux-r-shiny-series/defensive-programming/index.html#your-typical-shiny-app",
-    "title": "Defensive Programming",
-    "section": "Your typical shiny app",
-    "text": "Your typical shiny app\n\nCase I: Error on the UI\nHere’s a very simple shiny app based on the iris dataset:\n\nThe user selects columns\nThe first 6 rows of the selected columns are displayed\n\nlibrary(shiny)\n\nui <- fluidPage(\n  titlePanel(\"First 6 rows of selected columns\"),\n  sidebarLayout(\n    sidebarPanel(\n      selectInput(\n        inputId = \"col\",\n        label = \"Column\",\n        choices = colnames(iris),\n        selected = \"Sepal.Length\",\n        multiple = TRUE\n      )\n    ),\n    mainPanel(\n      tableOutput(\"iris\")\n    )\n  )\n)\n\nserver <- function(input, output) {\n  output$iris <- renderTable({\n    iris[, input$col, drop = FALSE] |> head()\n  })\n}\n\nshinyApp(ui, server)\nWorking fine, right?\nBut what happens if the user doesn’t select any columns?\n\nNotice that the user expected to see a table, but instead, they saw an error message. An explicit error message.\nIt might not be a big deal to you, the developer, but it’s a big deal to the user.\n\n\nCase II: App crashes"
-  },
-  {
     "objectID": "posts/ui-ux-r-shiny-series/defensive-programming/index.html#when-do-errors-arise",
     "href": "posts/ui-ux-r-shiny-series/defensive-programming/index.html#when-do-errors-arise",
     "title": "Defensive Programming",
