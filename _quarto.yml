@@ -18,7 +18,7 @@ website:
         href: about.qmd
 format:
   html:
-    theme: flatly
+    theme: sketchy
     css: styles.css
     toc: true
     toc-location: left

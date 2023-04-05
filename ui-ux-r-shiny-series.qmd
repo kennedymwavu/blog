@@ -14,16 +14,6 @@ toc: false
 
 ## Why UI/UX is important
 
-Sorry to burst your bubble but when building applications, it's NOT
-about you. It's about your **users**. 
-
-The sole purpose of creating an application is for it to be adopted by your **users**. 
-
 &#8220; If people [**users**] cannot understand how to use your application, or if your application front-end does not work at all, your application is not successful no matter how innovative and incredible the computation algorithms in the back-end are. &#8221; <br>--- [Engineering Production-Grade Shiny Apps](https://engineering-shiny.org/)
-
-**Users** can tell a lot about your application from the first few seconds of interacting with it.
-Your goal should always be to maximize **user** satisfaction.
-
-That's where UI/UX comes in.
 
 ## Posts in this series

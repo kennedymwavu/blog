@@ -1,10 +1,10 @@
 ---
-title: "Adding a Spinner to Download Buttons in R Shiny"
+title: "Add a spinner to your download buttons!"
 description: "Inform users that the download is in progress"
 author: "Kennedy Mwavu"
 date: "2023-02-21"
-categories: [R, Shiny, UI/UX]
-image: "spinner.jpg"
+categories: [R, Shiny, UI/UX, Bootstrap]
+image: "loader.webp"
 draft: false
 ---
 
@@ -12,7 +12,7 @@ draft: false
 
 Here is a demo of what we will build today:
 
-<img src="dnld-spinner.gif" alt="A gif showing what we will build today">
+![](dnld-spinner.gif){alt="A gif showing what we will build today"}
 
 ## Introduction
 
@@ -21,23 +21,20 @@ Here is a demo of what we will build today:
 <footer class="blockquote-footer">Mwavu</footer>
 </blockquote>
 
-Oftentimes you have a large dataset that takes a while to download. The spinner will give your users a visual cue that the download is in progress.
+Oftentimes you have a large dataset that takes a while to download.
+To give your users a visual cue that the download is in progress, you can 
+(and should) add spinners to your download buttons.
 
-I'll show you how to add a spinner to a download button in Shiny using a module. 
-
-Why a module? Because it's a great way to encapsulate the logic of the spinner and make it reusable. You can use the same module in multiple Shiny apps.
-
-<div class="d-flex justify-content-center">
-  <img src="it-is-modules.png" alt="A meme: I don't always talk about R Shiny 
-But when I do, it's usually about modules">
-</div>
-
-## Creating the download button module
+## The module
 
 Let's first create a basic download button module that we can build upon. 
 
-Starting with the UI piece, we'll create a button that will trigger the download.
-We'll also create the real download button but it will be hidden.
+### UI
+
+We'll create an action button that will trigger the download (Yes, you read
+that right, an action button).
+
+We'll then add the real download button but it will be hidden.
 
 ```r
 #' Download button module UI
@@ -67,6 +64,8 @@ mod_dnld_ui <- function(id) {
   )
 }
 ```
+
+### Server
 
 The basic server piece is also as simple:
   
@@ -99,13 +98,14 @@ mod_dnld_server <- function(
 }
 ```
 
-It takes in a reactive data object (`given_data`) and a `filename` for the download. We use the downloadHandler function to handle the file download. When the download button is clicked, the write.csv function is used to write the data to a CSV file with the given filename.
+It takes in a reactive data object (`given_data`) and a `filename`. The rest 
+is normal stuff.
 
-Now that we have a basic download button module, we can move on to adding a spinner to the download button to improve the user experience.
+We can now move on to adding the download button spinner.
 
 ## Adding a spinner to the download button
 
-Spoiler alert: the `mod_dnld_ui` function is done. We'll work on the `mod_dnld_server` function from now on.
+Spoiler alert: `mod_dnld_ui` is done. We'll work on `mod_dnld_server` from now on.
 
 In the server module, we'll use `shiny::observeEvent` to listen for clicks on the action button. 
 
@@ -144,21 +144,18 @@ shiny::observeEvent(input$actbtn, {
 
 ```
 
-We used `shinyjs::delay ` to, well, delay the click for 2 seconds. Wanna know why?
+Two things to note here:
+
+1. I use [Bootstrap 5](https://getbootstrap.com/docs/5.0/getting-started/introduction/) classes.
+
+2. I use `shinyjs::delay ` to, well, delay the click for 2 seconds. Wanna know why?
 
 <div class="d-flex justify-content-center">
   <img src="purpose-of-delay.png" alt="The whisper and goosebumps meme: The delay makes the overall UX better">
 </div>
 
-Next, we need to update the label of the action button back to its original state when the download is complete.
-
-`on.exit` comes in handy here. 
-
-From the documentation:
-
-> `on.exit` records the expression given as its argument as needing to be executed when the current function exits (either naturally or as the result of an error). This is useful for resetting graphical parameters or performing other cleanup actions.
-
-In our case, we're performing a cleanup action: updating the label of the action button back to its original state.
+Next, after the download is complete, we need to update the label of the action
+button back to its original value.
 
 ```r
 output$dnld <- downloadHandler(
@@ -184,7 +181,13 @@ output$dnld <- downloadHandler(
 )
 ```
 
-The complete server module is as follows:
+`?on.exit`:
+
+> on.exit records the expression given as its argument as needing to be executed when the current function exits (either naturally or as the result of an error). This is useful for resetting graphical parameters or performing other cleanup actions.
+
+In our case, we're performing a cleanup action: updating the label of the action button back to its original state.
+
+The complete module server function is as follows:
 
 ```r
 #' Download button module server
@@ -261,7 +264,8 @@ mod_dnld_server <- function(
 
 ## Putting it all together
 
-Now that we have the UI and server modules, we can put them together in a Shiny app.
+Now that we have the module UI and server parts, we can put them together in a
+shiny app.
 
 The app is as simple as it can get:
 

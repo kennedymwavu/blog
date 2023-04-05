@@ -1,0 +1,117 @@
+---
+title: "Defensive Programming"
+description: "Say hello to your new friend: tryCatch()"
+author: "Kennedy Mwavu"
+date: "2023-02-26"
+categories: [R, Shiny, UI/UX]
+image: "tc.png"
+draft: true
+---
+
+## Introduction
+
+<blockquote class="blockquote text-right text-black">
+<p class="mb-4">I hope nobody is reading. But if you are, then keep this to yourself.</p>
+<footer class="blockquote-footer">Mwavu</footer>
+</blockquote>
+
+Your prod app should never have to fail, crash or display arcane red lines 
+of errors on the UI. 
+
+If it has to, it should do so gracefully and with dignity.
+Only then will you have an easy time convincing the client that it's a 
+six-legged feature, not a bug.
+
+<div class="d-flex justify-content-center">
+  <img src="bug.png" alt="A red bug with black spots and legs">
+</div>
+
+## When do errors arise?
+
+Most, if not all, application errors occur when you're trying to perform an
+operation on data. This can be during app startup or 
+in response to user action.
+
+Common cases are:
+
+- Mathematical calculations eg. `+`, `-`, `*`, `/`
+- Data manipulations eg. subsetting (`iris[, "Sepal.Length"]`)
+
+## Defensive programming
+
+Defensive programming is an approach to software development that 
+focuses on anticipating and preventing potential errors, bugs, and 
+vulnerabilities in the code.
+
+The fundamental concept of this approach is to develop a program that can function correctly even in the presence of unforeseen circumstances or when users enter unexpected inputs.
+
+We'll focus on 2 key principles of defensive programming, both at the same time:
+
+1. Validating inputs: Checking that all input values are within 
+expected ranges or formats, and handling unexpected input values 
+appropriately.
+
+2. Handling errors: Catching and handling errors/exceptions in a way
+that allows the program to recover gracefully, without crashing or 
+losing data
+
+That's where `tryCatch` comes in!
+
+## tryCatch()
+
+The basic syntax of `tryCatch()` is this:
+
+![](trycatch.svg)
+
+::: {.callout-tip}
+## Mental model:
+
+Hey R,<br>
+I have this block of code. I'm not sure if it's flawless, but I need you to try
+and run it. <br>
+In case you encounter issues, here's how you should proceed depending on the
+scenario:
+
+- Did it throw an error? Then do &lt;error handling&gt;
+- Did it give a warning? Then run this &lt;warning handling chunk&gt;
+- Finally, regardless of whether it ran successfully or failed, please
+do &lt;finally block&gt;
+:::
+
+## Hands-On
+
+```r
+library(shiny)
+library(DT)
+
+ui <- fluidPage(
+  tags$div(
+    class = "container",
+    align = "center",
+    selectInput(
+      inputId = "cols",
+      label = "Choose one or more columns",
+      choices = c(names(iris), "Unknown Column"),
+      multiple = TRUE
+    ),
+    DTOutput(outputId = "table")
+  )
+)
+
+server <- function(input, output, session) {
+  output$table <- renderDT({
+    # iris[, input$cols]
+    tryCatch(
+      expr = {
+        iris |> dplyr::select(input$cols)
+      },
+      error = \(e) {
+        print("There's an error!")
+      }
+    )
+  })
+}
+
+shinyApp(ui, server)
+```
+
