@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "A Hobbit's Tale",
     "section": "",
-    "text": "Series\n\nUI/UX in R Shiny\n\n\n\nAll Posts\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDefensive Programming\n\n\n\nR\n\n\nShiny\n\n\nUI/UX\n\n\n\nSay hello to your new friend: tryCatch()\n\n\n\nKennedy Mwavu\n\n\nFeb 26, 2023\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAdd a spinner to your download buttons!\n\n\n\nR\n\n\nShiny\n\n\nUI/UX\n\n\nBootstrap\n\n\n\nInform users that the download is in progress\n\n\n\nKennedy Mwavu\n\n\nFeb 21, 2023\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "Series\n\nUI/UX in R Shiny\n\n\n\nAll Posts\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAdd a spinner to your download buttons!\n\n\n\nR\n\n\nShiny\n\n\nUI/UX\n\n\nBootstrap\n\n\n\nInform users that the download is in progress\n\n\n\nKennedy Mwavu\n\n\nFeb 21, 2023\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -18,7 +18,7 @@
     "href": "ui-ux-r-shiny-series.html",
     "title": "Series: UI/UX in R Shiny",
     "section": "",
-    "text": "Sorry to burst your bubble but when building applications, it’s NOT about you. It’s about your users.\nThe sole purpose of creating an application is for it to be adopted by your users.\n“ If people [users] cannot understand how to use your application, or if your application front-end does not work at all, your application is not successful no matter how innovative and incredible the computation algorithms in the back-end are. ” — Engineering Production-Grade Shiny Apps\nUsers can tell a lot about your application from the first few seconds of interacting with it. Your goal should always be to maximize user satisfaction.\nThat’s where UI/UX comes in."
+    "text": "“ If people [users] cannot understand how to use your application, or if your application front-end does not work at all, your application is not successful no matter how innovative and incredible the computation algorithms in the back-end are. ” — Engineering Production-Grade Shiny Apps"
   },
   {
     "objectID": "ui-ux-r-shiny-series.html#posts-in-this-series",
@@ -61,40 +61,5 @@
     "title": "Add a spinner to your download buttons!",
     "section": "Putting it all together",
     "text": "Putting it all together\nNow that we have the module UI and server parts, we can put them together in a shiny app.\nThe app is as simple as it can get:\nui <- bslib::page(\n  theme = bslib::bs_theme(version = 5),\n  shinyjs::useShinyjs(),\n\n  shiny::tags$div(\n    class = \"bg-light\",\n\n    shiny::tags$div(\n    class = paste(\n      \"container min-vh-100\",\n      \"d-flex justify-content-center align-items-center bg-white\"\n    ),\n\n    # module UI:\n    shiny::tags$div(\n      mod_dnld_ui(\"this\")\n    )\n  )\n  )\n)\n\nserver <- function(input, output, session) {\n  # module server:\n  mod_dnld_server(\"this\")\n}\n\nshiny::shinyApp(ui, server)\nThe full code is available on this GitHub Gist."
-  },
-  {
-    "objectID": "posts/ui-ux-r-shiny-series/defensive-programming/index.html",
-    "href": "posts/ui-ux-r-shiny-series/defensive-programming/index.html",
-    "title": "Defensive Programming",
-    "section": "",
-    "text": "Your app should never have to fail, crash or display arcane red lines of errors on the UI.\nIf it has to fail, it should do so gracefully and with dignity. You can then convince the client that it’s not a bug, it’s a feature.\nMeme?"
-  },
-  {
-    "objectID": "posts/ui-ux-r-shiny-series/defensive-programming/index.html#when-do-errors-arise",
-    "href": "posts/ui-ux-r-shiny-series/defensive-programming/index.html#when-do-errors-arise",
-    "title": "Defensive Programming",
-    "section": "When do errors arise?",
-    "text": "When do errors arise?\nMost, if not all, errors occur when you’re trying to perform a calculation or an operation on data. This can be during app startup or in response to user action.\nCommon cases are:\n\nMathematical calculations eg. +, -, *, /\nData manipulations eg. subsetting (iris[, \"Sepal.Length\"])"
-  },
-  {
-    "objectID": "posts/ui-ux-r-shiny-series/defensive-programming/index.html#defensive-programming",
-    "href": "posts/ui-ux-r-shiny-series/defensive-programming/index.html#defensive-programming",
-    "title": "Defensive Programming",
-    "section": "Defensive programming",
-    "text": "Defensive programming\nDefensive programming is an approach to software development that focuses on anticipating and preventing potential errors, bugs, and vulnerabilities in the code.\nThe fundamental concept of this approach is to develop a program that can function correctly even in the presence of unforeseen circumstances or when users enter unexpected inputs.\nWe’ll focus on 2 key principles of defensive programming, both at the same time:\n\nValidating inputs: Checking that all input values are within expected ranges or formats, and handling unexpected input values appropriately.\nHandling errors: Catching and handling errors/exceptions in a way that allows the program to recover gracefully, without crashing or losing data\n\nThat’s where tryCatch comes in!"
-  },
-  {
-    "objectID": "posts/ui-ux-r-shiny-series/defensive-programming/index.html#trycatch",
-    "href": "posts/ui-ux-r-shiny-series/defensive-programming/index.html#trycatch",
-    "title": "Defensive Programming",
-    "section": "tryCatch()",
-    "text": "tryCatch()\nThe basic syntax of tryCatch() is:\n\nMental model: Hey R, I have this block of code.I’m not sure if it’s flawless, but I need you to try and run it. If you encounter issues, then here’s how you should proceed depending on the reason it didn’t work:\n\nDid it throw an error? Then do <error handling>\nDid it give a warning? Then do <warning handling code>\nFinally, regardless of whether it ran successfully or failed, please do <finally block>"
-  },
-  {
-    "objectID": "posts/ui-ux-r-shiny-series/defensive-programming/index.html#hands-on",
-    "href": "posts/ui-ux-r-shiny-series/defensive-programming/index.html#hands-on",
-    "title": "Defensive Programming",
-    "section": "Hands-On",
-    "text": "Hands-On\nlibrary(tidyverse)\nlibrary(palmerpenguins)\npenguins |>\n  mutate(\n    bill_ratio = bill_depth_mm / bill_length_mm,\n    bill_area  = bill_depth_mm * bill_length_mm\n  )\nLine 3\nTake penguins, and then,\nLines 4-7\nadd new columns for the bill ratio and bill area."
   }
 ]
