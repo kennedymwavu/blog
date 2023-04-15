@@ -5,7 +5,7 @@ author: "Kennedy Mwavu"
 date: "2023-02-26"
 categories: [R, Shiny, UI/UX]
 image: "tc.png"
-draft: true
+draft: false
 ---
 
 ## Introduction
@@ -63,7 +63,7 @@ The basic syntax of `tryCatch()` is this:
 
 ![](trycatch.svg)
 
-::: {.callout-tip}
+::: {.callout-tip collapse="false"}
 ## Mental model:
 
 Hey R,<br>
@@ -80,33 +80,130 @@ do &lt;finally block&gt;
 
 ## Hands-On
 
+Practical examples have been a great way for me to learn new concepts.
+
+Be sure to go through the examples thoroughly and see if you can remake 
+similar ones of your own.
+
+### Example 1: Generic errors & warnings
+
+In case of an error or a warning during an operation, inform the user that
+something unexpected happened and show a glimpse of what might have went wrong.
+
 ```r
 library(shiny)
-library(DT)
 
 ui <- fluidPage(
+  shinytoastr::useToastr(),
+  
   tags$div(
     class = "container",
     align = "center",
+    
     selectInput(
       inputId = "cols",
       label = "Choose one or more columns",
       choices = c(names(iris), "Unknown Column"),
       multiple = TRUE
     ),
-    DTOutput(outputId = "table")
+    
+    DT::DTOutput(outputId = "table")
   )
 )
 
 server <- function(input, output, session) {
-  output$table <- renderDT({
-    # iris[, input$cols]
+  output$table <- DT::renderDT({
     tryCatch(
       expr = {
-        iris |> dplyr::select(input$cols)
+        { iris |> dplyr::select(dplyr::all_of(input$cols)) } * 100
       },
       error = \(e) {
-        print("There's an error!")
+        shinytoastr::toastr_error(
+          title = "Error in calculation",
+          message = conditionMessage(e)
+        )
+      },
+      warning = \(w) {
+        shinytoastr::toastr_warning(
+          title = "Warning!",
+          message = conditionMessage(w)
+        )
+      }
+    )
+  })
+}
+
+shinyApp(ui, server)
+```
+
+### Example 2: Custom errors & warnings
+
+Sometimes you can choose to be more informative and specific. In this example,
+we tell the user what exactly went wrong.
+
+On top of that, we leave room for unforeseen causes of errors & warnings.
+
+```r
+library(shiny)
+
+ui <- fluidPage(
+  shinytoastr::useToastr(),
+  
+  tags$div(
+    class = "container",
+    align = "center",
+    
+    selectInput(
+      inputId = "cols",
+      label = "Choose one or more columns",
+      choices = c(names(iris), "Unknown Column"),
+      multiple = TRUE
+    ),
+    
+    DT::DTOutput(outputId = "table")
+  )
+)
+
+server <- function(input, output, session) {
+  output$table <- DT::renderDT({
+    cols <- input$cols
+    req(cols)
+    
+    tryCatch(
+      expr = {
+        if ("Species" %in% cols) {
+          shinytoastr::toastr_warning(
+            title = "Omitting column 'Species'",
+            message = "Cannot perform multiplication on a factor"
+          )
+          
+          cols <- setdiff(cols, "Species")
+        }
+        
+        if ("Unknown Column" %in% cols) {
+          shinytoastr::toastr_error(
+            title = "Omitting 'Uknown Column'",
+            message = "Cannot subset columns which don't exist"
+          )
+          
+          cols <- setdiff(cols, "Unknown Column")
+        }
+        
+        { iris |> dplyr::select(dplyr::all_of(cols)) } * 100
+      },
+      
+      # in case of other unforeseen errors & warnings:
+      error = \(e) {
+        shinytoastr::toastr_error(
+          title = "Error in calculation",
+          message = conditionMessage(e)
+        )
+      },
+      warning = \(w) {
+        shinytoastr::toastr_warning(
+          title = "Warning!",
+          message = conditionMessage(w)
+        )
       }
     )
   })
