@@ -1,0 +1,181 @@
+---
+title: "Subset every nth element from a vector"
+description: "How would you do it?"
+author: "Kennedy Mwavu"
+date: "2023-04-16"
+categories: [R]
+image: "nth.svg "
+draft: false
+---
+
+## Introduction
+
+I've been using R on a daily basis (literally) precisely for 3 years 3 months 2 weeks 2 days now.
+
+If I were to say anything about the language, it'd be what Gandalf 
+said about Hobbits:
+
+::: {.callout-note appearance="simple"}
+
+Hobbits are amazing creatures. You can learn all there is to know about their ways in a month, and yet after a hundred years, they can still surprise you.
+
+--- Gandalf, LOTR
+
+:::
+
+## Problem Statement
+
+About a week ago I needed to subset every second element of a vector. 
+Let me explain.
+
+Say you have this vector:
+
+```{r}
+one_to_hundred <- 1:100
+```
+
+How do you get the values `2, 4, 6, 8, ...` from `one_to_hundred`?
+
+Simple enough, right? Right. 
+
+What amazed me wasn't the simplicity of the question at hand, it was how even
+as a prolific user of R, the building blocks of the language sometimes slip past
+me so easily.
+
+## What I did
+
+Let's go through my thought process.
+
+### `seq()`
+
+This was definitely the first option that came to mind:
+
+```{r}
+indices <- seq(from = 2, to = 100, by = 2)
+one_to_hundred[indices]
+```
+
+Pretty good, but... Why do I have to create a vector of indices for that?
+Why does it feel like I'm typing too much?
+
+Okay, let's try this:
+
+```r
+one_to_hundred[seq(from = 2, to = 100, by = 2)]
+```
+
+Hmmmhh... Less typing but still...
+
+There must be a better solution.
+
+### Modulo Operator `%%`
+
+The modulo operator `%%` returns the remainder of the division of one number by another. 
+
+For example, `4 %% 2` would return `0` since:
+$$
+\frac{4}{2} = 2\;remainder\;0
+$$
+and `9 %% 7` would return `2` since:
+$$ 
+\frac{9}{7} = 1\;remainder\;2
+$$
+
+Back to our problem: I basically want all indices which are divisible by $2$ *ie.* Leave a remainder of zero. And this is easy because any number divided by $2$ can only leave a remainder of $1$ or $0$.
+
+```{r}
+one_to_hundred %% 2
+```
+
+Note: $1$\`s occur on odd number indices, $0$\`s occur on even number indices.
+
+We can then coerce the resulting vector into a logical vector and use it for subsetting.
+
+For example, to get all odd numbers in `one_to_hundred`:
+
+```{r}
+one_to_hundred[as.logical(one_to_hundred %% 2)]
+```
+
+To get the even numbers we just have to use the `NOT` operator `!`:
+
+```{r}
+one_to_hundred[!one_to_hundred %% 2]
+```
+
+By default, `!` coerces the numeric `one_to_hundred %% 2` to a logical vector so
+we don't have to use `as.logical()` 
+
+Okay, that's a really nice application of my freshman discrete math unit. 
+
+But is there any other (better) solution? At this point, I decided to google.
+
+## Vector recycling
+
+If logical vectors are used for indexing in R, their values are recycled if the index vector is shorter than the vector containing the values.
+
+It is one of my all time favorite features about R. The first time 
+I learnt the concept, it was mind-blowing. 
+
+This time round, it swept me off  my feet completely.
+
+The solution was as simple as this:
+
+```{r}
+one_to_hundred[c(FALSE, TRUE)]
+```
+
+Tell me that isn't elegant! 
+
+That's one of the best answers on StackOverflow as far as I'm concerned.
+
+- Short.
+In most cases short never equals good performance but this is one of the few
+cases where what's advertised is what's delivered.
+
+- Simple.
+It's very easy to understand. Straightforward.
+
+- Clean.
+It's not obfuscated. 
+
+It's better in every way compared to my initial trials. It was posted by the user `Sven Hohenstein`. [Link to the answer.](https://stackoverflow.com/a/13462110/16246909)
+
+## Generalization
+
+Now that we have the best solution (as far as we know), let's generalize it. 
+
+### $i^{th}$ element
+
+What if you wanted to subset every 9th element? Repeat `TRUE` & `FALSE` the required number of times:
+
+```{r}
+# Subset every 9th element:
+one_to_hundred[c(rep(FALSE, times = 8), TRUE)]
+```
+We repeat `FALSE` $8$ times because we want every $9$th index to be retrieved.
+
+Taking $9$ as our `i`:
+
+```{r}
+i <- 9
+one_to_hundred[c(rep(FALSE, times = i - 1), TRUE)]
+```
+
+### $(i + n)^{th}$ element
+
+Extending the above logic, let's assume `i` is $9$ and `n` is $10$. So it's like saying we want to subset every $(9 + 10)^{th} = 19^{th}$ element.
+
+```{r}
+i <- 9
+n <- 10
+# So we repeat FALSE "i + n - 1" times:
+one_to_hundred[c(rep(FALSE, times = i + n - 1), TRUE)]
+```
+
+
+## Conclusion
+
+![](keep-it-simple-stupid.jpg)
+
+Till next time, avoid complicating stuff.

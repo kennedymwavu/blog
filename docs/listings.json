@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/subset-every-nth-element-from-a-vector/index.html",
       "/posts/ui-ux-r-shiny-series/defensive-programming/index.html",
       "/posts/ui-ux-r-shiny-series/download-button-spinner/index.html"
     ]
