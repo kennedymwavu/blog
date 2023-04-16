@@ -4,7 +4,7 @@ description: "How would you do it?"
 author: "Kennedy Mwavu"
 date: "2023-04-16"
 categories: [R]
-image: "nth.svg "
+image: "nth.svg"
 draft: false
 ---
 
