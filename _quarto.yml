@@ -13,13 +13,11 @@ website:
         href: https://twitter.com/kennedymwavu
   page-footer: 
     border: true
-    center:
-      - text: "About"
-        href: about.qmd
 format:
   html:
-    theme: sketchy
+    theme: yeti
     css: styles.css
     toc: true
     toc-location: left
+    highlight-style: printing
 
