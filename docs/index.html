@@ -70,7 +70,7 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-title','listing-author','listing-date','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-image','listing-date','listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
       searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
     };
@@ -168,18 +168,7 @@ ul.task-list li input[type="checkbox"] {
 <h5 class="no-anchor card-title listing-title">
 Subset every nth element from a vector
 </h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
-R
-</div>
-</div>
-<div class="card-text listing-description">
-How would you do it?
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Kennedy Mwavu
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 Apr 16, 2023
 </div>
@@ -198,24 +187,7 @@ Apr 16, 2023
 <h5 class="no-anchor card-title listing-title">
 Defensive Programming
 </h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
-R
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Shiny'); return false;">
-Shiny
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('UI/UX'); return false;">
-UI/UX
-</div>
-</div>
-<div class="card-text listing-description">
-Say hello to your new friend: tryCatch()
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Kennedy Mwavu
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 Feb 26, 2023
 </div>
@@ -234,27 +206,7 @@ Feb 26, 2023
 <h5 class="no-anchor card-title listing-title">
 Add a spinner to your download buttons!
 </h5>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
-R
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Shiny'); return false;">
-Shiny
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('UI/UX'); return false;">
-UI/UX
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('Bootstrap'); return false;">
-Bootstrap
-</div>
-</div>
-<div class="card-text listing-description">
-Inform users that the download is in progress
-</div>
-<div class="card-attribution card-text-small justify">
-<div class="listing-author">
-Kennedy Mwavu
-</div>
+<div class="card-attribution card-text-small end">
 <div class="listing-date">
 Feb 21, 2023
 </div>
@@ -402,17 +354,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<footer class="footer">
-  <div class="nav-footer">
-      <div class="nav-footer-center">
-        <ul class="footer-items list-unstyled">
-    <li class="nav-item">
-    <a class="nav-link" href="./about.html">About</a>
-  </li>  
-</ul>
-      </div>
-  </div>
-</footer>
 
 
 
