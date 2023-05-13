@@ -1,0 +1,55 @@
+---
+title: "Series: Authentication in R Shiny"
+listing:
+  contents: posts/authentication-in-r-shiny
+  sort: "date desc"
+  type: table
+  categories: true
+  sort-ui: false
+  filter-ui: false
+page-layout: full
+title-block-banner: true
+toc: false
+---
+
+## User Authentication & Authorization
+
+Many are the times you develop an in-house app for your organization. Two conditions must be met:
+
+1. A user can only access the app **if and only if** they are part of your 
+organization ie. using the company email
+2. Only certain users can access some parts of the app eg. the admin section
+
+In other words:
+
+::: {.callout-tip}
+## Authentication vs Authorization
+
+*Authentication* verifies the identity of a user. *Authorization* determines
+their access rights.
+:::
+
+All I ever wanted was to build an app that felt intuitive:
+
+- a landing page, 
+- a sign-in/up section, and 
+- the app itself
+
+For a long time I could not figure out how to build the sign-in/up section. The
+options I found online didn't suit my needs either.
+
+Which brings us to the topic of this series...
+
+Shiny doesn't have in-built features for user authentication or authorization.
+
+I found 2 remarkable packages which solve that problem:
+
+1. [polished](https://github.com/Tychobra/polished)
+1. [firebase](https://github.com/JohnCoene/firebase)
+
+They are easy enough to get started with, but not a walk in the park if you want
+the good stuff. By "good stuff" I mean detailed customization.
+
+I'm not here to show you the easy part, I'm here for the hard part.
+
+## Posts in this series

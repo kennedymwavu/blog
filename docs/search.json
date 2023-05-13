@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "A Hobbit's Tale",
     "section": "",
-    "text": "Series\n\nUI/UX in R Shiny\n\n\n\nAll Posts\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSubset every nth element from a vector\n\n\n\nApr 16, 2023\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDefensive Programming\n\n\n\nFeb 26, 2023\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAdd a spinner to your download buttons!\n\n\n\nFeb 21, 2023\n\n\n\n\n\n\n\n\nNo matching items"
+    "text": "Series\n\nUI/UX in R Shiny\nAuthentication in R Shiny\n\n\n\nAll Posts\n\n\n\n\n\n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\nApr 16, 2023\n\n\nSubset every nth element from a vector\n\n\nR\n\n\n\n\nFeb 26, 2023\n\n\nDefensive Programming\n\n\nR,Shiny,UI/UX\n\n\n\n\nFeb 21, 2023\n\n\nAdd a spinner to your download buttons!\n\n\nR,Shiny,UI/UX,Bootstrap\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -138,5 +138,19 @@
     "title": "Defensive Programming",
     "section": "Hands-On",
     "text": "Hands-On\nPractical examples have been a great way for me to learn new concepts.\nBe sure to go through the examples thoroughly and see if you can remake similar ones of your own.\n\nExample 1: Generic errors & warnings\nIn case of an error or a warning during an operation, inform the user that something unexpected happened and show a glimpse of what might have went wrong.\nlibrary(shiny)\n\nui <- fluidPage(\n  shinytoastr::useToastr(),\n  \n  tags$div(\n    class = \"container\",\n    align = \"center\",\n    \n    selectInput(\n      inputId = \"cols\",\n      label = \"Choose one or more columns\",\n      choices = c(names(iris), \"Unknown Column\"),\n      multiple = TRUE\n    ),\n    \n    DT::DTOutput(outputId = \"table\")\n  )\n)\n\nserver <- function(input, output, session) {\n  output$table <- DT::renderDT({\n    tryCatch(\n      expr = {\n        { iris |> dplyr::select(dplyr::all_of(input$cols)) } * 100\n      },\n      error = \\(e) {\n        shinytoastr::toastr_error(\n          title = \"Error in calculation\",\n          message = conditionMessage(e)\n        )\n      },\n      warning = \\(w) {\n        shinytoastr::toastr_warning(\n          title = \"Warning!\",\n          message = conditionMessage(w)\n        )\n      }\n    )\n  })\n}\n\nshinyApp(ui, server)\n\n\nExample 2: Custom errors & warnings\nSometimes you can choose to be more informative and specific. In this example, we tell the user what exactly went wrong.\nOn top of that, we leave room for unforeseen causes of errors & warnings.\nlibrary(shiny)\n\nui <- fluidPage(\n  shinytoastr::useToastr(),\n  \n  tags$div(\n    class = \"container\",\n    align = \"center\",\n    \n    selectInput(\n      inputId = \"cols\",\n      label = \"Choose one or more columns\",\n      choices = c(names(iris), \"Unknown Column\"),\n      multiple = TRUE\n    ),\n    \n    DT::DTOutput(outputId = \"table\")\n  )\n)\n\nserver <- function(input, output, session) {\n  output$table <- DT::renderDT({\n    cols <- input$cols\n    req(cols)\n    \n    tryCatch(\n      expr = {\n        if (\"Species\" %in% cols) {\n          shinytoastr::toastr_warning(\n            title = \"Omitting column 'Species'\",\n            message = \"Cannot perform multiplication on a factor\"\n          )\n          \n          cols <- setdiff(cols, \"Species\")\n        }\n        \n        if (\"Unknown Column\" %in% cols) {\n          shinytoastr::toastr_error(\n            title = \"Omitting 'Uknown Column'\",\n            message = \"Cannot subset columns which don't exist\"\n          )\n          \n          cols <- setdiff(cols, \"Unknown Column\")\n        }\n        \n        { iris |> dplyr::select(dplyr::all_of(cols)) } * 100\n      },\n      \n      # in case of other unforeseen errors & warnings:\n      error = \\(e) {\n        shinytoastr::toastr_error(\n          title = \"Error in calculation\",\n          message = conditionMessage(e)\n        )\n      },\n      warning = \\(w) {\n        shinytoastr::toastr_warning(\n          title = \"Warning!\",\n          message = conditionMessage(w)\n        )\n      }\n    )\n  })\n}\n\nshinyApp(ui, server)"
+  },
+  {
+    "objectID": "authentication-in-r-shiny.html",
+    "href": "authentication-in-r-shiny.html",
+    "title": "Series: Authentication in R Shiny",
+    "section": "",
+    "text": "Many are the times you develop an in-house app for your organization. Two conditions must be met:\n\nA user can only access the app if and only if they are part of your organization ie. using the company email\nOnly certain users can access some parts of the app eg. the admin section\n\nIn other words:\n\n\n\n\n\n\nAuthentication vs Authorization\n\n\n\nAuthentication verifies the identity of a user. Authorization determines their access rights.\n\n\nAll I ever wanted was to build an app that felt intuitive:\n\na landing page,\na sign-in/up section, and\nthe app itself\n\nFor a long time I could not figure out how to build the sign-in/up section. The options I found online didn’t suit my needs either.\nWhich brings us to the topic of this series…\nShiny doesn’t have in-built features for user authentication or authorization.\nI found 2 remarkable packages which solve that problem:\n\npolished\nfirebase\n\nThey are easy enough to get started with, but not a walk in the park if you want the good stuff. By “good stuff” I mean detailed customization.\nI’m not here to show you the easy part, I’m here for the hard part."
+  },
+  {
+    "objectID": "authentication-in-r-shiny.html#posts-in-this-series",
+    "href": "authentication-in-r-shiny.html#posts-in-this-series",
+    "title": "Series: Authentication in R Shiny",
+    "section": "Posts in this series",
+    "text": "Posts in this series"
   }
 ]
