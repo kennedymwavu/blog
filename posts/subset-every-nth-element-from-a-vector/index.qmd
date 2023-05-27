@@ -15,6 +15,8 @@ I've been using R on a daily basis (literally) precisely for 3 years 3 months 2 
 If I were to say anything about the language, it'd be what Gandalf 
 said about Hobbits:
 
+![](gandalf.webp)
+
 ::: {.callout-note appearance="simple"}
 
 Hobbits are amazing creatures. You can learn all there is to know about their ways in a month, and yet after a hundred years, they can still surprise you.
@@ -28,13 +30,13 @@ Hobbits are amazing creatures. You can learn all there is to know about their wa
 About a week ago I needed to subset every second element of a vector. 
 Let me explain.
 
-Say you have this vector:
+Take a look at `letters`:
 
 ```{r}
-one_to_hundred <- 1:100
+letters
 ```
 
-How do you get the values `2, 4, 6, 8, ...` from `one_to_hundred`?
+How do you get the elements "b", "d", "f", "h", "j", ... ie. values at the indices `2, 4, 6, 8, ...`?
 
 Simple enough, right? Right. 
 
@@ -51,20 +53,11 @@ Let's go through my thought process.
 This was definitely the first option that came to mind:
 
 ```{r}
-indices <- seq(from = 2, to = 100, by = 2)
-one_to_hundred[indices]
+indices <- seq(from = 2, to = length(letters), by = 2)
+letters[indices]
 ```
 
-Pretty good, but... Why do I have to create a vector of indices for that?
-Why does it feel like I'm typing too much?
-
-Okay, let's try this:
-
-```r
-one_to_hundred[seq(from = 2, to = 100, by = 2)]
-```
-
-Hmmmhh... Less typing but still...
+Pretty good, but... 
 
 There must be a better solution.
 
@@ -81,34 +74,18 @@ $$
 \frac{9}{7} = 1\;remainder\;2
 $$
 
-Back to our problem: I basically want all indices which are divisible by $2$ *ie.* Leave a remainder of zero. And this is easy because any number divided by $2$ can only leave a remainder of $1$ or $0$.
+Back to our problem: I basically want all indices which are divisible by $2$ *ie.* Leave a remainder of zero. 
 
 ```{r}
-one_to_hundred %% 2
+indices <- !seq_along(letters) %% 2
+letters[indices]
 ```
 
-Note: $1$\`s occur on odd number indices, $0$\`s occur on even number indices.
+That works but... It's quite obfuscated for such a simple problem.
 
-We can then coerce the resulting vector into a logical vector and use it for subsetting.
+![](trynna-explain.jpg)
 
-For example, to get all odd numbers in `one_to_hundred`:
-
-```{r}
-one_to_hundred[as.logical(one_to_hundred %% 2)]
-```
-
-To get the even numbers we just have to use the `NOT` operator `!`:
-
-```{r}
-one_to_hundred[!one_to_hundred %% 2]
-```
-
-By default, `!` coerces the numeric `one_to_hundred %% 2` to a logical vector so
-we don't have to use `as.logical()` 
-
-Okay, that's a really nice application of my freshman discrete math unit. 
-
-But is there any other (better) solution? At this point, I decided to google.
+There's only one way to know if there's an easier solution: Google.
 
 ## Vector recycling
 
@@ -122,7 +99,7 @@ This time round, it swept me off  my feet completely.
 The solution was as simple as this:
 
 ```{r}
-one_to_hundred[c(FALSE, TRUE)]
+letters[c(FALSE, TRUE)]
 ```
 
 Tell me that isn't elegant! 
@@ -151,7 +128,7 @@ What if you wanted to subset every 9th element? Repeat `TRUE` & `FALSE` the requ
 
 ```{r}
 # Subset every 9th element:
-one_to_hundred[c(rep(FALSE, times = 8), TRUE)]
+letters[c(rep(FALSE, times = 8), TRUE)]
 ```
 We repeat `FALSE` $8$ times because we want every $9$th index to be retrieved.
 
@@ -159,7 +136,7 @@ Taking $9$ as our `i`:
 
 ```{r}
 i <- 9
-one_to_hundred[c(rep(FALSE, times = i - 1), TRUE)]
+letters[c(rep(FALSE, times = i - 1), TRUE)]
 ```
 
 ### $(i + n)^{th}$ element
@@ -170,7 +147,7 @@ Extending the above logic, let's assume `i` is $9$ and `n` is $10$. So it's like
 i <- 9
 n <- 10
 # So we repeat FALSE "i + n - 1" times:
-one_to_hundred[c(rep(FALSE, times = i + n - 1), TRUE)]
+letters[c(rep(FALSE, times = i + n - 1), TRUE)]
 ```
 
 

@@ -240,6 +240,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>I’ve been using R on a daily basis (literally) precisely for 3 years 3 months 2 weeks 2 days now.</p>
 <p>If I were to say anything about the language, it’d be what Gandalf said about Hobbits:</p>
+<p><img src="gandalf.webp" class="img-fluid"></p>
 <div class="callout-note callout callout-style-simple">
 <div class="callout-body d-flex">
 <div class="callout-icon-container">
@@ -255,11 +256,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="problem-statement" class="level2">
 <h2 class="anchored" data-anchor-id="problem-statement">Problem Statement</h2>
 <p>About a week ago I needed to subset every second element of a vector. Let me explain.</p>
-<p>Say you have this vector:</p>
+<p>Take a look at <code>letters</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>one_to_hundred <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">100</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>letters</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"
+[20] "t" "u" "v" "w" "x" "y" "z"</code></pre>
 </div>
-<p>How do you get the values <code>2, 4, 6, 8, ...</code> from <code>one_to_hundred</code>?</p>
+</div>
+<p>How do you get the elements “b”, “d”, “f”, “h”, “j”, … ie. values at the indices <code>2, 4, 6, 8, ...</code>?</p>
 <p>Simple enough, right? Right.</p>
 <p>What amazed me wasn’t the simplicity of the question at hand, it was how even as a prolific user of R, the building blocks of the language sometimes slip past me so easily.</p>
 </section>
@@ -270,18 +275,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 class="anchored" data-anchor-id="seq"><code>seq()</code></h3>
 <p>This was definitely the first option that came to mind:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>indices <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">2</span>, <span class="at">to =</span> <span class="dv">100</span>, <span class="at">by =</span> <span class="dv">2</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>one_to_hundred[indices]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>indices <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">2</span>, <span class="at">to =</span> <span class="fu">length</span>(letters), <span class="at">by =</span> <span class="dv">2</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>letters[indices]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]   2   4   6   8  10  12  14  16  18  20  22  24  26  28  30  32  34  36  38
-[20]  40  42  44  46  48  50  52  54  56  58  60  62  64  66  68  70  72  74  76
-[39]  78  80  82  84  86  88  90  92  94  96  98 100</code></pre>
+<pre><code> [1] "b" "d" "f" "h" "j" "l" "n" "p" "r" "t" "v" "x" "z"</code></pre>
 </div>
 </div>
-<p>Pretty good, but… Why do I have to create a vector of indices for that? Why does it feel like I’m typing too much?</p>
-<p>Okay, let’s try this:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>one_to_hundred[<span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">2</span>, <span class="at">to =</span> <span class="dv">100</span>, <span class="at">by =</span> <span class="dv">2</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Hmmmhh… Less typing but still…</p>
+<p>Pretty good, but…</p>
 <p>There must be a better solution.</p>
 </section>
 <section id="modulo-operator" class="level3">
@@ -292,37 +292,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 \]</span> and <code>9 %% 7</code> would return <code>2</code> since: <span class="math display">\[
 \frac{9}{7} = 1\;remainder\;2
 \]</span></p>
-<p>Back to our problem: I basically want all indices which are divisible by <span class="math inline">\(2\)</span> <em>ie.</em> Leave a remainder of zero. And this is easy because any number divided by <span class="math inline">\(2\)</span> can only leave a remainder of <span class="math inline">\(1\)</span> or <span class="math inline">\(0\)</span>.</p>
+<p>Back to our problem: I basically want all indices which are divisible by <span class="math inline">\(2\)</span> <em>ie.</em> Leave a remainder of zero.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>one_to_hundred <span class="sc">%%</span> <span class="dv">2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>indices <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">seq_along</span>(letters) <span class="sc">%%</span> <span class="dv">2</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>letters[indices]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  [1] 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1
- [38] 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0
- [75] 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0 1 0</code></pre>
+<pre><code> [1] "b" "d" "f" "h" "j" "l" "n" "p" "r" "t" "v" "x" "z"</code></pre>
 </div>
 </div>
-<p>Note: <span class="math inline">\(1\)</span>`s occur on odd number indices, <span class="math inline">\(0\)</span>`s occur on even number indices.</p>
-<p>We can then coerce the resulting vector into a logical vector and use it for subsetting.</p>
-<p>For example, to get all odd numbers in <code>one_to_hundred</code>:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>one_to_hundred[<span class="fu">as.logical</span>(one_to_hundred <span class="sc">%%</span> <span class="dv">2</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1]  1  3  5  7  9 11 13 15 17 19 21 23 25 27 29 31 33 35 37 39 41 43 45 47 49
-[26] 51 53 55 57 59 61 63 65 67 69 71 73 75 77 79 81 83 85 87 89 91 93 95 97 99</code></pre>
-</div>
-</div>
-<p>To get the even numbers we just have to use the <code>NOT</code> operator <code>!</code>:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>one_to_hundred[<span class="sc">!</span>one_to_hundred <span class="sc">%%</span> <span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> [1]   2   4   6   8  10  12  14  16  18  20  22  24  26  28  30  32  34  36  38
-[20]  40  42  44  46  48  50  52  54  56  58  60  62  64  66  68  70  72  74  76
-[39]  78  80  82  84  86  88  90  92  94  96  98 100</code></pre>
-</div>
-</div>
-<p>By default, <code>!</code> coerces the numeric <code>one_to_hundred %% 2</code> to a logical vector so we don’t have to use <code>as.logical()</code></p>
-<p>Okay, that’s a really nice application of my freshman discrete math unit.</p>
-<p>But is there any other (better) solution? At this point, I decided to google.</p>
+<p>That works but… It’s quite obfuscated for such a simple problem.</p>
+<p><img src="trynna-explain.jpg" class="img-fluid"></p>
+<p>There’s only one way to know if there’s an easier solution: Google.</p>
 </section>
 </section>
 <section id="vector-recycling" class="level2">
@@ -332,11 +312,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>This time round, it swept me off my feet completely.</p>
 <p>The solution was as simple as this:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>one_to_hundred[<span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>letters[<span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]   2   4   6   8  10  12  14  16  18  20  22  24  26  28  30  32  34  36  38
-[20]  40  42  44  46  48  50  52  54  56  58  60  62  64  66  68  70  72  74  76
-[39]  78  80  82  84  86  88  90  92  94  96  98 100</code></pre>
+<pre><code> [1] "b" "d" "f" "h" "j" "l" "n" "p" "r" "t" "v" "x" "z"</code></pre>
 </div>
 </div>
 <p>Tell me that isn’t elegant!</p>
@@ -355,19 +333,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 class="anchored" data-anchor-id="ith-element"><span class="math inline">\(i^{th}\)</span> element</h3>
 <p>What if you wanted to subset every 9th element? Repeat <code>TRUE</code> &amp; <code>FALSE</code> the required number of times:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset every 9th element:</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>one_to_hundred[<span class="fu">c</span>(<span class="fu">rep</span>(<span class="cn">FALSE</span>, <span class="at">times =</span> <span class="dv">8</span>), <span class="cn">TRUE</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset every 9th element:</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>letters[<span class="fu">c</span>(<span class="fu">rep</span>(<span class="cn">FALSE</span>, <span class="at">times =</span> <span class="dv">8</span>), <span class="cn">TRUE</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  9 18 27 36 45 54 63 72 81 90 99</code></pre>
+<pre><code>[1] "i" "r"</code></pre>
 </div>
 </div>
 <p>We repeat <code>FALSE</code> <span class="math inline">\(8\)</span> times because we want every <span class="math inline">\(9\)</span>th index to be retrieved.</p>
 <p>Taking <span class="math inline">\(9\)</span> as our <code>i</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">9</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>one_to_hundred[<span class="fu">c</span>(<span class="fu">rep</span>(<span class="cn">FALSE</span>, <span class="at">times =</span> i <span class="sc">-</span> <span class="dv">1</span>), <span class="cn">TRUE</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">9</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>letters[<span class="fu">c</span>(<span class="fu">rep</span>(<span class="cn">FALSE</span>, <span class="at">times =</span> i <span class="sc">-</span> <span class="dv">1</span>), <span class="cn">TRUE</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1]  9 18 27 36 45 54 63 72 81 90 99</code></pre>
+<pre><code>[1] "i" "r"</code></pre>
 </div>
 </div>
 </section>
@@ -375,12 +353,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 class="anchored" data-anchor-id="i-nth-element"><span class="math inline">\((i + n)^{th}\)</span> element</h3>
 <p>Extending the above logic, let’s assume <code>i</code> is <span class="math inline">\(9\)</span> and <code>n</code> is <span class="math inline">\(10\)</span>. So it’s like saying we want to subset every <span class="math inline">\((9 + 10)^{th} = 19^{th}\)</span> element.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">9</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># So we repeat FALSE "i + n - 1" times:</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>one_to_hundred[<span class="fu">c</span>(<span class="fu">rep</span>(<span class="cn">FALSE</span>, <span class="at">times =</span> i <span class="sc">+</span> n <span class="sc">-</span> <span class="dv">1</span>), <span class="cn">TRUE</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">9</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># So we repeat FALSE "i + n - 1" times:</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>letters[<span class="fu">c</span>(<span class="fu">rep</span>(<span class="cn">FALSE</span>, <span class="at">times =</span> i <span class="sc">+</span> n <span class="sc">-</span> <span class="dv">1</span>), <span class="cn">TRUE</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 19 38 57 76 95</code></pre>
+<pre><code>[1] "s"</code></pre>
 </div>
 </div>
 </section>
