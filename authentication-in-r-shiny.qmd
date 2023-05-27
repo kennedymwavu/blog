@@ -14,20 +14,13 @@ toc: false
 
 ## User Authentication & Authorization
 
+![](assets/Authentication_vs_Authorization.png)
+
 Many are the times you develop an in-house app for your organization. Two conditions must be met:
 
 1. A user can only access the app **if and only if** they are part of your 
 organization ie. using the company email
 2. Only certain users can access some parts of the app eg. the admin section
-
-In other words:
-
-::: {.callout-tip}
-## Authentication vs Authorization
-
-*Authentication* verifies the identity of a user. *Authorization* determines
-their access rights.
-:::
 
 All I ever wanted was to build an app that felt intuitive:
 
@@ -45,7 +38,7 @@ Shiny doesn't have in-built features for user authentication or authorization.
 I found 2 remarkable packages which solve that problem:
 
 1. [polished](https://github.com/Tychobra/polished)
-1. [firebase](https://github.com/JohnCoene/firebase)
+2. [firebase](https://github.com/JohnCoene/firebase)
 
 They are easy enough to get started with, but not a walk in the park if you want
 the good stuff. By "good stuff" I mean detailed customization.
