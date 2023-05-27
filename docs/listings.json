@@ -8,14 +8,14 @@
     ]
   },
   {
+    "listing": "/authentication-in-r-shiny.html",
+    "items": []
+  },
+  {
     "listing": "/ui-ux-r-shiny-series.html",
     "items": [
       "/posts/ui-ux-r-shiny-series/defensive-programming/index.html",
       "/posts/ui-ux-r-shiny-series/download-button-spinner/index.html"
     ]
-  },
-  {
-    "listing": "/authentication-in-r-shiny.html",
-    "items": []
   }
 ]
