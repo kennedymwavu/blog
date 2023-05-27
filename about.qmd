@@ -1,6 +1,6 @@
 ---
-title: "Mwavu"
-image: mwavu.jpg
+title: "About"
+image: me.jpg
 about:
   template: jolla
   links:
