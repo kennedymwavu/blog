@@ -1,5 +1,5 @@
 ---
-title: "Add a spinner to your download buttons!"
+title: "Add downLoading spinners"
 description: "Inform users that the download is in progress"
 author: "Kennedy Mwavu"
 date: "2023-02-21"

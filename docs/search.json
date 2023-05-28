@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "A Hobbit's Tale",
     "section": "",
-    "text": "Series\n\nUI/UX in R Shiny\nAuthentication in R Shiny\n\n\n\nAll Posts\n\n\n\n\n\n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\nApr 16, 2023\n\n\nSubset every nth element from a vector\n\n\nR\n\n\n\n\nFeb 26, 2023\n\n\nDefensive Programming\n\n\nR,Shiny,UI/UX\n\n\n\n\nFeb 21, 2023\n\n\nAdd a spinner to your download buttons!\n\n\nR,Shiny,UI/UX,Bootstrap\n\n\n\n\n\n\nNo matching items"
+    "text": "Series\n\nUI/UX in R Shiny\nAuthentication in R Shiny\n\n\n\nAll Posts\n\n\n\n\n\n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\nApr 16, 2023\n\n\nSubset every nth element from a vector\n\n\nR\n\n\n\n\nFeb 26, 2023\n\n\nDefensive Programming\n\n\nR,Shiny,UI/UX\n\n\n\n\nFeb 21, 2023\n\n\nAdd downLoading spinners\n\n\nR,Shiny,UI/UX,Bootstrap\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -86,35 +86,35 @@
   {
     "objectID": "posts/ui-ux-r-shiny-series/download-button-spinner/index.html",
     "href": "posts/ui-ux-r-shiny-series/download-button-spinner/index.html",
-    "title": "Add a spinner to your download buttons!",
+    "title": "Add downLoading spinners",
     "section": "",
     "text": "Here is a demo of what we will build today:"
   },
   {
     "objectID": "posts/ui-ux-r-shiny-series/download-button-spinner/index.html#introduction",
     "href": "posts/ui-ux-r-shiny-series/download-button-spinner/index.html#introduction",
-    "title": "Add a spinner to your download buttons!",
+    "title": "Add downLoading spinners",
     "section": "Introduction",
     "text": "Introduction\n\n\nI hope nobody is reading. But if you are, then keep this to yourself.\n\n\nMwavu\n\n\nOftentimes you have a large dataset that takes a while to download. To give your users a visual cue that the download is in progress, you can (and should) add spinners to your download buttons."
   },
   {
     "objectID": "posts/ui-ux-r-shiny-series/download-button-spinner/index.html#the-module",
     "href": "posts/ui-ux-r-shiny-series/download-button-spinner/index.html#the-module",
-    "title": "Add a spinner to your download buttons!",
+    "title": "Add downLoading spinners",
     "section": "The module",
     "text": "The module\nLet’s first create a basic download button module that we can build upon.\n\nUI\nWe’ll create an action button that will trigger the download (Yes, you read that right, an action button).\nWe’ll then add the real download button but it will be hidden.\n#' Download button module UI\n#' @param id Module ID\n#' @return [shiny::tagList()]\nmod_dnld_ui <- function(id) {\n  ns <- shiny::NS(id)\n\n  shiny::tagList(\n    # Trigger button:\n    shiny::actionButton(\n      inputId = ns(\"actbtn\"),\n      label = htmltools::doRenderTags(\n        shiny::tags$span(\n          shiny::icon(\"download\"),\n          \"Download\"\n        )\n      )\n    ),\n\n    # Real download button:\n    shiny::downloadButton(\n      outputId = ns(\"dnld\"),\n      label = NULL,\n      style = \"visibility: hidden;\"\n    )\n  )\n}\n\n\nServer\nThe basic server piece is also as simple:\n#' Download button module server\n#' @param id Module ID\n#' @param given_data Data to download, as a reactive.\n#' @param filename Filename to use for download.\n#' @return NULL\nmod_dnld_server <- function(\n  id,\n  given_data = reactive({iris}),\n  filename = \"iris.csv\"\n) {\n  stopifnot(\n    \"`given_data` must be a reactive\" = is.reactive(given_data)\n  )\n\n  shiny::moduleServer(\n    id = id,\n    module = function(input, output, session) {\n      output$dnld <- downloadHandler(\n        filename = filename,\n        content = function(file) {\n          write.csv(given_data(), file)\n        }\n      )\n    }\n  )\n}\nIt takes in a reactive data object (given_data) and a filename. The rest is normal stuff.\nWe can now move on to adding the download button spinner."
   },
   {
     "objectID": "posts/ui-ux-r-shiny-series/download-button-spinner/index.html#adding-a-spinner-to-the-download-button",
     "href": "posts/ui-ux-r-shiny-series/download-button-spinner/index.html#adding-a-spinner-to-the-download-button",
-    "title": "Add a spinner to your download buttons!",
+    "title": "Add downLoading spinners",
     "section": "Adding a spinner to the download button",
     "text": "Adding a spinner to the download button\nSpoiler alert: mod_dnld_ui is done. We’ll work on mod_dnld_server from now on.\nIn the server module, we’ll use shiny::observeEvent to listen for clicks on the action button.\nWhen the button is clicked, we update its label to show a spinner and a message indicating that the download is in progress.\nWe then trigger a click on the real download button using shinyjs::click:\nshiny::observeEvent(input$actbtn, {\n  # update label of 'actbtn':\n  shiny::updateActionButton(\n    session = session,\n    inputId = \"actbtn\",\n    label = htmltools::doRenderTags(\n      shiny::tags$span(\n        class = \"d-flex align-items-center\",\n        shiny::tags$span(\n          class = \"spinner-border spinner-border-sm\",\n          role = \"status\",\n          `aria-hidden` = \"true\"\n        ),\n        shiny::tags$span(\n          class = \"mx-1\",\n          \"Downloading...\"\n        )\n      )\n    )\n  )\n\n  # simulate click on 'dnld' btn:\n  shinyjs::delay(\n    ms = 2 * 1e3,\n    expr = shinyjs::click(id = \"dnld\")\n  )\n})\nTwo things to note here:\n\nI use Bootstrap 5 classes.\nI use shinyjs::delay to, well, delay the click for 2 seconds. Wanna know why?\n\n\n\n\nNext, after the download is complete, we need to update the label of the action button back to its original value.\noutput$dnld <- downloadHandler(\n  filename = filename,\n  content = function(file) {\n    # on exit, update 'actbtn' label:\n    on.exit({\n      shiny::updateActionButton(\n        session = session,\n        inputId = \"actbtn\",\n        label = htmltools::doRenderTags(\n          shiny::tags$span(\n            shiny::icon(\"download\"),\n            \"Download\"\n          )\n        )\n      )\n    })\n\n    # write data to file:\n    write.csv(given_data(), file)\n  }\n)\n?on.exit:\n\non.exit records the expression given as its argument as needing to be executed when the current function exits (either naturally or as the result of an error). This is useful for resetting graphical parameters or performing other cleanup actions.\n\nIn our case, we’re performing a cleanup action: updating the label of the action button back to its original state.\nThe complete module server function is as follows:\n#' Download button module server\n#' @param id Module id\n#' @param given_data Data to download, as a reactive.\n#' @param filename Filename to use for download.\n#' @return NULL\nmod_dnld_server <- function(\n    id,\n    given_data = reactive({\n      iris\n    }),\n    filename = \"iris.csv\") {\n  stopifnot(\n    \"`given_data` must be a reactive\" = is.reactive(given_data)\n  )\n\n  shiny::moduleServer(\n    id = id,\n    module = function(input, output, session) {\n      shiny::observeEvent(input$actbtn, {\n        # update label of 'actbtn':\n        shiny::updateActionButton(\n          session = session,\n          inputId = \"actbtn\",\n          label = htmltools::doRenderTags(\n            shiny::tags$span(\n              class = \"d-flex align-items-center\",\n              shiny::tags$span(\n                class = \"spinner-border spinner-border-sm\",\n                role = \"status\",\n                `aria-hidden` = \"true\"\n              ),\n              shiny::tags$span(\n                class = \"mx-1\",\n                \"Downloading...\"\n              )\n            )\n          )\n        )\n\n        # simulate click on 'dnld' btn:\n        shinyjs::delay(\n          ms = 2 * 1e3,\n          expr = shinyjs::click(id = \"dnld\")\n        )\n      })\n\n      output$dnld <- downloadHandler(\n        filename = filename,\n        content = function(file) {\n          # on exit, update 'actbtn' label:\n          on.exit({\n            shiny::updateActionButton(\n              session = session,\n              inputId = \"actbtn\",\n              label = htmltools::doRenderTags(\n                shiny::tags$span(\n                  shiny::icon(\"download\"),\n                  \"Download\"\n                )\n              )\n            )\n          })\n\n          # write data to file:\n          write.csv(given_data(), file)\n        }\n      )\n    }\n  )\n}"
   },
   {
     "objectID": "posts/ui-ux-r-shiny-series/download-button-spinner/index.html#putting-it-all-together",
     "href": "posts/ui-ux-r-shiny-series/download-button-spinner/index.html#putting-it-all-together",
-    "title": "Add a spinner to your download buttons!",
+    "title": "Add downLoading spinners",
     "section": "Putting it all together",
     "text": "Putting it all together\nNow that we have the module UI and server parts, we can put them together in a shiny app.\nThe app is as simple as it can get:\nui <- bslib::page(\n  theme = bslib::bs_theme(version = 5),\n  shinyjs::useShinyjs(),\n\n  shiny::tags$div(\n    class = \"bg-light\",\n\n    shiny::tags$div(\n    class = paste(\n      \"container min-vh-100\",\n      \"d-flex justify-content-center align-items-center bg-white\"\n    ),\n\n    # module UI:\n    shiny::tags$div(\n      mod_dnld_ui(\"this\")\n    )\n  )\n  )\n)\n\nserver <- function(input, output, session) {\n  # module server:\n  mod_dnld_server(\"this\")\n}\n\nshiny::shinyApp(ui, server)\nThe full code is available on this GitHub Gist."
   },
