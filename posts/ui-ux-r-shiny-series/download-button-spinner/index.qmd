@@ -1,6 +1,6 @@
 ---
-title: "Add a spinner to your download buttons!"
-description: "Inform users that the download is in progress"
+title: "Add downLoading spinners"
+description: "Show spinner when download is in progress"
 author: "Kennedy Mwavu"
 date: "2023-02-21"
 categories: [R, Shiny, UI/UX, Bootstrap]
@@ -9,8 +9,6 @@ draft: false
 ---
 
 ## Demo
-
-Here is a demo of what we will build today:
 
 ![](dnld-spinner.gif){alt="A gif showing what we will build today"}
 
