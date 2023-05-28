@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "A Hobbit's Tale",
     "section": "",
-    "text": "Series\n\nUI/UX in R Shiny\nAuthentication in R Shiny\n\n\n\nAll Posts\n\n\n\n\n\n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\nApr 16, 2023\n\n\nSubset every nth element from a vector\n\n\nR\n\n\n\n\nFeb 26, 2023\n\n\nDefensive Programming\n\n\nR,Shiny,UI/UX\n\n\n\n\nFeb 21, 2023\n\n\nAdd downLoading spinners\n\n\nR,Shiny,UI/UX,Bootstrap\n\n\n\n\n\n\nNo matching items"
+    "text": "Series\n\nUI/UX in R Shiny\nAuthentication in R Shiny\n\n\n\nAll Posts\n\n\n\n\n\n\n\n\n\n\n\nDate\n\n\nTitle\n\n\nCategories\n\n\n\n\n\n\nMay 28, 2023\n\n\nAdd downLoading spinners… using JS\n\n\nR,Shiny,UI/UX,Bootstrap\n\n\n\n\nApr 16, 2023\n\n\nSubset every nth element from a vector\n\n\nR\n\n\n\n\nFeb 26, 2023\n\n\nDefensive Programming\n\n\nR,Shiny,UI/UX\n\n\n\n\nFeb 21, 2023\n\n\nAdd downLoading spinners\n\n\nR,Shiny,UI/UX,Bootstrap\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -84,13 +84,6 @@
     "text": "Conclusion\n\nTill next time, avoid complicating stuff."
   },
   {
-    "objectID": "posts/ui-ux-r-shiny-series/download-button-spinner/index.html",
-    "href": "posts/ui-ux-r-shiny-series/download-button-spinner/index.html",
-    "title": "Add downLoading spinners",
-    "section": "",
-    "text": "Here is a demo of what we will build today:"
-  },
-  {
     "objectID": "posts/ui-ux-r-shiny-series/download-button-spinner/index.html#introduction",
     "href": "posts/ui-ux-r-shiny-series/download-button-spinner/index.html#introduction",
     "title": "Add downLoading spinners",
@@ -152,5 +145,47 @@
     "title": "Defensive Programming",
     "section": "Hands-On",
     "text": "Hands-On\nPractical examples have been a great way for me to learn new concepts.\nBe sure to go through the examples thoroughly and see if you can remake similar ones of your own.\n\nExample 1: Generic errors & warnings\nIn case of an error or a warning during an operation, inform the user that something unexpected happened and show a glimpse of what might have went wrong.\nlibrary(shiny)\n\nui <- fluidPage(\n  shinytoastr::useToastr(),\n  \n  tags$div(\n    class = \"container\",\n    align = \"center\",\n    \n    selectInput(\n      inputId = \"cols\",\n      label = \"Choose one or more columns\",\n      choices = c(names(iris), \"Unknown Column\"),\n      multiple = TRUE\n    ),\n    \n    DT::DTOutput(outputId = \"table\")\n  )\n)\n\nserver <- function(input, output, session) {\n  output$table <- DT::renderDT({\n    tryCatch(\n      expr = {\n        { iris |> dplyr::select(dplyr::all_of(input$cols)) } * 100\n      },\n      error = \\(e) {\n        shinytoastr::toastr_error(\n          title = \"Error in calculation\",\n          message = conditionMessage(e)\n        )\n      },\n      warning = \\(w) {\n        shinytoastr::toastr_warning(\n          title = \"Warning!\",\n          message = conditionMessage(w)\n        )\n      }\n    )\n  })\n}\n\nshinyApp(ui, server)\n\n\nExample 2: Custom errors & warnings\nSometimes you can choose to be more informative and specific. In this example, we tell the user what exactly went wrong.\nOn top of that, we leave room for unforeseen causes of errors & warnings.\nlibrary(shiny)\n\nui <- fluidPage(\n  shinytoastr::useToastr(),\n  \n  tags$div(\n    class = \"container\",\n    align = \"center\",\n    \n    selectInput(\n      inputId = \"cols\",\n      label = \"Choose one or more columns\",\n      choices = c(names(iris), \"Unknown Column\"),\n      multiple = TRUE\n    ),\n    \n    DT::DTOutput(outputId = \"table\")\n  )\n)\n\nserver <- function(input, output, session) {\n  output$table <- DT::renderDT({\n    cols <- input$cols\n    req(cols)\n    \n    tryCatch(\n      expr = {\n        if (\"Species\" %in% cols) {\n          shinytoastr::toastr_warning(\n            title = \"Omitting column 'Species'\",\n            message = \"Cannot perform multiplication on a factor\"\n          )\n          \n          cols <- setdiff(cols, \"Species\")\n        }\n        \n        if (\"Unknown Column\" %in% cols) {\n          shinytoastr::toastr_error(\n            title = \"Omitting 'Uknown Column'\",\n            message = \"Cannot subset columns which don't exist\"\n          )\n          \n          cols <- setdiff(cols, \"Unknown Column\")\n        }\n        \n        { iris |> dplyr::select(dplyr::all_of(cols)) } * 100\n      },\n      \n      # in case of other unforeseen errors & warnings:\n      error = \\(e) {\n        shinytoastr::toastr_error(\n          title = \"Error in calculation\",\n          message = conditionMessage(e)\n        )\n      },\n      warning = \\(w) {\n        shinytoastr::toastr_warning(\n          title = \"Warning!\",\n          message = conditionMessage(w)\n        )\n      }\n    )\n  })\n}\n\nshinyApp(ui, server)"
+  },
+  {
+    "objectID": "posts/ui-ux-r-shiny-series/download-button-spinner-js/index.html#introduction",
+    "href": "posts/ui-ux-r-shiny-series/download-button-spinner-js/index.html#introduction",
+    "title": "Add downLoading spinners… using JS",
+    "section": "Introduction",
+    "text": "Introduction\nIn an older post I explained how to add loading spinners to download buttons when the download is in progress using shinyjs.\nI did so by rendering a fake download button which, when clicked, triggered the real download button. Honestly, it was kind of cumbersome.\nToday, as I was walking in the streets of R Shiny articles by Posit, I came across JavaScript events in shiny.\nI was intrigued. It opened my eyes to the endless possibilities of using JS with shiny. This blog post is just the tip of that iceberg."
+  },
+  {
+    "objectID": "posts/ui-ux-r-shiny-series/download-button-spinner-js/index.html#motivation",
+    "href": "posts/ui-ux-r-shiny-series/download-button-spinner-js/index.html#motivation",
+    "title": "Add downLoading spinners… using JS",
+    "section": "Motivation",
+    "text": "Motivation\nAllow me to let you in on a small secret… Come here. Come closer.\n\nIn one way or another JavaScript is inevitable.\n\nI’ve spent so much time trying to run away from JS, forcing R to do what JS was purposed to do.\nIn the end I’ve come to one conclusion: Smith was always right.\n\nAs a matter of fact, I’m beginning to enjoy learning and using it."
+  },
+  {
+    "objectID": "posts/ui-ux-r-shiny-series/download-button-spinner-js/index.html#the-module",
+    "href": "posts/ui-ux-r-shiny-series/download-button-spinner-js/index.html#the-module",
+    "title": "Add downLoading spinners… using JS",
+    "section": "The module",
+    "text": "The module\nI refuse to NOT use modules. So, here we are.\n\nUI\nThis is the simplest, there’s nothing to explain.\nI have a reminder for you though: It’s always a missing call to NS(). Thank me later.\nmod_dnld_ui <- \\(id) {\n  ns <- NS(id)\n\n  tagList(\n    downloadButton(\n      outputId = ns(\"download\"),\n      icon = icon(name = NULL, class = \"bi bi-download\")\n    )\n  )\n}\n\n\nServer\nmod_dnld_server <- \\(id, data) {\n  stopifnot(\"Argument 'data' must be a reactive!\" = is.reactive(data))\n  moduleServer(\n    id = id,\n    module = \\(input, output, session) {\n      ns <- session$ns\n\n      output$download <- downloadHandler(\n        filename = \\() {\n          paste(\"data-\", Sys.Date(), \".csv\", sep = \"\")\n        },\n        content = \\(file) {\n          session$sendCustomMessage(\n            type = \"starting_download\",\n            list(id = ns(\"download\"))\n          )\n          write.csv(data(), file)\n          session$sendCustomMessage(\n            type = \"end_download\",\n            list(id = ns(\"download\"))\n          )\n        }\n      )\n    }\n  )\n}\nEvery time the download button is clicked, shiny sends a message to JavaScript. It also sends another message when the download is complete.\n\n\n\n\n\n\nNote\n\n\n\nsendCustomMessage() sends information from the server to the client.\nOn the client side, a message handler function must be registered to receive and do something with the message."
+  },
+  {
+    "objectID": "posts/ui-ux-r-shiny-series/download-button-spinner-js/index.html#script.js",
+    "href": "posts/ui-ux-r-shiny-series/download-button-spinner-js/index.html#script.js",
+    "title": "Add downLoading spinners… using JS",
+    "section": "script.js",
+    "text": "script.js\nLet’s dump this in www/script.js:\nShiny.addCustomMessageHandler(\"starting_download\", (message) => {\n  let inner_html = '<span class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\"></span>' +\n  '<span class=\"ps-1\">Downloading...</span>';\n  $(\"#\" + message[\"id\"]).html(inner_html);\n});\n\nShiny.addCustomMessageHandler(\"end_download\", function(message) {\n  let inner_html = '<i class=\"bi bi-download pe-1\"></i>' + \"Download\";\n  $(\"#\" + message[\"id\"]).html(inner_html);\n});\nBoth message handlers change the inner HTML of the download button.\nThe first one (starting_download), adds a loading spinner to indicate that the download is in progress.\nThe second handler (end_download), changes the inner HTML to its original value, indicating that the download is done.\nThe module is complete!"
+  },
+  {
+    "objectID": "posts/ui-ux-r-shiny-series/download-button-spinner-js/index.html#the-app",
+    "href": "posts/ui-ux-r-shiny-series/download-button-spinner-js/index.html#the-app",
+    "title": "Add downLoading spinners… using JS",
+    "section": "The app",
+    "text": "The app\n\nNested\nFor the sake of testing whether our module will work when nested in other modules, let’s define this:\nmod_nested_dnld_ui <- \\(id) {\n  ns <- NS(id)\n  \n  tagList(\n    mod_dnld_ui(ns(\"this\"))\n  )\n}\n\nmod_nested_dnld_server <- \\(id) {\n  moduleServer(\n    id = id,\n    module = \\(input, output, session) {\n      given_data <- reactive({\n        lapply(seq_len(2000), \\(x) {\n          iris\n        }) |>\n          do.call(what = rbind)\n      })\n      mod_dnld_server(\"this\", given_data)\n    }\n  )\n}\nLet’s now knit it all together by defining the app’s ui and server chunks:\n\n\nui.R\nui <- bslib::page(\n  title = \"DownLoading spinner\",\n  theme = bslib::bs_theme(version = 5),\n  lang = \"en\",\n  tags$head(\n    tags$link(\n      rel = \"stylesheet\",\n      href = \"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css\"\n    )\n  ),\n  tags$body(\n    class = \"d-flex flex-column align-items-center bg-dark\",\n    tags$div(\n      tags$h1(\"H3110 W0r1d!\"),\n      tags$div(\n        class = \"my-5\",\n        tags$p(\"When the file is small:\"),\n        mod_dnld_ui(\"this\")\n      ),\n      tags$div(\n        class = \"my-5\",\n        tags$p(\"When the file is large:\"),\n        mod_nested_dnld_ui(\"that\")\n      ),\n      tags$div(\n        class = \"my-5\",\n        tags$p(\"Features:\"),\n        tags$ul(\n          tags$li(\n            \"Works even when the download module is nested in other modules\"\n          )\n        )\n      ),\n      tags$script(src = \"script.js\")\n    )\n  )\n)\n\n\nserver.R\nserver <- \\(input, output, session) {\n  mod_dnld_server(\"this\", data = reactive(mtcars))\n  mod_nested_dnld_server(\"that\")\n}\n\n\nglobal.R\nlibrary(shiny)"
+  },
+  {
+    "objectID": "posts/ui-ux-r-shiny-series/download-button-spinner-js/index.html#issawrap",
+    "href": "posts/ui-ux-r-shiny-series/download-button-spinner-js/index.html#issawrap",
+    "title": "Add downLoading spinners… using JS",
+    "section": "Issawrap!",
+    "text": "Issawrap!\nReally proud of myself today!\nI expect to learn more JavaScript, but I can’t promise.\nWait… What!?\n\nUhhmmm…\nAnddd I just tweeted that.\nI expect to learn more JavaScript, but I can't promise.— Mwavu (@kennedymwavu) May 28, 2023"
   }
 ]
