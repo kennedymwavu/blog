@@ -3,7 +3,7 @@ title: "Add downLoading spinners"
 description: "Show spinner when download is in progress"
 author: "Kennedy Mwavu"
 date: "2023-02-21"
-categories: [R, Shiny, UI/UX, Bootstrap]
+categories: [R, Shiny, UI/UX]
 image: "loader.webp"
 draft: false
 ---
