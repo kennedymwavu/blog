@@ -7,13 +7,16 @@ about:
     - icon: twitter
       text: Twitter
       href: https://twitter.com/kennedymwavu
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/kennedymwavu/
     - icon: github
       text: Github
       href: https://github.com/kennedymwavu
     - icon: globe
-      text: Portfolio
+      text: Website
       href: https://kennedymwavu.github.io/
 
 ---
 
-"There and Back Again: A Hobbits Tale by Bilbo Baggins."
+"There and Back Again: A Hobbit's Tale by Bilbo Baggins."
