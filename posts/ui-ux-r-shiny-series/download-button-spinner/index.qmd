@@ -27,14 +27,12 @@ To give your users a visual cue that the download is in progress, you can
 
 Let's first create a basic download button module that we can build upon. 
 
-### UI
-
 We'll create an action button that will trigger the download (Yes, you read
 that right, an action button).
 
 We'll then add the real download button but it will be hidden.
 
-```r
+```{.r filename="R/mod_dnld_ui.R"}
 #' Download button module UI
 #' @param id Module ID
 #' @return [shiny::tagList()]
@@ -63,11 +61,9 @@ mod_dnld_ui <- function(id) {
 }
 ```
 
-### Server
-
 The basic server piece is also as simple:
   
-```r
+```{.r filename="R/mod_dnld_server.R"}
 #' Download button module server
 #' @param id Module ID
 #' @param given_data Data to download, as a reactive.
@@ -111,7 +107,7 @@ When the button is clicked, we update its label to show a spinner and a message 
 
 We then trigger a click on the real download button using `shinyjs::click`:
 
-```r
+```{.r filename="R/mod_dnld_server.R" code-line-numbers="false"}
 shiny::observeEvent(input$actbtn, {
   # update label of 'actbtn':
   shiny::updateActionButton(
@@ -155,7 +151,7 @@ Two things to note here:
 Next, after the download is complete, we need to update the label of the action
 button back to its original value.
 
-```r
+```{.r filename="R/mod_dnld_server.R" code-line-numbers="false"}
 output$dnld <- downloadHandler(
   filename = filename,
   content = function(file) {
@@ -187,7 +183,7 @@ In our case, we're performing a cleanup action: updating the label of the action
 
 The complete module server function is as follows:
 
-```r
+```{.r filename="R/mod_dnld_server.R"}
 #' Download button module server
 #' @param id Module id
 #' @param given_data Data to download, as a reactive.

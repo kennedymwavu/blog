@@ -12,21 +12,16 @@ website:
         href: https://twitter.com/kennedymwavu
   page-footer: 
     border: true
-  # comments: 
-  #   giscus: 
-  #     repo: kennedymwavu/blog-comments
-  #     loading: lazy
-  #     mapping: pathname
-  #     input-position: top
-  #     theme: light
   twitter-card: true
 format:
   html:
-    theme: cosmo
+    theme: cyborg
     css: styles.css
     toc: true
     toc-location: left
-    highlight-style: printing
+    highlight-style: arrow
+    code-line-numbers: true
     comments: 
       giscus: 
         repo: kennedymwavu/blog-comments
+        theme: dark

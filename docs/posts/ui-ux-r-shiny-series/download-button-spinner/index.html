@@ -101,10 +101,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -217,11 +217,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <ul>
   <li><a href="#demo" id="toc-demo" class="nav-link active" data-scroll-target="#demo">Demo</a></li>
   <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#the-module" id="toc-the-module" class="nav-link" data-scroll-target="#the-module">The module</a>
-  <ul class="collapse">
-  <li><a href="#ui" id="toc-ui" class="nav-link" data-scroll-target="#ui">UI</a></li>
-  <li><a href="#server" id="toc-server" class="nav-link" data-scroll-target="#server">Server</a></li>
-  </ul></li>
+  <li><a href="#the-module" id="toc-the-module" class="nav-link" data-scroll-target="#the-module">The module</a></li>
   <li><a href="#adding-a-spinner-to-the-download-button" id="toc-adding-a-spinner-to-the-download-button" class="nav-link" data-scroll-target="#adding-a-spinner-to-the-download-button">Adding a spinner to the download button</a></li>
   <li><a href="#putting-it-all-together" id="toc-putting-it-all-together" class="nav-link" data-scroll-target="#putting-it-all-together">Putting it all together</a></li>
   </ul>
@@ -255,69 +251,73 @@ Mwavu
 <section id="the-module" class="level2">
 <h2 class="anchored" data-anchor-id="the-module">The module</h2>
 <p>Let’s first create a basic download button module that we can build upon.</p>
-<section id="ui" class="level3">
-<h3 class="anchored" data-anchor-id="ui">UI</h3>
 <p>We’ll create an action button that will trigger the download (Yes, you read that right, an action button).</p>
 <p>We’ll then add the real download button but it will be hidden.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' Download button module UI</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param id Module ID</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return [shiny::tagList()]</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>mod_dnld_ui <span class="ot">&lt;-</span> <span class="cf">function</span>(id) {</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  ns <span class="ot">&lt;-</span> shiny<span class="sc">::</span><span class="fu">NS</span>(id)</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  shiny<span class="sc">::</span><span class="fu">tagList</span>(</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Trigger button:</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    shiny<span class="sc">::</span><span class="fu">actionButton</span>(</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">inputId =</span> <span class="fu">ns</span>(<span class="st">"actbtn"</span>),</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">label =</span> htmltools<span class="sc">::</span><span class="fu">doRenderTags</span>(</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        shiny<span class="sc">::</span>tags<span class="sc">$</span><span class="fu">span</span>(</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>          shiny<span class="sc">::</span><span class="fu">icon</span>(<span class="st">"download"</span>),</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>          <span class="st">"Download"</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Real download button:</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    shiny<span class="sc">::</span><span class="fu">downloadButton</span>(</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">outputId =</span> <span class="fu">ns</span>(<span class="st">"dnld"</span>),</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">label =</span> <span class="cn">NULL</span>,</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>      <span class="at">style =</span> <span class="st">"visibility: hidden;"</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="server" class="level3">
-<h3 class="anchored" data-anchor-id="server">Server</h3>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R/mod_dnld_ui.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">#' Download button module UI</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="co">#' @param id Module ID</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co">#' @return [shiny::tagList()]</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a>mod_dnld_ui <span class="ot">&lt;-</span> <span class="cf">function</span>(id) {</span>
+<span id="cb1-5"><a href="#cb1-5"></a>  ns <span class="ot">&lt;-</span> shiny<span class="sc">::</span><span class="fu">NS</span>(id)</span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a>  shiny<span class="sc">::</span><span class="fu">tagList</span>(</span>
+<span id="cb1-8"><a href="#cb1-8"></a>    <span class="co"># Trigger button:</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a>    shiny<span class="sc">::</span><span class="fu">actionButton</span>(</span>
+<span id="cb1-10"><a href="#cb1-10"></a>      <span class="at">inputId =</span> <span class="fu">ns</span>(<span class="st">"actbtn"</span>),</span>
+<span id="cb1-11"><a href="#cb1-11"></a>      <span class="at">label =</span> htmltools<span class="sc">::</span><span class="fu">doRenderTags</span>(</span>
+<span id="cb1-12"><a href="#cb1-12"></a>        shiny<span class="sc">::</span>tags<span class="sc">$</span><span class="fu">span</span>(</span>
+<span id="cb1-13"><a href="#cb1-13"></a>          shiny<span class="sc">::</span><span class="fu">icon</span>(<span class="st">"download"</span>),</span>
+<span id="cb1-14"><a href="#cb1-14"></a>          <span class="st">"Download"</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a>        )</span>
+<span id="cb1-16"><a href="#cb1-16"></a>      )</span>
+<span id="cb1-17"><a href="#cb1-17"></a>    ),</span>
+<span id="cb1-18"><a href="#cb1-18"></a></span>
+<span id="cb1-19"><a href="#cb1-19"></a>    <span class="co"># Real download button:</span></span>
+<span id="cb1-20"><a href="#cb1-20"></a>    shiny<span class="sc">::</span><span class="fu">downloadButton</span>(</span>
+<span id="cb1-21"><a href="#cb1-21"></a>      <span class="at">outputId =</span> <span class="fu">ns</span>(<span class="st">"dnld"</span>),</span>
+<span id="cb1-22"><a href="#cb1-22"></a>      <span class="at">label =</span> <span class="cn">NULL</span>,</span>
+<span id="cb1-23"><a href="#cb1-23"></a>      <span class="at">style =</span> <span class="st">"visibility: hidden;"</span></span>
+<span id="cb1-24"><a href="#cb1-24"></a>    )</span>
+<span id="cb1-25"><a href="#cb1-25"></a>  )</span>
+<span id="cb1-26"><a href="#cb1-26"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>The basic server piece is also as simple:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' Download button module server</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param id Module ID</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param given_data Data to download, as a reactive.</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param filename Filename to use for download.</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return NULL</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>mod_dnld_server <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  id,</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">given_data =</span> <span class="fu">reactive</span>({iris}),</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">filename =</span> <span class="st">"iris.csv"</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>) {</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">"`given_data` must be a reactive"</span> <span class="ot">=</span> <span class="fu">is.reactive</span>(given_data)</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  shiny<span class="sc">::</span><span class="fu">moduleServer</span>(</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">id =</span> id,</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">module =</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>      output<span class="sc">$</span>dnld <span class="ot">&lt;-</span> <span class="fu">downloadHandler</span>(</span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">filename =</span> filename,</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">content =</span> <span class="cf">function</span>(file) {</span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>          <span class="fu">write.csv</span>(<span class="fu">given_data</span>(), file)</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R/mod_dnld_server.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">#' Download button module server</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="co">#' @param id Module ID</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="co">#' @param given_data Data to download, as a reactive.</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#' @param filename Filename to use for download.</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co">#' @return NULL</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a>mod_dnld_server <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb2-7"><a href="#cb2-7"></a>  id,</span>
+<span id="cb2-8"><a href="#cb2-8"></a>  <span class="at">given_data =</span> <span class="fu">reactive</span>({iris}),</span>
+<span id="cb2-9"><a href="#cb2-9"></a>  <span class="at">filename =</span> <span class="st">"iris.csv"</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a>) {</span>
+<span id="cb2-11"><a href="#cb2-11"></a>  <span class="fu">stopifnot</span>(</span>
+<span id="cb2-12"><a href="#cb2-12"></a>    <span class="st">"`given_data` must be a reactive"</span> <span class="ot">=</span> <span class="fu">is.reactive</span>(given_data)</span>
+<span id="cb2-13"><a href="#cb2-13"></a>  )</span>
+<span id="cb2-14"><a href="#cb2-14"></a></span>
+<span id="cb2-15"><a href="#cb2-15"></a>  shiny<span class="sc">::</span><span class="fu">moduleServer</span>(</span>
+<span id="cb2-16"><a href="#cb2-16"></a>    <span class="at">id =</span> id,</span>
+<span id="cb2-17"><a href="#cb2-17"></a>    <span class="at">module =</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb2-18"><a href="#cb2-18"></a>      output<span class="sc">$</span>dnld <span class="ot">&lt;-</span> <span class="fu">downloadHandler</span>(</span>
+<span id="cb2-19"><a href="#cb2-19"></a>        <span class="at">filename =</span> filename,</span>
+<span id="cb2-20"><a href="#cb2-20"></a>        <span class="at">content =</span> <span class="cf">function</span>(file) {</span>
+<span id="cb2-21"><a href="#cb2-21"></a>          <span class="fu">write.csv</span>(<span class="fu">given_data</span>(), file)</span>
+<span id="cb2-22"><a href="#cb2-22"></a>        }</span>
+<span id="cb2-23"><a href="#cb2-23"></a>      )</span>
+<span id="cb2-24"><a href="#cb2-24"></a>    }</span>
+<span id="cb2-25"><a href="#cb2-25"></a>  )</span>
+<span id="cb2-26"><a href="#cb2-26"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>It takes in a reactive data object (<code>given_data</code>) and a <code>filename</code>. The rest is normal stuff.</p>
 <p>We can now move on to adding the download button spinner.</p>
-</section>
 </section>
 <section id="adding-a-spinner-to-the-download-button" class="level2">
 <h2 class="anchored" data-anchor-id="adding-a-spinner-to-the-download-button">Adding a spinner to the download button</h2>
@@ -325,7 +325,11 @@ Mwavu
 <p>In the server module, we’ll use <code>shiny::observeEvent</code> to listen for clicks on the action button.</p>
 <p>When the button is clicked, we update its label to show a spinner and a message indicating that the download is in progress.</p>
 <p>We then trigger a click on the real download button using <code>shinyjs::click</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>shiny<span class="sc">::</span><span class="fu">observeEvent</span>(input<span class="sc">$</span>actbtn, {</span>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R/mod_dnld_server.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb3" data-code-line-numbers="false"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>shiny<span class="sc">::</span><span class="fu">observeEvent</span>(input<span class="sc">$</span>actbtn, {</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># update label of 'actbtn':</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  shiny<span class="sc">::</span><span class="fu">updateActionButton</span>(</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">session =</span> session,</span>
@@ -352,6 +356,7 @@ Mwavu
 <span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">expr =</span> shinyjs<span class="sc">::</span><span class="fu">click</span>(<span class="at">id =</span> <span class="st">"dnld"</span>)</span>
 <span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p>Two things to note here:</p>
 <ol type="1">
 <li><p>I use <a href="https://getbootstrap.com/docs/5.0/getting-started/introduction/">Bootstrap 5</a> classes.</p></li>
@@ -361,7 +366,11 @@ Mwavu
 <p><img src="purpose-of-delay.png" alt="The whisper and goosebumps meme: The delay makes the overall UX better"></p>
 </div>
 <p>Next, after the download is complete, we need to update the label of the action button back to its original value.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>output<span class="sc">$</span>dnld <span class="ot">&lt;-</span> <span class="fu">downloadHandler</span>(</span>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R/mod_dnld_server.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb4" data-code-line-numbers="false"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>output<span class="sc">$</span>dnld <span class="ot">&lt;-</span> <span class="fu">downloadHandler</span>(</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">filename =</span> filename,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">content =</span> <span class="cf">function</span>(file) {</span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># on exit, update 'actbtn' label:</span></span>
@@ -382,114 +391,120 @@ Mwavu
 <span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">write.csv</span>(<span class="fu">given_data</span>(), file)</span>
 <span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p><code>?on.exit</code>:</p>
 <blockquote class="blockquote">
 <p>on.exit records the expression given as its argument as needing to be executed when the current function exits (either naturally or as the result of an error). This is useful for resetting graphical parameters or performing other cleanup actions.</p>
 </blockquote>
 <p>In our case, we’re performing a cleanup action: updating the label of the action button back to its original state.</p>
 <p>The complete module server function is as follows:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' Download button module server</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param id Module id</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param given_data Data to download, as a reactive.</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param filename Filename to use for download.</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return NULL</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>mod_dnld_server <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    id,</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">given_data =</span> <span class="fu">reactive</span>({</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>      iris</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    }),</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">filename =</span> <span class="st">"iris.csv"</span>) {</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">"`given_data` must be a reactive"</span> <span class="ot">=</span> <span class="fu">is.reactive</span>(given_data)</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  shiny<span class="sc">::</span><span class="fu">moduleServer</span>(</span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">id =</span> id,</span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">module =</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>      shiny<span class="sc">::</span><span class="fu">observeEvent</span>(input<span class="sc">$</span>actbtn, {</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># update label of 'actbtn':</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        shiny<span class="sc">::</span><span class="fu">updateActionButton</span>(</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>          <span class="at">session =</span> session,</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>          <span class="at">inputId =</span> <span class="st">"actbtn"</span>,</span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>          <span class="at">label =</span> htmltools<span class="sc">::</span><span class="fu">doRenderTags</span>(</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>            shiny<span class="sc">::</span>tags<span class="sc">$</span><span class="fu">span</span>(</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>              <span class="at">class =</span> <span class="st">"d-flex align-items-center"</span>,</span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>              shiny<span class="sc">::</span>tags<span class="sc">$</span><span class="fu">span</span>(</span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>                <span class="at">class =</span> <span class="st">"spinner-border spinner-border-sm"</span>,</span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>                <span class="at">role =</span> <span class="st">"status"</span>,</span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>                <span class="st">`</span><span class="at">aria-hidden</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"true"</span></span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>              ),</span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>              shiny<span class="sc">::</span>tags<span class="sc">$</span><span class="fu">span</span>(</span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>                <span class="at">class =</span> <span class="st">"mx-1"</span>,</span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>                <span class="st">"Downloading..."</span></span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>              )</span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>            )</span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>          )</span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>        <span class="co"># simulate click on 'dnld' btn:</span></span>
-<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>        shinyjs<span class="sc">::</span><span class="fu">delay</span>(</span>
-<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>          <span class="at">ms =</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fl">1e3</span>,</span>
-<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>          <span class="at">expr =</span> shinyjs<span class="sc">::</span><span class="fu">click</span>(<span class="at">id =</span> <span class="st">"dnld"</span>)</span>
-<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>        )</span>
-<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>      })</span>
-<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>      output<span class="sc">$</span>dnld <span class="ot">&lt;-</span> <span class="fu">downloadHandler</span>(</span>
-<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>        <span class="at">filename =</span> filename,</span>
-<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>        <span class="at">content =</span> <span class="cf">function</span>(file) {</span>
-<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>          <span class="co"># on exit, update 'actbtn' label:</span></span>
-<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>          <span class="fu">on.exit</span>({</span>
-<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>            shiny<span class="sc">::</span><span class="fu">updateActionButton</span>(</span>
-<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>              <span class="at">session =</span> session,</span>
-<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>              <span class="at">inputId =</span> <span class="st">"actbtn"</span>,</span>
-<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>              <span class="at">label =</span> htmltools<span class="sc">::</span><span class="fu">doRenderTags</span>(</span>
-<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>                shiny<span class="sc">::</span>tags<span class="sc">$</span><span class="fu">span</span>(</span>
-<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>                  shiny<span class="sc">::</span><span class="fu">icon</span>(<span class="st">"download"</span>),</span>
-<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>                  <span class="st">"Download"</span></span>
-<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>                )</span>
-<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>              )</span>
-<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>            )</span>
-<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>          })</span>
-<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>          <span class="co"># write data to file:</span></span>
-<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>          <span class="fu">write.csv</span>(<span class="fu">given_data</span>(), file)</span>
-<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R/mod_dnld_server.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">#' Download button module server</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="co">#' @param id Module id</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="co">#' @param given_data Data to download, as a reactive.</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="co">#' @param filename Filename to use for download.</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="co">#' @return NULL</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a>mod_dnld_server <span class="ot">&lt;-</span> <span class="cf">function</span>(</span>
+<span id="cb5-7"><a href="#cb5-7"></a>    id,</span>
+<span id="cb5-8"><a href="#cb5-8"></a>    <span class="at">given_data =</span> <span class="fu">reactive</span>({</span>
+<span id="cb5-9"><a href="#cb5-9"></a>      iris</span>
+<span id="cb5-10"><a href="#cb5-10"></a>    }),</span>
+<span id="cb5-11"><a href="#cb5-11"></a>    <span class="at">filename =</span> <span class="st">"iris.csv"</span>) {</span>
+<span id="cb5-12"><a href="#cb5-12"></a>  <span class="fu">stopifnot</span>(</span>
+<span id="cb5-13"><a href="#cb5-13"></a>    <span class="st">"`given_data` must be a reactive"</span> <span class="ot">=</span> <span class="fu">is.reactive</span>(given_data)</span>
+<span id="cb5-14"><a href="#cb5-14"></a>  )</span>
+<span id="cb5-15"><a href="#cb5-15"></a></span>
+<span id="cb5-16"><a href="#cb5-16"></a>  shiny<span class="sc">::</span><span class="fu">moduleServer</span>(</span>
+<span id="cb5-17"><a href="#cb5-17"></a>    <span class="at">id =</span> id,</span>
+<span id="cb5-18"><a href="#cb5-18"></a>    <span class="at">module =</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb5-19"><a href="#cb5-19"></a>      shiny<span class="sc">::</span><span class="fu">observeEvent</span>(input<span class="sc">$</span>actbtn, {</span>
+<span id="cb5-20"><a href="#cb5-20"></a>        <span class="co"># update label of 'actbtn':</span></span>
+<span id="cb5-21"><a href="#cb5-21"></a>        shiny<span class="sc">::</span><span class="fu">updateActionButton</span>(</span>
+<span id="cb5-22"><a href="#cb5-22"></a>          <span class="at">session =</span> session,</span>
+<span id="cb5-23"><a href="#cb5-23"></a>          <span class="at">inputId =</span> <span class="st">"actbtn"</span>,</span>
+<span id="cb5-24"><a href="#cb5-24"></a>          <span class="at">label =</span> htmltools<span class="sc">::</span><span class="fu">doRenderTags</span>(</span>
+<span id="cb5-25"><a href="#cb5-25"></a>            shiny<span class="sc">::</span>tags<span class="sc">$</span><span class="fu">span</span>(</span>
+<span id="cb5-26"><a href="#cb5-26"></a>              <span class="at">class =</span> <span class="st">"d-flex align-items-center"</span>,</span>
+<span id="cb5-27"><a href="#cb5-27"></a>              shiny<span class="sc">::</span>tags<span class="sc">$</span><span class="fu">span</span>(</span>
+<span id="cb5-28"><a href="#cb5-28"></a>                <span class="at">class =</span> <span class="st">"spinner-border spinner-border-sm"</span>,</span>
+<span id="cb5-29"><a href="#cb5-29"></a>                <span class="at">role =</span> <span class="st">"status"</span>,</span>
+<span id="cb5-30"><a href="#cb5-30"></a>                <span class="st">`</span><span class="at">aria-hidden</span><span class="st">`</span> <span class="ot">=</span> <span class="st">"true"</span></span>
+<span id="cb5-31"><a href="#cb5-31"></a>              ),</span>
+<span id="cb5-32"><a href="#cb5-32"></a>              shiny<span class="sc">::</span>tags<span class="sc">$</span><span class="fu">span</span>(</span>
+<span id="cb5-33"><a href="#cb5-33"></a>                <span class="at">class =</span> <span class="st">"mx-1"</span>,</span>
+<span id="cb5-34"><a href="#cb5-34"></a>                <span class="st">"Downloading..."</span></span>
+<span id="cb5-35"><a href="#cb5-35"></a>              )</span>
+<span id="cb5-36"><a href="#cb5-36"></a>            )</span>
+<span id="cb5-37"><a href="#cb5-37"></a>          )</span>
+<span id="cb5-38"><a href="#cb5-38"></a>        )</span>
+<span id="cb5-39"><a href="#cb5-39"></a></span>
+<span id="cb5-40"><a href="#cb5-40"></a>        <span class="co"># simulate click on 'dnld' btn:</span></span>
+<span id="cb5-41"><a href="#cb5-41"></a>        shinyjs<span class="sc">::</span><span class="fu">delay</span>(</span>
+<span id="cb5-42"><a href="#cb5-42"></a>          <span class="at">ms =</span> <span class="dv">2</span> <span class="sc">*</span> <span class="fl">1e3</span>,</span>
+<span id="cb5-43"><a href="#cb5-43"></a>          <span class="at">expr =</span> shinyjs<span class="sc">::</span><span class="fu">click</span>(<span class="at">id =</span> <span class="st">"dnld"</span>)</span>
+<span id="cb5-44"><a href="#cb5-44"></a>        )</span>
+<span id="cb5-45"><a href="#cb5-45"></a>      })</span>
+<span id="cb5-46"><a href="#cb5-46"></a></span>
+<span id="cb5-47"><a href="#cb5-47"></a>      output<span class="sc">$</span>dnld <span class="ot">&lt;-</span> <span class="fu">downloadHandler</span>(</span>
+<span id="cb5-48"><a href="#cb5-48"></a>        <span class="at">filename =</span> filename,</span>
+<span id="cb5-49"><a href="#cb5-49"></a>        <span class="at">content =</span> <span class="cf">function</span>(file) {</span>
+<span id="cb5-50"><a href="#cb5-50"></a>          <span class="co"># on exit, update 'actbtn' label:</span></span>
+<span id="cb5-51"><a href="#cb5-51"></a>          <span class="fu">on.exit</span>({</span>
+<span id="cb5-52"><a href="#cb5-52"></a>            shiny<span class="sc">::</span><span class="fu">updateActionButton</span>(</span>
+<span id="cb5-53"><a href="#cb5-53"></a>              <span class="at">session =</span> session,</span>
+<span id="cb5-54"><a href="#cb5-54"></a>              <span class="at">inputId =</span> <span class="st">"actbtn"</span>,</span>
+<span id="cb5-55"><a href="#cb5-55"></a>              <span class="at">label =</span> htmltools<span class="sc">::</span><span class="fu">doRenderTags</span>(</span>
+<span id="cb5-56"><a href="#cb5-56"></a>                shiny<span class="sc">::</span>tags<span class="sc">$</span><span class="fu">span</span>(</span>
+<span id="cb5-57"><a href="#cb5-57"></a>                  shiny<span class="sc">::</span><span class="fu">icon</span>(<span class="st">"download"</span>),</span>
+<span id="cb5-58"><a href="#cb5-58"></a>                  <span class="st">"Download"</span></span>
+<span id="cb5-59"><a href="#cb5-59"></a>                )</span>
+<span id="cb5-60"><a href="#cb5-60"></a>              )</span>
+<span id="cb5-61"><a href="#cb5-61"></a>            )</span>
+<span id="cb5-62"><a href="#cb5-62"></a>          })</span>
+<span id="cb5-63"><a href="#cb5-63"></a></span>
+<span id="cb5-64"><a href="#cb5-64"></a>          <span class="co"># write data to file:</span></span>
+<span id="cb5-65"><a href="#cb5-65"></a>          <span class="fu">write.csv</span>(<span class="fu">given_data</span>(), file)</span>
+<span id="cb5-66"><a href="#cb5-66"></a>        }</span>
+<span id="cb5-67"><a href="#cb5-67"></a>      )</span>
+<span id="cb5-68"><a href="#cb5-68"></a>    }</span>
+<span id="cb5-69"><a href="#cb5-69"></a>  )</span>
+<span id="cb5-70"><a href="#cb5-70"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="putting-it-all-together" class="level2">
 <h2 class="anchored" data-anchor-id="putting-it-all-together">Putting it all together</h2>
 <p>Now that we have the module UI and server parts, we can put them together in a shiny app.</p>
 <p>The app is as simple as it can get:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> bslib<span class="sc">::</span><span class="fu">page</span>(</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">theme =</span> bslib<span class="sc">::</span><span class="fu">bs_theme</span>(<span class="at">version =</span> <span class="dv">5</span>),</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  shinyjs<span class="sc">::</span><span class="fu">useShinyjs</span>(),</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  shiny<span class="sc">::</span>tags<span class="sc">$</span><span class="fu">div</span>(</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">class =</span> <span class="st">"bg-light"</span>,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    shiny<span class="sc">::</span>tags<span class="sc">$</span><span class="fu">div</span>(</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">class =</span> <span class="fu">paste</span>(</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">"container min-vh-100"</span>,</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">"d-flex justify-content-center align-items-center bg-white"</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># module UI:</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    shiny<span class="sc">::</span>tags<span class="sc">$</span><span class="fu">div</span>(</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mod_dnld_ui</span>(<span class="st">"this"</span>)</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  <span class="co"># module server:</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mod_dnld_server</span>(<span class="st">"this"</span>)</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>shiny<span class="sc">::</span><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>ui <span class="ot">&lt;-</span> bslib<span class="sc">::</span><span class="fu">page</span>(</span>
+<span id="cb6-2"><a href="#cb6-2"></a>  <span class="at">theme =</span> bslib<span class="sc">::</span><span class="fu">bs_theme</span>(<span class="at">version =</span> <span class="dv">5</span>),</span>
+<span id="cb6-3"><a href="#cb6-3"></a>  shinyjs<span class="sc">::</span><span class="fu">useShinyjs</span>(),</span>
+<span id="cb6-4"><a href="#cb6-4"></a></span>
+<span id="cb6-5"><a href="#cb6-5"></a>  shiny<span class="sc">::</span>tags<span class="sc">$</span><span class="fu">div</span>(</span>
+<span id="cb6-6"><a href="#cb6-6"></a>    <span class="at">class =</span> <span class="st">"bg-light"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7"></a></span>
+<span id="cb6-8"><a href="#cb6-8"></a>    shiny<span class="sc">::</span>tags<span class="sc">$</span><span class="fu">div</span>(</span>
+<span id="cb6-9"><a href="#cb6-9"></a>    <span class="at">class =</span> <span class="fu">paste</span>(</span>
+<span id="cb6-10"><a href="#cb6-10"></a>      <span class="st">"container min-vh-100"</span>,</span>
+<span id="cb6-11"><a href="#cb6-11"></a>      <span class="st">"d-flex justify-content-center align-items-center bg-white"</span></span>
+<span id="cb6-12"><a href="#cb6-12"></a>    ),</span>
+<span id="cb6-13"><a href="#cb6-13"></a></span>
+<span id="cb6-14"><a href="#cb6-14"></a>    <span class="co"># module UI:</span></span>
+<span id="cb6-15"><a href="#cb6-15"></a>    shiny<span class="sc">::</span>tags<span class="sc">$</span><span class="fu">div</span>(</span>
+<span id="cb6-16"><a href="#cb6-16"></a>      <span class="fu">mod_dnld_ui</span>(<span class="st">"this"</span>)</span>
+<span id="cb6-17"><a href="#cb6-17"></a>    )</span>
+<span id="cb6-18"><a href="#cb6-18"></a>  )</span>
+<span id="cb6-19"><a href="#cb6-19"></a>  )</span>
+<span id="cb6-20"><a href="#cb6-20"></a>)</span>
+<span id="cb6-21"><a href="#cb6-21"></a></span>
+<span id="cb6-22"><a href="#cb6-22"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb6-23"><a href="#cb6-23"></a>  <span class="co"># module server:</span></span>
+<span id="cb6-24"><a href="#cb6-24"></a>  <span class="fu">mod_dnld_server</span>(<span class="st">"this"</span>)</span>
+<span id="cb6-25"><a href="#cb6-25"></a>}</span>
+<span id="cb6-26"><a href="#cb6-26"></a></span>
+<span id="cb6-27"><a href="#cb6-27"></a>shiny<span class="sc">::</span><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The full code is available on <a href="https://gist.github.com/kennedymwavu/bbcbe3a2373f103c98f52a9d8d79dabc">this GitHub Gist</a>.</p>
 
 
@@ -629,7 +644,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<script src="https://giscus.app/client.js" data-repo="kennedymwavu/blog-comments" data-repo-id="R_kgDOJ7CFzw" data-category="General" data-category-id="DIC_kwDOJ7CFz84CX247" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
+<script src="https://giscus.app/client.js" data-repo="kennedymwavu/blog-comments" data-repo-id="R_kgDOJ7CFzw" data-category="General" data-category-id="DIC_kwDOJ7CFz84CX247" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="dark" data-lang="en" crossorigin="anonymous" async="">
 </script>
 </div> <!-- /content -->
 

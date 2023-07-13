@@ -2,14 +2,17 @@
 listing:
   contents: posts/**/*.qmd
   sort: "date desc"
-  type: table
+  type: grid
+  image-height: "200px"
   categories: true
-  sort-ui: false
-  filter-ui: false
+  sort-ui: true
+  filter-ui: true
   fields: 
     - date
-    - reading-time
+    # - reading-time
     - title
+    - description
+    - categories
     # - image
 page-layout: full
 title-block-banner: true

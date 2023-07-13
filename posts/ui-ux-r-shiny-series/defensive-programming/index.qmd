@@ -10,7 +10,7 @@ draft: false
 
 ## Introduction
 
-<blockquote class="blockquote text-right text-black">
+<blockquote class="blockquote text-right">
 <p class="mb-4">I hope nobody is reading. But if you are, then keep this to yourself.</p>
 <footer class="blockquote-footer">Mwavu</footer>
 </blockquote>
@@ -61,7 +61,22 @@ That's where `tryCatch` comes in!
 
 The basic syntax of `tryCatch()` is this:
 
-![](trycatch.svg)
+```{.r filename="trycatch.R"}
+result <- tryCatch(
+  expr = {
+    # Code block to be executed
+  },
+  error = \(e) {
+    # Error handling code
+  },
+  warning = \(w) {
+    # Warning handling code
+  },
+  finally = {
+    # Do this, regardless of success or failure of 'expr' block
+  }
+)
+```
 
 ::: {.callout-tip collapse="false"}
 ## Mental model:
@@ -90,7 +105,7 @@ similar ones of your own.
 In case of an error or a warning during an operation, inform the user that
 something unexpected happened and show a glimpse of what might have went wrong.
 
-```r
+```{.r filename="app.R"}
 library(shiny)
 
 ui <- fluidPage(
@@ -143,7 +158,7 @@ we tell the user what exactly went wrong.
 
 On top of that, we leave room for unforeseen causes of errors & warnings.
 
-```r
+```{.r filename="app.R"}
 library(shiny)
 
 ui <- fluidPage(
