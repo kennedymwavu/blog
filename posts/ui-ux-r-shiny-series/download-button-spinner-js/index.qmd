@@ -45,14 +45,12 @@ As a matter of fact, I'm beginning to enjoy learning and using it.
 
 I refuse to NOT use modules. So, here we are.
 
-### UI
-
-This is the simplest, there's nothing to explain.
+The module's UI is the simplest, there's nothing to explain.
 
 I have a reminder for you though: It's always a missing call to `NS()`. Thank
 me later.
 
-```r
+```{.r filename="R/mod_dnld_ui.R"}
 mod_dnld_ui <- \(id) {
   ns <- NS(id)
 
@@ -65,9 +63,7 @@ mod_dnld_ui <- \(id) {
 }
 ```
 
-### Server
-
-```r
+```{.r filename="R/mod_dnld_server.R"}
 mod_dnld_server <- \(id, data) {
   stopifnot("Argument 'data' must be a reactive!" = is.reactive(data))
   moduleServer(
@@ -110,16 +106,15 @@ do something with the message.
 
 ## script.js
 
-Let's dump this in `www/script.js`:
 
-```js
+```{.js filename="www/script.js"}
 Shiny.addCustomMessageHandler("starting_download", (message) => {
   let inner_html = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>' +
   '<span class="ps-1">Downloading...</span>';
   $("#" + message["id"]).html(inner_html);
 });
 
-Shiny.addCustomMessageHandler("end_download", function(message) {
+Shiny.addCustomMessageHandler("end_download", (message) => {
   let inner_html = '<i class="bi bi-download pe-1"></i>' + "Download";
   $("#" + message["id"]).html(inner_html);
 });
@@ -138,14 +133,12 @@ The module is complete!
 ![](same-var-name.png)
 
 
-## The app
-
 ### Nested
 
 For the sake of testing whether our module will work when nested in other 
 modules, let's define this:
 
-```r
+```{.r filename="R/mod_nested_dnld.R"}
 mod_nested_dnld_ui <- \(id) {
   ns <- NS(id)
   
@@ -170,11 +163,13 @@ mod_nested_dnld_server <- \(id) {
 }
 ```
 
+## The app
+
 Let's now knit it all together by defining the app's ui and server chunks:
 
-### ui.R
+<!-- ### ui.R -->
 
-```r
+```{.r filename="ui.R"}
 ui <- bslib::page(
   title = "DownLoading spinner",
   theme = bslib::bs_theme(version = 5),
@@ -214,18 +209,18 @@ ui <- bslib::page(
 )
 ```
 
-### server.R
+<!-- ### server.R -->
 
-```r
+```{.r filename="server.R"}
 server <- \(input, output, session) {
   mod_dnld_server("this", data = reactive(mtcars))
   mod_nested_dnld_server("that")
 }
 ```
 
-### global.R
+<!-- ### global.R -->
 
-```r
+```{.r filename="global.R"}
 library(shiny)
 ```
 

@@ -37,10 +37,10 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -70,9 +70,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-date','listing-reading-time','listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
+      valueNames: ['listing-date','listing-title','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
-      searchColumns: ["listing-date","listing-title","listing-author"],
+      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -159,70 +159,148 @@ ul.task-list li input[type="checkbox"] {
 
 </section>
 
-<div class="quarto-listing quarto-listing-container-table" id="listing-listing">
-
-<table class="quarto-listing-table table">
-<thead>
-<tr>
-<th>
-Date
-</th>
-<th>
-Reading Time
-</th>
-<th>
-Title
-</th>
-</tr>
-</thead>
-<tbody class="list">
-<tr data-index="0" data-categories="R,Shiny,JavaScript,UI/UX" data-listing-date-sort="1685221200000" data-listing-file-modified-sort="1685305869801" data-listing-reading-time-sort="5.17" data-listing-title-sort="Add downLoading spinners... using JS" data-listing-filename-sort="index.qmd">
-<td class="listing-date">
+<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
+<div class="listing-actions-group">
+   <div class="input-group input-group-sm quarto-listing-sort">
+     <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
+     <select id="listing-listing-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-listing'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
+       <option value="" disabled="" selected="" hidden="">Order By</option>
+       <option value="index" data-direction="asc">Default</option>
+         <option value="listing-title" data-direction="asc">
+          Title
+        </option>
+         <option value="listing-date-sort" data-direction="asc">
+          Date - Oldest
+        </option>
+         <option value="listing-date-sort" data-direction="desc">
+          Date - Newest
+        </option>
+     </select>
+  </div>
+    <div class="input-group input-group-sm quarto-listing-filter">
+      <span class="input-group-text"><i class="bi bi-search"></i></span>
+      <input type="text" class="search form-control" placeholder="Filter">
+    </div>
+</div>
+<div class="list grid quarto-listing-cols-3">
+<div class="g-col-1" data-index="0" data-categories="R,Shiny,JavaScript,UI/UX" data-listing-date-sort="1685221200000" data-listing-file-modified-sort="1689247767973" data-listing-reading-time-sort="5.22">
+<a href="./posts/ui-ux-r-shiny-series/download-button-spinner-js/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Add downLoading spinners… using JS
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Shiny'); return false;">
+Shiny
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('JavaScript'); return false;">
+JavaScript
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('UI/UX'); return false;">
+UI/UX
+</div>
+</div>
+<div class="card-text listing-description">
+Show spinner when download is in progress
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
 May 28, 2023
-</td>
-<td class="listing-reading-time">
-5 min
-</td>
-<td class="listing-title">
-<a href="./posts/ui-ux-r-shiny-series/download-button-spinner-js/index.html" class="title">Add downLoading spinners… using JS</a>
-</td>
-</tr>
-<tr data-index="1" data-categories="R" data-listing-date-sort="1681592400000" data-listing-file-modified-sort="1687295576021" data-listing-reading-time-sort="2.615" data-listing-title-sort="Subset every nth element from a vector" data-listing-filename-sort="index.qmd">
-<td class="listing-date">
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="1" data-categories="R" data-listing-date-sort="1681592400000" data-listing-file-modified-sort="1687295576021" data-listing-reading-time-sort="2.615">
+<a href="./posts/subset-every-nth-element-from-a-vector/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Subset every nth element from a vector
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+</div>
+<div class="card-text listing-description">
+How would you do it?
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
 Apr 16, 2023
-</td>
-<td class="listing-reading-time">
-2 min
-</td>
-<td class="listing-title">
-<a href="./posts/subset-every-nth-element-from-a-vector/index.html" class="title">Subset every nth element from a vector</a>
-</td>
-</tr>
-<tr data-index="2" data-categories="R,Shiny,UI/UX" data-listing-date-sort="1677358800000" data-listing-file-modified-sort="1687295576025" data-listing-reading-time-sort="5.7" data-listing-title-sort="Defensive Programming" data-listing-filename-sort="index.qmd">
-<td class="listing-date">
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="2" data-categories="R,Shiny,UI/UX" data-listing-date-sort="1677358800000" data-listing-file-modified-sort="1689248262803" data-listing-reading-time-sort="6.035">
+<a href="./posts/ui-ux-r-shiny-series/defensive-programming/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Defensive Programming
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Shiny'); return false;">
+Shiny
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('UI/UX'); return false;">
+UI/UX
+</div>
+</div>
+<div class="card-text listing-description">
+Say hello to your new friend: tryCatch()
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
 Feb 26, 2023
-</td>
-<td class="listing-reading-time">
-5 min
-</td>
-<td class="listing-title">
-<a href="./posts/ui-ux-r-shiny-series/defensive-programming/index.html" class="title">Defensive Programming</a>
-</td>
-</tr>
-<tr data-index="3" data-categories="R,Shiny,UI/UX" data-listing-date-sort="1676926800000" data-listing-file-modified-sort="1687295576029" data-listing-reading-time-sort="8.505" data-listing-title-sort="Add downLoading spinners" data-listing-filename-sort="index.qmd">
-<td class="listing-date">
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="3" data-categories="R,Shiny,UI/UX" data-listing-date-sort="1676926800000" data-listing-file-modified-sort="1689249073303" data-listing-reading-time-sort="8.53">
+<a href="./posts/ui-ux-r-shiny-series/download-button-spinner/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Add downLoading spinners
+</h5>
+<div class="listing-categories">
+<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
+R
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('Shiny'); return false;">
+Shiny
+</div>
+<div class="listing-category" onclick="window.quartoListingCategory('UI/UX'); return false;">
+UI/UX
+</div>
+</div>
+<div class="card-text listing-description">
+Show spinner when download is in progress
+</div>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
 Feb 21, 2023
-</td>
-<td class="listing-reading-time">
-8 min
-</td>
-<td class="listing-title">
-<a href="./posts/ui-ux-r-shiny-series/download-button-spinner/index.html" class="title">Add downLoading spinners</a>
-</td>
-</tr>
-</tbody>
-
-</table>
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+</div>
 <div class="listing-no-matching d-none">
 No matching items
 </div>

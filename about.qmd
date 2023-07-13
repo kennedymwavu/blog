@@ -1,6 +1,7 @@
 ---
 title: "About"
 image: me.jpg
+comments: false
 about:
   template: jolla
   links:

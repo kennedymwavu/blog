@@ -1,6 +1,30 @@
 /* css styles */
-@import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
 
 body {
-    font-family: 'Spectral', serif;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.quarto-grid-item.card {
+    background-color: transparent;
+    border: 1px solid;
+    opacity: 0.8;
+    transition: all 0.3s ease-in-out;
+}
+
+.quarto-grid-item.card:hover {
+    opacity: 1;
+    transform: scale(1.08);
+}
+
+nav .nav-item {
+    opacity: 0.8;
+}
+
+nav .nav-item:hover {
+    opacity: 1;
+}
+
+.quarto-grid-item .listing-categories {
+    padding-top: 10px;
 }
