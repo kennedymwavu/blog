@@ -70,9 +70,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-date','listing-reading-time','listing-title','listing-image',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
+      valueNames: ['listing-date','listing-reading-time','listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
       
-      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
+      searchColumns: ["listing-date","listing-title","listing-author"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -93,6 +93,8 @@ ul.task-list li input[type="checkbox"] {
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <link rel="stylesheet" href="styles.css">
+<meta name="twitter:title" content="">
+<meta name="twitter:card" content="summary">
 </head>
 
 <body class="floating nav-fixed">
@@ -157,97 +159,70 @@ ul.task-list li input[type="checkbox"] {
 
 </section>
 
-<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
-<div class="list grid quarto-listing-cols-3">
-<div class="g-col-1" data-index="0" data-categories="R,Shiny,JavaScript,UI/UX" data-listing-date-sort="1685221200000" data-listing-file-modified-sort="1685305869801" data-listing-reading-time-sort="5.17">
-<a href="./posts/ui-ux-r-shiny-series/download-button-spinner-js/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/ui-ux-r-shiny-series/download-button-spinner-js/dnld-spinner-js.gif" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Add downLoading spinners… using JS
-</h5>
-<div class="listing-reading-time card-text text-muted">
-5 min
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
+<div class="quarto-listing quarto-listing-container-table" id="listing-listing">
+
+<table class="quarto-listing-table table">
+<thead>
+<tr>
+<th>
+Date
+</th>
+<th>
+Reading Time
+</th>
+<th>
+Title
+</th>
+</tr>
+</thead>
+<tbody class="list">
+<tr data-index="0" data-categories="R,Shiny,JavaScript,UI/UX" data-listing-date-sort="1685221200000" data-listing-file-modified-sort="1685305869801" data-listing-reading-time-sort="5.17" data-listing-title-sort="Add downLoading spinners... using JS" data-listing-filename-sort="index.qmd">
+<td class="listing-date">
 May 28, 2023
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="1" data-categories="R" data-listing-date-sort="1681592400000" data-listing-file-modified-sort="1687295576021" data-listing-reading-time-sort="2.615">
-<a href="./posts/subset-every-nth-element-from-a-vector/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/subset-every-nth-element-from-a-vector/nth.svg" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Subset every nth element from a vector
-</h5>
-<div class="listing-reading-time card-text text-muted">
-2 min
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
-Apr 16, 2023
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="2" data-categories="R,Shiny,UI/UX" data-listing-date-sort="1677358800000" data-listing-file-modified-sort="1687295576025" data-listing-reading-time-sort="5.7">
-<a href="./posts/ui-ux-r-shiny-series/defensive-programming/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/ui-ux-r-shiny-series/defensive-programming/tc.png" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Defensive Programming
-</h5>
-<div class="listing-reading-time card-text text-muted">
+</td>
+<td class="listing-reading-time">
 5 min
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
+</td>
+<td class="listing-title">
+<a href="./posts/ui-ux-r-shiny-series/download-button-spinner-js/index.html" class="title">Add downLoading spinners… using JS</a>
+</td>
+</tr>
+<tr data-index="1" data-categories="R" data-listing-date-sort="1681592400000" data-listing-file-modified-sort="1687295576021" data-listing-reading-time-sort="2.615" data-listing-title-sort="Subset every nth element from a vector" data-listing-filename-sort="index.qmd">
+<td class="listing-date">
+Apr 16, 2023
+</td>
+<td class="listing-reading-time">
+2 min
+</td>
+<td class="listing-title">
+<a href="./posts/subset-every-nth-element-from-a-vector/index.html" class="title">Subset every nth element from a vector</a>
+</td>
+</tr>
+<tr data-index="2" data-categories="R,Shiny,UI/UX" data-listing-date-sort="1677358800000" data-listing-file-modified-sort="1687295576025" data-listing-reading-time-sort="5.7" data-listing-title-sort="Defensive Programming" data-listing-filename-sort="index.qmd">
+<td class="listing-date">
 Feb 26, 2023
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="g-col-1" data-index="3" data-categories="R,Shiny,UI/UX" data-listing-date-sort="1676926800000" data-listing-file-modified-sort="1687295576029" data-listing-reading-time-sort="8.505">
-<a href="./posts/ui-ux-r-shiny-series/download-button-spinner/index.html" class="quarto-grid-link">
-<div class="quarto-grid-item card h-100 card-left">
-<p class="card-img-top">
-<img src="./posts/ui-ux-r-shiny-series/download-button-spinner/loader.webp" class="thumbnail-image card-img" style="height: 150px;">
-</p>
-<div class="card-body post-contents">
-<h5 class="no-anchor card-title listing-title">
-Add downLoading spinners
-</h5>
-<div class="listing-reading-time card-text text-muted">
-8 min
-</div>
-<div class="card-attribution card-text-small end">
-<div class="listing-date">
+</td>
+<td class="listing-reading-time">
+5 min
+</td>
+<td class="listing-title">
+<a href="./posts/ui-ux-r-shiny-series/defensive-programming/index.html" class="title">Defensive Programming</a>
+</td>
+</tr>
+<tr data-index="3" data-categories="R,Shiny,UI/UX" data-listing-date-sort="1676926800000" data-listing-file-modified-sort="1687295576029" data-listing-reading-time-sort="8.505" data-listing-title-sort="Add downLoading spinners" data-listing-filename-sort="index.qmd">
+<td class="listing-date">
 Feb 21, 2023
-</div>
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
+</td>
+<td class="listing-reading-time">
+8 min
+</td>
+<td class="listing-title">
+<a href="./posts/ui-ux-r-shiny-series/download-button-spinner/index.html" class="title">Add downLoading spinners</a>
+</td>
+</tr>
+</tbody>
+
+</table>
 <div class="listing-no-matching d-none">
 No matching items
 </div>
