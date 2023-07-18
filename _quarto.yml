@@ -3,6 +3,9 @@ project:
   output-dir: docs
 website:
   title: "A Hobbit's Tale"
+  site-url: https://mwavu.com/blog/
+  description: "There and Back Again: A Hobbit's Tale by Bilbo Baggins."
+  favicon: bilbo.webp
   navbar:
     right:
       - about.qmd

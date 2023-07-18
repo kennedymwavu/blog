@@ -1,0 +1,40 @@
+---
+title: "JQuery Effects in Shiny"
+description: "Add some swag to `$(this)` shiny app"
+author: "Kennedy Mwavu"
+date: "2023-07-16"
+categories: [R, Shiny, JavaScript, UI/UX]
+draft: false
+---
+
+## Demo
+
+Here is how `renderUI()` normally functions:
+
+![](normal-renderUI-demo.gif){alt="Normal renderUI demo"}
+
+Notice how on the initial render, the user is just slapped with the content. It gets worse if you're rendering a huge portion.
+
+Now let's take a look at a smooth render:
+
+![](animated-renderUI-demo.gif){alt="Animated renderUI demo"}
+
+Which one do you prefer?
+
+If you like the normal rendering behaviour more than the animated one, it's okay. I totally understand your affinity to vanilla stuff. You can safely close this tab and go enjoy another ordinary day.
+
+Are they gone? Alright. Fellow lovers of a shiny life and a good UX, let's get started.
+
+## Introduction
+
+<blockquote class="blockquote text-right">
+<p class="mb-4">I hope nobody is reading. But if you are, then please keep this to yourself.</p>
+<footer class="blockquote-footer">Mwavu</footer>
+</blockquote>
+
+I've been playing around with [JQuery](https://jquery.com/) and I must admit, it's very fascinating. It has allowed me to do some exciting things.
+
+Today we'll focus on one specific task:
+
+- Adding a sliding animation (like the one in the demo) to a `div`
+
