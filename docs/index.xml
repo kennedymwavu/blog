@@ -10,7 +10,7 @@
 <atom:link href="https://mwavu.com/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description>There and Back Again: A Hobbit&#39;s Tale by Bilbo Baggins.</description>
 <generator>quarto-1.2.313</generator>
-<lastBuildDate>Sat, 15 Jul 2023 21:00:00 GMT</lastBuildDate>
+<lastBuildDate>Wed, 19 Jul 2023 21:00:00 GMT</lastBuildDate>
 <item>
   <title>JQuery Effects in Shiny</title>
   <dc:creator>Kennedy Mwavu</dc:creator>
@@ -370,7 +370,7 @@ Show code
   <category>JavaScript</category>
   <category>UI/UX</category>
   <guid>https://mwavu.com/blog/posts/ui-ux-r-shiny-series/jquery-effects/index.html</guid>
-  <pubDate>Sat, 15 Jul 2023 21:00:00 GMT</pubDate>
+  <pubDate>Wed, 19 Jul 2023 21:00:00 GMT</pubDate>
   <media:content url="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/jquery-effects/normal-renderUI-demo.gif" medium="image" type="image/gif"/>
 </item>
 <item>
