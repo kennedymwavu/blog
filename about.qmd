@@ -1,6 +1,6 @@
 ---
 title: "About"
-image: me.jpg
+image: bilbo.webp
 comments: false
 about:
   template: jolla

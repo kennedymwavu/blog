@@ -1,0 +1,1289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>A Hobbit&#39;s Tale</title>
+<link>https://mwavu.com/blog/index.html</link>
+<atom:link href="https://mwavu.com/blog/index.xml" rel="self" type="application/rss+xml"/>
+<description>There and Back Again: A Hobbit&#39;s Tale by Bilbo Baggins.</description>
+<generator>quarto-1.2.313</generator>
+<lastBuildDate>Wed, 19 Jul 2023 21:00:00 GMT</lastBuildDate>
+<item>
+  <title>JQuery Effects in Shiny</title>
+  <dc:creator>Kennedy Mwavu</dc:creator>
+  <link>https://mwavu.com/blog/posts/ui-ux-r-shiny-series/jquery-effects/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="demo" class="level2">
+<h2 class="anchored" data-anchor-id="demo">Demo</h2>
+<p>Here is how <code>renderUI()</code> normally functions:</p>
+<div class="d-flex justify-content-center">
+<p><img src="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/jquery-effects/normal-renderUI-demo.gif" class="img-fluid" alt="Normal renderUI demo"></p>
+</div>
+<p>There’s nothing wrong with it. It works well.</p>
+<p>But notice how on the initial render, the user is just slapped with the content. It gets worse if you’re rendering a huge portion.</p>
+<p>I’m not here to offer you another version of <code>renderUI</code>. What I can do, however, is show you how you can improvise and make the rendering feel magical to the user.</p>
+<p>Let’s take a look at a sample:</p>
+<div class="d-flex justify-content-center">
+<p><img src="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/jquery-effects/animated-renderUI-demo.gif" class="img-fluid" alt="Animated renderUI demo"></p>
+</div>
+<p>The rendered UI now smoothly slides down and up depending on user action. How cool is that?</p>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>I’ve been playing around with <a href="https://jquery.com/">JQuery</a> and I must admit, it’s very fascinating. It has allowed me to do some exciting things.</p>
+<p>Today we’ll focus on one specific task:</p>
+<ul>
+<li>Adding a sliding animation (like the one in the demo) to a <code>div</code></li>
+</ul>
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+<em>Why did you choose <code>renderUI</code> specifically?</em>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>It’s easy enough to add such effects on non-rendered divs. But with <code>renderUI</code>? I found it quite challenging.</p>
+<p>That’s why I must remind you… I’m not here for the easy part.</p>
+</div>
+</div>
+</section>
+<section id="module" class="level2">
+<h2 class="anchored" data-anchor-id="module">Module</h2>
+<p>One thing is for sure: I am going to use modules.</p>
+<p>The module’s UI is pretty straightforward:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R/mod_animated_ui.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1">mod_animated_ui <span class="ot" style="color: #003B4F;">&lt;-</span> \(id) {</span>
+<span id="cb1-2">  ns <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">NS</span>(id)</span>
+<span id="cb1-3">  </span>
+<span id="cb1-4">  <span class="fu" style="color: #4758AB;">tagList</span>(</span>
+<span id="cb1-5">    tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">h1</span>(<span class="st" style="color: #20794D;">"Animated renderUI"</span>),</span>
+<span id="cb1-6">    <span class="fu" style="color: #4758AB;">actionButton</span>(</span>
+<span id="cb1-7">      <span class="at" style="color: #657422;">inputId =</span> <span class="fu" style="color: #4758AB;">ns</span>(<span class="st" style="color: #20794D;">"render_div"</span>),</span>
+<span id="cb1-8">      <span class="at" style="color: #657422;">label =</span> <span class="st" style="color: #20794D;">"Render UI"</span>,</span>
+<span id="cb1-9">      <span class="at" style="color: #657422;">class =</span> <span class="st" style="color: #20794D;">"btn-outline-success px-5 mb-3"</span></span>
+<span id="cb1-10">    ),</span>
+<span id="cb1-11">    <span class="fu" style="color: #4758AB;">uiOutput</span>(<span class="at" style="color: #657422;">outputId =</span> <span class="fu" style="color: #4758AB;">ns</span>(<span class="st" style="color: #20794D;">"theui"</span>))</span>
+<span id="cb1-12">  )</span>
+<span id="cb1-13">}</span></code></pre></div>
+</div>
+<p>For the server part, let’s build it up step by step. Starting with what we’re all used to, then levelling up to new heights.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R/mod_animated_server.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1">mod_animated_server <span class="ot" style="color: #003B4F;">&lt;-</span> \(id) {</span>
+<span id="cb2-2">  <span class="fu" style="color: #4758AB;">moduleServer</span>(</span>
+<span id="cb2-3">    <span class="at" style="color: #657422;">id =</span> id,</span>
+<span id="cb2-4">    <span class="at" style="color: #657422;">module =</span> \(input, output, session) {</span>
+<span id="cb2-5">      ns <span class="ot" style="color: #003B4F;">&lt;-</span> session<span class="sc" style="color: #5E5E5E;">$</span>ns</span>
+<span id="cb2-6">      <span class="co" style="color: #5E5E5E;"># values to use for the textInput:</span></span>
+<span id="cb2-7">      aliases <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(</span>
+<span id="cb2-8">        <span class="st" style="color: #20794D;">"Gandalf the grey"</span>, <span class="st" style="color: #20794D;">"Strider"</span>, <span class="st" style="color: #20794D;">"Saruman"</span>,</span>
+<span id="cb2-9">        <span class="st" style="color: #20794D;">"Sauron"</span>, <span class="st" style="color: #20794D;">"Frodo"</span>, <span class="st" style="color: #20794D;">"Samwise Gamgee"</span></span>
+<span id="cb2-10">      )</span>
+<span id="cb2-11">      output<span class="sc" style="color: #5E5E5E;">$</span>theui <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">renderUI</span>({</span>
+<span id="cb2-12">        <span class="fu" style="color: #4758AB;">tagList</span>(</span>
+<span id="cb2-13">          tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">div</span>(</span>
+<span id="cb2-14">            <span class="at" style="color: #657422;">id =</span> <span class="fu" style="color: #4758AB;">ns</span>(<span class="st" style="color: #20794D;">"to_animate"</span>),</span>
+<span id="cb2-15">            <span class="at" style="color: #657422;">style =</span> <span class="st" style="color: #20794D;">"display: none;"</span>,</span>
+<span id="cb2-16">            <span class="fu" style="color: #4758AB;">selectInput</span>(</span>
+<span id="cb2-17">              <span class="at" style="color: #657422;">inputId =</span> <span class="fu" style="color: #4758AB;">ns</span>(<span class="st" style="color: #20794D;">"selector"</span>),</span>
+<span id="cb2-18">              <span class="at" style="color: #657422;">label =</span> <span class="st" style="color: #20794D;">"What's your fav letter?"</span>,</span>
+<span id="cb2-19">              <span class="at" style="color: #657422;">choices =</span> LETTERS,</span>
+<span id="cb2-20">              <span class="at" style="color: #657422;">selected =</span> <span class="fu" style="color: #4758AB;">sample</span>(<span class="at" style="color: #657422;">x =</span> LETTERS, <span class="at" style="color: #657422;">size =</span> <span class="dv" style="color: #AD0000;">1</span>)</span>
+<span id="cb2-21">            ),</span>
+<span id="cb2-22">            <span class="fu" style="color: #4758AB;">textInput</span>(</span>
+<span id="cb2-23">              <span class="at" style="color: #657422;">inputId =</span> <span class="fu" style="color: #4758AB;">ns</span>(<span class="st" style="color: #20794D;">"name"</span>),</span>
+<span id="cb2-24">              <span class="at" style="color: #657422;">label =</span> <span class="st" style="color: #20794D;">"Enter your pseudo name"</span>,</span>
+<span id="cb2-25">              <span class="at" style="color: #657422;">value =</span> <span class="fu" style="color: #4758AB;">sample</span>(<span class="at" style="color: #657422;">x =</span> aliases, <span class="at" style="color: #657422;">size =</span> <span class="dv" style="color: #AD0000;">1</span>)</span>
+<span id="cb2-26">            ),</span>
+<span id="cb2-27">            <span class="fu" style="color: #4758AB;">checkboxInput</span>(</span>
+<span id="cb2-28">              <span class="at" style="color: #657422;">inputId =</span> <span class="fu" style="color: #4758AB;">ns</span>(<span class="st" style="color: #20794D;">"lotr_fan"</span>),</span>
+<span id="cb2-29">              <span class="at" style="color: #657422;">label =</span> <span class="st" style="color: #20794D;">"Are you a LOTR fan?"</span>,</span>
+<span id="cb2-30">              <span class="at" style="color: #657422;">value =</span> <span class="fu" style="color: #4758AB;">sample</span>(<span class="at" style="color: #657422;">x =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="cn" style="color: #8f5902;">FALSE</span>, <span class="cn" style="color: #8f5902;">TRUE</span>), <span class="at" style="color: #657422;">size =</span> <span class="dv" style="color: #AD0000;">1</span>)</span>
+<span id="cb2-31">            ),</span>
+<span id="cb2-32">            tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">p</span>(</span>
+<span id="cb2-33">              tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">em</span>(<span class="st" style="color: #20794D;">"PS: Don't overdo the animations! Thanks."</span>)</span>
+<span id="cb2-34">            )</span>
+<span id="cb2-35">          ),</span>
+<span id="cb2-36">          tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">div</span>(</span>
+<span id="cb2-37">            <span class="at" style="color: #657422;">class =</span> <span class="st" style="color: #20794D;">"d-flex"</span>,</span>
+<span id="cb2-38">            <span class="fu" style="color: #4758AB;">actionButton</span>(</span>
+<span id="cb2-39">              <span class="at" style="color: #657422;">inputId =</span> <span class="fu" style="color: #4758AB;">ns</span>(<span class="st" style="color: #20794D;">"toggle_div"</span>),</span>
+<span id="cb2-40">              <span class="at" style="color: #657422;">label =</span> <span class="st" style="color: #20794D;">"Hide the rendered UI"</span>,</span>
+<span id="cb2-41">              <span class="at" style="color: #657422;">class =</span> <span class="st" style="color: #20794D;">"btn-outline-primary px-5 mr-1 mt-3"</span></span>
+<span id="cb2-42">            )</span>
+<span id="cb2-43">          )</span>
+<span id="cb2-44">        )</span>
+<span id="cb2-45">      }) <span class="sc" style="color: #5E5E5E;">|&gt;</span> <span class="fu" style="color: #4758AB;">bindEvent</span>(input<span class="sc" style="color: #5E5E5E;">$</span>render_div)</span>
+<span id="cb2-46">      </span>
+<span id="cb2-47">      <span class="fu" style="color: #4758AB;">observeEvent</span>(input<span class="sc" style="color: #5E5E5E;">$</span>render_div, {</span>
+<span id="cb2-48">        <span class="fu" style="color: #4758AB;">updateActionButton</span>(</span>
+<span id="cb2-49">          <span class="at" style="color: #657422;">session =</span> session,</span>
+<span id="cb2-50">          <span class="at" style="color: #657422;">inputId =</span> <span class="st" style="color: #20794D;">"render_div"</span>,</span>
+<span id="cb2-51">          <span class="at" style="color: #657422;">label =</span> <span class="st" style="color: #20794D;">"Re-render UI"</span></span>
+<span id="cb2-52">        )</span>
+<span id="cb2-53">      }, <span class="at" style="color: #657422;">once =</span> <span class="cn" style="color: #8f5902;">TRUE</span>)</span>
+<span id="cb2-54">    }</span>
+<span id="cb2-55">  )</span>
+<span id="cb2-56">}</span></code></pre></div>
+</div>
+<p>A few things to note here:</p>
+<ul>
+<li>To get this module’s namespace we use <code>ns &lt;- session$ns</code>. This is the equivalent of <code>ns &lt;- NS(id)</code> in the module’s UI.</li>
+<li>The <code>div</code> we’re returning inside of the <code>tagList</code> has:
+<ul>
+<li>An id which we will use later in JQuery to select the <code>div</code>.</li>
+<li>A display of none. This means that even after it is rendered, it will take no space and hence won’t be visible. This is similar to what <code>shinyjs::hide()</code> does.</li>
+</ul></li>
+<li>We only need to render the UI when the user clicks on the button, hence <code>bindEvent(input$render_div)</code>.</li>
+<li>Once the button <code>render_div</code> is clicked, we change it’s label to “Re-render UI”, and we only do this once since any further clicks will just be “Re-rendering the UI”. That’s why we have <code>once = TRUE</code> on the <code>observeEvent</code>. The observer is destroyed after the first time the handler expression is ran.</li>
+</ul>
+<p>Now, are you ready for the juicy (and probably messy) part?</p>
+<p>I’m not a fan of inline JS in a shiny app, unless it’s just a short one-liner.</p>
+<p>What I’m trying to tell you is that we’re going to use a script. Let’s add it just before closing the <code>tagList</code>:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R/mod_animated_server.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;">tagList</span>(</span>
+<span id="cb3-2">  <span class="co" style="color: #5E5E5E;"># ...</span></span>
+<span id="cb3-3">  tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">script</span>(<span class="at" style="color: #657422;">src =</span> <span class="st" style="color: #20794D;">"animate.js"</span>)</span>
+<span id="cb3-4">)</span></code></pre></div>
+</div>
+<p>We want the script to target elements in this module alone, not any other part of <code>ui.R</code>. This presents us with a huge problem:</p>
+<ul>
+<li>How do we pass our module’s namespace to the script?</li>
+</ul>
+<p>This is the point where I almost gave up on using modules. I tried numerous tricks, I googled, I even asked my grandma :)</p>
+<div class="tenor-gif-embed" data-postid="20907922" data-share-method="host" data-aspect-ratio="1.78771" data-width="100%">
+<a href="https://tenor.com/view/monkey-laptop-adult-swim-frustrated-technology-gif-20907922">Monkey Laptop GIF</a>from <a href="https://tenor.com/search/monkey-gifs">Monkey GIFs</a>
+</div>
+<script type="text/javascript" async="" src="https://tenor.com/embed.js"></script>
+<p>None of those worked, least of all the last option. So I decided to take a walk.</p>
+<p>I was in the middle of nowhere when a thought crept into my mind:</p>
+<blockquote class="blockquote">
+<p>Can R read an arbitrary file? If so, I can read the JS file and modify it so that the selectors incorporate the namespace id.</p>
+</blockquote>
+<p>Let me explain.</p>
+</section>
+<section id="script.js" class="level2">
+<h2 class="anchored" data-anchor-id="script.js">script.js</h2>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>www/animate.js</strong></pre>
+</div>
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode numberSource javascript number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb4-1"><span class="fu" style="color: #4758AB;">$</span>(<span class="bu" style="color: null;">document</span>)<span class="op" style="color: #5E5E5E;">.</span><span class="fu" style="color: #4758AB;">ready</span>(<span class="kw" style="color: #003B4F;">function</span> () {</span>
+<span id="cb4-2">  <span class="kw" style="color: #003B4F;">const</span> ns <span class="op" style="color: #5E5E5E;">=</span> <span class="kw" style="color: #003B4F;">undefined</span><span class="op" style="color: #5E5E5E;">;</span></span>
+<span id="cb4-3">  <span class="kw" style="color: #003B4F;">const</span> div <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;">$</span>(<span class="st" style="color: #20794D;">"#"</span> <span class="op" style="color: #5E5E5E;">+</span> ns <span class="op" style="color: #5E5E5E;">+</span> <span class="st" style="color: #20794D;">"to_animate"</span>)<span class="op" style="color: #5E5E5E;">;</span></span>
+<span id="cb4-4">  <span class="kw" style="color: #003B4F;">const</span> toggle_div <span class="op" style="color: #5E5E5E;">=</span> <span class="fu" style="color: #4758AB;">$</span>(<span class="st" style="color: #20794D;">"#"</span> <span class="op" style="color: #5E5E5E;">+</span> ns <span class="op" style="color: #5E5E5E;">+</span> <span class="st" style="color: #20794D;">"toggle_div"</span>)<span class="op" style="color: #5E5E5E;">;</span></span>
+<span id="cb4-5">  <span class="kw" style="color: #003B4F;">const</span> hide_text <span class="op" style="color: #5E5E5E;">=</span> <span class="st" style="color: #20794D;">"Hide the rendered UI"</span><span class="op" style="color: #5E5E5E;">;</span></span>
+<span id="cb4-6">  <span class="kw" style="color: #003B4F;">const</span> show_text <span class="op" style="color: #5E5E5E;">=</span> <span class="st" style="color: #20794D;">"Show the rendered UI"</span><span class="op" style="color: #5E5E5E;">;</span></span>
+<span id="cb4-7"></span>
+<span id="cb4-8">  div<span class="op" style="color: #5E5E5E;">.</span><span class="fu" style="color: #4758AB;">slideToggle</span>(<span class="dv" style="color: #AD0000;">600</span>)<span class="op" style="color: #5E5E5E;">;</span></span>
+<span id="cb4-9"></span>
+<span id="cb4-10">  toggle_div<span class="op" style="color: #5E5E5E;">.</span><span class="fu" style="color: #4758AB;">on</span>(<span class="st" style="color: #20794D;">"click"</span><span class="op" style="color: #5E5E5E;">,</span> () <span class="kw" style="color: #003B4F;">=&gt;</span> {</span>
+<span id="cb4-11">    div<span class="op" style="color: #5E5E5E;">.</span><span class="fu" style="color: #4758AB;">slideToggle</span>(<span class="st" style="color: #20794D;">"slow"</span>)<span class="op" style="color: #5E5E5E;">;</span></span>
+<span id="cb4-12">    <span class="co" style="color: #5E5E5E;">// toggle button text:</span></span>
+<span id="cb4-13">    toggle_div<span class="op" style="color: #5E5E5E;">.</span><span class="fu" style="color: #4758AB;">text</span>(toggle_div<span class="op" style="color: #5E5E5E;">.</span><span class="fu" style="color: #4758AB;">text</span>() <span class="op" style="color: #5E5E5E;">===</span> hide_text <span class="op" style="color: #5E5E5E;">?</span> show_text <span class="op" style="color: #5E5E5E;">:</span> hide_text)<span class="op" style="color: #5E5E5E;">;</span></span>
+<span id="cb4-14">  })<span class="op" style="color: #5E5E5E;">;</span></span>
+<span id="cb4-15">})<span class="op" style="color: #5E5E5E;">;</span></span></code></pre></div>
+</div>
+<p>Here’s what the script does, line by line:</p>
+<ul>
+<li>Line <img src="https://latex.codecogs.com/png.latex?1"> says: Wait till this document is ready for manipulation and then call this anonymous function.</li>
+<li>Line <img src="https://latex.codecogs.com/png.latex?2"> is the key to solving our problem. We assign <code>undefined</code> to a variable <code>ns</code>. We will replace the <code>undefined</code> with our module’s namespace.</li>
+<li>Line <img src="https://latex.codecogs.com/png.latex?3"> selects the <code>div</code> to animate.</li>
+<li>Line <img src="https://latex.codecogs.com/png.latex?4"> selects the button which hides and shows the rendered <code>div</code>.</li>
+<li>Line <img src="https://latex.codecogs.com/png.latex?5"> &amp; <img src="https://latex.codecogs.com/png.latex?6"> are the button labels when the <code>div</code> is hidden or shown.</li>
+<li>Recall that by default the rendered <code>div</code> is hidden. Line <img src="https://latex.codecogs.com/png.latex?8"> makes it visible and slides it down in a span of 600 ms.</li>
+<li>On line <img src="https://latex.codecogs.com/png.latex?10">, we are adding an observer to the button. We’re basically saying whenever the button is clicked:
+<ul>
+<li>If the <code>div</code> is hidden, show it [slowly]. If it’s shown, hide it [slowly] (Line <img src="https://latex.codecogs.com/png.latex?11">).</li>
+<li>Relabel the button. If its current label is <code>hide_text</code>, change it to <code>show_text</code>. Otherwise change it to <code>hide_text</code> (Line <img src="https://latex.codecogs.com/png.latex?13">).</li>
+</ul></li>
+</ul>
+<p>Now let’s circle back and add this script to our module’s server:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R/mod_animated_server.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1">mod_animated_server <span class="ot" style="color: #003B4F;">&lt;-</span> \(id) {</span>
+<span id="cb5-2">  <span class="fu" style="color: #4758AB;">moduleServer</span>(</span>
+<span id="cb5-3">    <span class="at" style="color: #657422;">id =</span> id,</span>
+<span id="cb5-4">    <span class="at" style="color: #657422;">module =</span> \(input, output, session) {</span>
+<span id="cb5-5">      ns <span class="ot" style="color: #003B4F;">&lt;-</span> session<span class="sc" style="color: #5E5E5E;">$</span>ns</span>
+<span id="cb5-6">      <span class="co" style="color: #5E5E5E;"># read animate.js and add namespace to the line "const ns = undefined":</span></span>
+<span id="cb5-7">      anim_js <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">readLines</span>(<span class="at" style="color: #657422;">con =</span> <span class="fu" style="color: #4758AB;">file.path</span>(<span class="st" style="color: #20794D;">"www"</span>, <span class="st" style="color: #20794D;">"animate.js"</span>)) <span class="sc" style="color: #5E5E5E;">|&gt;</span> </span>
+<span id="cb5-8">        <span class="fu" style="color: #4758AB;">gsub</span>(</span>
+<span id="cb5-9">          <span class="at" style="color: #657422;">pattern =</span> <span class="st" style="color: #20794D;">"const ns = undefined"</span>,</span>
+<span id="cb5-10">          <span class="at" style="color: #657422;">replacement =</span> <span class="fu" style="color: #4758AB;">sprintf</span>(<span class="st" style="color: #20794D;">'const ns = "%s"'</span>, <span class="fu" style="color: #4758AB;">ns</span>(<span class="st" style="color: #20794D;">""</span>))</span>
+<span id="cb5-11">        ) <span class="sc" style="color: #5E5E5E;">|&gt;</span> </span>
+<span id="cb5-12">        <span class="fu" style="color: #4758AB;">paste0</span>(<span class="at" style="color: #657422;">collapse =</span> <span class="st" style="color: #20794D;">"</span><span class="sc" style="color: #5E5E5E;">\n</span><span class="st" style="color: #20794D;">"</span>) <span class="sc" style="color: #5E5E5E;">|&gt;</span> </span>
+<span id="cb5-13">        <span class="fu" style="color: #4758AB;">HTML</span>()</span>
+<span id="cb5-14">      </span>
+<span id="cb5-15">      <span class="co" style="color: #5E5E5E;"># ...</span></span>
+<span id="cb5-16">      </span>
+<span id="cb5-17">      output<span class="sc" style="color: #5E5E5E;">$</span>theui <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">renderUI</span>({</span>
+<span id="cb5-18">        <span class="fu" style="color: #4758AB;">tagList</span>(</span>
+<span id="cb5-19">          <span class="co" style="color: #5E5E5E;"># ...,</span></span>
+<span id="cb5-20">          tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">script</span>(anim_js)</span>
+<span id="cb5-21">        )</span>
+<span id="cb5-22">      }) <span class="sc" style="color: #5E5E5E;">|&gt;</span> <span class="fu" style="color: #4758AB;">bindEvent</span>(input<span class="sc" style="color: #5E5E5E;">$</span>render_div)</span>
+<span id="cb5-23">    }</span>
+<span id="cb5-24">  )</span>
+<span id="cb5-25">}</span></code></pre></div>
+</div>
+<p>The most important thing to note here is that passing an empty string to <code>ns</code> returns the namespace of the module.</p>
+<p>That’s it! Here’s how the final module server looks like:</p>
+<details>
+<summary>
+Show code
+</summary>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R/mod_animated_server.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1">mod_animated_server <span class="ot" style="color: #003B4F;">&lt;-</span> \(id) {</span>
+<span id="cb6-2">  <span class="fu" style="color: #4758AB;">moduleServer</span>(</span>
+<span id="cb6-3">    <span class="at" style="color: #657422;">id =</span> id,</span>
+<span id="cb6-4">    <span class="at" style="color: #657422;">module =</span> \(input, output, session) {</span>
+<span id="cb6-5">      ns <span class="ot" style="color: #003B4F;">&lt;-</span> session<span class="sc" style="color: #5E5E5E;">$</span>ns</span>
+<span id="cb6-6">      <span class="co" style="color: #5E5E5E;"># read animate.js and add namespace to the line "const ns = undefined":</span></span>
+<span id="cb6-7">      anim_js <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">readLines</span>(<span class="at" style="color: #657422;">con =</span> <span class="fu" style="color: #4758AB;">file.path</span>(<span class="st" style="color: #20794D;">"www"</span>, <span class="st" style="color: #20794D;">"animate.js"</span>)) <span class="sc" style="color: #5E5E5E;">|&gt;</span> </span>
+<span id="cb6-8">        <span class="fu" style="color: #4758AB;">gsub</span>(</span>
+<span id="cb6-9">          <span class="at" style="color: #657422;">pattern =</span> <span class="st" style="color: #20794D;">"const ns = undefined"</span>,</span>
+<span id="cb6-10">          <span class="at" style="color: #657422;">replacement =</span> <span class="fu" style="color: #4758AB;">sprintf</span>(<span class="st" style="color: #20794D;">'const ns = "%s"'</span>, <span class="fu" style="color: #4758AB;">ns</span>(<span class="st" style="color: #20794D;">""</span>))</span>
+<span id="cb6-11">        ) <span class="sc" style="color: #5E5E5E;">|&gt;</span> </span>
+<span id="cb6-12">        <span class="fu" style="color: #4758AB;">paste0</span>(<span class="at" style="color: #657422;">collapse =</span> <span class="st" style="color: #20794D;">"</span><span class="sc" style="color: #5E5E5E;">\n</span><span class="st" style="color: #20794D;">"</span>) <span class="sc" style="color: #5E5E5E;">|&gt;</span> </span>
+<span id="cb6-13">        <span class="fu" style="color: #4758AB;">HTML</span>()</span>
+<span id="cb6-14">      <span class="co" style="color: #5E5E5E;"># values to use for the textInput:</span></span>
+<span id="cb6-15">      aliases <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">c</span>(</span>
+<span id="cb6-16">        <span class="st" style="color: #20794D;">"Gandalf the grey"</span>, <span class="st" style="color: #20794D;">"Strider"</span>, <span class="st" style="color: #20794D;">"Saruman"</span>,</span>
+<span id="cb6-17">        <span class="st" style="color: #20794D;">"Sauron"</span>, <span class="st" style="color: #20794D;">"Frodo"</span>, <span class="st" style="color: #20794D;">"Samwise Gamgee"</span></span>
+<span id="cb6-18">      )</span>
+<span id="cb6-19">      output<span class="sc" style="color: #5E5E5E;">$</span>theui <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">renderUI</span>({</span>
+<span id="cb6-20">        <span class="fu" style="color: #4758AB;">tagList</span>(</span>
+<span id="cb6-21">          tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">div</span>(</span>
+<span id="cb6-22">            <span class="at" style="color: #657422;">id =</span> <span class="fu" style="color: #4758AB;">ns</span>(<span class="st" style="color: #20794D;">"to_animate"</span>),</span>
+<span id="cb6-23">            <span class="at" style="color: #657422;">style =</span> <span class="st" style="color: #20794D;">"display: none;"</span>,</span>
+<span id="cb6-24">            <span class="fu" style="color: #4758AB;">selectInput</span>(</span>
+<span id="cb6-25">              <span class="at" style="color: #657422;">inputId =</span> <span class="fu" style="color: #4758AB;">ns</span>(<span class="st" style="color: #20794D;">"selector"</span>),</span>
+<span id="cb6-26">              <span class="at" style="color: #657422;">label =</span> <span class="st" style="color: #20794D;">"What's your fav letter?"</span>,</span>
+<span id="cb6-27">              <span class="at" style="color: #657422;">choices =</span> LETTERS,</span>
+<span id="cb6-28">              <span class="at" style="color: #657422;">selected =</span> <span class="fu" style="color: #4758AB;">sample</span>(<span class="at" style="color: #657422;">x =</span> LETTERS, <span class="at" style="color: #657422;">size =</span> <span class="dv" style="color: #AD0000;">1</span>)</span>
+<span id="cb6-29">            ),</span>
+<span id="cb6-30">            <span class="fu" style="color: #4758AB;">textInput</span>(</span>
+<span id="cb6-31">              <span class="at" style="color: #657422;">inputId =</span> <span class="fu" style="color: #4758AB;">ns</span>(<span class="st" style="color: #20794D;">"name"</span>),</span>
+<span id="cb6-32">              <span class="at" style="color: #657422;">label =</span> <span class="st" style="color: #20794D;">"Enter your pseudo name"</span>,</span>
+<span id="cb6-33">              <span class="at" style="color: #657422;">value =</span> <span class="fu" style="color: #4758AB;">sample</span>(<span class="at" style="color: #657422;">x =</span> aliases, <span class="at" style="color: #657422;">size =</span> <span class="dv" style="color: #AD0000;">1</span>)</span>
+<span id="cb6-34">            ),</span>
+<span id="cb6-35">            <span class="fu" style="color: #4758AB;">checkboxInput</span>(</span>
+<span id="cb6-36">              <span class="at" style="color: #657422;">inputId =</span> <span class="fu" style="color: #4758AB;">ns</span>(<span class="st" style="color: #20794D;">"lotr_fan"</span>),</span>
+<span id="cb6-37">              <span class="at" style="color: #657422;">label =</span> <span class="st" style="color: #20794D;">"Are you a LOTR fan?"</span>,</span>
+<span id="cb6-38">              <span class="at" style="color: #657422;">value =</span> <span class="fu" style="color: #4758AB;">sample</span>(<span class="at" style="color: #657422;">x =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="cn" style="color: #8f5902;">FALSE</span>, <span class="cn" style="color: #8f5902;">TRUE</span>), <span class="at" style="color: #657422;">size =</span> <span class="dv" style="color: #AD0000;">1</span>)</span>
+<span id="cb6-39">            ),</span>
+<span id="cb6-40">            tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">p</span>(</span>
+<span id="cb6-41">              tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">em</span>(<span class="st" style="color: #20794D;">"PS: Don't overdo the animations! Thanks."</span>)</span>
+<span id="cb6-42">            )</span>
+<span id="cb6-43">          ),</span>
+<span id="cb6-44">          tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">div</span>(</span>
+<span id="cb6-45">            <span class="at" style="color: #657422;">class =</span> <span class="st" style="color: #20794D;">"d-flex"</span>,</span>
+<span id="cb6-46">            <span class="fu" style="color: #4758AB;">actionButton</span>(</span>
+<span id="cb6-47">              <span class="at" style="color: #657422;">inputId =</span> <span class="fu" style="color: #4758AB;">ns</span>(<span class="st" style="color: #20794D;">"toggle_div"</span>),</span>
+<span id="cb6-48">              <span class="at" style="color: #657422;">label =</span> <span class="st" style="color: #20794D;">"Hide the rendered UI"</span>,</span>
+<span id="cb6-49">              <span class="at" style="color: #657422;">class =</span> <span class="st" style="color: #20794D;">"btn-outline-primary px-5 mr-1 mt-3"</span></span>
+<span id="cb6-50">            )</span>
+<span id="cb6-51">          ),</span>
+<span id="cb6-52">          tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">script</span>(anim_js)</span>
+<span id="cb6-53">        )</span>
+<span id="cb6-54">      }) <span class="sc" style="color: #5E5E5E;">|&gt;</span> <span class="fu" style="color: #4758AB;">bindEvent</span>(input<span class="sc" style="color: #5E5E5E;">$</span>render_div)</span>
+<span id="cb6-55">      </span>
+<span id="cb6-56">      <span class="fu" style="color: #4758AB;">observeEvent</span>(input<span class="sc" style="color: #5E5E5E;">$</span>render_div, {</span>
+<span id="cb6-57">        <span class="fu" style="color: #4758AB;">updateActionButton</span>(</span>
+<span id="cb6-58">          <span class="at" style="color: #657422;">session =</span> session,</span>
+<span id="cb6-59">          <span class="at" style="color: #657422;">inputId =</span> <span class="st" style="color: #20794D;">"render_div"</span>,</span>
+<span id="cb6-60">          <span class="at" style="color: #657422;">label =</span> <span class="st" style="color: #20794D;">"Re-render UI"</span></span>
+<span id="cb6-61">        )</span>
+<span id="cb6-62">      }, <span class="at" style="color: #657422;">once =</span> <span class="cn" style="color: #8f5902;">TRUE</span>)</span>
+<span id="cb6-63">    }</span>
+<span id="cb6-64">  )</span>
+<span id="cb6-65">}</span></code></pre></div>
+</div>
+</details>
+</section>
+<section id="the-app" class="level2">
+<h2 class="anchored" data-anchor-id="the-app">The app</h2>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>global.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;">library</span>(shiny)</span></code></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>ui.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1">ui <span class="ot" style="color: #003B4F;">&lt;-</span> bslib<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">page</span>(</span>
+<span id="cb8-2">  <span class="at" style="color: #657422;">title =</span> <span class="st" style="color: #20794D;">"Animate rendered UIs"</span>,</span>
+<span id="cb8-3">  <span class="at" style="color: #657422;">theme =</span> bslib<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">bs_theme</span>(<span class="at" style="color: #657422;">version =</span> <span class="dv" style="color: #AD0000;">5</span>),</span>
+<span id="cb8-4">  tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">div</span>(</span>
+<span id="cb8-5">    <span class="at" style="color: #657422;">class =</span> <span class="st" style="color: #20794D;">"container"</span>,</span>
+<span id="cb8-6">    <span class="fu" style="color: #4758AB;">mod_animated_ui</span>(<span class="st" style="color: #20794D;">"animated"</span>)</span>
+<span id="cb8-7">  )</span>
+<span id="cb8-8">)</span></code></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>server.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1">server <span class="ot" style="color: #003B4F;">&lt;-</span> \(input, output, session) {</span>
+<span id="cb9-2">  <span class="fu" style="color: #4758AB;">mod_animated_server</span>(<span class="st" style="color: #20794D;">"animated"</span>)</span>
+<span id="cb9-3">}</span></code></pre></div>
+</div>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>I don’t know about you, but I’m kinda liking JavaScript.</p>
+<p>JQuery has <a href="http://api.jquery.com/category/effects/">many such effects</a> which you can use in your apps for better UI/UX.</p>
+<p><code>$(this)</code> has been JQuery + Shiny in a nutshell.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>R</category>
+  <category>Shiny</category>
+  <category>JavaScript</category>
+  <category>UI/UX</category>
+  <guid>https://mwavu.com/blog/posts/ui-ux-r-shiny-series/jquery-effects/index.html</guid>
+  <pubDate>Wed, 19 Jul 2023 21:00:00 GMT</pubDate>
+  <media:content url="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/jquery-effects/normal-renderUI-demo.gif" medium="image" type="image/gif"/>
+</item>
+<item>
+  <title>Add downLoading spinners… using JS</title>
+  <dc:creator>Kennedy Mwavu</dc:creator>
+  <link>https://mwavu.com/blog/posts/ui-ux-r-shiny-series/download-button-spinner-js/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="demo" class="level2">
+<h2 class="anchored" data-anchor-id="demo">Demo</h2>
+<p><img src="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/download-button-spinner-js/dnld-spinner-js.gif" class="img-fluid" alt="A gif showing what we will build today"></p>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>In <a href="../../../posts/ui-ux-r-shiny-series/download-button-spinner/index.html">an older post</a> I explained how to add loading spinners to download buttons when the download is in progress using shinyjs.</p>
+<p>I did so by rendering a fake download button which, when clicked, triggered the real download button. Honestly, it was kind of cumbersome.</p>
+<p>Today, as I was walking in the streets of R Shiny articles by Posit, I came across <a href="https://shiny.posit.co/r/articles/build/js-events/">JavaScript events in shiny</a>.</p>
+<p>I was intrigued. It opened my eyes to the endless possibilities of using JS with shiny. This blog post is just the tip of that iceberg.</p>
+</section>
+<section id="motivation" class="level2">
+<h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
+<p>Allow me to let you in on a small secret… Come here. Come closer.</p>
+<blockquote class="blockquote">
+<p>In one way or another JavaScript is inevitable.</p>
+</blockquote>
+<p>I’ve spent so much time trying to run away from JS, forcing R to do what JS was purposed to do.</p>
+<p>In the end I’ve come to one conclusion: Smith was always right.</p>
+<p><img src="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/download-button-spinner-js/inevitable.jpg" class="img-fluid" alt="the sound of inevitability meme"></p>
+<p>As a matter of fact, I’m beginning to enjoy learning and using it.</p>
+</section>
+<section id="the-module" class="level2">
+<h2 class="anchored" data-anchor-id="the-module">The module</h2>
+<p>I refuse to NOT use modules. So, here we are.</p>
+<p>The module’s UI is the simplest, there’s nothing to explain.</p>
+<p>I have a reminder for you though: It’s always a missing call to <code>NS()</code>. Thank me later.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R/mod_dnld_ui.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1">mod_dnld_ui <span class="ot" style="color: #003B4F;">&lt;-</span> \(id) {</span>
+<span id="cb1-2">  ns <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">NS</span>(id)</span>
+<span id="cb1-3"></span>
+<span id="cb1-4">  <span class="fu" style="color: #4758AB;">tagList</span>(</span>
+<span id="cb1-5">    <span class="fu" style="color: #4758AB;">downloadButton</span>(</span>
+<span id="cb1-6">      <span class="at" style="color: #657422;">outputId =</span> <span class="fu" style="color: #4758AB;">ns</span>(<span class="st" style="color: #20794D;">"download"</span>),</span>
+<span id="cb1-7">      <span class="at" style="color: #657422;">icon =</span> <span class="fu" style="color: #4758AB;">icon</span>(<span class="at" style="color: #657422;">name =</span> <span class="cn" style="color: #8f5902;">NULL</span>, <span class="at" style="color: #657422;">class =</span> <span class="st" style="color: #20794D;">"bi bi-download"</span>)</span>
+<span id="cb1-8">    )</span>
+<span id="cb1-9">  )</span>
+<span id="cb1-10">}</span></code></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R/mod_dnld_server.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1">mod_dnld_server <span class="ot" style="color: #003B4F;">&lt;-</span> \(id, data) {</span>
+<span id="cb2-2">  <span class="fu" style="color: #4758AB;">stopifnot</span>(<span class="st" style="color: #20794D;">"Argument 'data' must be a reactive!"</span> <span class="ot" style="color: #003B4F;">=</span> <span class="fu" style="color: #4758AB;">is.reactive</span>(data))</span>
+<span id="cb2-3">  <span class="fu" style="color: #4758AB;">moduleServer</span>(</span>
+<span id="cb2-4">    <span class="at" style="color: #657422;">id =</span> id,</span>
+<span id="cb2-5">    <span class="at" style="color: #657422;">module =</span> \(input, output, session) {</span>
+<span id="cb2-6">      ns <span class="ot" style="color: #003B4F;">&lt;-</span> session<span class="sc" style="color: #5E5E5E;">$</span>ns</span>
+<span id="cb2-7"></span>
+<span id="cb2-8">      output<span class="sc" style="color: #5E5E5E;">$</span>download <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">downloadHandler</span>(</span>
+<span id="cb2-9">        <span class="at" style="color: #657422;">filename =</span> \() {</span>
+<span id="cb2-10">          <span class="fu" style="color: #4758AB;">paste</span>(<span class="st" style="color: #20794D;">"data-"</span>, <span class="fu" style="color: #4758AB;">Sys.Date</span>(), <span class="st" style="color: #20794D;">".csv"</span>, <span class="at" style="color: #657422;">sep =</span> <span class="st" style="color: #20794D;">""</span>)</span>
+<span id="cb2-11">        },</span>
+<span id="cb2-12">        <span class="at" style="color: #657422;">content =</span> \(file) {</span>
+<span id="cb2-13">          session<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">sendCustomMessage</span>(</span>
+<span id="cb2-14">            <span class="at" style="color: #657422;">type =</span> <span class="st" style="color: #20794D;">"starting_download"</span>,</span>
+<span id="cb2-15">            <span class="fu" style="color: #4758AB;">list</span>(<span class="at" style="color: #657422;">id =</span> <span class="fu" style="color: #4758AB;">ns</span>(<span class="st" style="color: #20794D;">"download"</span>))</span>
+<span id="cb2-16">          )</span>
+<span id="cb2-17">          <span class="fu" style="color: #4758AB;">write.csv</span>(<span class="fu" style="color: #4758AB;">data</span>(), file)</span>
+<span id="cb2-18">          session<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">sendCustomMessage</span>(</span>
+<span id="cb2-19">            <span class="at" style="color: #657422;">type =</span> <span class="st" style="color: #20794D;">"end_download"</span>,</span>
+<span id="cb2-20">            <span class="fu" style="color: #4758AB;">list</span>(<span class="at" style="color: #657422;">id =</span> <span class="fu" style="color: #4758AB;">ns</span>(<span class="st" style="color: #20794D;">"download"</span>))</span>
+<span id="cb2-21">          )</span>
+<span id="cb2-22">        }</span>
+<span id="cb2-23">      )</span>
+<span id="cb2-24">    }</span>
+<span id="cb2-25">  )</span>
+<span id="cb2-26">}</span></code></pre></div>
+</div>
+<p>Every time the download button is clicked, shiny sends a message to JavaScript. It also sends another message when the download is complete.</p>
+<div class="callout-note callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><code>sendCustomMessage()</code> sends information from the server to the client.</p>
+<p>On the client side, a message handler function must be registered to receive and do something with the message.</p>
+</div>
+</div>
+</section>
+<section id="script.js" class="level2">
+<h2 class="anchored" data-anchor-id="script.js">script.js</h2>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>www/script.js</strong></pre>
+</div>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb3-1">Shiny<span class="op" style="color: #5E5E5E;">.</span><span class="fu" style="color: #4758AB;">addCustomMessageHandler</span>(<span class="st" style="color: #20794D;">"starting_download"</span><span class="op" style="color: #5E5E5E;">,</span> (message) <span class="kw" style="color: #003B4F;">=&gt;</span> {</span>
+<span id="cb3-2">  <span class="kw" style="color: #003B4F;">let</span> inner_html <span class="op" style="color: #5E5E5E;">=</span> <span class="st" style="color: #20794D;">'&lt;span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"&gt;&lt;/span&gt;'</span> <span class="op" style="color: #5E5E5E;">+</span></span>
+<span id="cb3-3">  <span class="st" style="color: #20794D;">'&lt;span class="ps-1"&gt;Downloading...&lt;/span&gt;'</span><span class="op" style="color: #5E5E5E;">;</span></span>
+<span id="cb3-4">  <span class="fu" style="color: #4758AB;">$</span>(<span class="st" style="color: #20794D;">"#"</span> <span class="op" style="color: #5E5E5E;">+</span> message[<span class="st" style="color: #20794D;">"id"</span>])<span class="op" style="color: #5E5E5E;">.</span><span class="fu" style="color: #4758AB;">html</span>(inner_html)<span class="op" style="color: #5E5E5E;">;</span></span>
+<span id="cb3-5">})<span class="op" style="color: #5E5E5E;">;</span></span>
+<span id="cb3-6"></span>
+<span id="cb3-7">Shiny<span class="op" style="color: #5E5E5E;">.</span><span class="fu" style="color: #4758AB;">addCustomMessageHandler</span>(<span class="st" style="color: #20794D;">"end_download"</span><span class="op" style="color: #5E5E5E;">,</span> (message) <span class="kw" style="color: #003B4F;">=&gt;</span> {</span>
+<span id="cb3-8">  <span class="kw" style="color: #003B4F;">let</span> inner_html <span class="op" style="color: #5E5E5E;">=</span> <span class="st" style="color: #20794D;">'&lt;i class="bi bi-download pe-1"&gt;&lt;/i&gt;'</span> <span class="op" style="color: #5E5E5E;">+</span> <span class="st" style="color: #20794D;">"Download"</span><span class="op" style="color: #5E5E5E;">;</span></span>
+<span id="cb3-9">  <span class="fu" style="color: #4758AB;">$</span>(<span class="st" style="color: #20794D;">"#"</span> <span class="op" style="color: #5E5E5E;">+</span> message[<span class="st" style="color: #20794D;">"id"</span>])<span class="op" style="color: #5E5E5E;">.</span><span class="fu" style="color: #4758AB;">html</span>(inner_html)<span class="op" style="color: #5E5E5E;">;</span></span>
+<span id="cb3-10">})<span class="op" style="color: #5E5E5E;">;</span></span></code></pre></div>
+</div>
+<p>Both message handlers change the inner HTML of the download button.</p>
+<p>The first one (<code>starting_download</code>), adds a loading spinner to indicate that the download is in progress.</p>
+<p>The second handler (<code>end_download</code>), changes the inner HTML to its original value, indicating that the download is done.</p>
+<p>The module is complete!</p>
+<p><img src="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/download-button-spinner-js/same-var-name.png" class="img-fluid"></p>
+<section id="nested" class="level3">
+<h3 class="anchored" data-anchor-id="nested">Nested</h3>
+<p>For the sake of testing whether our module will work when nested in other modules, let’s define this:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R/mod_nested_dnld.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1">mod_nested_dnld_ui <span class="ot" style="color: #003B4F;">&lt;-</span> \(id) {</span>
+<span id="cb4-2">  ns <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">NS</span>(id)</span>
+<span id="cb4-3">  </span>
+<span id="cb4-4">  <span class="fu" style="color: #4758AB;">tagList</span>(</span>
+<span id="cb4-5">    <span class="fu" style="color: #4758AB;">mod_dnld_ui</span>(<span class="fu" style="color: #4758AB;">ns</span>(<span class="st" style="color: #20794D;">"this"</span>))</span>
+<span id="cb4-6">  )</span>
+<span id="cb4-7">}</span>
+<span id="cb4-8"></span>
+<span id="cb4-9">mod_nested_dnld_server <span class="ot" style="color: #003B4F;">&lt;-</span> \(id) {</span>
+<span id="cb4-10">  <span class="fu" style="color: #4758AB;">moduleServer</span>(</span>
+<span id="cb4-11">    <span class="at" style="color: #657422;">id =</span> id,</span>
+<span id="cb4-12">    <span class="at" style="color: #657422;">module =</span> \(input, output, session) {</span>
+<span id="cb4-13">      given_data <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">reactive</span>({</span>
+<span id="cb4-14">        <span class="fu" style="color: #4758AB;">lapply</span>(<span class="fu" style="color: #4758AB;">seq_len</span>(<span class="dv" style="color: #AD0000;">2000</span>), \(x) {</span>
+<span id="cb4-15">          iris</span>
+<span id="cb4-16">        }) <span class="sc" style="color: #5E5E5E;">|&gt;</span></span>
+<span id="cb4-17">          <span class="fu" style="color: #4758AB;">do.call</span>(<span class="at" style="color: #657422;">what =</span> rbind)</span>
+<span id="cb4-18">      })</span>
+<span id="cb4-19">      <span class="fu" style="color: #4758AB;">mod_dnld_server</span>(<span class="st" style="color: #20794D;">"this"</span>, given_data)</span>
+<span id="cb4-20">    }</span>
+<span id="cb4-21">  )</span>
+<span id="cb4-22">}</span></code></pre></div>
+</div>
+</section>
+</section>
+<section id="the-app" class="level2">
+<h2 class="anchored" data-anchor-id="the-app">The app</h2>
+<p>Let’s now knit it all together by defining the app’s ui and server chunks:</p>
+<!-- ### ui.R -->
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>ui.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1">ui <span class="ot" style="color: #003B4F;">&lt;-</span> bslib<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">page</span>(</span>
+<span id="cb5-2">  <span class="at" style="color: #657422;">title =</span> <span class="st" style="color: #20794D;">"DownLoading spinner"</span>,</span>
+<span id="cb5-3">  <span class="at" style="color: #657422;">theme =</span> bslib<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">bs_theme</span>(<span class="at" style="color: #657422;">version =</span> <span class="dv" style="color: #AD0000;">5</span>),</span>
+<span id="cb5-4">  <span class="at" style="color: #657422;">lang =</span> <span class="st" style="color: #20794D;">"en"</span>,</span>
+<span id="cb5-5">  tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">head</span>(</span>
+<span id="cb5-6">    tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">link</span>(</span>
+<span id="cb5-7">      <span class="at" style="color: #657422;">rel =</span> <span class="st" style="color: #20794D;">"stylesheet"</span>,</span>
+<span id="cb5-8">      <span class="at" style="color: #657422;">href =</span> <span class="st" style="color: #20794D;">"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"</span></span>
+<span id="cb5-9">    )</span>
+<span id="cb5-10">  ),</span>
+<span id="cb5-11">  tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">body</span>(</span>
+<span id="cb5-12">    <span class="at" style="color: #657422;">class =</span> <span class="st" style="color: #20794D;">"d-flex flex-column align-items-center bg-dark"</span>,</span>
+<span id="cb5-13">    tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">div</span>(</span>
+<span id="cb5-14">      tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">h1</span>(<span class="st" style="color: #20794D;">"H3110 W0r1d!"</span>),</span>
+<span id="cb5-15">      tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">div</span>(</span>
+<span id="cb5-16">        <span class="at" style="color: #657422;">class =</span> <span class="st" style="color: #20794D;">"my-5"</span>,</span>
+<span id="cb5-17">        tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">p</span>(<span class="st" style="color: #20794D;">"When the file is small:"</span>),</span>
+<span id="cb5-18">        <span class="fu" style="color: #4758AB;">mod_dnld_ui</span>(<span class="st" style="color: #20794D;">"this"</span>)</span>
+<span id="cb5-19">      ),</span>
+<span id="cb5-20">      tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">div</span>(</span>
+<span id="cb5-21">        <span class="at" style="color: #657422;">class =</span> <span class="st" style="color: #20794D;">"my-5"</span>,</span>
+<span id="cb5-22">        tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">p</span>(<span class="st" style="color: #20794D;">"When the file is large:"</span>),</span>
+<span id="cb5-23">        <span class="fu" style="color: #4758AB;">mod_nested_dnld_ui</span>(<span class="st" style="color: #20794D;">"that"</span>)</span>
+<span id="cb5-24">      ),</span>
+<span id="cb5-25">      tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">div</span>(</span>
+<span id="cb5-26">        <span class="at" style="color: #657422;">class =</span> <span class="st" style="color: #20794D;">"my-5"</span>,</span>
+<span id="cb5-27">        tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">p</span>(<span class="st" style="color: #20794D;">"Features:"</span>),</span>
+<span id="cb5-28">        tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">ul</span>(</span>
+<span id="cb5-29">          tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">li</span>(</span>
+<span id="cb5-30">            <span class="st" style="color: #20794D;">"Works even when the download module is nested in other modules"</span></span>
+<span id="cb5-31">          )</span>
+<span id="cb5-32">        )</span>
+<span id="cb5-33">      ),</span>
+<span id="cb5-34">      tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">script</span>(<span class="at" style="color: #657422;">src =</span> <span class="st" style="color: #20794D;">"script.js"</span>)</span>
+<span id="cb5-35">    )</span>
+<span id="cb5-36">  )</span>
+<span id="cb5-37">)</span></code></pre></div>
+</div>
+<!-- ### server.R -->
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>server.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1">server <span class="ot" style="color: #003B4F;">&lt;-</span> \(input, output, session) {</span>
+<span id="cb6-2">  <span class="fu" style="color: #4758AB;">mod_dnld_server</span>(<span class="st" style="color: #20794D;">"this"</span>, <span class="at" style="color: #657422;">data =</span> <span class="fu" style="color: #4758AB;">reactive</span>(mtcars))</span>
+<span id="cb6-3">  <span class="fu" style="color: #4758AB;">mod_nested_dnld_server</span>(<span class="st" style="color: #20794D;">"that"</span>)</span>
+<span id="cb6-4">}</span></code></pre></div>
+</div>
+<!-- ### global.R -->
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>global.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;">library</span>(shiny)</span></code></pre></div>
+</div>
+</section>
+<section id="issawrap" class="level2">
+<h2 class="anchored" data-anchor-id="issawrap">Issawrap!</h2>
+<p>Really proud of myself today!</p>
+<p>I expect to learn more JavaScript, but I can’t promise.</p>
+<p>Wait… What!?</p>
+<p><img src="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/download-button-spinner-js/unga.jpg" class="img-fluid"></p>
+<p>Uhhmmm…</p>
+<p>Anddd I just tweeted that.</p>
+<blockquote class="twitter-tweet blockquote"><p lang="en" dir="ltr">I expect to learn more JavaScript, but I can't promise.</p>— Mwavu (@kennedymwavu) <a href="https://twitter.com/kennedymwavu/status/1662911894699507714?ref_src=twsrc%5Etfw">May 28, 2023</a></blockquote> <script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+
+</section>
+
+ ]]></description>
+  <category>R</category>
+  <category>Shiny</category>
+  <category>JavaScript</category>
+  <category>UI/UX</category>
+  <guid>https://mwavu.com/blog/posts/ui-ux-r-shiny-series/download-button-spinner-js/index.html</guid>
+  <pubDate>Sat, 27 May 2023 21:00:00 GMT</pubDate>
+  <media:content url="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/download-button-spinner-js/dnld-spinner-js.gif" medium="image" type="image/gif"/>
+</item>
+<item>
+  <title>Subset every nth element from a vector</title>
+  <dc:creator>Kennedy Mwavu</dc:creator>
+  <link>https://mwavu.com/blog/posts/subset-every-nth-element-from-a-vector/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>I’ve been using R on a daily basis (literally) precisely for 3 years 3 months 2 weeks 2 days now.</p>
+<p>If I were to say anything about the language, it’d be what Gandalf said about Hobbits:</p>
+<p><img src="https://mwavu.com/blog/posts/subset-every-nth-element-from-a-vector/gandalf.webp" class="img-fluid"></p>
+<div class="callout-note callout callout-style-simple">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Hobbits are amazing creatures. You can learn all there is to know about their ways in a month, and yet after a hundred years, they can still surprise you.</p>
+<p>— Gandalf, LOTR</p>
+</div>
+</div>
+</div>
+</section>
+<section id="problem-statement" class="level2">
+<h2 class="anchored" data-anchor-id="problem-statement">Problem Statement</h2>
+<p>About a week ago I needed to subset every second element of a vector. Let me explain.</p>
+<p>Take a look at <code>letters</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1">letters</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"
+[20] "t" "u" "v" "w" "x" "y" "z"</code></pre>
+</div>
+</div>
+<p>How do you get the elements “b”, “d”, “f”, “h”, “j”, … ie. values at the indices <code>2, 4, 6, 8, ...</code>?</p>
+<p>Simple enough, right? Right.</p>
+<p>What amazed me wasn’t the simplicity of the question at hand, it was how even as a prolific user of R, the building blocks of the language sometimes slip past me so easily.</p>
+</section>
+<section id="what-i-did" class="level2">
+<h2 class="anchored" data-anchor-id="what-i-did">What I did</h2>
+<p>Let’s go through my thought process.</p>
+<section id="seq" class="level3">
+<h3 class="anchored" data-anchor-id="seq"><code>seq()</code></h3>
+<p>This was definitely the first option that came to mind:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1">indices <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">seq</span>(<span class="at" style="color: #657422;">from =</span> <span class="dv" style="color: #AD0000;">2</span>, <span class="at" style="color: #657422;">to =</span> <span class="fu" style="color: #4758AB;">length</span>(letters), <span class="at" style="color: #657422;">by =</span> <span class="dv" style="color: #AD0000;">2</span>)</span>
+<span id="cb3-2">letters[indices]</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "b" "d" "f" "h" "j" "l" "n" "p" "r" "t" "v" "x" "z"</code></pre>
+</div>
+</div>
+<p>Pretty good, but…</p>
+<p>There must be a better solution.</p>
+</section>
+<section id="modulo-operator" class="level3">
+<h3 class="anchored" data-anchor-id="modulo-operator">Modulo Operator <code>%%</code></h3>
+<p>The modulo operator <code>%%</code> returns the remainder of the division of one number by another.</p>
+<p>For example, <code>4 %% 2</code> would return <code>0</code> since: <img src="https://latex.codecogs.com/png.latex?%0A%5Cfrac%7B4%7D%7B2%7D%20=%202%5C;remainder%5C;0%0A"> and <code>9 %% 7</code> would return <code>2</code> since: <img src="https://latex.codecogs.com/png.latex?%0A%5Cfrac%7B9%7D%7B7%7D%20=%201%5C;remainder%5C;2%0A"></p>
+<p>Back to our problem: I basically want all indices which are divisible by <img src="https://latex.codecogs.com/png.latex?2"> <em>ie.</em> Leave a remainder of zero.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1">indices <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="sc" style="color: #5E5E5E;">!</span><span class="fu" style="color: #4758AB;">seq_along</span>(letters) <span class="sc" style="color: #5E5E5E;">%%</span> <span class="dv" style="color: #AD0000;">2</span></span>
+<span id="cb5-2">letters[indices]</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "b" "d" "f" "h" "j" "l" "n" "p" "r" "t" "v" "x" "z"</code></pre>
+</div>
+</div>
+<p>That works but… It’s quite obfuscated for such a simple problem.</p>
+<p><img src="https://mwavu.com/blog/posts/subset-every-nth-element-from-a-vector/trynna-explain.jpg" class="img-fluid"></p>
+<p>There’s only one way to know if there’s an easier solution: Google.</p>
+</section>
+</section>
+<section id="vector-recycling" class="level2">
+<h2 class="anchored" data-anchor-id="vector-recycling">Vector recycling</h2>
+<p>If logical vectors are used for indexing in R, their values are recycled if the index vector is shorter than the vector containing the values.</p>
+<p>It is one of my all time favorite features about R. The first time I learnt the concept, it was mind-blowing.</p>
+<p>This time round, it swept me off my feet completely.</p>
+<p>The solution was as simple as this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1">letters[<span class="fu" style="color: #4758AB;">c</span>(<span class="cn" style="color: #8f5902;">FALSE</span>, <span class="cn" style="color: #8f5902;">TRUE</span>)]</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "b" "d" "f" "h" "j" "l" "n" "p" "r" "t" "v" "x" "z"</code></pre>
+</div>
+</div>
+<p>Tell me that isn’t elegant!</p>
+<p>That’s one of the best answers on StackOverflow as far as I’m concerned.</p>
+<ul>
+<li><p>Short. In most cases short never equals good performance but this is one of the few cases where what’s advertised is what’s delivered.</p></li>
+<li><p>Simple. It’s very easy to understand. Straightforward.</p></li>
+<li><p>Clean. It’s not obfuscated.</p></li>
+</ul>
+<p>It’s better in every way compared to my initial trials. It was posted by the user <code>Sven Hohenstein</code>. <a href="https://stackoverflow.com/a/13462110/16246909">Link to the answer.</a></p>
+</section>
+<section id="generalization" class="level2">
+<h2 class="anchored" data-anchor-id="generalization">Generalization</h2>
+<p>Now that we have the best solution (as far as we know), let’s generalize it.</p>
+<section id="ith-element" class="level3">
+<h3 class="anchored" data-anchor-id="ith-element"><img src="https://latex.codecogs.com/png.latex?i%5E%7Bth%7D"> element</h3>
+<p>What if you wanted to subset every 9th element? Repeat <code>TRUE</code> &amp; <code>FALSE</code> the required number of times:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="co" style="color: #5E5E5E;"># Subset every 9th element:</span></span>
+<span id="cb9-2">letters[<span class="fu" style="color: #4758AB;">c</span>(<span class="fu" style="color: #4758AB;">rep</span>(<span class="cn" style="color: #8f5902;">FALSE</span>, <span class="at" style="color: #657422;">times =</span> <span class="dv" style="color: #AD0000;">8</span>), <span class="cn" style="color: #8f5902;">TRUE</span>)]</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "i" "r"</code></pre>
+</div>
+</div>
+<p>We repeat <code>FALSE</code> <img src="https://latex.codecogs.com/png.latex?8"> times because we want every <img src="https://latex.codecogs.com/png.latex?9">th index to be retrieved.</p>
+<p>Taking <img src="https://latex.codecogs.com/png.latex?9"> as our <code>i</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1">i <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="dv" style="color: #AD0000;">9</span></span>
+<span id="cb11-2">letters[<span class="fu" style="color: #4758AB;">c</span>(<span class="fu" style="color: #4758AB;">rep</span>(<span class="cn" style="color: #8f5902;">FALSE</span>, <span class="at" style="color: #657422;">times =</span> i <span class="sc" style="color: #5E5E5E;">-</span> <span class="dv" style="color: #AD0000;">1</span>), <span class="cn" style="color: #8f5902;">TRUE</span>)]</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "i" "r"</code></pre>
+</div>
+</div>
+</section>
+<section id="i-nth-element" class="level3">
+<h3 class="anchored" data-anchor-id="i-nth-element"><img src="https://latex.codecogs.com/png.latex?(i%20+%20n)%5E%7Bth%7D"> element</h3>
+<p>Extending the above logic, let’s assume <code>i</code> is <img src="https://latex.codecogs.com/png.latex?9"> and <code>n</code> is <img src="https://latex.codecogs.com/png.latex?10">. So it’s like saying we want to subset every <img src="https://latex.codecogs.com/png.latex?(9%20+%2010)%5E%7Bth%7D%20=%2019%5E%7Bth%7D"> element.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1">i <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="dv" style="color: #AD0000;">9</span></span>
+<span id="cb13-2">n <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="dv" style="color: #AD0000;">10</span></span>
+<span id="cb13-3"><span class="co" style="color: #5E5E5E;"># So we repeat FALSE "i + n - 1" times:</span></span>
+<span id="cb13-4">letters[<span class="fu" style="color: #4758AB;">c</span>(<span class="fu" style="color: #4758AB;">rep</span>(<span class="cn" style="color: #8f5902;">FALSE</span>, <span class="at" style="color: #657422;">times =</span> i <span class="sc" style="color: #5E5E5E;">+</span> n <span class="sc" style="color: #5E5E5E;">-</span> <span class="dv" style="color: #AD0000;">1</span>), <span class="cn" style="color: #8f5902;">TRUE</span>)]</span></code></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "s"</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p><img src="https://mwavu.com/blog/posts/subset-every-nth-element-from-a-vector/keep-it-simple-stupid.jpg" class="img-fluid"></p>
+<p>Till next time, avoid complicating stuff.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>R</category>
+  <guid>https://mwavu.com/blog/posts/subset-every-nth-element-from-a-vector/index.html</guid>
+  <pubDate>Sat, 15 Apr 2023 21:00:00 GMT</pubDate>
+  <media:content url="https://mwavu.com/blog/posts/subset-every-nth-element-from-a-vector/nth.svg" medium="image" type="image/svg+xml"/>
+</item>
+<item>
+  <title>Defensive Programming</title>
+  <dc:creator>Kennedy Mwavu</dc:creator>
+  <link>https://mwavu.com/blog/posts/ui-ux-r-shiny-series/defensive-programming/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<blockquote class="blockquote text-right">
+<p class="mb-4">
+I hope nobody is reading. But if you are, then keep this to yourself.
+</p>
+<footer class="blockquote-footer">
+Mwavu
+</footer>
+</blockquote>
+<p>Your prod app should never have to fail, crash or display arcane red lines of errors on the UI.</p>
+<p>If it has to, it should do so gracefully and with dignity. Only then will you have an easy time convincing the client that it’s a six-legged feature, not a bug.</p>
+<div class="d-flex justify-content-center">
+<p><img src="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/defensive-programming/bug.png" alt="A red bug with black spots and legs"></p>
+</div>
+</section>
+<section id="when-do-errors-arise" class="level2">
+<h2 class="anchored" data-anchor-id="when-do-errors-arise">When do errors arise?</h2>
+<p>Most, if not all, application errors occur when you’re trying to perform an operation on data. This can be during app startup or in response to user action.</p>
+<p>Common cases are:</p>
+<ul>
+<li>Mathematical calculations eg. <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code></li>
+<li>Data manipulations eg. subsetting (<code>iris[, "Sepal.Length"]</code>)</li>
+</ul>
+</section>
+<section id="defensive-programming" class="level2">
+<h2 class="anchored" data-anchor-id="defensive-programming">Defensive programming</h2>
+<p>Defensive programming is an approach to software development that focuses on anticipating and preventing potential errors, bugs, and vulnerabilities in the code.</p>
+<p>The fundamental concept of this approach is to develop a program that can function correctly even in the presence of unforeseen circumstances or when users enter unexpected inputs.</p>
+<p>We’ll focus on 2 key principles of defensive programming, both at the same time:</p>
+<ol type="1">
+<li><p>Validating inputs: Checking that all input values are within expected ranges or formats, and handling unexpected input values appropriately.</p></li>
+<li><p>Handling errors: Catching and handling errors/exceptions in a way that allows the program to recover gracefully, without crashing or losing data</p></li>
+</ol>
+<p>That’s where <code>tryCatch</code> comes in!</p>
+</section>
+<section id="trycatch" class="level2">
+<h2 class="anchored" data-anchor-id="trycatch">tryCatch()</h2>
+<p>The basic syntax of <code>tryCatch()</code> is this:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>trycatch.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1">result <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">tryCatch</span>(</span>
+<span id="cb1-2">  <span class="at" style="color: #657422;">expr =</span> {</span>
+<span id="cb1-3">    <span class="co" style="color: #5E5E5E;"># Code block to be executed</span></span>
+<span id="cb1-4">  },</span>
+<span id="cb1-5">  <span class="at" style="color: #657422;">error =</span> \(e) {</span>
+<span id="cb1-6">    <span class="co" style="color: #5E5E5E;"># Error handling code</span></span>
+<span id="cb1-7">  },</span>
+<span id="cb1-8">  <span class="at" style="color: #657422;">warning =</span> \(w) {</span>
+<span id="cb1-9">    <span class="co" style="color: #5E5E5E;"># Warning handling code</span></span>
+<span id="cb1-10">  },</span>
+<span id="cb1-11">  <span class="at" style="color: #657422;">finally =</span> {</span>
+<span id="cb1-12">    <span class="co" style="color: #5E5E5E;"># Do this, regardless of success or failure of 'expr' block</span></span>
+<span id="cb1-13">  }</span>
+<span id="cb1-14">)</span></code></pre></div>
+</div>
+<div class="callout-tip callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Mental model:
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Hey R,<br> I have this block of code. I’m not sure if it’s flawless, but I need you to try and run it. <br> In case you encounter issues, here’s how you should proceed depending on the scenario:</p>
+<ul>
+<li>Did it throw an error? Then do &lt;error handling&gt;</li>
+<li>Did it give a warning? Then run this &lt;warning handling chunk&gt;</li>
+<li>Finally, regardless of whether it ran successfully or failed, please do &lt;finally block&gt;</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="hands-on" class="level2">
+<h2 class="anchored" data-anchor-id="hands-on">Hands-On</h2>
+<p>Practical examples have been a great way for me to learn new concepts.</p>
+<p>Be sure to go through the examples thoroughly and see if you can remake similar ones of your own.</p>
+<section id="example-1-generic-errors-warnings" class="level3">
+<h3 class="anchored" data-anchor-id="example-1-generic-errors-warnings">Example 1: Generic errors &amp; warnings</h3>
+<p>In case of an error or a warning during an operation, inform the user that something unexpected happened and show a glimpse of what might have went wrong.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>app.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="fu" style="color: #4758AB;">library</span>(shiny)</span>
+<span id="cb2-2"></span>
+<span id="cb2-3">ui <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fluidPage</span>(</span>
+<span id="cb2-4">  shinytoastr<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">useToastr</span>(),</span>
+<span id="cb2-5">  </span>
+<span id="cb2-6">  tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">div</span>(</span>
+<span id="cb2-7">    <span class="at" style="color: #657422;">class =</span> <span class="st" style="color: #20794D;">"container"</span>,</span>
+<span id="cb2-8">    <span class="at" style="color: #657422;">align =</span> <span class="st" style="color: #20794D;">"center"</span>,</span>
+<span id="cb2-9">    </span>
+<span id="cb2-10">    <span class="fu" style="color: #4758AB;">selectInput</span>(</span>
+<span id="cb2-11">      <span class="at" style="color: #657422;">inputId =</span> <span class="st" style="color: #20794D;">"cols"</span>,</span>
+<span id="cb2-12">      <span class="at" style="color: #657422;">label =</span> <span class="st" style="color: #20794D;">"Choose one or more columns"</span>,</span>
+<span id="cb2-13">      <span class="at" style="color: #657422;">choices =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="fu" style="color: #4758AB;">names</span>(iris), <span class="st" style="color: #20794D;">"Unknown Column"</span>),</span>
+<span id="cb2-14">      <span class="at" style="color: #657422;">multiple =</span> <span class="cn" style="color: #8f5902;">TRUE</span></span>
+<span id="cb2-15">    ),</span>
+<span id="cb2-16">    </span>
+<span id="cb2-17">    DT<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">DTOutput</span>(<span class="at" style="color: #657422;">outputId =</span> <span class="st" style="color: #20794D;">"table"</span>)</span>
+<span id="cb2-18">  )</span>
+<span id="cb2-19">)</span>
+<span id="cb2-20"></span>
+<span id="cb2-21">server <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="cf" style="color: #003B4F;">function</span>(input, output, session) {</span>
+<span id="cb2-22">  output<span class="sc" style="color: #5E5E5E;">$</span>table <span class="ot" style="color: #003B4F;">&lt;-</span> DT<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">renderDT</span>({</span>
+<span id="cb2-23">    <span class="fu" style="color: #4758AB;">tryCatch</span>(</span>
+<span id="cb2-24">      <span class="at" style="color: #657422;">expr =</span> {</span>
+<span id="cb2-25">        { iris <span class="sc" style="color: #5E5E5E;">|&gt;</span> dplyr<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">select</span>(dplyr<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">all_of</span>(input<span class="sc" style="color: #5E5E5E;">$</span>cols)) } <span class="sc" style="color: #5E5E5E;">*</span> <span class="dv" style="color: #AD0000;">100</span></span>
+<span id="cb2-26">      },</span>
+<span id="cb2-27">      <span class="at" style="color: #657422;">error =</span> \(e) {</span>
+<span id="cb2-28">        shinytoastr<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">toastr_error</span>(</span>
+<span id="cb2-29">          <span class="at" style="color: #657422;">title =</span> <span class="st" style="color: #20794D;">"Error in calculation"</span>,</span>
+<span id="cb2-30">          <span class="at" style="color: #657422;">message =</span> <span class="fu" style="color: #4758AB;">conditionMessage</span>(e)</span>
+<span id="cb2-31">        )</span>
+<span id="cb2-32">      },</span>
+<span id="cb2-33">      <span class="at" style="color: #657422;">warning =</span> \(w) {</span>
+<span id="cb2-34">        shinytoastr<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">toastr_warning</span>(</span>
+<span id="cb2-35">          <span class="at" style="color: #657422;">title =</span> <span class="st" style="color: #20794D;">"Warning!"</span>,</span>
+<span id="cb2-36">          <span class="at" style="color: #657422;">message =</span> <span class="fu" style="color: #4758AB;">conditionMessage</span>(w)</span>
+<span id="cb2-37">        )</span>
+<span id="cb2-38">      }</span>
+<span id="cb2-39">    )</span>
+<span id="cb2-40">  })</span>
+<span id="cb2-41">}</span>
+<span id="cb2-42"></span>
+<span id="cb2-43"><span class="fu" style="color: #4758AB;">shinyApp</span>(ui, server)</span></code></pre></div>
+</div>
+</section>
+<section id="example-2-custom-errors-warnings" class="level3">
+<h3 class="anchored" data-anchor-id="example-2-custom-errors-warnings">Example 2: Custom errors &amp; warnings</h3>
+<p>Sometimes you can choose to be more informative and specific. In this example, we tell the user what exactly went wrong.</p>
+<p>On top of that, we leave room for unforeseen causes of errors &amp; warnings.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>app.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;">library</span>(shiny)</span>
+<span id="cb3-2"></span>
+<span id="cb3-3">ui <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">fluidPage</span>(</span>
+<span id="cb3-4">  shinytoastr<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">useToastr</span>(),</span>
+<span id="cb3-5">  </span>
+<span id="cb3-6">  tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">div</span>(</span>
+<span id="cb3-7">    <span class="at" style="color: #657422;">class =</span> <span class="st" style="color: #20794D;">"container"</span>,</span>
+<span id="cb3-8">    <span class="at" style="color: #657422;">align =</span> <span class="st" style="color: #20794D;">"center"</span>,</span>
+<span id="cb3-9">    </span>
+<span id="cb3-10">    <span class="fu" style="color: #4758AB;">selectInput</span>(</span>
+<span id="cb3-11">      <span class="at" style="color: #657422;">inputId =</span> <span class="st" style="color: #20794D;">"cols"</span>,</span>
+<span id="cb3-12">      <span class="at" style="color: #657422;">label =</span> <span class="st" style="color: #20794D;">"Choose one or more columns"</span>,</span>
+<span id="cb3-13">      <span class="at" style="color: #657422;">choices =</span> <span class="fu" style="color: #4758AB;">c</span>(<span class="fu" style="color: #4758AB;">names</span>(iris), <span class="st" style="color: #20794D;">"Unknown Column"</span>),</span>
+<span id="cb3-14">      <span class="at" style="color: #657422;">multiple =</span> <span class="cn" style="color: #8f5902;">TRUE</span></span>
+<span id="cb3-15">    ),</span>
+<span id="cb3-16">    </span>
+<span id="cb3-17">    DT<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">DTOutput</span>(<span class="at" style="color: #657422;">outputId =</span> <span class="st" style="color: #20794D;">"table"</span>)</span>
+<span id="cb3-18">  )</span>
+<span id="cb3-19">)</span>
+<span id="cb3-20"></span>
+<span id="cb3-21">server <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="cf" style="color: #003B4F;">function</span>(input, output, session) {</span>
+<span id="cb3-22">  output<span class="sc" style="color: #5E5E5E;">$</span>table <span class="ot" style="color: #003B4F;">&lt;-</span> DT<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">renderDT</span>({</span>
+<span id="cb3-23">    cols <span class="ot" style="color: #003B4F;">&lt;-</span> input<span class="sc" style="color: #5E5E5E;">$</span>cols</span>
+<span id="cb3-24">    <span class="fu" style="color: #4758AB;">req</span>(cols)</span>
+<span id="cb3-25">    </span>
+<span id="cb3-26">    <span class="fu" style="color: #4758AB;">tryCatch</span>(</span>
+<span id="cb3-27">      <span class="at" style="color: #657422;">expr =</span> {</span>
+<span id="cb3-28">        <span class="cf" style="color: #003B4F;">if</span> (<span class="st" style="color: #20794D;">"Species"</span> <span class="sc" style="color: #5E5E5E;">%in%</span> cols) {</span>
+<span id="cb3-29">          shinytoastr<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">toastr_warning</span>(</span>
+<span id="cb3-30">            <span class="at" style="color: #657422;">title =</span> <span class="st" style="color: #20794D;">"Omitting column 'Species'"</span>,</span>
+<span id="cb3-31">            <span class="at" style="color: #657422;">message =</span> <span class="st" style="color: #20794D;">"Cannot perform multiplication on a factor"</span></span>
+<span id="cb3-32">          )</span>
+<span id="cb3-33">          </span>
+<span id="cb3-34">          cols <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">setdiff</span>(cols, <span class="st" style="color: #20794D;">"Species"</span>)</span>
+<span id="cb3-35">        }</span>
+<span id="cb3-36">        </span>
+<span id="cb3-37">        <span class="cf" style="color: #003B4F;">if</span> (<span class="st" style="color: #20794D;">"Unknown Column"</span> <span class="sc" style="color: #5E5E5E;">%in%</span> cols) {</span>
+<span id="cb3-38">          shinytoastr<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">toastr_error</span>(</span>
+<span id="cb3-39">            <span class="at" style="color: #657422;">title =</span> <span class="st" style="color: #20794D;">"Omitting 'Uknown Column'"</span>,</span>
+<span id="cb3-40">            <span class="at" style="color: #657422;">message =</span> <span class="st" style="color: #20794D;">"Cannot subset columns which don't exist"</span></span>
+<span id="cb3-41">          )</span>
+<span id="cb3-42">          </span>
+<span id="cb3-43">          cols <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">setdiff</span>(cols, <span class="st" style="color: #20794D;">"Unknown Column"</span>)</span>
+<span id="cb3-44">        }</span>
+<span id="cb3-45">        </span>
+<span id="cb3-46">        { iris <span class="sc" style="color: #5E5E5E;">|&gt;</span> dplyr<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">select</span>(dplyr<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">all_of</span>(cols)) } <span class="sc" style="color: #5E5E5E;">*</span> <span class="dv" style="color: #AD0000;">100</span></span>
+<span id="cb3-47">      },</span>
+<span id="cb3-48">      </span>
+<span id="cb3-49">      <span class="co" style="color: #5E5E5E;"># in case of other unforeseen errors &amp; warnings:</span></span>
+<span id="cb3-50">      <span class="at" style="color: #657422;">error =</span> \(e) {</span>
+<span id="cb3-51">        shinytoastr<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">toastr_error</span>(</span>
+<span id="cb3-52">          <span class="at" style="color: #657422;">title =</span> <span class="st" style="color: #20794D;">"Error in calculation"</span>,</span>
+<span id="cb3-53">          <span class="at" style="color: #657422;">message =</span> <span class="fu" style="color: #4758AB;">conditionMessage</span>(e)</span>
+<span id="cb3-54">        )</span>
+<span id="cb3-55">      },</span>
+<span id="cb3-56">      <span class="at" style="color: #657422;">warning =</span> \(w) {</span>
+<span id="cb3-57">        shinytoastr<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">toastr_warning</span>(</span>
+<span id="cb3-58">          <span class="at" style="color: #657422;">title =</span> <span class="st" style="color: #20794D;">"Warning!"</span>,</span>
+<span id="cb3-59">          <span class="at" style="color: #657422;">message =</span> <span class="fu" style="color: #4758AB;">conditionMessage</span>(w)</span>
+<span id="cb3-60">        )</span>
+<span id="cb3-61">      }</span>
+<span id="cb3-62">    )</span>
+<span id="cb3-63">  })</span>
+<span id="cb3-64">}</span>
+<span id="cb3-65"></span>
+<span id="cb3-66"><span class="fu" style="color: #4758AB;">shinyApp</span>(ui, server)</span></code></pre></div>
+</div>
+
+
+</section>
+</section>
+
+ ]]></description>
+  <category>R</category>
+  <category>Shiny</category>
+  <category>UI/UX</category>
+  <guid>https://mwavu.com/blog/posts/ui-ux-r-shiny-series/defensive-programming/index.html</guid>
+  <pubDate>Sat, 25 Feb 2023 21:00:00 GMT</pubDate>
+  <media:content url="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/defensive-programming/tc.png" medium="image" type="image/png" height="146" width="144"/>
+</item>
+<item>
+  <title>Add downLoading spinners</title>
+  <dc:creator>Kennedy Mwavu</dc:creator>
+  <link>https://mwavu.com/blog/posts/ui-ux-r-shiny-series/download-button-spinner/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="demo" class="level2">
+<h2 class="anchored" data-anchor-id="demo">Demo</h2>
+<p><img src="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/download-button-spinner/dnld-spinner.gif" class="img-fluid" alt="A gif showing what we will build today"></p>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<blockquote class="blockquote text-right">
+<p class="mb-4">
+I hope nobody is reading. But if you are, then keep this to yourself.
+</p>
+<footer class="blockquote-footer">
+Mwavu
+</footer>
+</blockquote>
+<p>Oftentimes you have a large dataset that takes a while to download. To give your users a visual cue that the download is in progress, you can (and should) add spinners to your download buttons.</p>
+</section>
+<section id="the-module" class="level2">
+<h2 class="anchored" data-anchor-id="the-module">The module</h2>
+<p>Let’s first create a basic download button module that we can build upon.</p>
+<p>We’ll create an action button that will trigger the download (Yes, you read that right, an action button).</p>
+<p>We’ll then add the real download button but it will be hidden.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R/mod_dnld_ui.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;">#' Download button module UI</span></span>
+<span id="cb1-2"><span class="co" style="color: #5E5E5E;">#' @param id Module ID</span></span>
+<span id="cb1-3"><span class="co" style="color: #5E5E5E;">#' @return [shiny::tagList()]</span></span>
+<span id="cb1-4">mod_dnld_ui <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="cf" style="color: #003B4F;">function</span>(id) {</span>
+<span id="cb1-5">  ns <span class="ot" style="color: #003B4F;">&lt;-</span> shiny<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">NS</span>(id)</span>
+<span id="cb1-6"></span>
+<span id="cb1-7">  shiny<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">tagList</span>(</span>
+<span id="cb1-8">    <span class="co" style="color: #5E5E5E;"># Trigger button:</span></span>
+<span id="cb1-9">    shiny<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">actionButton</span>(</span>
+<span id="cb1-10">      <span class="at" style="color: #657422;">inputId =</span> <span class="fu" style="color: #4758AB;">ns</span>(<span class="st" style="color: #20794D;">"actbtn"</span>),</span>
+<span id="cb1-11">      <span class="at" style="color: #657422;">label =</span> htmltools<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">doRenderTags</span>(</span>
+<span id="cb1-12">        shiny<span class="sc" style="color: #5E5E5E;">::</span>tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">span</span>(</span>
+<span id="cb1-13">          shiny<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">icon</span>(<span class="st" style="color: #20794D;">"download"</span>),</span>
+<span id="cb1-14">          <span class="st" style="color: #20794D;">"Download"</span></span>
+<span id="cb1-15">        )</span>
+<span id="cb1-16">      )</span>
+<span id="cb1-17">    ),</span>
+<span id="cb1-18"></span>
+<span id="cb1-19">    <span class="co" style="color: #5E5E5E;"># Real download button:</span></span>
+<span id="cb1-20">    shiny<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">downloadButton</span>(</span>
+<span id="cb1-21">      <span class="at" style="color: #657422;">outputId =</span> <span class="fu" style="color: #4758AB;">ns</span>(<span class="st" style="color: #20794D;">"dnld"</span>),</span>
+<span id="cb1-22">      <span class="at" style="color: #657422;">label =</span> <span class="cn" style="color: #8f5902;">NULL</span>,</span>
+<span id="cb1-23">      <span class="at" style="color: #657422;">style =</span> <span class="st" style="color: #20794D;">"visibility: hidden;"</span></span>
+<span id="cb1-24">    )</span>
+<span id="cb1-25">  )</span>
+<span id="cb1-26">}</span></code></pre></div>
+</div>
+<p>The basic server piece is also as simple:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R/mod_dnld_server.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;">#' Download button module server</span></span>
+<span id="cb2-2"><span class="co" style="color: #5E5E5E;">#' @param id Module ID</span></span>
+<span id="cb2-3"><span class="co" style="color: #5E5E5E;">#' @param given_data Data to download, as a reactive.</span></span>
+<span id="cb2-4"><span class="co" style="color: #5E5E5E;">#' @param filename Filename to use for download.</span></span>
+<span id="cb2-5"><span class="co" style="color: #5E5E5E;">#' @return NULL</span></span>
+<span id="cb2-6">mod_dnld_server <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="cf" style="color: #003B4F;">function</span>(</span>
+<span id="cb2-7">  id,</span>
+<span id="cb2-8">  <span class="at" style="color: #657422;">given_data =</span> <span class="fu" style="color: #4758AB;">reactive</span>({iris}),</span>
+<span id="cb2-9">  <span class="at" style="color: #657422;">filename =</span> <span class="st" style="color: #20794D;">"iris.csv"</span></span>
+<span id="cb2-10">) {</span>
+<span id="cb2-11">  <span class="fu" style="color: #4758AB;">stopifnot</span>(</span>
+<span id="cb2-12">    <span class="st" style="color: #20794D;">"`given_data` must be a reactive"</span> <span class="ot" style="color: #003B4F;">=</span> <span class="fu" style="color: #4758AB;">is.reactive</span>(given_data)</span>
+<span id="cb2-13">  )</span>
+<span id="cb2-14"></span>
+<span id="cb2-15">  shiny<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">moduleServer</span>(</span>
+<span id="cb2-16">    <span class="at" style="color: #657422;">id =</span> id,</span>
+<span id="cb2-17">    <span class="at" style="color: #657422;">module =</span> <span class="cf" style="color: #003B4F;">function</span>(input, output, session) {</span>
+<span id="cb2-18">      output<span class="sc" style="color: #5E5E5E;">$</span>dnld <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">downloadHandler</span>(</span>
+<span id="cb2-19">        <span class="at" style="color: #657422;">filename =</span> filename,</span>
+<span id="cb2-20">        <span class="at" style="color: #657422;">content =</span> <span class="cf" style="color: #003B4F;">function</span>(file) {</span>
+<span id="cb2-21">          <span class="fu" style="color: #4758AB;">write.csv</span>(<span class="fu" style="color: #4758AB;">given_data</span>(), file)</span>
+<span id="cb2-22">        }</span>
+<span id="cb2-23">      )</span>
+<span id="cb2-24">    }</span>
+<span id="cb2-25">  )</span>
+<span id="cb2-26">}</span></code></pre></div>
+</div>
+<p>It takes in a reactive data object (<code>given_data</code>) and a <code>filename</code>. The rest is normal stuff.</p>
+<p>We can now move on to adding the download button spinner.</p>
+</section>
+<section id="adding-a-spinner-to-the-download-button" class="level2">
+<h2 class="anchored" data-anchor-id="adding-a-spinner-to-the-download-button">Adding a spinner to the download button</h2>
+<p>Spoiler alert: <code>mod_dnld_ui</code> is done. We’ll work on <code>mod_dnld_server</code> from now on.</p>
+<p>In the server module, we’ll use <code>shiny::observeEvent</code> to listen for clicks on the action button.</p>
+<p>When the button is clicked, we update its label to show a spinner and a message indicating that the download is in progress.</p>
+<p>We then trigger a click on the real download button using <code>shinyjs::click</code>:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R/mod_dnld_server.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb3" data-code-line-numbers="false" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1">shiny<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">observeEvent</span>(input<span class="sc" style="color: #5E5E5E;">$</span>actbtn, {</span>
+<span id="cb3-2">  <span class="co" style="color: #5E5E5E;"># update label of 'actbtn':</span></span>
+<span id="cb3-3">  shiny<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">updateActionButton</span>(</span>
+<span id="cb3-4">    <span class="at" style="color: #657422;">session =</span> session,</span>
+<span id="cb3-5">    <span class="at" style="color: #657422;">inputId =</span> <span class="st" style="color: #20794D;">"actbtn"</span>,</span>
+<span id="cb3-6">    <span class="at" style="color: #657422;">label =</span> htmltools<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">doRenderTags</span>(</span>
+<span id="cb3-7">      shiny<span class="sc" style="color: #5E5E5E;">::</span>tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">span</span>(</span>
+<span id="cb3-8">        <span class="at" style="color: #657422;">class =</span> <span class="st" style="color: #20794D;">"d-flex align-items-center"</span>,</span>
+<span id="cb3-9">        shiny<span class="sc" style="color: #5E5E5E;">::</span>tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">span</span>(</span>
+<span id="cb3-10">          <span class="at" style="color: #657422;">class =</span> <span class="st" style="color: #20794D;">"spinner-border spinner-border-sm"</span>,</span>
+<span id="cb3-11">          <span class="at" style="color: #657422;">role =</span> <span class="st" style="color: #20794D;">"status"</span>,</span>
+<span id="cb3-12">          <span class="st" style="color: #20794D;">`</span><span class="at" style="color: #657422;">aria-hidden</span><span class="st" style="color: #20794D;">`</span> <span class="ot" style="color: #003B4F;">=</span> <span class="st" style="color: #20794D;">"true"</span></span>
+<span id="cb3-13">        ),</span>
+<span id="cb3-14">        shiny<span class="sc" style="color: #5E5E5E;">::</span>tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">span</span>(</span>
+<span id="cb3-15">          <span class="at" style="color: #657422;">class =</span> <span class="st" style="color: #20794D;">"mx-1"</span>,</span>
+<span id="cb3-16">          <span class="st" style="color: #20794D;">"Downloading..."</span></span>
+<span id="cb3-17">        )</span>
+<span id="cb3-18">      )</span>
+<span id="cb3-19">    )</span>
+<span id="cb3-20">  )</span>
+<span id="cb3-21"></span>
+<span id="cb3-22">  <span class="co" style="color: #5E5E5E;"># simulate click on 'dnld' btn:</span></span>
+<span id="cb3-23">  shinyjs<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">delay</span>(</span>
+<span id="cb3-24">    <span class="at" style="color: #657422;">ms =</span> <span class="dv" style="color: #AD0000;">2</span> <span class="sc" style="color: #5E5E5E;">*</span> <span class="fl" style="color: #AD0000;">1e3</span>,</span>
+<span id="cb3-25">    <span class="at" style="color: #657422;">expr =</span> shinyjs<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">click</span>(<span class="at" style="color: #657422;">id =</span> <span class="st" style="color: #20794D;">"dnld"</span>)</span>
+<span id="cb3-26">  )</span>
+<span id="cb3-27">})</span></code></pre></div>
+</div>
+<p>Two things to note here:</p>
+<ol type="1">
+<li><p>I use <a href="https://getbootstrap.com/docs/5.0/getting-started/introduction/">Bootstrap 5</a> classes.</p></li>
+<li><p>I use <code>shinyjs::delay</code> to, well, delay the click for 2 seconds. Wanna know why?</p></li>
+</ol>
+<div class="d-flex justify-content-center">
+<p><img src="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/download-button-spinner/purpose-of-delay.png" alt="The whisper and goosebumps meme: The delay makes the overall UX better"></p>
+</div>
+<p>Next, after the download is complete, we need to update the label of the action button back to its original value.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R/mod_dnld_server.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb4" data-code-line-numbers="false" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">output<span class="sc" style="color: #5E5E5E;">$</span>dnld <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">downloadHandler</span>(</span>
+<span id="cb4-2">  <span class="at" style="color: #657422;">filename =</span> filename,</span>
+<span id="cb4-3">  <span class="at" style="color: #657422;">content =</span> <span class="cf" style="color: #003B4F;">function</span>(file) {</span>
+<span id="cb4-4">    <span class="co" style="color: #5E5E5E;"># on exit, update 'actbtn' label:</span></span>
+<span id="cb4-5">    <span class="fu" style="color: #4758AB;">on.exit</span>({</span>
+<span id="cb4-6">      shiny<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">updateActionButton</span>(</span>
+<span id="cb4-7">        <span class="at" style="color: #657422;">session =</span> session,</span>
+<span id="cb4-8">        <span class="at" style="color: #657422;">inputId =</span> <span class="st" style="color: #20794D;">"actbtn"</span>,</span>
+<span id="cb4-9">        <span class="at" style="color: #657422;">label =</span> htmltools<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">doRenderTags</span>(</span>
+<span id="cb4-10">          shiny<span class="sc" style="color: #5E5E5E;">::</span>tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">span</span>(</span>
+<span id="cb4-11">            shiny<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">icon</span>(<span class="st" style="color: #20794D;">"download"</span>),</span>
+<span id="cb4-12">            <span class="st" style="color: #20794D;">"Download"</span></span>
+<span id="cb4-13">          )</span>
+<span id="cb4-14">        )</span>
+<span id="cb4-15">      )</span>
+<span id="cb4-16">    })</span>
+<span id="cb4-17"></span>
+<span id="cb4-18">    <span class="co" style="color: #5E5E5E;"># write data to file:</span></span>
+<span id="cb4-19">    <span class="fu" style="color: #4758AB;">write.csv</span>(<span class="fu" style="color: #4758AB;">given_data</span>(), file)</span>
+<span id="cb4-20">  }</span>
+<span id="cb4-21">)</span></code></pre></div>
+</div>
+<p><code>?on.exit</code>:</p>
+<blockquote class="blockquote">
+<p>on.exit records the expression given as its argument as needing to be executed when the current function exits (either naturally or as the result of an error). This is useful for resetting graphical parameters or performing other cleanup actions.</p>
+</blockquote>
+<p>In our case, we’re performing a cleanup action: updating the label of the action button back to its original state.</p>
+<p>The complete module server function is as follows:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R/mod_dnld_server.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="co" style="color: #5E5E5E;">#' Download button module server</span></span>
+<span id="cb5-2"><span class="co" style="color: #5E5E5E;">#' @param id Module id</span></span>
+<span id="cb5-3"><span class="co" style="color: #5E5E5E;">#' @param given_data Data to download, as a reactive.</span></span>
+<span id="cb5-4"><span class="co" style="color: #5E5E5E;">#' @param filename Filename to use for download.</span></span>
+<span id="cb5-5"><span class="co" style="color: #5E5E5E;">#' @return NULL</span></span>
+<span id="cb5-6">mod_dnld_server <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="cf" style="color: #003B4F;">function</span>(</span>
+<span id="cb5-7">    id,</span>
+<span id="cb5-8">    <span class="at" style="color: #657422;">given_data =</span> <span class="fu" style="color: #4758AB;">reactive</span>({</span>
+<span id="cb5-9">      iris</span>
+<span id="cb5-10">    }),</span>
+<span id="cb5-11">    <span class="at" style="color: #657422;">filename =</span> <span class="st" style="color: #20794D;">"iris.csv"</span>) {</span>
+<span id="cb5-12">  <span class="fu" style="color: #4758AB;">stopifnot</span>(</span>
+<span id="cb5-13">    <span class="st" style="color: #20794D;">"`given_data` must be a reactive"</span> <span class="ot" style="color: #003B4F;">=</span> <span class="fu" style="color: #4758AB;">is.reactive</span>(given_data)</span>
+<span id="cb5-14">  )</span>
+<span id="cb5-15"></span>
+<span id="cb5-16">  shiny<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">moduleServer</span>(</span>
+<span id="cb5-17">    <span class="at" style="color: #657422;">id =</span> id,</span>
+<span id="cb5-18">    <span class="at" style="color: #657422;">module =</span> <span class="cf" style="color: #003B4F;">function</span>(input, output, session) {</span>
+<span id="cb5-19">      shiny<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">observeEvent</span>(input<span class="sc" style="color: #5E5E5E;">$</span>actbtn, {</span>
+<span id="cb5-20">        <span class="co" style="color: #5E5E5E;"># update label of 'actbtn':</span></span>
+<span id="cb5-21">        shiny<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">updateActionButton</span>(</span>
+<span id="cb5-22">          <span class="at" style="color: #657422;">session =</span> session,</span>
+<span id="cb5-23">          <span class="at" style="color: #657422;">inputId =</span> <span class="st" style="color: #20794D;">"actbtn"</span>,</span>
+<span id="cb5-24">          <span class="at" style="color: #657422;">label =</span> htmltools<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">doRenderTags</span>(</span>
+<span id="cb5-25">            shiny<span class="sc" style="color: #5E5E5E;">::</span>tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">span</span>(</span>
+<span id="cb5-26">              <span class="at" style="color: #657422;">class =</span> <span class="st" style="color: #20794D;">"d-flex align-items-center"</span>,</span>
+<span id="cb5-27">              shiny<span class="sc" style="color: #5E5E5E;">::</span>tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">span</span>(</span>
+<span id="cb5-28">                <span class="at" style="color: #657422;">class =</span> <span class="st" style="color: #20794D;">"spinner-border spinner-border-sm"</span>,</span>
+<span id="cb5-29">                <span class="at" style="color: #657422;">role =</span> <span class="st" style="color: #20794D;">"status"</span>,</span>
+<span id="cb5-30">                <span class="st" style="color: #20794D;">`</span><span class="at" style="color: #657422;">aria-hidden</span><span class="st" style="color: #20794D;">`</span> <span class="ot" style="color: #003B4F;">=</span> <span class="st" style="color: #20794D;">"true"</span></span>
+<span id="cb5-31">              ),</span>
+<span id="cb5-32">              shiny<span class="sc" style="color: #5E5E5E;">::</span>tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">span</span>(</span>
+<span id="cb5-33">                <span class="at" style="color: #657422;">class =</span> <span class="st" style="color: #20794D;">"mx-1"</span>,</span>
+<span id="cb5-34">                <span class="st" style="color: #20794D;">"Downloading..."</span></span>
+<span id="cb5-35">              )</span>
+<span id="cb5-36">            )</span>
+<span id="cb5-37">          )</span>
+<span id="cb5-38">        )</span>
+<span id="cb5-39"></span>
+<span id="cb5-40">        <span class="co" style="color: #5E5E5E;"># simulate click on 'dnld' btn:</span></span>
+<span id="cb5-41">        shinyjs<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">delay</span>(</span>
+<span id="cb5-42">          <span class="at" style="color: #657422;">ms =</span> <span class="dv" style="color: #AD0000;">2</span> <span class="sc" style="color: #5E5E5E;">*</span> <span class="fl" style="color: #AD0000;">1e3</span>,</span>
+<span id="cb5-43">          <span class="at" style="color: #657422;">expr =</span> shinyjs<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">click</span>(<span class="at" style="color: #657422;">id =</span> <span class="st" style="color: #20794D;">"dnld"</span>)</span>
+<span id="cb5-44">        )</span>
+<span id="cb5-45">      })</span>
+<span id="cb5-46"></span>
+<span id="cb5-47">      output<span class="sc" style="color: #5E5E5E;">$</span>dnld <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="fu" style="color: #4758AB;">downloadHandler</span>(</span>
+<span id="cb5-48">        <span class="at" style="color: #657422;">filename =</span> filename,</span>
+<span id="cb5-49">        <span class="at" style="color: #657422;">content =</span> <span class="cf" style="color: #003B4F;">function</span>(file) {</span>
+<span id="cb5-50">          <span class="co" style="color: #5E5E5E;"># on exit, update 'actbtn' label:</span></span>
+<span id="cb5-51">          <span class="fu" style="color: #4758AB;">on.exit</span>({</span>
+<span id="cb5-52">            shiny<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">updateActionButton</span>(</span>
+<span id="cb5-53">              <span class="at" style="color: #657422;">session =</span> session,</span>
+<span id="cb5-54">              <span class="at" style="color: #657422;">inputId =</span> <span class="st" style="color: #20794D;">"actbtn"</span>,</span>
+<span id="cb5-55">              <span class="at" style="color: #657422;">label =</span> htmltools<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">doRenderTags</span>(</span>
+<span id="cb5-56">                shiny<span class="sc" style="color: #5E5E5E;">::</span>tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">span</span>(</span>
+<span id="cb5-57">                  shiny<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">icon</span>(<span class="st" style="color: #20794D;">"download"</span>),</span>
+<span id="cb5-58">                  <span class="st" style="color: #20794D;">"Download"</span></span>
+<span id="cb5-59">                )</span>
+<span id="cb5-60">              )</span>
+<span id="cb5-61">            )</span>
+<span id="cb5-62">          })</span>
+<span id="cb5-63"></span>
+<span id="cb5-64">          <span class="co" style="color: #5E5E5E;"># write data to file:</span></span>
+<span id="cb5-65">          <span class="fu" style="color: #4758AB;">write.csv</span>(<span class="fu" style="color: #4758AB;">given_data</span>(), file)</span>
+<span id="cb5-66">        }</span>
+<span id="cb5-67">      )</span>
+<span id="cb5-68">    }</span>
+<span id="cb5-69">  )</span>
+<span id="cb5-70">}</span></code></pre></div>
+</div>
+</section>
+<section id="putting-it-all-together" class="level2">
+<h2 class="anchored" data-anchor-id="putting-it-all-together">Putting it all together</h2>
+<p>Now that we have the module UI and server parts, we can put them together in a shiny app.</p>
+<p>The app is as simple as it can get:</p>
+<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1">ui <span class="ot" style="color: #003B4F;">&lt;-</span> bslib<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">page</span>(</span>
+<span id="cb6-2">  <span class="at" style="color: #657422;">theme =</span> bslib<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">bs_theme</span>(<span class="at" style="color: #657422;">version =</span> <span class="dv" style="color: #AD0000;">5</span>),</span>
+<span id="cb6-3">  shinyjs<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">useShinyjs</span>(),</span>
+<span id="cb6-4"></span>
+<span id="cb6-5">  shiny<span class="sc" style="color: #5E5E5E;">::</span>tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">div</span>(</span>
+<span id="cb6-6">    <span class="at" style="color: #657422;">class =</span> <span class="st" style="color: #20794D;">"bg-light"</span>,</span>
+<span id="cb6-7"></span>
+<span id="cb6-8">    shiny<span class="sc" style="color: #5E5E5E;">::</span>tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">div</span>(</span>
+<span id="cb6-9">    <span class="at" style="color: #657422;">class =</span> <span class="fu" style="color: #4758AB;">paste</span>(</span>
+<span id="cb6-10">      <span class="st" style="color: #20794D;">"container min-vh-100"</span>,</span>
+<span id="cb6-11">      <span class="st" style="color: #20794D;">"d-flex justify-content-center align-items-center bg-white"</span></span>
+<span id="cb6-12">    ),</span>
+<span id="cb6-13"></span>
+<span id="cb6-14">    <span class="co" style="color: #5E5E5E;"># module UI:</span></span>
+<span id="cb6-15">    shiny<span class="sc" style="color: #5E5E5E;">::</span>tags<span class="sc" style="color: #5E5E5E;">$</span><span class="fu" style="color: #4758AB;">div</span>(</span>
+<span id="cb6-16">      <span class="fu" style="color: #4758AB;">mod_dnld_ui</span>(<span class="st" style="color: #20794D;">"this"</span>)</span>
+<span id="cb6-17">    )</span>
+<span id="cb6-18">  )</span>
+<span id="cb6-19">  )</span>
+<span id="cb6-20">)</span>
+<span id="cb6-21"></span>
+<span id="cb6-22">server <span class="ot" style="color: #003B4F;">&lt;-</span> <span class="cf" style="color: #003B4F;">function</span>(input, output, session) {</span>
+<span id="cb6-23">  <span class="co" style="color: #5E5E5E;"># module server:</span></span>
+<span id="cb6-24">  <span class="fu" style="color: #4758AB;">mod_dnld_server</span>(<span class="st" style="color: #20794D;">"this"</span>)</span>
+<span id="cb6-25">}</span>
+<span id="cb6-26"></span>
+<span id="cb6-27">shiny<span class="sc" style="color: #5E5E5E;">::</span><span class="fu" style="color: #4758AB;">shinyApp</span>(ui, server)</span></code></pre></div>
+<p>The full code is available on <a href="https://gist.github.com/kennedymwavu/bbcbe3a2373f103c98f52a9d8d79dabc">this GitHub Gist</a>.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>R</category>
+  <category>Shiny</category>
+  <category>UI/UX</category>
+  <guid>https://mwavu.com/blog/posts/ui-ux-r-shiny-series/download-button-spinner/index.html</guid>
+  <pubDate>Mon, 20 Feb 2023 21:00:00 GMT</pubDate>
+  <media:content url="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/download-button-spinner/loader.webp" medium="image" type="image/webp"/>
+</item>
+</channel>
+</rss>
