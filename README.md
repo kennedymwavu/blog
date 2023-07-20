@@ -1,5 +1,4 @@
-----
 
-“There and Back Again: A Hobbits Tale by Bilbo Baggins.”
+![](bilbo.webp)
 
-----
+`There and Back Again` - A Hobbit's Tale by Bilbo Baggins.
