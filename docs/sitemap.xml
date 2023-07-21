@@ -2,38 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://mwavu.com/blog/index.html</loc>
-    <lastmod>2023-07-20T10:52:36.358Z</lastmod>
+    <lastmod>2023-07-21T19:41:51.551Z</lastmod>
   </url>
   <url>
     <loc>https://mwavu.com/blog/about.html</loc>
-    <lastmod>2023-07-20T10:52:36.574Z</lastmod>
+    <lastmod>2023-07-21T19:41:51.763Z</lastmod>
   </url>
   <url>
     <loc>https://mwavu.com/blog/authentication-in-r-shiny.html</loc>
-    <lastmod>2023-07-20T10:52:38.314Z</lastmod>
+    <lastmod>2023-07-21T19:41:53.451Z</lastmod>
   </url>
   <url>
     <loc>https://mwavu.com/blog/ui-ux-r-shiny-series.html</loc>
-    <lastmod>2023-07-20T10:52:39.382Z</lastmod>
+    <lastmod>2023-07-21T19:41:54.483Z</lastmod>
   </url>
   <url>
     <loc>https://mwavu.com/blog/posts/subset-every-nth-element-from-a-vector/index.html</loc>
-    <lastmod>2023-07-20T10:52:40.634Z</lastmod>
+    <lastmod>2023-07-21T19:41:55.659Z</lastmod>
   </url>
   <url>
     <loc>https://mwavu.com/blog/posts/ui-ux-r-shiny-series/download-button-spinner/index.html</loc>
-    <lastmod>2023-07-20T10:52:41.930Z</lastmod>
+    <lastmod>2023-07-21T19:41:56.783Z</lastmod>
   </url>
   <url>
     <loc>https://mwavu.com/blog/posts/ui-ux-r-shiny-series/defensive-programming/index.html</loc>
-    <lastmod>2023-07-20T10:52:43.147Z</lastmod>
+    <lastmod>2023-07-21T19:41:58.199Z</lastmod>
   </url>
   <url>
     <loc>https://mwavu.com/blog/posts/ui-ux-r-shiny-series/jquery-effects/index.html</loc>
-    <lastmod>2023-07-20T10:52:44.315Z</lastmod>
+    <lastmod>2023-07-21T19:41:59.419Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mwavu.com/blog/posts/ui-ux-r-shiny-series/bootstrap-icons-in-shiny/index.html</loc>
+    <lastmod>2023-07-21T19:42:00.567Z</lastmod>
   </url>
   <url>
     <loc>https://mwavu.com/blog/posts/ui-ux-r-shiny-series/download-button-spinner-js/index.html</loc>
-    <lastmod>2023-07-20T10:52:45.439Z</lastmod>
+    <lastmod>2023-07-21T19:42:01.835Z</lastmod>
   </url>
 </urlset>
