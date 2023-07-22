@@ -1,5 +1,15 @@
 [
   {
+    "listing": "/ui-ux-r-shiny-series.html",
+    "items": [
+      "/posts/ui-ux-r-shiny-series/bootstrap-icons-in-shiny/index.html",
+      "/posts/ui-ux-r-shiny-series/jquery-effects/index.html",
+      "/posts/ui-ux-r-shiny-series/download-button-spinner-js/index.html",
+      "/posts/ui-ux-r-shiny-series/defensive-programming/index.html",
+      "/posts/ui-ux-r-shiny-series/download-button-spinner/index.html"
+    ]
+  },
+  {
     "listing": "/index.html",
     "items": [
       "/posts/ui-ux-r-shiny-series/bootstrap-icons-in-shiny/index.html",
@@ -13,15 +23,5 @@
   {
     "listing": "/authentication-in-r-shiny.html",
     "items": []
-  },
-  {
-    "listing": "/ui-ux-r-shiny-series.html",
-    "items": [
-      "/posts/ui-ux-r-shiny-series/bootstrap-icons-in-shiny/index.html",
-      "/posts/ui-ux-r-shiny-series/jquery-effects/index.html",
-      "/posts/ui-ux-r-shiny-series/download-button-spinner-js/index.html",
-      "/posts/ui-ux-r-shiny-series/defensive-programming/index.html",
-      "/posts/ui-ux-r-shiny-series/download-button-spinner/index.html"
-    ]
   }
 ]
