@@ -27,4 +27,5 @@ format:
     comments: 
       giscus: 
         repo: kennedymwavu/blog-comments
+        category: Announcements
         theme: dark
