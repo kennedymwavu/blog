@@ -40,3 +40,21 @@ nav .nav-item:hover {
     /* transform: scale(1.08); */
     background-color: #2ea043;
 }
+
+/* scroll to top btn */
+#quarto-back-to-top {
+    color: white;
+    opacity: 0.8;
+    bottom: 10px;
+    box-shadow: none;
+    border: 1px solid;
+}
+#quarto-back-to-top:hover {
+    opacity: 1;
+}
+
+/* add margin for giscus so that comments don't get overlaid
+by the scroll to top btn */
+.giscus {
+    margin-bottom: 50px;
+}

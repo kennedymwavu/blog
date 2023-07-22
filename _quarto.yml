@@ -13,8 +13,7 @@ website:
         href: https://github.com/kennedymwavu
       - icon: twitter
         href: https://twitter.com/kennedymwavu
-  page-footer: 
-    border: true
+  back-to-top-navigation: true
   twitter-card: true
 format:
   html:
@@ -24,6 +23,7 @@ format:
     toc-location: left
     highlight-style: arrow
     code-line-numbers: true
+    smooth-scroll: true
     comments: 
       giscus: 
         repo: kennedymwavu/blog-comments
