@@ -9,7 +9,7 @@ draft: false
 
 ## Motivation
 
-I recently came across this [stackoverlow post](https://stackoverflow.com/q/41637957/16246909)
+I recently came across this [stackoverflow post](https://stackoverflow.com/q/41637957/16246909)
 from 6 years ago and I was intrigued.
 
 The OP wanted to render a dynamic number of `selectInput`s. The number of the
@@ -240,7 +240,7 @@ $(document).ready(function() {
 
 ## Conclusion
 
-`$(this)` has been the `input` in `function(input, output, session)`
+`$(this)` has been the `input` in `function(input, output, session)`.
 
 Me: At this point I can confidently say that I like JavaScript.
 
