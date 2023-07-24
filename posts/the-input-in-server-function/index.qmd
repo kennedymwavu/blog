@@ -7,7 +7,7 @@ categories: [R, Shiny]
 draft: false
 ---
 
-## Motivation
+## Introduction
 
 I recently came across this [stackoverflow post](https://stackoverflow.com/q/41637957/16246909)
 from 6 years ago and I was intrigued.
