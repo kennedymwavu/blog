@@ -10,7 +10,715 @@
 <atom:link href="https://mwavu.com/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description>There and Back Again: A Hobbit&#39;s Tale by Bilbo Baggins.</description>
 <generator>quarto-1.3.433</generator>
-<lastBuildDate>Thu, 20 Jul 2023 21:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sun, 23 Jul 2023 21:00:00 GMT</lastBuildDate>
+<item>
+  <title>The input in function(input, output, session)</title>
+  <dc:creator>Kennedy Mwavu</dc:creator>
+  <link>https://mwavu.com/blog/posts/the-input-in-server-function/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="motivation" class="level2">
+<h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
+<p>I recently came across this <a href="https://stackoverflow.com/q/41637957/16246909">stackoverlow post</a> from 6 years ago and I was intrigued.</p>
+<p>The OP wanted to render a dynamic number of <code>selectInput</code>s. The number of the <code>selectInput</code>s would be dependent on the value of a <code>numericInput</code>.</p>
+<p>If the <code>numericInput</code> had a value of 3 then there would be 3 <code>selectInput</code>s on the UI.</p>
+<p>The OP correctly made this observation:</p>
+<ul>
+<li>Say the default value of the <code>numericInput</code> is 3. If you change it to 2, the UI correctly updates and there are only 2 <code>selectInputs</code>. But when you print the <code>input</code> object, it still contains the id and value of the 3rd <code>selectInput</code> even though it is not currently rendered.</li>
+<li>Generally, the <code>input</code> slot does not correspond with the current number of elements, but with the largest number chosen during the session.</li>
+</ul>
+<p>Here is the reprex the OP provided:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>reprex-from-op.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(shiny)</span>
+<span id="cb1-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(plyr)</span>
+<span id="cb1-3"></span>
+<span id="cb1-4">testUI <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">function</span>(id) {</span>
+<span id="cb1-5">  ns <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">NS</span>(id)</span>
+<span id="cb1-6">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">uiOutput</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ns</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"container"</span>))</span>
+<span id="cb1-7">}</span>
+<span id="cb1-8"></span>
+<span id="cb1-9">test <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">function</span>(input, output, session, numElems) {</span>
+<span id="cb1-10">   output<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>container <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">renderUI</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">do.call</span>(tagList, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">llply</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">numElems</span>(), <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">function</span>(i) </span>
+<span id="cb1-11">            <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">selectInput</span>(session<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ns</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">paste0</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"elem"</span>, i)), </span>
+<span id="cb1-12">                        <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">label =</span> i, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">choices =</span> LETTERS[<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sample</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">26</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>)]))))</span>
+<span id="cb1-13">   getNames <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">reactive</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">reactiveValuesToList</span>(input))</span>
+<span id="cb1-14">   <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">getNames =</span> getNames)</span>
+<span id="cb1-15">}</span>
+<span id="cb1-16"></span>
+<span id="cb1-17">ui <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">fluidPage</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">numericInput</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"n"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Number of Elems"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">value =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>), </span>
+<span id="cb1-18">                <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">testUI</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"column1"</span>), </span>
+<span id="cb1-19">                <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">verbatimTextOutput</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"debug"</span>))</span>
+<span id="cb1-20"></span>
+<span id="cb1-21">server <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">function</span>(input, output, session) {</span>
+<span id="cb1-22">   getN <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">reactive</span>(input<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>n)</span>
+<span id="cb1-23">   handler <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">callModule</span>(test, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"column1"</span>, getN)</span>
+<span id="cb1-24">   output<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>debug <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">renderPrint</span>(handler<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">getNames</span>())</span>
+<span id="cb1-25">}</span>
+<span id="cb1-26"></span>
+<span id="cb1-27"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">shinyApp</span>(ui, server)</span></code></pre></div>
+</div>
+<p>My manager at work always says “Trust but verify”. So please run the reprex and ascertain that all the above observations are indeed true.</p>
+</section>
+<section id="my-0.02" class="level2">
+<h2 class="anchored" data-anchor-id="my-0.02">My $0.02</h2>
+<div class="tenor-gif-embed" data-postid="20340639" data-share-method="host" data-aspect-ratio="1" data-width="100%">
+<a href="https://tenor.com/view/jackie-redmond-jackie-redmond-two-cents-my-two-cents-gif-20340639">Jackie Redmond Jackie GIF</a>from <a href="https://tenor.com/search/jackie+redmond-gifs">Jackie Redmond GIFs</a>
+</div>
+<script type="text/javascript" async="" src="https://tenor.com/embed.js"></script>
+<p>The OP had 2 questions:</p>
+<ol type="1">
+<li>Is this behaviour intentional?</li>
+<li>If so, how can I update the <code>input</code> to assure that it only contains valid slots?</li>
+</ol>
+<section id="tldr" class="level3">
+<h3 class="anchored" data-anchor-id="tldr">TL;DR</h3>
+<blockquote class="blockquote">
+<p>Is this behaviour intentional?</p>
+</blockquote>
+<p>I don’t know. But it is <code>consistent</code>. The OP used <code>renderUI</code> in the reprex, I will use <code>insertUI</code>/<code>removeUI</code> in my reprex later and you will see that the behaviour is the same.</p>
+<blockquote class="blockquote">
+<p>How can I update the <code>input</code> to assure that it only contains valid slots?</p>
+</blockquote>
+<p>You can set the “invalid” slots to <code>NULL</code>, then use <code>req()</code> or <code>isTruthy()</code> to check for validity in your <code>server.R</code>.</p>
+</section>
+<section id="explanation" class="level3">
+<h3 class="anchored" data-anchor-id="explanation">Explanation</h3>
+<p>We finally get to the juicy part.</p>
+<p>Here’s what I know about <code>input</code>:</p>
+<ol type="1">
+<li><p><code>input</code> is immutable from the app’s server, unless you use <code>update*Input()</code>. eg. If you try this:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>server.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1">input<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>random_id <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"trial"</span></span></code></pre></div>
+</div>
+<p>you will get an error: “Can’t modify read-only reactive value ‘random_id’”.</p></li>
+<li><p>Once added, you can’t remove an element (an input id) from <code>input</code>, but you can change its value (using <code>update*Input()</code> or JavaScript).</p></li>
+<li><p>Changing the value of an element to <code>NULL</code> will not remove it from <code>input</code>.</p>
+<p>By that I mean <code>input</code> will not behave like a regular list where setting the value of an element to <code>NULL</code> removes it from the list:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>regular-list.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1">x <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">a =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">b =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">c =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>)</span>
+<span id="cb3-2">x<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>a <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NULL</span></span>
+<span id="cb3-3">x</span>
+<span id="cb3-4"></span>
+<span id="cb3-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># $b</span></span>
+<span id="cb3-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># [1] 2</span></span>
+<span id="cb3-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#</span></span>
+<span id="cb3-8"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># $c</span></span>
+<span id="cb3-9"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># [1] 3</span></span></code></pre></div>
+</div>
+<p>Also, you can’t use <code>update*Input()</code> to set the value of an input id to <code>NULL</code>. From <code>?updateSelectInput</code>:</p>
+<blockquote class="blockquote">
+<p>Any arguments with <code>NULL</code> values will be ignored; they will not result in any changes to the input object on the client.</p>
+</blockquote>
+<p>So to set the value of an input element to <code>NULL</code> you have to use JavaScript and provide the option <code>priority: "event"</code>. <a href="https://shiny.posit.co/r/articles/build/communicating-with-js/">Reference</a>.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>script.js</strong></pre>
+</div>
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode numberSource javascript number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb4-1">Shiny<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">setInputValue</span>(input_id<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> new_input_value<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> {<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">priority</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"event"</span>})<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span></code></pre></div>
+</div></li>
+<li><p>We can use <code>3</code> above to our advantage: Set the unwanted input id values (the ones whose UI has been removed/deleted) to <code>NULL</code>.</p>
+<p>This is what will allow us to use <code>req()</code> or <code>isTruthy()</code> if need be.</p></li>
+</ol>
+</section>
+</section>
+<section id="reprex" class="level2">
+<h2 class="anchored" data-anchor-id="reprex">Reprex</h2>
+<p>In the reprex below, I show how you can set the input id values to <code>NULL</code>.</p>
+<p>Also, I use <code>insertUI</code>/<code>removeUI</code> as stated earlier.</p>
+<p><img src="https://mwavu.com/blog/posts/the-input-in-server-function/reprex.gif" class="img-fluid" alt="Reprex showing the above"></p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>global.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(shiny)</span></code></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>ui.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1">ui <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">fluidPage</span>(</span>
+<span id="cb6-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">numericInput</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"n"</span>, <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Number of Elems"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">value =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>), </span>
+<span id="cb6-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mod_test_ui</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"column1"</span>), </span>
+<span id="cb6-4">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">verbatimTextOutput</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"debug"</span>),</span>
+<span id="cb6-5">  tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">script</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">src =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"script.js"</span>)</span>
+<span id="cb6-6">)</span></code></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>server.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1">server <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">function</span>(input, output, session) {</span>
+<span id="cb7-2">  handler <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mod_test_server</span>(</span>
+<span id="cb7-3">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">id =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"column1"</span>,</span>
+<span id="cb7-4">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">numElems =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">reactive</span>({ input<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>n })</span>
+<span id="cb7-5">  )</span>
+<span id="cb7-6">  output<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>debug <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">renderPrint</span>({ handler<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">getNames</span>() })</span>
+<span id="cb7-7">}</span></code></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R/mod_test_ui.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1">mod_test_ui <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">function</span>(id) {</span>
+<span id="cb8-2">  ns <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">NS</span>(id)</span>
+<span id="cb8-3">  tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">div</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">id =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ns</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"container"</span>))</span>
+<span id="cb8-4">}</span></code></pre></div>
+</div>
+<details open="">
+<summary>
+<code>R/mod_test_ui.R</code>
+</summary>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R/mod_test_server.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1">mod_test_server <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> \(id, numElems) {</span>
+<span id="cb9-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">moduleServer</span>(</span>
+<span id="cb9-3">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">id =</span> id,</span>
+<span id="cb9-4">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">module =</span> \(input, output, session) {</span>
+<span id="cb9-5">      ns <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> session<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>ns</span>
+<span id="cb9-6">      <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># reactive to track added UI ids:</span></span>
+<span id="cb9-7">      rv_added_ids <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">reactiveValues</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">ids =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NULL</span>)</span>
+<span id="cb9-8">      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">observeEvent</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">numElems</span>(), {</span>
+<span id="cb9-9">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># do nothing if `numElems()` is less than zero:</span></span>
+<span id="cb9-10">        n <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">numElems</span>()</span>
+<span id="cb9-11">        <span class="cf" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">if</span> (n <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">&lt;</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0</span>) <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">return</span>()</span>
+<span id="cb9-12">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># remove previously rendered UIs:</span></span>
+<span id="cb9-13">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">removeUI</span>(</span>
+<span id="cb9-14">          <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">selector =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sprintf</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#%s &gt; *"</span>, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ns</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"container"</span>)),</span>
+<span id="cb9-15">          <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">multiple =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>,</span>
+<span id="cb9-16">          <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">immediate =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span></span>
+<span id="cb9-17">        )</span>
+<span id="cb9-18">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># inform JS to set the removed input id values to NULL:</span></span>
+<span id="cb9-19">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">lapply</span>(rv_added_ids<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>ids, \(id) {</span>
+<span id="cb9-20">          session<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sendCustomMessage</span>(</span>
+<span id="cb9-21">            <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">type =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"set_to_null"</span>,</span>
+<span id="cb9-22">            <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">id =</span> id, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">value =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NULL</span>)</span>
+<span id="cb9-23">          )</span>
+<span id="cb9-24">        })</span>
+<span id="cb9-25">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># reset tracker:</span></span>
+<span id="cb9-26">        rv_added_ids<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>ids <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">NULL</span></span>
+<span id="cb9-27">        <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># add new UIs:</span></span>
+<span id="cb9-28">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">lapply</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">seq_len</span>(n), \(i) {</span>
+<span id="cb9-29">          id <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ns</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">paste0</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"elem"</span>, i))</span>
+<span id="cb9-30">          <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># track new id:</span></span>
+<span id="cb9-31">          rv_added_ids<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>ids <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">c</span>(rv_added_ids<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>ids, id)</span>
+<span id="cb9-32">          <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">insertUI</span>(</span>
+<span id="cb9-33">            <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">selector =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">paste0</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#"</span>, <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ns</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"container"</span>)),</span>
+<span id="cb9-34">            <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">where =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"beforeEnd"</span>,</span>
+<span id="cb9-35">            <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">ui =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">selectInput</span>(</span>
+<span id="cb9-36">              <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">inputId =</span> id, </span>
+<span id="cb9-37">              <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">label =</span> i,</span>
+<span id="cb9-38">              <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">choices =</span> LETTERS[<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sample</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">26</span>, <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>)]</span>
+<span id="cb9-39">            )</span>
+<span id="cb9-40">          )</span>
+<span id="cb9-41">        }</span>
+<span id="cb9-42">        )</span>
+<span id="cb9-43">      })</span>
+<span id="cb9-44">      getNames <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">reactive</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">reactiveValuesToList</span>(input))</span>
+<span id="cb9-45">      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">getNames =</span> getNames)</span>
+<span id="cb9-46">    }</span>
+<span id="cb9-47">  )</span>
+<span id="cb9-48">}</span></code></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>www/script.js</strong></pre>
+</div>
+<div class="sourceCode" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode numberSource javascript number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb10-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">$</span>(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">document</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ready</span>(<span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">function</span>() {</span>
+<span id="cb10-2">  Shiny<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">addCustomMessageHandler</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"set_to_null"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> (message) <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">=&gt;</span> {</span>
+<span id="cb10-3">    Shiny<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">setInputValue</span>(message<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">id</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> message<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">value</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> {<span class="dt" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">priority</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"event"</span>})<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb10-4">  })<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb10-5">})<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span></code></pre></div>
+</div>
+</details>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p><code>$(this)</code> has been the <code>input</code> in <code>function(input, output, session)</code></p>
+<p>Me: At this point I can confidently say that I like JavaScript.</p>
+<p>JS:</p>
+<p><img src="https://mwavu.com/blog/posts/the-input-in-server-function/all-shall-love-me.png" class="img-fluid" alt="Galadriel from LOTR saying 'All shall love me and despair'"></p>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
+  <category>R</category>
+  <category>Shiny</category>
+  <guid>https://mwavu.com/blog/posts/the-input-in-server-function/index.html</guid>
+  <pubDate>Sun, 23 Jul 2023 21:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Bootstrap icons in Shiny</title>
   <dc:creator>Kennedy Mwavu</dc:creator>
