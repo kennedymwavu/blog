@@ -1,0 +1,249 @@
+---
+title: "The `input` in function(input, output, session)"
+description: "Here's what I know about it so far"
+author: "Kennedy Mwavu"
+date: "2023-07-24"
+categories: [R, Shiny]
+draft: false
+---
+
+## Motivation
+
+I recently came across this [stackoverlow post](https://stackoverflow.com/q/41637957/16246909)
+from 6 years ago and I was intrigued.
+
+The OP wanted to render a dynamic number of `selectInput`s. The number of the
+`selectInput`s would be dependent on the value of a `numericInput`.
+
+If the `numericInput` had a value of 3 then there would be 3 `selectInput`s on
+the UI.
+
+The OP correctly made this observation:
+
+- Say the default value of the `numericInput` is 3. If you change it to 2, the
+  UI correctly updates and there are only 2 `selectInputs`. But when you print
+  the `input` object, it still contains the id and value of the 3rd `selectInput`
+  even though it is not currently rendered.
+- Generally, the `input` slot does not correspond with the current number of 
+  elements, but with the largest number chosen during the session.
+
+Here is the reprex the OP provided:
+
+```{.r filename="reprex-from-op.R"}
+library(shiny)
+library(plyr)
+
+testUI <- function(id) {
+  ns <- NS(id)
+  uiOutput(ns("container"))
+}
+
+test <- function(input, output, session, numElems) {
+   output$container <- renderUI(do.call(tagList, llply(1:numElems(), function(i) 
+            selectInput(session$ns(paste0("elem", i)), 
+                        label = i, choices = LETTERS[sample(26, 3)]))))
+   getNames <- reactive(reactiveValuesToList(input))
+   list(getNames = getNames)
+}
+
+ui <- fluidPage(numericInput("n", "Number of Elems", value = 3), 
+                testUI("column1"), 
+                verbatimTextOutput("debug"))
+
+server <- function(input, output, session) {
+   getN <- reactive(input$n)
+   handler <- callModule(test, "column1", getN)
+   output$debug <- renderPrint(handler$getNames())
+}
+
+shinyApp(ui, server)
+```
+
+My manager at work always says "Trust but verify". So please run the reprex
+and ascertain that all the above observations are indeed true.
+
+## My $0.02
+
+<div class="tenor-gif-embed" data-postid="20340639" data-share-method="host" data-aspect-ratio="1" data-width="100%"><a href="https://tenor.com/view/jackie-redmond-jackie-redmond-two-cents-my-two-cents-gif-20340639">Jackie Redmond Jackie GIF</a>from <a href="https://tenor.com/search/jackie+redmond-gifs">Jackie Redmond GIFs</a></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+
+The OP had 2 questions:
+
+1. Is this behaviour intentional?
+2. If so, how can I update the `input` to assure that it only contains valid slots?
+
+### TL;DR
+
+> Is this behaviour intentional?
+
+I don't know. But it is `consistent`. The OP used `renderUI` in the reprex, I will
+use `insertUI`/`removeUI` in my reprex later and you will see that the behaviour
+is the same.
+
+> How can I update the `input` to assure that it only contains valid slots?
+
+You can set the "invalid" slots to `NULL`, then use `req()` or `isTruthy()` to check
+for validity in your `server.R`.
+
+### Explanation
+
+We finally get to the juicy part.
+
+Here's what I know about `input`:
+
+1. `input` is immutable from the app's server, unless you use `update*Input()`.
+   eg. If you try this:
+
+   ```{.r filename="server.R"}
+   input$random_id <- "trial"
+   ```
+
+   you will get an error: "Can't modify read-only reactive value 'random_id'".
+
+1. Once added, you can't remove an element (an input id) from `input`, but you can
+   change its value (using `update*Input()` or JavaScript).
+
+1. Changing the value of an element to `NULL` will not remove it from `input`.
+
+   By that I mean `input` will not behave like a regular list where setting the
+   value of an element to `NULL` removes it from the list:
+
+    ```{.r filename="regular-list.R"}
+    x <- list(a = 1, b = 2, c = 3)
+    x$a <- NULL
+    x
+    
+    # $b
+    # [1] 2
+    #
+    # $c
+    # [1] 3
+    ```
+
+    Also, you can't use `update*Input()` to set the value of an input id to `NULL`.
+    From `?updateSelectInput`:
+
+    > Any arguments with `NULL` values will be ignored; they will not result in 
+    any changes to the input object on the client.
+
+    So to set the value of an input element to `NULL` you have to use JavaScript and
+    provide the option `priority: "event"`. [Reference](https://shiny.posit.co/r/articles/build/communicating-with-js/).
+
+    ```{.javascript filename="script.js"}
+    Shiny.setInputValue(input_id, new_input_value, {priority: "event"});
+    ```
+
+1. We can use `3` above to our advantage: Set the unwanted input id values (the ones
+   whose UI has been removed/deleted) to `NULL`.
+
+    This is what will allow us to use `req()` or `isTruthy()` if need be.
+
+## Reprex
+
+In the reprex below, I show how you can set the input id values to `NULL`.
+
+Also, I use `insertUI`/`removeUI` as stated earlier.
+
+![](reprex.gif){alt="Reprex showing the above"}
+
+```{.r filename="global.R"}
+library(shiny)
+```
+
+```{.r filename="ui.R"}
+ui <- fluidPage(
+  numericInput("n", "Number of Elems", value = 3), 
+  mod_test_ui("column1"), 
+  verbatimTextOutput("debug"),
+  tags$script(src = "script.js")
+)
+```
+
+```{.r filename="server.R"}
+server <- function(input, output, session) {
+  handler <- mod_test_server(
+    id = "column1",
+    numElems = reactive({ input$n })
+  )
+  output$debug <- renderPrint({ handler$getNames() })
+}
+```
+
+```{.r filename="R/mod_test_ui.R"}
+mod_test_ui <- function(id) {
+  ns <- NS(id)
+  tags$div(id = ns("container"))
+}
+```
+
+<details open>
+<summary>`R/mod_test_ui.R`</summary>
+```{.r filename="R/mod_test_server.R"}
+mod_test_server <- \(id, numElems) {
+  moduleServer(
+    id = id,
+    module = \(input, output, session) {
+      ns <- session$ns
+      # reactive to track added UI ids:
+      rv_added_ids <- reactiveValues(ids = NULL)
+      observeEvent(numElems(), {
+        # do nothing if `numElems()` is less than zero:
+        n <- numElems()
+        if (n < 0) return()
+        # remove previously rendered UIs:
+        removeUI(
+          selector = sprintf("#%s > *", ns("container")),
+          multiple = TRUE,
+          immediate = TRUE
+        )
+        # inform JS to set the removed input id values to NULL:
+        lapply(rv_added_ids$ids, \(id) {
+          session$sendCustomMessage(
+            type = "set_to_null",
+            list(id = id, value = NULL)
+          )
+        })
+        # reset tracker:
+        rv_added_ids$ids <- NULL
+        # add new UIs:
+        lapply(seq_len(n), \(i) {
+          id <- ns(paste0("elem", i))
+          # track new id:
+          rv_added_ids$ids <- c(rv_added_ids$ids, id)
+          insertUI(
+            selector = paste0("#", ns("container")),
+            where = "beforeEnd",
+            ui = selectInput(
+              inputId = id, 
+              label = i,
+              choices = LETTERS[sample(26, 3)]
+            )
+          )
+        }
+        )
+      })
+      getNames <- reactive(reactiveValuesToList(input))
+      list(getNames = getNames)
+    }
+  )
+}
+```
+
+```{.javascript filename="www/script.js"}
+$(document).ready(function() {
+  Shiny.addCustomMessageHandler("set_to_null", (message) => {
+    Shiny.setInputValue(message.id, message.value, {priority: "event"});
+  });
+});
+```
+
+</details>
+
+## Conclusion
+
+`$(this)` has been the `input` in `function(input, output, session)`
+
+Me: At this point I can confidently say that I like JavaScript.
+
+JS:
+
+![](all-shall-love-me.png){alt="Galadriel from LOTR saying 'All shall love me and despair'"}

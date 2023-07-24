@@ -119,39 +119,39 @@
     "text": "Putting it all together\nNow that we have the module UI and server parts, we can put them together in a shiny app.\nThe app is as simple as it can get:\nui &lt;- bslib::page(\n  theme = bslib::bs_theme(version = 5),\n  shinyjs::useShinyjs(),\n\n  shiny::tags$div(\n    class = \"bg-light\",\n\n    shiny::tags$div(\n    class = paste(\n      \"container min-vh-100\",\n      \"d-flex justify-content-center align-items-center bg-white\"\n    ),\n\n    # module UI:\n    shiny::tags$div(\n      mod_dnld_ui(\"this\")\n    )\n  )\n  )\n)\n\nserver &lt;- function(input, output, session) {\n  # module server:\n  mod_dnld_server(\"this\")\n}\n\nshiny::shinyApp(ui, server)\nThe full code is available on this GitHub Gist."
   },
   {
-    "objectID": "ui-ux-r-shiny-series.html",
-    "href": "ui-ux-r-shiny-series.html",
-    "title": "Series: UI/UX in R Shiny",
+    "objectID": "posts/the-input-in-server-function/index.html",
+    "href": "posts/the-input-in-server-function/index.html",
+    "title": "The input in function(input, output, session)",
     "section": "",
-    "text": "“ If people [users] cannot understand how to use your application, or if your application front-end does not work at all, your application is not successful no matter how innovative and incredible the computation algorithms in the back-end are. ” — Engineering Production-Grade Shiny Apps"
+    "text": "I recently came across this stackoverlow post from 6 years ago and I was intrigued.\nThe OP wanted to render a dynamic number of selectInputs. The number of the selectInputs would be dependent on the value of a numericInput.\nIf the numericInput had a value of 3 then there would be 3 selectInputs on the UI.\nThe OP correctly made this observation:\n\nSay the default value of the numericInput is 3. If you change it to 2, the UI correctly updates and there are only 2 selectInputs. But when you print the input object, it still contains the id and value of the 3rd selectInput even though it is not currently rendered.\nGenerally, the input slot does not correspond with the current number of elements, but with the largest number chosen during the session.\n\nHere is the reprex the OP provided:\n\n\nreprex-from-op.R\n\nlibrary(shiny)\nlibrary(plyr)\n\ntestUI &lt;- function(id) {\n  ns &lt;- NS(id)\n  uiOutput(ns(\"container\"))\n}\n\ntest &lt;- function(input, output, session, numElems) {\n   output$container &lt;- renderUI(do.call(tagList, llply(1:numElems(), function(i) \n            selectInput(session$ns(paste0(\"elem\", i)), \n                        label = i, choices = LETTERS[sample(26, 3)]))))\n   getNames &lt;- reactive(reactiveValuesToList(input))\n   list(getNames = getNames)\n}\n\nui &lt;- fluidPage(numericInput(\"n\", \"Number of Elems\", value = 3), \n                testUI(\"column1\"), \n                verbatimTextOutput(\"debug\"))\n\nserver &lt;- function(input, output, session) {\n   getN &lt;- reactive(input$n)\n   handler &lt;- callModule(test, \"column1\", getN)\n   output$debug &lt;- renderPrint(handler$getNames())\n}\n\nshinyApp(ui, server)\n\nMy manager at work always says “Trust but verify”. So please run the reprex and ascertain that all the above observations are indeed true."
   },
   {
-    "objectID": "ui-ux-r-shiny-series.html#why-uiux-is-important",
-    "href": "ui-ux-r-shiny-series.html#why-uiux-is-important",
-    "title": "Series: UI/UX in R Shiny",
+    "objectID": "posts/the-input-in-server-function/index.html#motivation",
+    "href": "posts/the-input-in-server-function/index.html#motivation",
+    "title": "The input in function(input, output, session)",
     "section": "",
-    "text": "“ If people [users] cannot understand how to use your application, or if your application front-end does not work at all, your application is not successful no matter how innovative and incredible the computation algorithms in the back-end are. ” — Engineering Production-Grade Shiny Apps"
+    "text": "I recently came across this stackoverlow post from 6 years ago and I was intrigued.\nThe OP wanted to render a dynamic number of selectInputs. The number of the selectInputs would be dependent on the value of a numericInput.\nIf the numericInput had a value of 3 then there would be 3 selectInputs on the UI.\nThe OP correctly made this observation:\n\nSay the default value of the numericInput is 3. If you change it to 2, the UI correctly updates and there are only 2 selectInputs. But when you print the input object, it still contains the id and value of the 3rd selectInput even though it is not currently rendered.\nGenerally, the input slot does not correspond with the current number of elements, but with the largest number chosen during the session.\n\nHere is the reprex the OP provided:\n\n\nreprex-from-op.R\n\nlibrary(shiny)\nlibrary(plyr)\n\ntestUI &lt;- function(id) {\n  ns &lt;- NS(id)\n  uiOutput(ns(\"container\"))\n}\n\ntest &lt;- function(input, output, session, numElems) {\n   output$container &lt;- renderUI(do.call(tagList, llply(1:numElems(), function(i) \n            selectInput(session$ns(paste0(\"elem\", i)), \n                        label = i, choices = LETTERS[sample(26, 3)]))))\n   getNames &lt;- reactive(reactiveValuesToList(input))\n   list(getNames = getNames)\n}\n\nui &lt;- fluidPage(numericInput(\"n\", \"Number of Elems\", value = 3), \n                testUI(\"column1\"), \n                verbatimTextOutput(\"debug\"))\n\nserver &lt;- function(input, output, session) {\n   getN &lt;- reactive(input$n)\n   handler &lt;- callModule(test, \"column1\", getN)\n   output$debug &lt;- renderPrint(handler$getNames())\n}\n\nshinyApp(ui, server)\n\nMy manager at work always says “Trust but verify”. So please run the reprex and ascertain that all the above observations are indeed true."
   },
   {
-    "objectID": "ui-ux-r-shiny-series.html#posts-in-this-series",
-    "href": "ui-ux-r-shiny-series.html#posts-in-this-series",
-    "title": "Series: UI/UX in R Shiny",
-    "section": "Posts in this series",
-    "text": "Posts in this series"
+    "objectID": "posts/the-input-in-server-function/index.html#my-0.02",
+    "href": "posts/the-input-in-server-function/index.html#my-0.02",
+    "title": "The input in function(input, output, session)",
+    "section": "My $0.02",
+    "text": "My $0.02\n\nJackie Redmond Jackie GIFfrom Jackie Redmond GIFs\n\n\nThe OP had 2 questions:\n\nIs this behaviour intentional?\nIf so, how can I update the input to assure that it only contains valid slots?\n\n\nTL;DR\n\nIs this behaviour intentional?\n\nI don’t know. But it is consistent. The OP used renderUI in the reprex, I will use insertUI/removeUI in my reprex later and you will see that the behaviour is the same.\n\nHow can I update the input to assure that it only contains valid slots?\n\nYou can set the “invalid” slots to NULL, then use req() or isTruthy() to check for validity in your server.R.\n\n\nExplanation\nWe finally get to the juicy part.\nHere’s what I know about input:\n\ninput is immutable from the app’s server, unless you use update*Input(). eg. If you try this:\n\n\nserver.R\n\ninput$random_id &lt;- \"trial\"\n\nyou will get an error: “Can’t modify read-only reactive value ‘random_id’”.\nOnce added, you can’t remove an element (an input id) from input, but you can change its value (using update*Input() or JavaScript).\nChanging the value of an element to NULL will not remove it from input.\nBy that I mean input will not behave like a regular list where setting the value of an element to NULL removes it from the list:\n\n\nregular-list.R\n\nx &lt;- list(a = 1, b = 2, c = 3)\nx$a &lt;- NULL\nx\n\n# $b\n# [1] 2\n#\n# $c\n# [1] 3\n\nAlso, you can’t use update*Input() to set the value of an input id to NULL. From ?updateSelectInput:\n\nAny arguments with NULL values will be ignored; they will not result in any changes to the input object on the client.\n\nSo to set the value of an input element to NULL you have to use JavaScript and provide the option priority: \"event\". Reference.\n\n\nscript.js\n\nShiny.setInputValue(input_id, new_input_value, {priority: \"event\"});\n\nWe can use 3 above to our advantage: Set the unwanted input id values (the ones whose UI has been removed/deleted) to NULL.\nThis is what will allow us to use req() or isTruthy() if need be."
   },
   {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "“There and Back Again: A Hobbit’s Tale by Bilbo Baggins.”\n\n\n Back to top"
+    "objectID": "posts/the-input-in-server-function/index.html#reprex",
+    "href": "posts/the-input-in-server-function/index.html#reprex",
+    "title": "The input in function(input, output, session)",
+    "section": "Reprex",
+    "text": "Reprex\nIn the reprex below, I show how you can set the input id values to NULL.\nAlso, I use insertUI/removeUI as stated earlier.\n\n\n\nglobal.R\n\nlibrary(shiny)\n\n\n\nui.R\n\nui &lt;- fluidPage(\n  numericInput(\"n\", \"Number of Elems\", value = 3), \n  mod_test_ui(\"column1\"), \n  verbatimTextOutput(\"debug\"),\n  tags$script(src = \"script.js\")\n)\n\n\n\nserver.R\n\nserver &lt;- function(input, output, session) {\n  handler &lt;- mod_test_server(\n    id = \"column1\",\n    numElems = reactive({ input$n })\n  )\n  output$debug &lt;- renderPrint({ handler$getNames() })\n}\n\n\n\nR/mod_test_ui.R\n\nmod_test_ui &lt;- function(id) {\n  ns &lt;- NS(id)\n  tags$div(id = ns(\"container\"))\n}\n\n\n\nR/mod_test_ui.R\n\n\n\nR/mod_test_server.R\n\nmod_test_server &lt;- \\(id, numElems) {\n  moduleServer(\n    id = id,\n    module = \\(input, output, session) {\n      ns &lt;- session$ns\n      # reactive to track added UI ids:\n      rv_added_ids &lt;- reactiveValues(ids = NULL)\n      observeEvent(numElems(), {\n        # do nothing if `numElems()` is less than zero:\n        n &lt;- numElems()\n        if (n &lt; 0) return()\n        # remove previously rendered UIs:\n        removeUI(\n          selector = sprintf(\"#%s &gt; *\", ns(\"container\")),\n          multiple = TRUE,\n          immediate = TRUE\n        )\n        # inform JS to set the removed input id values to NULL:\n        lapply(rv_added_ids$ids, \\(id) {\n          session$sendCustomMessage(\n            type = \"set_to_null\",\n            list(id = id, value = NULL)\n          )\n        })\n        # reset tracker:\n        rv_added_ids$ids &lt;- NULL\n        # add new UIs:\n        lapply(seq_len(n), \\(i) {\n          id &lt;- ns(paste0(\"elem\", i))\n          # track new id:\n          rv_added_ids$ids &lt;- c(rv_added_ids$ids, id)\n          insertUI(\n            selector = paste0(\"#\", ns(\"container\")),\n            where = \"beforeEnd\",\n            ui = selectInput(\n              inputId = id, \n              label = i,\n              choices = LETTERS[sample(26, 3)]\n            )\n          )\n        }\n        )\n      })\n      getNames &lt;- reactive(reactiveValuesToList(input))\n      list(getNames = getNames)\n    }\n  )\n}\n\n\n\nwww/script.js\n\n$(document).ready(function() {\n  Shiny.addCustomMessageHandler(\"set_to_null\", (message) =&gt; {\n    Shiny.setInputValue(message.id, message.value, {priority: \"event\"});\n  });\n});"
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Series",
-    "section": "",
-    "text": "Series\n\nUI/UX in R Shiny\nAuthentication in R Shiny\n\n\n\nAll Posts\n\n\n\n\n\n\n\n   \n     \n     \n       Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\nBootstrap icons in Shiny\n\n\n\nR\n\n\nShiny\n\n\nUI/UX\n\n\n\nTo my younger self :)\n\n\n\nJul 21, 2023\n\n\n\n\n\n\n\n\n\n\n\nJQuery Effects in Shiny\n\n\n\nR\n\n\nShiny\n\n\nJavaScript\n\n\nUI/UX\n\n\n\nAdd some swag to $(this) shiny app\n\n\n\nJul 20, 2023\n\n\n\n\n\n\n\n\n\n\n\nAdd downLoading spinners… using JS\n\n\n\nR\n\n\nShiny\n\n\nJavaScript\n\n\nUI/UX\n\n\n\nShow spinner when download is in progress\n\n\n\nMay 28, 2023\n\n\n\n\n\n\n\n\n\n\n\nSubset every nth element from a vector\n\n\n\nR\n\n\n\nHow would you do it?\n\n\n\nApr 16, 2023\n\n\n\n\n\n\n\n\n\n\n\nDefensive Programming\n\n\n\nR\n\n\nShiny\n\n\nUI/UX\n\n\n\nSay hello to your new friend: tryCatch()\n\n\n\nFeb 26, 2023\n\n\n\n\n\n\n\n\n\n\n\nAdd downLoading spinners\n\n\n\nR\n\n\nShiny\n\n\nUI/UX\n\n\n\nShow spinner when download is in progress\n\n\n\nFeb 21, 2023\n\n\n\n\n\n\n\n\nNo matching items\n\n Back to top"
+    "objectID": "posts/the-input-in-server-function/index.html#conclusion",
+    "href": "posts/the-input-in-server-function/index.html#conclusion",
+    "title": "The input in function(input, output, session)",
+    "section": "Conclusion",
+    "text": "Conclusion\n$(this) has been the input in function(input, output, session)\nMe: At this point I can confidently say that I like JavaScript.\nJS:"
   },
   {
     "objectID": "authentication-in-r-shiny.html",
@@ -171,6 +171,41 @@
     "objectID": "authentication-in-r-shiny.html#posts-in-this-series",
     "href": "authentication-in-r-shiny.html#posts-in-this-series",
     "title": "Series: Authentication in R Shiny",
+    "section": "Posts in this series",
+    "text": "Posts in this series"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Series",
+    "section": "",
+    "text": "Series\n\nUI/UX in R Shiny\nAuthentication in R Shiny\n\n\n\nAll Posts\n\n\n\n\n\n\n\n   \n     \n     \n       Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\nThe input in function(input, output, session)\n\n\n\nR\n\n\nShiny\n\n\n\nHere’s what I know about it so far\n\n\n\nJul 24, 2023\n\n\n\n\n\n\n\n\n\n\n\nBootstrap icons in Shiny\n\n\n\nR\n\n\nShiny\n\n\nUI/UX\n\n\n\nTo my younger self :)\n\n\n\nJul 21, 2023\n\n\n\n\n\n\n\n\n\n\n\nJQuery Effects in Shiny\n\n\n\nR\n\n\nShiny\n\n\nJavaScript\n\n\nUI/UX\n\n\n\nAdd some swag to $(this) shiny app\n\n\n\nJul 20, 2023\n\n\n\n\n\n\n\n\n\n\n\nAdd downLoading spinners… using JS\n\n\n\nR\n\n\nShiny\n\n\nJavaScript\n\n\nUI/UX\n\n\n\nShow spinner when download is in progress\n\n\n\nMay 28, 2023\n\n\n\n\n\n\n\n\n\n\n\nSubset every nth element from a vector\n\n\n\nR\n\n\n\nHow would you do it?\n\n\n\nApr 16, 2023\n\n\n\n\n\n\n\n\n\n\n\nDefensive Programming\n\n\n\nR\n\n\nShiny\n\n\nUI/UX\n\n\n\nSay hello to your new friend: tryCatch()\n\n\n\nFeb 26, 2023\n\n\n\n\n\n\n\n\n\n\n\nAdd downLoading spinners\n\n\n\nR\n\n\nShiny\n\n\nUI/UX\n\n\n\nShow spinner when download is in progress\n\n\n\nFeb 21, 2023\n\n\n\n\n\n\n\n\nNo matching items\n\n Back to top"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "“There and Back Again: A Hobbit’s Tale by Bilbo Baggins.”\n\n\n Back to top"
+  },
+  {
+    "objectID": "ui-ux-r-shiny-series.html",
+    "href": "ui-ux-r-shiny-series.html",
+    "title": "Series: UI/UX in R Shiny",
+    "section": "",
+    "text": "“ If people [users] cannot understand how to use your application, or if your application front-end does not work at all, your application is not successful no matter how innovative and incredible the computation algorithms in the back-end are. ” — Engineering Production-Grade Shiny Apps"
+  },
+  {
+    "objectID": "ui-ux-r-shiny-series.html#why-uiux-is-important",
+    "href": "ui-ux-r-shiny-series.html#why-uiux-is-important",
+    "title": "Series: UI/UX in R Shiny",
+    "section": "",
+    "text": "“ If people [users] cannot understand how to use your application, or if your application front-end does not work at all, your application is not successful no matter how innovative and incredible the computation algorithms in the back-end are. ” — Engineering Production-Grade Shiny Apps"
+  },
+  {
+    "objectID": "ui-ux-r-shiny-series.html#posts-in-this-series",
+    "href": "ui-ux-r-shiny-series.html#posts-in-this-series",
+    "title": "Series: UI/UX in R Shiny",
     "section": "Posts in this series",
     "text": "Posts in this series"
   },
