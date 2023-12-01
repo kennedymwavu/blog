@@ -3,17 +3,17 @@ listing:
   contents: posts/**/*.qmd
   sort: "date desc"
   feed: true
-  type: grid
+  type: table
   image-height: "200px"
   categories: true
   sort-ui: true
   filter-ui: true
-  fields: 
+  fields:
     - date
     # - reading-time
     - title
-    - description
-    - categories
+    # - description
+    # - categories
     # - image
 page-layout: full
 title-block-banner: true

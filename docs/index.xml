@@ -5,11 +5,11 @@
       xmlns:dc="http://purl.org/dc/elements/1.1/" 
       version="2.0">
 <channel>
-<title>A Hobbit&#39;s Tale</title>
+<title>Mwavu</title>
 <link>https://mwavu.com/blog/index.html</link>
 <atom:link href="https://mwavu.com/blog/index.xml" rel="self" type="application/rss+xml"/>
-<description>There and Back Again: A Hobbit&#39;s Tale by Bilbo Baggins.</description>
-<generator>quarto-1.3.433</generator>
+<description>Kennedy Mwavu</description>
+<generator>quarto-1.3.450</generator>
 <lastBuildDate>Sun, 23 Jul 2023 21:00:00 GMT</lastBuildDate>
 <item>
   <title>The input in function(input, output, session)</title>

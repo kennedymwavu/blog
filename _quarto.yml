@@ -2,10 +2,10 @@ project:
   type: website
   output-dir: docs
 website:
-  title: "A Hobbit's Tale"
+  title: "Mwavu"
   site-url: https://mwavu.com/blog/
-  description: "There and Back Again: A Hobbit's Tale by Bilbo Baggins."
-  favicon: bilbo.webp
+  description: "Kennedy Mwavu"
+  favicon: me-colored.jpeg
   navbar:
     right:
       - about.qmd
@@ -24,8 +24,8 @@ format:
     highlight-style: arrow
     code-line-numbers: true
     smooth-scroll: true
-    comments: 
-      giscus: 
+    comments:
+      giscus:
         repo: kennedymwavu/blog-comments
         category: Announcements
         theme: dark
