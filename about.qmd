@@ -1,6 +1,6 @@
 ---
 title: "About"
-image: bilbo.webp
+image: me-colored.jpeg
 comments: false
 about:
   template: jolla
@@ -20,4 +20,4 @@ about:
 
 ---
 
-"There and Back Again: A Hobbit's Tale by Bilbo Baggins."
+Hi, I'm Mwavu. I write about R.

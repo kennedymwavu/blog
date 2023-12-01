@@ -179,14 +179,14 @@
     "href": "index.html",
     "title": "Series",
     "section": "",
-    "text": "Series\n\nUI/UX in R Shiny\nAuthentication in R Shiny\n\n\n\nAll Posts\n\n\n\n\n\n\n\n   \n     \n     \n       Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\nThe input in function(input, output, session)\n\n\n\nR\n\n\nShiny\n\n\n\nHere’s what I know about it so far\n\n\n\nJul 24, 2023\n\n\n\n\n\n\n\n\n\n\n\nBootstrap icons in Shiny\n\n\n\nR\n\n\nShiny\n\n\nUI/UX\n\n\n\nTo my younger self :)\n\n\n\nJul 21, 2023\n\n\n\n\n\n\n\n\n\n\n\nJQuery Effects in Shiny\n\n\n\nR\n\n\nShiny\n\n\nJavaScript\n\n\nUI/UX\n\n\n\nAdd some swag to $(this) shiny app\n\n\n\nJul 20, 2023\n\n\n\n\n\n\n\n\n\n\n\nAdd downLoading spinners… using JS\n\n\n\nR\n\n\nShiny\n\n\nJavaScript\n\n\nUI/UX\n\n\n\nShow spinner when download is in progress\n\n\n\nMay 28, 2023\n\n\n\n\n\n\n\n\n\n\n\nSubset every nth element from a vector\n\n\n\nR\n\n\n\nHow would you do it?\n\n\n\nApr 16, 2023\n\n\n\n\n\n\n\n\n\n\n\nDefensive Programming\n\n\n\nR\n\n\nShiny\n\n\nUI/UX\n\n\n\nSay hello to your new friend: tryCatch()\n\n\n\nFeb 26, 2023\n\n\n\n\n\n\n\n\n\n\n\nAdd downLoading spinners\n\n\n\nR\n\n\nShiny\n\n\nUI/UX\n\n\n\nShow spinner when download is in progress\n\n\n\nFeb 21, 2023\n\n\n\n\n\n\n\n\nNo matching items\n\n Back to top"
+    "text": "Series\n\nUI/UX in R Shiny\nAuthentication in R Shiny\n\n\n\nAll Posts\n\n\n\n\n\n\n\n   \n     \n     \n       Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\n\n\n\n\nJul 24, 2023\n\n\nThe input in function(input, output, session)\n\n\n\n\nJul 21, 2023\n\n\nBootstrap icons in Shiny\n\n\n\n\nJul 20, 2023\n\n\nJQuery Effects in Shiny\n\n\n\n\nMay 28, 2023\n\n\nAdd downLoading spinners… using JS\n\n\n\n\nApr 16, 2023\n\n\nSubset every nth element from a vector\n\n\n\n\nFeb 26, 2023\n\n\nDefensive Programming\n\n\n\n\nFeb 21, 2023\n\n\nAdd downLoading spinners\n\n\n\n\n\n\nNo matching items\n\n Back to top"
   },
   {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "“There and Back Again: A Hobbit’s Tale by Bilbo Baggins.”\n\n\n Back to top"
+    "text": "Hi, I’m Mwavu. I write about R.\n\n\n Back to top"
   },
   {
     "objectID": "ui-ux-r-shiny-series.html",
@@ -362,5 +362,12 @@
     "title": "Bootstrap icons in Shiny",
     "section": "Conclusion",
     "text": "Conclusion\n$(this) has been Bootstrap icons in Shiny."
+  },
+  {
+    "objectID": "about.html#education",
+    "href": "about.html#education",
+    "title": "About",
+    "section": "Education",
+    "text": "Education\n\nBSC Actuarial Science, University of Nairobi"
   }
 ]
