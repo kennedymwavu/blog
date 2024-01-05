@@ -21,11 +21,10 @@ toc: false
 comments: false
 ---
 
-# Series
+# Sections
 
-1. [UI/UX in R Shiny](ui-ux-r-shiny-series.qmd)
+1. [Shiny](shiny.qmd)
 
-2. [Authentication in R Shiny](authentication-in-r-shiny.qmd)
 
 
 

@@ -1,0 +1,77 @@
+---
+title: "Injecting 💉 tabPanelBodies into tabsetPanels"
+description: "How to dynamically populate tabset panels with tabpanel bodies"
+author: "Kennedy Mwavu"
+date: "2024-01-04"
+categories: [R, Shiny, UI/UX]
+draft: false
+---
+
+## Introduction
+
+Let's talk about injections... Code & data injections, to be specific.
+
+If you have built any sizeable shiny app, then you've probably had to handle
+many hidden tab panels.
+
+You end up with code which looks like this:
+
+```{.r filename="global.R"}
+library(shiny)
+```
+
+```{.r filename="ui.R"}
+# btns to switch from one tab to the other:
+btns <- lapply(letters[1:10], \(letter) {
+  actionButton(
+    inputId = paste0("btn_", letter),
+    label = paste0(letter, letter),
+    class = "btn-primary btn-lg"
+  )
+})
+
+tabs <- tabsetPanel(
+  id = "tabs",
+  type = "hidden",
+  selected = "a",
+  tabPanelBody(value = "a", tags$h1("Tab A")),
+  tabPanelBody(value = "b", tags$h1("Tab B")),
+  tabPanelBody(value = "c", tags$h1("Tab C")),
+  tabPanelBody(value = "d", tags$h1("Tab D")),
+  tabPanelBody(value = "e", tags$h1("Tab E")),
+  tabPanelBody(value = "f", tags$h1("Tab F")),
+  tabPanelBody(value = "g", tags$h1("Tab G")),
+  tabPanelBody(value = "h", tags$h1("Tab H")),
+  tabPanelBody(value = "i", tags$h1("Tab I")),
+  tabPanelBody(value = "j", tags$h1("Tab J"))
+)
+
+ui <- fluidPage(
+  tags$div(
+    class = "container text-center",
+    tags$div(class = "page-header", btns),
+    tabs
+  )
+)
+```
+
+```{.r filename="server.R"}
+server <- \(input, output, session) {
+  # switch to selected tab:
+  switch_tabs <- \(selected) {
+    freezeReactiveValue(x = input, name = "tabs")
+    updateTabsetPanel(
+      session = session,
+      inputId = "tabs",
+      selected = selected
+    )
+  }
+  # add btn observers:
+  lapply(letters[1:10], \(letter) {
+    btn_id <- paste0("btn_", letter)
+    observeEvent(input[[btn_id]], switch_tabs(letter))
+  })
+}
+```
+
+![](./exhibit-1.gif){alt="preview of the app"}

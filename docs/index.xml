@@ -10,7 +10,327 @@
 <atom:link href="https://mwavu.com/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description>Kennedy Mwavu</description>
 <generator>quarto-1.3.450</generator>
-<lastBuildDate>Sun, 23 Jul 2023 21:00:00 GMT</lastBuildDate>
+<lastBuildDate>Wed, 03 Jan 2024 21:00:00 GMT</lastBuildDate>
+<item>
+  <title>Injecting 💉 tabPanelBodies into tabsetPanels</title>
+  <dc:creator>Kennedy Mwavu</dc:creator>
+  <link>https://mwavu.com/blog/posts/shiny/injecting-tabpanelbodies-in-tabsetpanels/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Let’s talk about injections… Code &amp; data injections, to be specific.</p>
+<p>If you have built any sizeable shiny app, then you’ve probably had to handle many hidden tab panels.</p>
+<p>You end up with code which looks like this:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>global.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(shiny)</span></code></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>ui.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># btns to switch from one tab to the other:</span></span>
+<span id="cb2-2">btns <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">lapply</span>(letters[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>], \(letter) {</span>
+<span id="cb2-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">actionButton</span>(</span>
+<span id="cb2-4">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">inputId =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">paste0</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"btn_"</span>, letter),</span>
+<span id="cb2-5">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">label =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">paste0</span>(letter, letter),</span>
+<span id="cb2-6">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">class =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"btn-primary btn-lg"</span></span>
+<span id="cb2-7">  )</span>
+<span id="cb2-8">})</span>
+<span id="cb2-9"></span>
+<span id="cb2-10">tabs <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">tabsetPanel</span>(</span>
+<span id="cb2-11">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">id =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"tabs"</span>,</span>
+<span id="cb2-12">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">type =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"hidden"</span>,</span>
+<span id="cb2-13">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">selected =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"a"</span>,</span>
+<span id="cb2-14">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">tabPanelBody</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">value =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"a"</span>, tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">h1</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Tab A"</span>)),</span>
+<span id="cb2-15">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">tabPanelBody</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">value =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"b"</span>, tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">h1</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Tab B"</span>)),</span>
+<span id="cb2-16">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">tabPanelBody</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">value =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"c"</span>, tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">h1</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Tab C"</span>)),</span>
+<span id="cb2-17">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">tabPanelBody</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">value =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"d"</span>, tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">h1</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Tab D"</span>)),</span>
+<span id="cb2-18">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">tabPanelBody</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">value =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"e"</span>, tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">h1</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Tab E"</span>)),</span>
+<span id="cb2-19">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">tabPanelBody</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">value =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"f"</span>, tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">h1</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Tab F"</span>)),</span>
+<span id="cb2-20">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">tabPanelBody</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">value =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"g"</span>, tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">h1</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Tab G"</span>)),</span>
+<span id="cb2-21">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">tabPanelBody</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">value =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"h"</span>, tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">h1</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Tab H"</span>)),</span>
+<span id="cb2-22">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">tabPanelBody</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">value =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"i"</span>, tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">h1</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Tab I"</span>)),</span>
+<span id="cb2-23">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">tabPanelBody</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">value =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"j"</span>, tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">h1</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Tab J"</span>))</span>
+<span id="cb2-24">)</span>
+<span id="cb2-25"></span>
+<span id="cb2-26">ui <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">fluidPage</span>(</span>
+<span id="cb2-27">  tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">div</span>(</span>
+<span id="cb2-28">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">class =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"container text-center"</span>,</span>
+<span id="cb2-29">    tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">div</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">class =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"page-header"</span>, btns),</span>
+<span id="cb2-30">    tabs</span>
+<span id="cb2-31">  )</span>
+<span id="cb2-32">)</span></code></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>server.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1">server <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> \(input, output, session) {</span>
+<span id="cb3-2">  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># switch to selected tab:</span></span>
+<span id="cb3-3">  switch_tabs <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> \(selected) {</span>
+<span id="cb3-4">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">freezeReactiveValue</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">x =</span> input, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">name =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"tabs"</span>)</span>
+<span id="cb3-5">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">updateTabsetPanel</span>(</span>
+<span id="cb3-6">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">session =</span> session,</span>
+<span id="cb3-7">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">inputId =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"tabs"</span>,</span>
+<span id="cb3-8">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">selected =</span> selected</span>
+<span id="cb3-9">    )</span>
+<span id="cb3-10">  }</span>
+<span id="cb3-11">  <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># add btn observers:</span></span>
+<span id="cb3-12">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">lapply</span>(letters[<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span>], \(letter) {</span>
+<span id="cb3-13">    btn_id <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">paste0</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"btn_"</span>, letter)</span>
+<span id="cb3-14">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">observeEvent</span>(input[[btn_id]], <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">switch_tabs</span>(letter))</span>
+<span id="cb3-15">  })</span>
+<span id="cb3-16">}</span></code></pre></div>
+</div>
+<p><img src="https://mwavu.com/blog/posts/shiny/injecting-tabpanelbodies-in-tabsetpanels/exhibit-1.gif" class="img-fluid" alt="preview of the app"></p>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
+  <category>R</category>
+  <category>Shiny</category>
+  <category>UI/UX</category>
+  <guid>https://mwavu.com/blog/posts/shiny/injecting-tabpanelbodies-in-tabsetpanels/index.html</guid>
+  <pubDate>Wed, 03 Jan 2024 21:00:00 GMT</pubDate>
+</item>
 <item>
   <title>The input in function(input, output, session)</title>
   <dc:creator>Kennedy Mwavu</dc:creator>
@@ -722,7 +1042,7 @@ font-style: inherit;">;</span></span></code></pre></div>
 <item>
   <title>Bootstrap icons in Shiny</title>
   <dc:creator>Kennedy Mwavu</dc:creator>
-  <link>https://mwavu.com/blog/posts/ui-ux-r-shiny-series/bootstrap-icons-in-shiny/index.html</link>
+  <link>https://mwavu.com/blog/posts/shiny/bootstrap-icons-in-shiny/index.html</link>
   <description><![CDATA[ 
 
 
@@ -735,12 +1055,12 @@ font-style: inherit;">;</span></span></code></pre></div>
 <p>When I was a beginner in shiny (Does one actually ever stop being a beginner?), every other website I visited had some cool icons.</p>
 <p>I couldn’t for the life of me figure out how to use another icon library apart from shiny’s default ones (Free fontawesome kit and glyphicons).</p>
 <p>In short, this post is more of me narrating to my younger self how I finally made it.</p>
-<p><img src="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/bootstrap-icons-in-shiny/did-you-do-it.png" class="img-fluid" alt="what did it cost meme"></p>
+<p><img src="https://mwavu.com/blog/posts/shiny/bootstrap-icons-in-shiny/did-you-do-it.png" class="img-fluid" alt="what did it cost meme"></p>
 <p>Good thing is that younger me didn’t know a lot and so it won’t take much to impress him, meaning this is going to be short.</p>
 </section>
 <section id="demo" class="level2">
 <h2 class="anchored" data-anchor-id="demo">Demo</h2>
-<p><img src="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/bootstrap-icons-in-shiny/bi.png" class="img-fluid" alt="bootstrap icons in a shiny app"></p>
+<p><img src="https://mwavu.com/blog/posts/shiny/bootstrap-icons-in-shiny/bi.png" class="img-fluid" alt="bootstrap icons in a shiny app"></p>
 <p><a href="https://icons.getbootstrap.com/">Bootstrap Icons</a> is a free and open source library:</p>
 <ul>
 <li>It has many icons you can choose from (over 1800 at the time of writing this)</li>
@@ -1473,7 +1793,7 @@ font-style: inherit;">FALSE</span>)</span>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
 <p><code>$(this)</code> has been Bootstrap icons in Shiny.</p>
-<p><img src="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/bootstrap-icons-in-shiny/bs-5.jpg" class="img-fluid" alt="Bootstrap to the rescue of a backend engineer"></p>
+<p><img src="https://mwavu.com/blog/posts/shiny/bootstrap-icons-in-shiny/bs-5.jpg" class="img-fluid" alt="Bootstrap to the rescue of a backend engineer"></p>
 
 
 </section>
@@ -1482,13 +1802,13 @@ font-style: inherit;">FALSE</span>)</span>
   <category>R</category>
   <category>Shiny</category>
   <category>UI/UX</category>
-  <guid>https://mwavu.com/blog/posts/ui-ux-r-shiny-series/bootstrap-icons-in-shiny/index.html</guid>
+  <guid>https://mwavu.com/blog/posts/shiny/bootstrap-icons-in-shiny/index.html</guid>
   <pubDate>Thu, 20 Jul 2023 21:00:00 GMT</pubDate>
 </item>
 <item>
   <title>JQuery Effects in Shiny</title>
   <dc:creator>Kennedy Mwavu</dc:creator>
-  <link>https://mwavu.com/blog/posts/ui-ux-r-shiny-series/jquery-effects/index.html</link>
+  <link>https://mwavu.com/blog/posts/shiny/jquery-effects/index.html</link>
   <description><![CDATA[ 
 
 
@@ -1498,14 +1818,14 @@ font-style: inherit;">FALSE</span>)</span>
 <h2 class="anchored" data-anchor-id="demo">Demo</h2>
 <p>Here is how <code>renderUI()</code> normally functions:</p>
 <div class="d-flex justify-content-center">
-<p><img src="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/jquery-effects/normal-renderUI-demo.gif" class="img-fluid" alt="Normal renderUI demo"></p>
+<p><img src="https://mwavu.com/blog/posts/shiny/jquery-effects/normal-renderUI-demo.gif" class="img-fluid" alt="Normal renderUI demo"></p>
 </div>
 <p>There’s nothing wrong with it. It works well.</p>
 <p>But notice how on the initial render, the user is just slapped with the content. It gets worse if you’re rendering a huge portion.</p>
 <p>I’m not here to offer you another version of <code>renderUI</code>. What I can do, however, is show you how you can improvise and make the rendering feel magical to the user.</p>
 <p>Let’s take a look at a sample:</p>
 <div class="d-flex justify-content-center">
-<p><img src="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/jquery-effects/animated-renderUI-demo.gif" class="img-fluid" alt="Animated renderUI demo"></p>
+<p><img src="https://mwavu.com/blog/posts/shiny/jquery-effects/animated-renderUI-demo.gif" class="img-fluid" alt="Animated renderUI demo"></p>
 </div>
 <p>The rendered UI now smoothly slides down and up depending on user action. How cool is that?</p>
 </section>
@@ -2553,13 +2873,13 @@ font-style: inherit;">"animated"</span>)</span>
   <category>Shiny</category>
   <category>JavaScript</category>
   <category>UI/UX</category>
-  <guid>https://mwavu.com/blog/posts/ui-ux-r-shiny-series/jquery-effects/index.html</guid>
+  <guid>https://mwavu.com/blog/posts/shiny/jquery-effects/index.html</guid>
   <pubDate>Wed, 19 Jul 2023 21:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Add downLoading spinners… using JS</title>
   <dc:creator>Kennedy Mwavu</dc:creator>
-  <link>https://mwavu.com/blog/posts/ui-ux-r-shiny-series/download-button-spinner-js/index.html</link>
+  <link>https://mwavu.com/blog/posts/shiny/download-button-spinner-js/index.html</link>
   <description><![CDATA[ 
 
 
@@ -2567,11 +2887,11 @@ font-style: inherit;">"animated"</span>)</span>
 
 <section id="demo" class="level2">
 <h2 class="anchored" data-anchor-id="demo">Demo</h2>
-<p><img src="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/download-button-spinner-js/dnld-spinner-js.gif" class="img-fluid" alt="A gif showing what we will build today"></p>
+<p><img src="https://mwavu.com/blog/posts/shiny/download-button-spinner-js/dnld-spinner-js.gif" class="img-fluid" alt="A gif showing what we will build today"></p>
 </section>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
-<p>In <a href="../../../posts/ui-ux-r-shiny-series/download-button-spinner/index.html">an older post</a> I explained how to add loading spinners to download buttons when the download is in progress using shinyjs.</p>
+<p>In <a href="../../../posts/shiny/download-button-spinner/index.html">an older post</a> I explained how to add loading spinners to download buttons when the download is in progress using shinyjs.</p>
 <p>I did so by rendering a fake download button which, when clicked, triggered the real download button. Honestly, it was kind of cumbersome.</p>
 <p>Today, as I was walking in the streets of R Shiny articles by Posit, I came across <a href="https://shiny.posit.co/r/articles/build/js-events/">JavaScript events in shiny</a>.</p>
 <p>I was intrigued. It opened my eyes to the endless possibilities of using JS with shiny. This blog post is just the tip of that iceberg.</p>
@@ -2584,7 +2904,7 @@ font-style: inherit;">"animated"</span>)</span>
 </blockquote>
 <p>I’ve spent so much time trying to run away from JS, forcing R to do what JS was purposed to do.</p>
 <p>In the end I’ve come to one conclusion: Smith was always right.</p>
-<p><img src="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/download-button-spinner-js/inevitable.jpg" class="img-fluid" alt="the sound of inevitability meme"></p>
+<p><img src="https://mwavu.com/blog/posts/shiny/download-button-spinner-js/inevitable.jpg" class="img-fluid" alt="the sound of inevitability meme"></p>
 <p>As a matter of fact, I’m beginning to enjoy learning and using it.</p>
 </section>
 <section id="the-module" class="level2">
@@ -2857,7 +3177,7 @@ font-style: inherit;">;</span></span></code></pre></div>
 <p>The first one (<code>starting_download</code>), adds a loading spinner to indicate that the download is in progress.</p>
 <p>The second handler (<code>end_download</code>), changes the inner HTML to its original value, indicating that the download is done.</p>
 <p>The module is complete!</p>
-<p><img src="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/download-button-spinner-js/same-var-name.png" class="img-fluid"></p>
+<p><img src="https://mwavu.com/blog/posts/shiny/download-button-spinner-js/same-var-name.png" class="img-fluid"></p>
 <section id="nested" class="level3">
 <h3 class="anchored" data-anchor-id="nested">Nested</h3>
 <p>For the sake of testing whether our module will work when nested in other modules, let’s define this:</p>
@@ -3143,7 +3463,7 @@ font-style: inherit;">library</span>(shiny)</span></code></pre></div>
 <p>Really proud of myself today!</p>
 <p>I expect to learn more JavaScript, but I can’t promise.</p>
 <p>Wait… What!?</p>
-<p><img src="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/download-button-spinner-js/unga.jpg" class="img-fluid"></p>
+<p><img src="https://mwavu.com/blog/posts/shiny/download-button-spinner-js/unga.jpg" class="img-fluid"></p>
 <p>Uhhmmm…</p>
 <p>Anddd I just tweeted that.</p>
 <blockquote class="twitter-tweet blockquote"><p lang="en" dir="ltr">I expect to learn more JavaScript, but I can't promise.</p>— Mwavu (@kennedymwavu) <a href="https://twitter.com/kennedymwavu/status/1662911894699507714?ref_src=twsrc%5Etfw">May 28, 2023</a></blockquote> <script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -3156,7 +3476,7 @@ font-style: inherit;">library</span>(shiny)</span></code></pre></div>
   <category>Shiny</category>
   <category>JavaScript</category>
   <category>UI/UX</category>
-  <guid>https://mwavu.com/blog/posts/ui-ux-r-shiny-series/download-button-spinner-js/index.html</guid>
+  <guid>https://mwavu.com/blog/posts/shiny/download-button-spinner-js/index.html</guid>
   <pubDate>Sat, 27 May 2023 21:00:00 GMT</pubDate>
 </item>
 <item>
@@ -3398,7 +3718,7 @@ font-style: inherit;">TRUE</span>)]</span></code></pre></div>
 <item>
   <title>Defensive Programming</title>
   <dc:creator>Kennedy Mwavu</dc:creator>
-  <link>https://mwavu.com/blog/posts/ui-ux-r-shiny-series/defensive-programming/index.html</link>
+  <link>https://mwavu.com/blog/posts/shiny/defensive-programming/index.html</link>
   <description><![CDATA[ 
 
 
@@ -3417,7 +3737,7 @@ Mwavu
 <p>Your prod app should never have to fail, crash or display arcane red lines of errors on the UI.</p>
 <p>If it has to, it should do so gracefully and with dignity. Only then will you have an easy time convincing the client that it’s a six-legged feature, not a bug.</p>
 <div class="d-flex justify-content-center">
-<p><img src="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/defensive-programming/bug.png" alt="A red bug with black spots and legs"></p>
+<p><img src="https://mwavu.com/blog/posts/shiny/defensive-programming/bug.png" alt="A red bug with black spots and legs"></p>
 </div>
 </section>
 <section id="when-do-errors-arise" class="level2">
@@ -3926,14 +4246,14 @@ font-style: inherit;">shinyApp</span>(ui, server)</span></code></pre></div>
   <category>R</category>
   <category>Shiny</category>
   <category>UI/UX</category>
-  <guid>https://mwavu.com/blog/posts/ui-ux-r-shiny-series/defensive-programming/index.html</guid>
+  <guid>https://mwavu.com/blog/posts/shiny/defensive-programming/index.html</guid>
   <pubDate>Sat, 25 Feb 2023 21:00:00 GMT</pubDate>
-  <media:content url="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/defensive-programming/tc.png" medium="image" type="image/png"/>
+  <media:content url="https://mwavu.com/blog/posts/shiny/defensive-programming/tc.png" medium="image" type="image/png"/>
 </item>
 <item>
   <title>Add downLoading spinners</title>
   <dc:creator>Kennedy Mwavu</dc:creator>
-  <link>https://mwavu.com/blog/posts/ui-ux-r-shiny-series/download-button-spinner/index.html</link>
+  <link>https://mwavu.com/blog/posts/shiny/download-button-spinner/index.html</link>
   <description><![CDATA[ 
 
 
@@ -3941,7 +4261,7 @@ font-style: inherit;">shinyApp</span>(ui, server)</span></code></pre></div>
 
 <section id="demo" class="level2">
 <h2 class="anchored" data-anchor-id="demo">Demo</h2>
-<p><img src="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/download-button-spinner/dnld-spinner.gif" class="img-fluid" alt="A gif showing what we will build today"></p>
+<p><img src="https://mwavu.com/blog/posts/shiny/download-button-spinner/dnld-spinner.gif" class="img-fluid" alt="A gif showing what we will build today"></p>
 </section>
 <section id="introduction" class="level2">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
@@ -4292,7 +4612,7 @@ font-style: inherit;">"dnld"</span>)</span>
 <li><p>I use <code>shinyjs::delay</code> to, well, delay the click for 2 seconds. Wanna know why?</p></li>
 </ol>
 <div class="d-flex justify-content-center">
-<p><img src="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/download-button-spinner/purpose-of-delay.png" alt="The whisper and goosebumps meme: The delay makes the overall UX better"></p>
+<p><img src="https://mwavu.com/blog/posts/shiny/download-button-spinner/purpose-of-delay.png" alt="The whisper and goosebumps meme: The delay makes the overall UX better"></p>
 </div>
 <p>Next, after the download is complete, we need to update the label of the action button back to its original value.</p>
 <div class="code-with-filename">
@@ -4751,9 +5071,9 @@ font-style: inherit;">shinyApp</span>(ui, server)</span></code></pre></div>
   <category>R</category>
   <category>Shiny</category>
   <category>UI/UX</category>
-  <guid>https://mwavu.com/blog/posts/ui-ux-r-shiny-series/download-button-spinner/index.html</guid>
+  <guid>https://mwavu.com/blog/posts/shiny/download-button-spinner/index.html</guid>
   <pubDate>Mon, 20 Feb 2023 21:00:00 GMT</pubDate>
-  <media:content url="https://mwavu.com/blog/posts/ui-ux-r-shiny-series/download-button-spinner/loader.webp" medium="image" type="image/webp"/>
+  <media:content url="https://mwavu.com/blog/posts/shiny/download-button-spinner/loader.webp" medium="image" type="image/webp"/>
 </item>
 </channel>
 </rss>
