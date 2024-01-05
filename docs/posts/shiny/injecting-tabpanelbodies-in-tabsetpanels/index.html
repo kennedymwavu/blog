@@ -275,6 +275,76 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-16"><a href="#cb3-16"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><img src="./exhibit-1.gif" class="img-fluid" alt="preview of the app"></p>
+<p><code>server.R</code> looks good.</p>
+<p>Let’s focus on <code>ui.R</code>, specifically on the tabs.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>tabs <span class="ot">&lt;-</span> <span class="fu">tabsetPanel</span>(</span>
+<span id="cb4-2"><a href="#cb4-2"></a>  <span class="at">id =</span> <span class="st">"tabs"</span>,</span>
+<span id="cb4-3"><a href="#cb4-3"></a>  <span class="at">type =</span> <span class="st">"hidden"</span>,</span>
+<span id="cb4-4"><a href="#cb4-4"></a>  <span class="at">selected =</span> <span class="st">"a"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5"></a>  <span class="fu">tabPanelBody</span>(<span class="at">value =</span> <span class="st">"a"</span>, tags<span class="sc">$</span><span class="fu">h1</span>(<span class="st">"Tab A"</span>)),</span>
+<span id="cb4-6"><a href="#cb4-6"></a>  <span class="fu">tabPanelBody</span>(<span class="at">value =</span> <span class="st">"b"</span>, tags<span class="sc">$</span><span class="fu">h1</span>(<span class="st">"Tab B"</span>)),</span>
+<span id="cb4-7"><a href="#cb4-7"></a>  <span class="fu">tabPanelBody</span>(<span class="at">value =</span> <span class="st">"c"</span>, tags<span class="sc">$</span><span class="fu">h1</span>(<span class="st">"Tab C"</span>)),</span>
+<span id="cb4-8"><a href="#cb4-8"></a>  <span class="fu">tabPanelBody</span>(<span class="at">value =</span> <span class="st">"d"</span>, tags<span class="sc">$</span><span class="fu">h1</span>(<span class="st">"Tab D"</span>)),</span>
+<span id="cb4-9"><a href="#cb4-9"></a>  <span class="fu">tabPanelBody</span>(<span class="at">value =</span> <span class="st">"e"</span>, tags<span class="sc">$</span><span class="fu">h1</span>(<span class="st">"Tab E"</span>)),</span>
+<span id="cb4-10"><a href="#cb4-10"></a>  <span class="fu">tabPanelBody</span>(<span class="at">value =</span> <span class="st">"f"</span>, tags<span class="sc">$</span><span class="fu">h1</span>(<span class="st">"Tab F"</span>)),</span>
+<span id="cb4-11"><a href="#cb4-11"></a>  <span class="fu">tabPanelBody</span>(<span class="at">value =</span> <span class="st">"g"</span>, tags<span class="sc">$</span><span class="fu">h1</span>(<span class="st">"Tab G"</span>)),</span>
+<span id="cb4-12"><a href="#cb4-12"></a>  <span class="fu">tabPanelBody</span>(<span class="at">value =</span> <span class="st">"h"</span>, tags<span class="sc">$</span><span class="fu">h1</span>(<span class="st">"Tab H"</span>)),</span>
+<span id="cb4-13"><a href="#cb4-13"></a>  <span class="fu">tabPanelBody</span>(<span class="at">value =</span> <span class="st">"i"</span>, tags<span class="sc">$</span><span class="fu">h1</span>(<span class="st">"Tab I"</span>)),</span>
+<span id="cb4-14"><a href="#cb4-14"></a>  <span class="fu">tabPanelBody</span>(<span class="at">value =</span> <span class="st">"j"</span>, tags<span class="sc">$</span><span class="fu">h1</span>(<span class="st">"Tab J"</span>))</span>
+<span id="cb4-15"><a href="#cb4-15"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>One thing is clear: the <code>tabPanelBody()</code>s are wet, not DRY. (Yes, I’m actually smiling right now).</p>
+<p>In most cases, the content of each <code>tabPanelBody()</code> is usually a call to a module which I give the same id as the value of the <code>tabPanelBody()</code>.</p>
+<p>I have used <code>h1</code> tags here for simplification.</p>
+<p>To avoid repetition, let’s use <code>lapply()</code>:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>panel_bodies <span class="ot">&lt;-</span> <span class="fu">lapply</span>(letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>], \(value) {</span>
+<span id="cb5-2"><a href="#cb5-2"></a>  <span class="fu">tabPanelBody</span>(</span>
+<span id="cb5-3"><a href="#cb5-3"></a>    <span class="at">value =</span> value,</span>
+<span id="cb5-4"><a href="#cb5-4"></a>    tags<span class="sc">$</span><span class="fu">h1</span>(</span>
+<span id="cb5-5"><a href="#cb5-5"></a>      <span class="fu">paste</span>(<span class="st">"tab"</span>, value) <span class="sc">|&gt;</span> stringr<span class="sc">::</span><span class="fu">str_to_title</span>()</span>
+<span id="cb5-6"><a href="#cb5-6"></a>    )</span>
+<span id="cb5-7"><a href="#cb5-7"></a>  )</span>
+<span id="cb5-8"><a href="#cb5-8"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>In a more realistic example you’d have to use <code>Map()</code> so that you iterate over the values/ids and modules.</p>
+<p>For example:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>panel_bodies <span class="ot">&lt;-</span> <span class="fu">Map</span>(</span>
+<span id="cb6-2"><a href="#cb6-2"></a>  <span class="at">f =</span> \(value, mod_ui) {</span>
+<span id="cb6-3"><a href="#cb6-3"></a>    <span class="fu">tabPanelBody</span>(<span class="at">value =</span> value, <span class="fu">mod_ui</span>(<span class="at">id =</span> value))</span>
+<span id="cb6-4"><a href="#cb6-4"></a>  },</span>
+<span id="cb6-5"><a href="#cb6-5"></a>  <span class="fu">list</span>(</span>
+<span id="cb6-6"><a href="#cb6-6"></a>    <span class="st">"home"</span>, <span class="st">"generate_shifts"</span>, <span class="st">"leave_application"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7"></a>    <span class="st">"manage_employees"</span>, <span class="st">"download_shifts"</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a>  ),</span>
+<span id="cb6-9"><a href="#cb6-9"></a>  <span class="fu">list</span>(</span>
+<span id="cb6-10"><a href="#cb6-10"></a>    mod_home_ui, mod_generate_shifts_ui, mod_leave_application_ui,</span>
+<span id="cb6-11"><a href="#cb6-11"></a>    mod_manage_employees_ui, mod_download_shifts_ui</span>
+<span id="cb6-12"><a href="#cb6-12"></a>  )</span>
+<span id="cb6-13"><a href="#cb6-13"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>I digress. Back to the <code>lapply()</code>.</p>
+<p>We now no longer repeat ourselves. Yeeey!</p>
+<p>But our joy is not meant to last long: how do we pass this list of <code>tabPanelBody()</code>s to <code>tabsetPanel()</code>?</p>
+<p>This will <strong>not</strong> work:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">tabsetPanel</span>(</span>
+<span id="cb7-2"><a href="#cb7-2"></a>  <span class="at">id =</span> <span class="st">"tabs"</span>,</span>
+<span id="cb7-3"><a href="#cb7-3"></a>  <span class="at">type =</span> <span class="st">"hidden"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4"></a>  <span class="at">selected =</span> <span class="st">"a"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5"></a>  panel_bodies</span>
+<span id="cb7-6"><a href="#cb7-6"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<pre><code>Error: Navigation containers expect a collection of `bslib::nav_panel()`/`shiny::tabPanel()`s and/or `bslib::nav_menu()`/`shiny::navbarMenu()`s. Consider using `header` or `footer` if you wish to place content above (or below) every panel's contents.</code></pre>
+<p><code>tabsetPanel()</code> expects the bare <code>tabPanelBody()</code>s, without wrappers (in this case a list).</p>
+<p>My first thought when I encountered this was to use <code>do.call()</code>.</p>
+<p>Since we already have some default arguments passed to <code>tabsetPanel()</code>, we have to modify the approach to <code>do.call()</code> a little bit:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># a wrapper function with default args to `tabsetPanel()`</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>tp <span class="ot">&lt;-</span> \(...) {</span>
+<span id="cb9-3"><a href="#cb9-3"></a>  <span class="fu">tabsetPanel</span>(</span>
+<span id="cb9-4"><a href="#cb9-4"></a>  <span class="at">id =</span> <span class="st">"tabs"</span>,</span>
+<span id="cb9-5"><a href="#cb9-5"></a>  <span class="at">type =</span> <span class="st">"hidden"</span>,</span>
+<span id="cb9-6"><a href="#cb9-6"></a>  <span class="at">selected =</span> <span class="st">"a"</span>,</span>
+<span id="cb9-7"><a href="#cb9-7"></a>  ...</span>
+<span id="cb9-8"><a href="#cb9-8"></a>)</span>
+<span id="cb9-9"><a href="#cb9-9"></a>}</span>
+<span id="cb9-10"><a href="#cb9-10"></a></span>
+<span id="cb9-11"><a href="#cb9-11"></a><span class="fu">do.call</span>(<span class="at">what =</span> tp, <span class="at">args =</span> panel_bodies)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Enter <code>rlang::inject()</code>.</p>
 
 
 </section>
