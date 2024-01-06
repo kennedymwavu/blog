@@ -20,8 +20,8 @@
 
 
 
-<section id="introduction" class="level2">
-<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<section id="context" class="level2">
+<h2 class="anchored" data-anchor-id="context">Context</h2>
 <p>Let’s talk about injections… Code &amp; data injections, to be specific.</p>
 <p>If you have built any sizeable shiny app, then you’ve probably had to handle many hidden tab panels.</p>
 <p>You end up with code which looks like this:</p>
@@ -29,7 +29,7 @@
 <div class="code-with-filename-file">
 <pre><strong>global.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(shiny)</span></code></pre></div>
 </div>
@@ -37,7 +37,7 @@ font-style: inherit;">library</span>(shiny)</span></code></pre></div>
 <div class="code-with-filename-file">
 <pre><strong>ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># btns to switch from one tab to the other:</span></span>
 <span id="cb2-2">btns <span class="ot" style="color: #003B4F;
@@ -258,7 +258,7 @@ font-style: inherit;">"page-header"</span>, btns),</span>
 <div class="code-with-filename-file">
 <pre><strong>server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1">server <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1">server <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(input, output, session) {</span>
 <span id="cb3-2">  <span class="co" style="color: #5E5E5E;
@@ -320,9 +320,12 @@ font-style: inherit;">switch_tabs</span>(letter))</span>
 <span id="cb3-16">}</span></code></pre></div>
 </div>
 <p><img src="https://mwavu.com/blog/posts/shiny/injecting-tabpanelbodies-in-tabsetpanels/exhibit-1.gif" class="img-fluid" alt="preview of the app"></p>
+</section>
+<section id="problem-isolation" class="level2">
+<h2 class="anchored" data-anchor-id="problem-isolation">Problem isolation</h2>
 <p><code>server.R</code> looks good.</p>
 <p>Let’s focus on <code>ui.R</code>, specifically on the tabs.</p>
-<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1">tabs <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">tabs <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -474,10 +477,10 @@ background-color: null;
 font-style: inherit;">"Tab J"</span>))</span>
 <span id="cb4-15">)</span></code></pre></div>
 <p>One thing is clear: the <code>tabPanelBody()</code>s are wet, not DRY. (Yes, I’m actually smiling right now).</p>
-<p>In most cases, the content of each <code>tabPanelBody()</code> is usually a call to a module which I give the same id as the value of the <code>tabPanelBody()</code>.</p>
+<p>Realistically, the content of each <code>tabPanelBody()</code> is usually a call to a module which I give the same id as the value of the <code>tabPanelBody()</code>.</p>
 <p>I have used <code>h1</code> tags here for simplification.</p>
 <p>To avoid repetition, let’s use <code>lapply()</code>:</p>
-<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1">panel_bodies <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1">panel_bodies <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -513,9 +516,9 @@ font-style: inherit;">str_to_title</span>()</span>
 <span id="cb5-6">    )</span>
 <span id="cb5-7">  )</span>
 <span id="cb5-8">})</span></code></pre></div>
-<p>In a more realistic example you’d have to use <code>Map()</code> so that you iterate over the values/ids and modules.</p>
+<p>If you have modules you’d have to use <code>Map()</code> so that you iterate over the values/ids and modules.</p>
 <p>For example:</p>
-<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1">panel_bodies <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1">panel_bodies <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -560,7 +563,7 @@ font-style: inherit;">list</span>(</span>
 <p>We now no longer repeat ourselves. Yeeey!</p>
 <p>But our joy is not meant to last long: how do we pass this list of <code>tabPanelBody()</code>s to <code>tabsetPanel()</code>?</p>
 <p>This will <strong>not</strong> work:</p>
-<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">tabsetPanel</span>(</span>
 <span id="cb7-2">  <span class="at" style="color: #657422;
@@ -582,9 +585,12 @@ font-style: inherit;">"a"</span>,</span>
 <span id="cb7-6">)</span></code></pre></div>
 <pre><code>Error: Navigation containers expect a collection of `bslib::nav_panel()`/`shiny::tabPanel()`s and/or `bslib::nav_menu()`/`shiny::navbarMenu()`s. Consider using `header` or `footer` if you wish to place content above (or below) every panel's contents.</code></pre>
 <p><code>tabsetPanel()</code> expects the bare <code>tabPanelBody()</code>s, without wrappers (in this case a list).</p>
+</section>
+<section id="good-old-do.call" class="level2">
+<h2 class="anchored" data-anchor-id="good-old-do.call">Good-old <code>do.call()</code></h2>
 <p>My first thought when I encountered this was to use <code>do.call()</code>.</p>
 <p>Since we already have some default arguments passed to <code>tabsetPanel()</code>, we have to modify the approach to <code>do.call()</code> a little bit:</p>
-<div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># a wrapper function with default args to `tabsetPanel()`</span></span>
 <span id="cb9-2">tp <span class="ot" style="color: #003B4F;
@@ -593,23 +599,23 @@ font-style: inherit;">&lt;-</span> \(...) {</span>
 <span id="cb9-3">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">tabsetPanel</span>(</span>
-<span id="cb9-4">  <span class="at" style="color: #657422;
+<span id="cb9-4">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">id =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"tabs"</span>,</span>
-<span id="cb9-5">  <span class="at" style="color: #657422;
+<span id="cb9-5">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">type =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"hidden"</span>,</span>
-<span id="cb9-6">  <span class="at" style="color: #657422;
+<span id="cb9-6">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">selected =</span> <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"a"</span>,</span>
-<span id="cb9-7">  ...</span>
-<span id="cb9-8">)</span>
+<span id="cb9-7">    ...</span>
+<span id="cb9-8">  )</span>
 <span id="cb9-9">}</span>
 <span id="cb9-10"></span>
 <span id="cb9-11"><span class="fu" style="color: #4758AB;
@@ -619,7 +625,97 @@ background-color: null;
 font-style: inherit;">what =</span> tp, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">args =</span> panel_bodies)</span></code></pre></div>
-<p>Enter <code>rlang::inject()</code>.</p>
+</section>
+<section id="enter-rlanginject." class="level2">
+<h2 class="anchored" data-anchor-id="enter-rlanginject.">Enter <code>rlang::inject()</code>.</h2>
+<p>The older I grow, the more I prefer reading the docs, so:</p>
+<div class="sourceCode" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1">?rlang<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">`</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">!!!</span><span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">`</span></span></code></pre></div>
+<blockquote class="blockquote">
+<p>The splice operator <code>⁠!!!</code>⁠ implemented in dynamic dots injects a list of arguments into a function call. It belongs to the family of injection operators and provides the same functionality as <code>do.call()</code>.</p>
+<p>The two main cases for splice injection are:</p>
+<ul>
+<li>Turning a list of inputs into distinct arguments. This is especially useful with functions that take data in <code>...</code>, such as <code>base::rbind()</code>.</li>
+</ul>
+<div class="sourceCode" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1">dfs <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(mtcars, mtcars)</span>
+<span id="cb11-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">inject</span>(<span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">rbind</span>(<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">!!!</span>dfs))</span></code></pre></div>
+<p>…</p>
+</blockquote>
+<p>This is exactly what we need. Let’s now inject the <code>tabPanelBody()</code>s into the <code>tabsetPanel()</code>:</p>
+<div class="sourceCode" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1">tabs <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> rlang<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">inject</span>(</span>
+<span id="cb12-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">tabsetPanel</span>(</span>
+<span id="cb12-3">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">id =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"tabs"</span>,</span>
+<span id="cb12-4">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">type =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"hidden"</span>,</span>
+<span id="cb12-5">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">selected =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"a"</span>,</span>
+<span id="cb12-6">    <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">!!!</span>panel_bodies</span>
+<span id="cb12-7">  )</span>
+<span id="cb12-8">)</span></code></pre></div>
+<p>Shiny comes with injection support out of the box. Therefore, there’s no need to wrap the code in <code>rlang::inject()</code>:</p>
+<div class="sourceCode" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1">tabs <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">tabsetPanel</span>(</span>
+<span id="cb13-2">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">id =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"tabs"</span>,</span>
+<span id="cb13-3">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">type =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"hidden"</span>,</span>
+<span id="cb13-4">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">selected =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"a"</span>,</span>
+<span id="cb13-5">  <span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">!!!</span>panel_bodies</span>
+<span id="cb13-6">)</span></code></pre></div>
+<p>This is way cleaner and also visually appealing.</p>
+<p>There are numerous applications of code &amp; data injection. Check out more in the docs.</p>
 
 
 </section>
