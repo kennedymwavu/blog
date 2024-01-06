@@ -1,28 +1,30 @@
 [
   {
-    "listing": "/authentication-in-r-shiny.html",
-    "items": []
+    "listing": "/shiny.html",
+    "items": [
+      "/posts/shiny/injecting-tabpanelbodies-in-tabsetpanels/index.html",
+      "/posts/shiny/bootstrap-icons-in-shiny/index.html",
+      "/posts/shiny/jquery-effects/index.html",
+      "/posts/shiny/download-button-spinner-js/index.html",
+      "/posts/shiny/defensive-programming/index.html",
+      "/posts/shiny/download-button-spinner/index.html"
+    ]
   },
   {
     "listing": "/index.html",
     "items": [
+      "/posts/shiny/injecting-tabpanelbodies-in-tabsetpanels/index.html",
       "/posts/the-input-in-server-function/index.html",
-      "/posts/ui-ux-r-shiny-series/bootstrap-icons-in-shiny/index.html",
-      "/posts/ui-ux-r-shiny-series/jquery-effects/index.html",
-      "/posts/ui-ux-r-shiny-series/download-button-spinner-js/index.html",
+      "/posts/shiny/bootstrap-icons-in-shiny/index.html",
+      "/posts/shiny/jquery-effects/index.html",
+      "/posts/shiny/download-button-spinner-js/index.html",
       "/posts/subset-every-nth-element-from-a-vector/index.html",
-      "/posts/ui-ux-r-shiny-series/defensive-programming/index.html",
-      "/posts/ui-ux-r-shiny-series/download-button-spinner/index.html"
+      "/posts/shiny/defensive-programming/index.html",
+      "/posts/shiny/download-button-spinner/index.html"
     ]
   },
   {
-    "listing": "/ui-ux-r-shiny-series.html",
-    "items": [
-      "/posts/ui-ux-r-shiny-series/bootstrap-icons-in-shiny/index.html",
-      "/posts/ui-ux-r-shiny-series/jquery-effects/index.html",
-      "/posts/ui-ux-r-shiny-series/download-button-spinner-js/index.html",
-      "/posts/ui-ux-r-shiny-series/defensive-programming/index.html",
-      "/posts/ui-ux-r-shiny-series/download-button-spinner/index.html"
-    ]
+    "listing": "/authentication-in-r-shiny.html",
+    "items": []
   }
 ]

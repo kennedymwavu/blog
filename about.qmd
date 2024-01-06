@@ -20,4 +20,4 @@ about:
 
 ---
 
-Hi, I'm Mwavu. I write about R.
+Hi, I'm Mwavu. Just typing R code.
