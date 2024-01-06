@@ -1,0 +1,235 @@
+---
+title: "Autoreloading🔄 in Shiny"
+description: "Set up your dev environment to enable autoreloading"
+author: "Kennedy Mwavu"
+date: "2024-01-06"
+categories: [R, Shiny]
+draft: false
+format:
+  html:
+    code-line-numbers: false
+---
+
+## Introduction
+
+If you take a look at
+
+```r
+?shiny::getShinyOption
+```
+
+you'll see there's an option `shiny.autoreload` which when set to `TRUE` should reload your app when you make changes to the code.
+
+This works well for relatively small apps where you have a simple architecture.
+
+When you introduce shiny modules or use an R package architecture, the autoreloading stops.
+
+For a very long time I've been envious of JavaScript devs. Regardless of the
+architecture, they make a change and their web apps automatically reload.
+
+Let's explore how we can bring such experience into the development of shiny apps.
+
+## Setup the shiny side
+
+We, of course, need an app.
+
+I'm sure by now you're familiar with this setup:
+
+```
+|- autoreload/
+    |- global.R
+    |- ui.R
+    |- server.R
+    |- R/
+        |- mod_select_ui.R
+        |- mod_select_server.R
+```
+
+`autoreload/` is our working directory.
+
+I've added the select module under `autoreload/R/`, as expected.
+
+Here's the source code:
+
+```{.r filename="global.R"}
+library(shiny)
+```
+
+```{.r filename="ui.R"}
+ui <- fluidPage(
+  tags$div(
+    class = "container",
+    tags$h1("Hello, nodemon!"),
+    mod_select_ui(id = "select")
+  )
+)
+```
+
+```{.r filename="server.R"}
+server <- \(input, output, session) {
+  mod_select_server(id = "select")
+}
+```
+
+```{.r filename="R/mod_select_ui.R"}
+mod_select_ui <- \(id) {
+  ns <- NS(id)
+  tagList(
+    selectInput(
+      inputId = ns("letter"),
+      label = "LETTERS",
+      choices = LETTERS
+    ),
+    checkboxInput(
+      inputId = ns("case_sensitive"),
+      label = "Case Sensitive"
+    )
+  )
+}
+```
+
+```{.r filename="R/mod_select_server.R"}
+mod_select_server <- \(id) {
+  moduleServer(
+    id = id,
+    module = \(input, output, session) {}
+  )
+}
+```
+
+The reprex is complete.
+
+We only have one job now: enable autoreload.
+
+## Prerequisites
+
+You will need to have these two installed:
+
+- NodeJS. This is a JavaScript runtime environment.
+    - Just google "how to install nodejs <insert your OS>"
+- NPM: Package manager for JavaScript.
+    - Again, google "how to install npm <insert your OS>"
+
+By the way, in case you're concerned, we aren't going to write
+any JavaScript.
+
+## Initialize project
+
+Switch to the terminal and ensure you're in the root folder of your shiny app (`autoreload/`), then run:
+
+```bash
+npm init -y
+```
+
+This will setup a new npm package and create the `package.json` file.
+
+The `-y` flag accepts the default npm setup.
+
+## Enter nodemon
+
+nodemon is a tool that helps develop Node.js based applications by automatically restarting the node application when file changes in the directory are detected.
+
+We will use it to rerun our shiny app as needed.
+
+Install nodemon as a dev dependency:
+
+```bash
+npm i -D nodemon
+```
+
+Let's create `run_app.R` at the root directory of our project.
+This is more of an "entry point" to our shiny app.
+
+nodemon will rerun this file each time a change occurs.
+
+```{.r filename="run_app.R"}
+shiny::runApp(port = 3000L, launch.browser = TRUE)
+```
+
+For simplicity, we will fix the port to 3000.
+
+In most cases you need the app to automatically launch the browser, so we set that to `TRUE`.
+
+## Configure nodemon
+
+We need to tell nodemon how to run R files.
+
+Create the file `nodemon.json` at the root dir of our project and paste this in it:
+
+```{.r}
+{
+  "execMap": {
+    "R": "Rscript" # <1>
+  },
+  "events": {
+    "restart": "sh -c 'fuser -n tcp -k 3000'", # <2>
+    "crash": "sh -c 'fuser -n tcp -k 3000'" # <3>
+  }
+}
+```
+
+1. Specifies an executable mapping for `.R` files: `Rscript`
+2. After every restart, first kill whatever process is running in port 3000
+3. Do the same whenever the app crashes
+
+`2` & `3` ensure that the port 3000 is freed up before the application is rerun again.
+
+Here is a breakdown of the different parts:
+
+- `sh`: Is the shell command, which is used to run other commands.
+- `-c`: This option tells the shell to read the commands from the following string.
+- `fuser -n tcp -k 3000`: This is the actual command that shell will execute.
+
+::: {.callout-note}
+I'm using Ubuntu. If you're on Windows, MacOS or another
+distro, you need to google how to kill a process that's running
+in a port for your OS.
+:::
+
+We're done with nodemon configuration.
+
+Next, open `package.json` and edit the "scripts" section:
+
+```r
+{
+  "name": "autoreload",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon -e '*' run_app.R" # <1>
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
+```
+
+1. Creates a custom npm script called "dev"
+
+Let's break it down:
+
+- `nodemon`: This is nodemon, which monitors changes in files in our project.
+- `-e '*'`: This option tells nodemon which files to watch for changes. In this case we set it to watch all files (`*` is a wildcard character), meaning nodemon will restart whenever any file changes.
+- `run_app.R`: This is the script that nodemon will execute when it restarts.
+
+## Run app
+
+Everything is ready.
+
+![](showtime.jpg){alt="It's showtime meme"}
+
+In our project root folder, run this in the terminal:
+
+```bash
+npm run dev
+```
+
+This should fire up the shiny app. Now go ahead and make changes to any file within the directory and watch what happens.
+
+To stop npm, press `CTRL` + `C`.
+
+Happy development!

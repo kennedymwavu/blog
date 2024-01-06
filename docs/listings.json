@@ -2,6 +2,7 @@
   {
     "listing": "/shiny.html",
     "items": [
+      "/posts/shiny/auto-reload/index.html",
       "/posts/shiny/injecting-tabpanelbodies-in-tabsetpanels/index.html",
       "/posts/shiny/bootstrap-icons-in-shiny/index.html",
       "/posts/shiny/jquery-effects/index.html",
@@ -11,8 +12,13 @@
     ]
   },
   {
+    "listing": "/authentication-in-r-shiny.html",
+    "items": []
+  },
+  {
     "listing": "/index.html",
     "items": [
+      "/posts/shiny/auto-reload/index.html",
       "/posts/shiny/injecting-tabpanelbodies-in-tabsetpanels/index.html",
       "/posts/the-input-in-server-function/index.html",
       "/posts/shiny/bootstrap-icons-in-shiny/index.html",
@@ -22,9 +28,5 @@
       "/posts/shiny/defensive-programming/index.html",
       "/posts/shiny/download-button-spinner/index.html"
     ]
-  },
-  {
-    "listing": "/authentication-in-r-shiny.html",
-    "items": []
   }
 ]
