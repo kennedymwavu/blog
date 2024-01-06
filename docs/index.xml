@@ -10,7 +10,418 @@
 <atom:link href="https://mwavu.com/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description>Kennedy Mwavu</description>
 <generator>quarto-1.3.450</generator>
-<lastBuildDate>Wed, 03 Jan 2024 21:00:00 GMT</lastBuildDate>
+<lastBuildDate>Fri, 05 Jan 2024 21:00:00 GMT</lastBuildDate>
+<item>
+  <title>Autoreloading🔄 in Shiny</title>
+  <dc:creator>Kennedy Mwavu</dc:creator>
+  <link>https://mwavu.com/blog/posts/shiny/auto-reload/index.html</link>
+  <description><![CDATA[ 
+
+
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>If you take a look at</p>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1">?shiny<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span>getShinyOption</span></code></pre></div>
+<p>you’ll see there’s an option <code>shiny.autoreload</code> which when set to <code>TRUE</code> should reload your app when you make changes to the code.</p>
+<p>This works well for relatively small apps where you have a simple architecture.</p>
+<p>When you introduce shiny modules or use an R package architecture, the autoreloading stops.</p>
+<p>For a very long time I’ve been envious of JavaScript devs. Regardless of the architecture, they make a change and their web apps automatically reload.</p>
+<p>Let’s explore how we can bring such experience into the development of shiny apps.</p>
+</section>
+<section id="setup-the-shiny-side" class="level2">
+<h2 class="anchored" data-anchor-id="setup-the-shiny-side">Setup the shiny side</h2>
+<p>We, of course, need an app.</p>
+<p>I’m sure by now you’re familiar with this setup:</p>
+<pre><code>|- autoreload/
+    |- global.R
+    |- ui.R
+    |- server.R
+    |- R/
+        |- mod_select_ui.R
+        |- mod_select_server.R</code></pre>
+<p><code>autoreload/</code> is our working directory.</p>
+<p>I’ve added the select module under <code>autoreload/R/</code>, as expected.</p>
+<p>Here’s the source code:</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>global.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(shiny)</span></code></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>ui.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">ui <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">fluidPage</span>(</span>
+<span id="cb4-2">  tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">div</span>(</span>
+<span id="cb4-3">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">class =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"container"</span>,</span>
+<span id="cb4-4">    tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">h1</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Hello, nodemon!"</span>),</span>
+<span id="cb4-5">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mod_select_ui</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">id =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"select"</span>)</span>
+<span id="cb4-6">  )</span>
+<span id="cb4-7">)</span></code></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>server.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1">server <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> \(input, output, session) {</span>
+<span id="cb5-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">mod_select_server</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">id =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"select"</span>)</span>
+<span id="cb5-3">}</span></code></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R/mod_select_ui.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1">mod_select_ui <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> \(id) {</span>
+<span id="cb6-2">  ns <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">NS</span>(id)</span>
+<span id="cb6-3">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">tagList</span>(</span>
+<span id="cb6-4">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">selectInput</span>(</span>
+<span id="cb6-5">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">inputId =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ns</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"letter"</span>),</span>
+<span id="cb6-6">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">label =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"LETTERS"</span>,</span>
+<span id="cb6-7">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">choices =</span> LETTERS</span>
+<span id="cb6-8">    ),</span>
+<span id="cb6-9">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">checkboxInput</span>(</span>
+<span id="cb6-10">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">inputId =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ns</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"case_sensitive"</span>),</span>
+<span id="cb6-11">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">label =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Case Sensitive"</span></span>
+<span id="cb6-12">    )</span>
+<span id="cb6-13">  )</span>
+<span id="cb6-14">}</span></code></pre></div>
+</div>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>R/mod_select_server.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1">mod_select_server <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> \(id) {</span>
+<span id="cb7-2">  <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">moduleServer</span>(</span>
+<span id="cb7-3">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">id =</span> id,</span>
+<span id="cb7-4">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">module =</span> \(input, output, session) {}</span>
+<span id="cb7-5">  )</span>
+<span id="cb7-6">}</span></code></pre></div>
+</div>
+<p>The reprex is complete.</p>
+<p>We only have one job now: enable autoreload.</p>
+</section>
+<section id="prerequisites" class="level2">
+<h2 class="anchored" data-anchor-id="prerequisites">Prerequisites</h2>
+<p>You will need to have these two installed:</p>
+<ul>
+<li>NodeJS. This is a JavaScript runtime environment.
+<ul>
+<li>Just google “how to install nodejs <insert your="" os="">”</insert></li>
+</ul></li>
+<li>NPM: Package manager for JavaScript.
+<ul>
+<li>Again, google “how to install npm <insert your="" os="">”</insert></li>
+</ul></li>
+</ul>
+<p>By the way, in case you’re concerned, we aren’t going to write any JavaScript.</p>
+</section>
+<section id="initialize-project" class="level2">
+<h2 class="anchored" data-anchor-id="initialize-project">Initialize project</h2>
+<p>Switch to the terminal and ensure you’re in the root folder of your shiny app (<code>autoreload/</code>), then run:</p>
+<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">npm</span> init <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-y</span></span></code></pre></div>
+<p>This will setup a new npm package and create the <code>package.json</code> file.</p>
+<p>The <code>-y</code> flag accepts the default npm setup.</p>
+</section>
+<section id="enter-nodemon" class="level2">
+<h2 class="anchored" data-anchor-id="enter-nodemon">Enter nodemon</h2>
+<p>nodemon is a tool that helps develop Node.js based applications by automatically restarting the node application when file changes in the directory are detected.</p>
+<p>We will use it to rerun our shiny app as needed.</p>
+<p>Install nodemon as a dev dependency:</p>
+<div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">npm</span> i <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">-D</span> nodemon</span></code></pre></div>
+<p>Let’s create <code>run_app.R</code> at the root directory of our project. This is more of an “entry point” to our shiny app.</p>
+<p>nodemon will rerun this file each time a change occurs.</p>
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>run_app.R</strong></pre>
+</div>
+<div class="sourceCode" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1">shiny<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">runApp</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">port =</span> 3000L, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">launch.browser =</span> <span class="cn" style="color: #8f5902;
+background-color: null;
+font-style: inherit;">TRUE</span>)</span></code></pre></div>
+</div>
+<p>For simplicity, we will fix the port to 3000.</p>
+<p>In most cases you need the app to automatically launch the browser, so we set that to <code>TRUE</code>.</p>
+</section>
+<section id="configure-nodemon" class="level2">
+<h2 class="anchored" data-anchor-id="configure-nodemon">Configure nodemon</h2>
+<p>We need to tell nodemon how to run R files.</p>
+<p>Create the file <code>nodemon.json</code> at the root dir of our project and paste this in it:</p>
+<div class="sourceCode" id="annotated-cell-11" style="background: #f1f3f5;"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-11-1">{</span>
+<span id="annotated-cell-11-2">  <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"execMap"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> {</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-11-3" class="code-annotation-target">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"R"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"Rscript"</span></span>
+<span id="annotated-cell-11-4">  },</span>
+<span id="annotated-cell-11-5">  <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"events"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> {</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-11-6" class="code-annotation-target">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"restart"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sh -c 'fuser -n tcp -k 3000'"</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-11" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-11-7" class="code-annotation-target">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"crash"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"sh -c 'fuser -n tcp -k 3000'"</span></span>
+<span id="annotated-cell-11-8">  }</span>
+<span id="annotated-cell-11-9">}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-11" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="3" data-code-annotation="1" data-code-cell="annotated-cell-11">Specifies an executable mapping for <code>.R</code> files: <code>Rscript</code></span>
+</dd>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-lines="6" data-code-annotation="2" data-code-cell="annotated-cell-11">After every restart, first kill whatever process is running in port 3000</span>
+</dd>
+<dt data-target-cell="annotated-cell-11" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-lines="7" data-code-annotation="3" data-code-cell="annotated-cell-11">Do the same whenever the app crashes</span>
+</dd>
+</dl>
+<p><code>2</code> &amp; <code>3</code> ensure that the port 3000 is freed up before the application is rerun again.</p>
+<p>Here is a breakdown of the different parts:</p>
+<ul>
+<li><code>sh</code>: Is the shell command, which is used to run other commands.</li>
+<li><code>-c</code>: This option tells the shell to read the commands from the following string.</li>
+<li><code>fuser -n tcp -k 3000</code>: This is the actual command that shell will execute.</li>
+</ul>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>I’m using Ubuntu. If you’re on Windows, MacOS or another distro, you need to google how to kill a process that’s running in a port for your OS.</p>
+</div>
+</div>
+<p>We’re done with nodemon configuration.</p>
+<p>Next, open <code>package.json</code> and edit the “scripts” section:</p>
+<div class="sourceCode" id="annotated-cell-12" style="background: #f1f3f5;"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-12-1">{</span>
+<span id="annotated-cell-12-2">  <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"name"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"autoreload"</span>,</span>
+<span id="annotated-cell-12-3">  <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"version"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"1.0.0"</span>,</span>
+<span id="annotated-cell-12-4">  <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"description"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">""</span>,</span>
+<span id="annotated-cell-12-5">  <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"main"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"index.js"</span>,</span>
+<span id="annotated-cell-12-6">  <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"scripts"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> {</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-12" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-12-7" class="code-annotation-target">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"dev"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"nodemon -e '*' run_app.R"</span></span>
+<span id="annotated-cell-12-8">  },</span>
+<span id="annotated-cell-12-9">  <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"keywords"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> [],</span>
+<span id="annotated-cell-12-10">  <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"author"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">""</span>,</span>
+<span id="annotated-cell-12-11">  <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"license"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"ISC"</span>,</span>
+<span id="annotated-cell-12-12">  <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"devDependencies"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> {</span>
+<span id="annotated-cell-12-13">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"nodemon"</span><span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">:</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"^3.0.2"</span></span>
+<span id="annotated-cell-12-14">  }</span>
+<span id="annotated-cell-12-15">}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-12" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="7" data-code-annotation="1" data-code-cell="annotated-cell-12">Creates a custom npm script called “dev”</span>
+</dd>
+</dl>
+<p>Let’s break it down:</p>
+<ul>
+<li><code>nodemon</code>: This is nodemon, which monitors changes in files in our project.</li>
+<li><code>-e '*'</code>: This option tells nodemon which files to watch for changes. In this case we set it to watch all files (<code>*</code> is a wildcard character), meaning nodemon will restart whenever any file changes.</li>
+<li><code>run_app.R</code>: This is the script that nodemon will execute when it restarts.</li>
+</ul>
+</section>
+<section id="run-app" class="level2">
+<h2 class="anchored" data-anchor-id="run-app">Run app</h2>
+<p>Everything is ready.</p>
+<p><img src="https://mwavu.com/blog/posts/shiny/auto-reload/showtime.jpg" class="img-fluid" alt="It's showtime meme"></p>
+<p>In our project root folder, run this in the terminal:</p>
+<div class="sourceCode" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><span class="ex" style="color: null;
+background-color: null;
+font-style: inherit;">npm</span> run dev</span></code></pre></div>
+<p>This should fire up the shiny app. Now go ahead and make changes to any file within the directory and watch what happens.</p>
+<p>To stop npm, press <code>CTRL</code> + <code>C</code>.</p>
+<p>Happy development!</p>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
+  <category>R</category>
+  <category>Shiny</category>
+  <guid>https://mwavu.com/blog/posts/shiny/auto-reload/index.html</guid>
+  <pubDate>Fri, 05 Jan 2024 21:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Injecting 💉 tabPanelBodies into tabsetPanels</title>
   <dc:creator>Kennedy Mwavu</dc:creator>
