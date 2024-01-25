@@ -1,4 +1,2 @@
 
-![](bilbo.webp)
-
-`There and Back Again` - A Hobbit's Tale by Bilbo Baggins.
+Hi, I'm Mwavu. Just typing R code.
