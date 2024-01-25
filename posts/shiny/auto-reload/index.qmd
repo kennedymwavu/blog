@@ -10,6 +10,10 @@ format:
     code-line-numbers: false
 ---
 
+::: {.callout-tip}
+Have a look at [this example/article](https://github.com/kennedymwavu/ambiorix-examples/tree/main/10_live_reloading) for a better way to enable live-reloading.
+:::
+
 ## Introduction
 
 If you take a look at
