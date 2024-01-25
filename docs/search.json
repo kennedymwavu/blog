@@ -109,14 +109,14 @@
     "href": "posts/shiny/auto-reload/index.html",
     "title": "Autoreloading🔄 in Shiny",
     "section": "",
-    "text": "If you take a look at\n?shiny::getShinyOption\nyou’ll see there’s an option shiny.autoreload which when set to TRUE should reload your app when you make changes to the code.\nThis works well for relatively small apps where you have a simple architecture.\nWhen you introduce shiny modules or use an R package architecture, the autoreloading stops.\nFor a very long time I’ve been envious of JavaScript devs. Regardless of the architecture, they make a change and their web apps automatically reload.\nLet’s explore how we can bring such experience into the development of shiny apps."
+    "text": "Tip\n\n\n\nHave a look at this example/article for a better way to enable live-reloading."
   },
   {
     "objectID": "posts/shiny/auto-reload/index.html#introduction",
     "href": "posts/shiny/auto-reload/index.html#introduction",
     "title": "Autoreloading🔄 in Shiny",
-    "section": "",
-    "text": "If you take a look at\n?shiny::getShinyOption\nyou’ll see there’s an option shiny.autoreload which when set to TRUE should reload your app when you make changes to the code.\nThis works well for relatively small apps where you have a simple architecture.\nWhen you introduce shiny modules or use an R package architecture, the autoreloading stops.\nFor a very long time I’ve been envious of JavaScript devs. Regardless of the architecture, they make a change and their web apps automatically reload.\nLet’s explore how we can bring such experience into the development of shiny apps."
+    "section": "Introduction",
+    "text": "Introduction\nIf you take a look at\n?shiny::getShinyOption\nyou’ll see there’s an option shiny.autoreload which when set to TRUE should reload your app when you make changes to the code.\nThis works well for relatively small apps where you have a simple architecture.\nWhen you introduce shiny modules or use an R package architecture, the autoreloading stops.\nFor a very long time I’ve been envious of JavaScript devs. Regardless of the architecture, they make a change and their web apps automatically reload.\nLet’s explore how we can bring such experience into the development of shiny apps."
   },
   {
     "objectID": "posts/shiny/auto-reload/index.html#setup-the-shiny-side",
