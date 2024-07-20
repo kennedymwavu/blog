@@ -1,59 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://mwavu.com/blog/shiny.html</loc>
-    <lastmod>2024-02-07T22:03:07.335Z</lastmod>
-  </url>
-  <url>
-    <loc>https://mwavu.com/blog/posts/shiny/injecting-tabpanelbodies-in-tabsetpanels/index.html</loc>
-    <lastmod>2024-02-07T22:03:05.891Z</lastmod>
-  </url>
-  <url>
-    <loc>https://mwavu.com/blog/posts/shiny/jquery-effects/index.html</loc>
-    <lastmod>2024-02-07T22:03:03.703Z</lastmod>
-  </url>
-  <url>
-    <loc>https://mwavu.com/blog/posts/shiny/auto-reload/index.html</loc>
-    <lastmod>2024-02-07T22:03:01.292Z</lastmod>
-  </url>
-  <url>
-    <loc>https://mwavu.com/blog/posts/subset-every-nth-element-from-a-vector/index.html</loc>
-    <lastmod>2024-02-07T22:02:58.956Z</lastmod>
-  </url>
-  <url>
-    <loc>https://mwavu.com/blog/posts/how-i-ended-up-with-r/index.html</loc>
-    <lastmod>2024-02-07T22:02:56.668Z</lastmod>
-  </url>
-  <url>
-    <loc>https://mwavu.com/blog/about.html</loc>
-    <lastmod>2024-02-07T22:02:53.868Z</lastmod>
-  </url>
-  <url>
     <loc>https://mwavu.com/blog/index.html</loc>
-    <lastmod>2024-02-07T22:02:53.636Z</lastmod>
-  </url>
-  <url>
-    <loc>https://mwavu.com/blog/authentication-in-r-shiny.html</loc>
-    <lastmod>2024-02-07T22:02:55.424Z</lastmod>
+    <lastmod>2024-07-20T13:19:57.614Z</lastmod>
   </url>
   <url>
     <loc>https://mwavu.com/blog/posts/the-input-in-server-function/index.html</loc>
-    <lastmod>2024-02-07T22:02:57.844Z</lastmod>
+    <lastmod>2024-07-20T12:49:16.450Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mwavu.com/blog/posts/shiny/injecting-tabpanelbodies-in-tabsetpanels/index.html</loc>
+    <lastmod>2024-07-20T12:49:16.446Z</lastmod>
   </url>
   <url>
     <loc>https://mwavu.com/blog/posts/shiny/download-button-spinner/index.html</loc>
-    <lastmod>2024-02-07T22:03:00.100Z</lastmod>
+    <lastmod>2024-07-20T12:49:16.445Z</lastmod>
   </url>
   <url>
     <loc>https://mwavu.com/blog/posts/shiny/defensive-programming/index.html</loc>
-    <lastmod>2024-02-07T22:03:02.431Z</lastmod>
-  </url>
-  <url>
-    <loc>https://mwavu.com/blog/posts/shiny/bootstrap-icons-in-shiny/index.html</loc>
-    <lastmod>2024-02-07T22:03:04.799Z</lastmod>
+    <lastmod>2024-07-20T12:49:16.431Z</lastmod>
   </url>
   <url>
     <loc>https://mwavu.com/blog/posts/shiny/download-button-spinner-js/index.html</loc>
-    <lastmod>2024-02-07T22:03:07.039Z</lastmod>
+    <lastmod>2024-07-20T12:49:16.442Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mwavu.com/blog/about.html</loc>
+    <lastmod>2024-07-20T12:49:16.384Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mwavu.com/blog/posts/count-sequential-chars/index.html</loc>
+    <lastmod>2024-07-20T19:21:58.761Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mwavu.com/blog/posts/shiny/auto-reload/index.html</loc>
+    <lastmod>2024-07-20T12:49:16.429Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mwavu.com/blog/posts/shiny/bootstrap-icons-in-shiny/index.html</loc>
+    <lastmod>2024-07-20T12:49:16.431Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mwavu.com/blog/posts/shiny/jquery-effects/index.html</loc>
+    <lastmod>2024-07-20T12:49:16.448Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mwavu.com/blog/posts/subset-every-nth-element-from-a-vector/index.html</loc>
+    <lastmod>2024-07-20T12:49:16.449Z</lastmod>
+  </url>
+  <url>
+    <loc>https://mwavu.com/blog/posts/how-i-ended-up-with-r/index.html</loc>
+    <lastmod>2024-07-20T12:49:16.426Z</lastmod>
   </url>
 </urlset>

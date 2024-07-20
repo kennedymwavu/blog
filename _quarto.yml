@@ -17,7 +17,7 @@ website:
   twitter-card: true
 format:
   html:
-    theme: cyborg
+    theme: journal
     css: styles.css
     toc: true
     toc-location: left
@@ -28,4 +28,4 @@ format:
       giscus:
         repo: kennedymwavu/blog-comments
         category: Announcements
-        theme: dark
+        theme: light

@@ -21,11 +21,4 @@ toc: false
 comments: false
 ---
 
-# Sections
-
-1. [Shiny](shiny.qmd)
-
-
-
-
 # All Posts
