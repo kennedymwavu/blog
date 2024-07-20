@@ -1,24 +1,45 @@
 [
   {
-    "objectID": "shiny.html",
-    "href": "shiny.html",
-    "title": "R Shiny",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "All Posts",
     "section": "",
-    "text": "Well, me too!\nGrab your keyboard, click on any of the articles below, and let’s transform your web apps from pixelated potatoes to interactive masterpieces :)\nP.S Don’t be shy! Hit the comments section and let’s geek out about Shiny together."
+    "text": "All Posts\n\n\n\n\n\n\n\n   \n     \n     \n       Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\nDate\n\n\nTitle\n\n\n\n\n\n\nJul 20, 2024\n\n\nCount sequential characters\n\n\n\n\nFeb 8, 2024\n\n\nHow I Ended Up With R\n\n\n\n\nJan 6, 2024\n\n\nAutoreloading🔄 in Shiny\n\n\n\n\nJan 4, 2024\n\n\nInjecting 💉 tabPanelBodies into tabsetPanels\n\n\n\n\nJul 24, 2023\n\n\nThe input in function(input, output, session)\n\n\n\n\nJul 21, 2023\n\n\nBootstrap icons in Shiny\n\n\n\n\nJul 20, 2023\n\n\nJQuery Effects in Shiny\n\n\n\n\nMay 28, 2023\n\n\nAdd downLoading spinners… using JS\n\n\n\n\nApr 16, 2023\n\n\nSubset every nth element from a vector\n\n\n\n\nFeb 26, 2023\n\n\nDefensive Programming\n\n\n\n\nFeb 21, 2023\n\n\nAdd downLoading spinners\n\n\n\n\n\nNo matching items\n\n Back to top"
   },
   {
-    "objectID": "shiny.html#so-you-use-shiny",
-    "href": "shiny.html#so-you-use-shiny",
-    "title": "R Shiny",
+    "objectID": "posts/the-input-in-server-function/index.html",
+    "href": "posts/the-input-in-server-function/index.html",
+    "title": "The input in function(input, output, session)",
     "section": "",
-    "text": "Well, me too!\nGrab your keyboard, click on any of the articles below, and let’s transform your web apps from pixelated potatoes to interactive masterpieces :)\nP.S Don’t be shy! Hit the comments section and let’s geek out about Shiny together."
+    "text": "I recently came across this stackoverflow post from 6 years ago and I was intrigued.\nThe OP wanted to render a dynamic number of selectInputs. The number of the selectInputs would be dependent on the value of a numericInput.\nIf the numericInput had a value of 3 then there would be 3 selectInputs on the UI.\nThe OP correctly made this observation:\n\nSay the default value of the numericInput is 3. If you change it to 2, the UI correctly updates and there are only 2 selectInputs. But when you print the input object, it still contains the id and value of the 3rd selectInput even though it is not currently rendered.\nGenerally, the input slot does not correspond with the current number of elements, but with the largest number chosen during the session.\n\nHere is the reprex the OP provided:\n\n\nreprex-from-op.R\n\nlibrary(shiny)\nlibrary(plyr)\n\ntestUI &lt;- function(id) {\n  ns &lt;- NS(id)\n  uiOutput(ns(\"container\"))\n}\n\ntest &lt;- function(input, output, session, numElems) {\n   output$container &lt;- renderUI(do.call(tagList, llply(1:numElems(), function(i) \n            selectInput(session$ns(paste0(\"elem\", i)), \n                        label = i, choices = LETTERS[sample(26, 3)]))))\n   getNames &lt;- reactive(reactiveValuesToList(input))\n   list(getNames = getNames)\n}\n\nui &lt;- fluidPage(numericInput(\"n\", \"Number of Elems\", value = 3), \n                testUI(\"column1\"), \n                verbatimTextOutput(\"debug\"))\n\nserver &lt;- function(input, output, session) {\n   getN &lt;- reactive(input$n)\n   handler &lt;- callModule(test, \"column1\", getN)\n   output$debug &lt;- renderPrint(handler$getNames())\n}\n\nshinyApp(ui, server)\n\nMy manager at work always says “Trust but verify”. So please run the reprex and ascertain that all the above observations are indeed true."
   },
   {
-    "objectID": "shiny.html#posts-in-this-series",
-    "href": "shiny.html#posts-in-this-series",
-    "title": "R Shiny",
-    "section": "Posts in this series",
-    "text": "Posts in this series"
+    "objectID": "posts/the-input-in-server-function/index.html#introduction",
+    "href": "posts/the-input-in-server-function/index.html#introduction",
+    "title": "The input in function(input, output, session)",
+    "section": "",
+    "text": "I recently came across this stackoverflow post from 6 years ago and I was intrigued.\nThe OP wanted to render a dynamic number of selectInputs. The number of the selectInputs would be dependent on the value of a numericInput.\nIf the numericInput had a value of 3 then there would be 3 selectInputs on the UI.\nThe OP correctly made this observation:\n\nSay the default value of the numericInput is 3. If you change it to 2, the UI correctly updates and there are only 2 selectInputs. But when you print the input object, it still contains the id and value of the 3rd selectInput even though it is not currently rendered.\nGenerally, the input slot does not correspond with the current number of elements, but with the largest number chosen during the session.\n\nHere is the reprex the OP provided:\n\n\nreprex-from-op.R\n\nlibrary(shiny)\nlibrary(plyr)\n\ntestUI &lt;- function(id) {\n  ns &lt;- NS(id)\n  uiOutput(ns(\"container\"))\n}\n\ntest &lt;- function(input, output, session, numElems) {\n   output$container &lt;- renderUI(do.call(tagList, llply(1:numElems(), function(i) \n            selectInput(session$ns(paste0(\"elem\", i)), \n                        label = i, choices = LETTERS[sample(26, 3)]))))\n   getNames &lt;- reactive(reactiveValuesToList(input))\n   list(getNames = getNames)\n}\n\nui &lt;- fluidPage(numericInput(\"n\", \"Number of Elems\", value = 3), \n                testUI(\"column1\"), \n                verbatimTextOutput(\"debug\"))\n\nserver &lt;- function(input, output, session) {\n   getN &lt;- reactive(input$n)\n   handler &lt;- callModule(test, \"column1\", getN)\n   output$debug &lt;- renderPrint(handler$getNames())\n}\n\nshinyApp(ui, server)\n\nMy manager at work always says “Trust but verify”. So please run the reprex and ascertain that all the above observations are indeed true."
+  },
+  {
+    "objectID": "posts/the-input-in-server-function/index.html#my-0.02",
+    "href": "posts/the-input-in-server-function/index.html#my-0.02",
+    "title": "The input in function(input, output, session)",
+    "section": "My $0.02",
+    "text": "My $0.02\n\nJackie Redmond Jackie GIFfrom Jackie Redmond GIFs\n\n\nThe OP had 2 questions:\n\nIs this behaviour intentional?\nIf so, how can I update the input to assure that it only contains valid slots?\n\n\nTL;DR\n\nIs this behaviour intentional?\n\nI don’t know. But it is consistent. The OP used renderUI in the reprex, I will use insertUI/removeUI in my reprex later and you will see that the behaviour is the same.\n\nHow can I update the input to assure that it only contains valid slots?\n\nYou can set the “invalid” slots to NULL, then use req() or isTruthy() to check for validity in your server.R.\n\n\nExplanation\nWe finally get to the juicy part.\nHere’s what I know about input:\n\ninput is immutable from the app’s server, unless you use update*Input(). eg. If you try this:\n\n\nserver.R\n\ninput$random_id &lt;- \"trial\"\n\nyou will get an error: “Can’t modify read-only reactive value ‘random_id’”.\nOnce added, you can’t remove an element (an input id) from input, but you can change its value (using update*Input() or JavaScript).\nChanging the value of an element to NULL will not remove it from input.\nBy that I mean input will not behave like a regular list where setting the value of an element to NULL removes it from the list:\n\n\nregular-list.R\n\nx &lt;- list(a = 1, b = 2, c = 3)\nx$a &lt;- NULL\nx\n\n# $b\n# [1] 2\n#\n# $c\n# [1] 3\n\nAlso, you can’t use update*Input() to set the value of an input id to NULL. From ?updateSelectInput:\n\nAny arguments with NULL values will be ignored; they will not result in any changes to the input object on the client.\n\nSo to set the value of an input element to NULL you have to use JavaScript and provide the option priority: \"event\". Reference.\n\n\nscript.js\n\nShiny.setInputValue(input_id, new_input_value, {priority: \"event\"});\n\nWe can use 3 above to our advantage: Set the unwanted input id values (the ones whose UI has been removed/deleted) to NULL.\nThis is what will allow us to use req() or isTruthy() if need be."
+  },
+  {
+    "objectID": "posts/the-input-in-server-function/index.html#reprex",
+    "href": "posts/the-input-in-server-function/index.html#reprex",
+    "title": "The input in function(input, output, session)",
+    "section": "Reprex",
+    "text": "Reprex\nIn the reprex below, I show how you can set the input id values to NULL.\nAlso, I use insertUI/removeUI as stated earlier.\n\n\n\nglobal.R\n\nlibrary(shiny)\n\n\n\nui.R\n\nui &lt;- fluidPage(\n  numericInput(\"n\", \"Number of Elems\", value = 3), \n  mod_test_ui(\"column1\"), \n  verbatimTextOutput(\"debug\"),\n  tags$script(src = \"script.js\")\n)\n\n\n\nserver.R\n\nserver &lt;- function(input, output, session) {\n  handler &lt;- mod_test_server(\n    id = \"column1\",\n    numElems = reactive({ input$n })\n  )\n  output$debug &lt;- renderPrint({ handler$getNames() })\n}\n\n\n\nR/mod_test_ui.R\n\nmod_test_ui &lt;- function(id) {\n  ns &lt;- NS(id)\n  tags$div(id = ns(\"container\"))\n}\n\n\n\nR/mod_test_ui.R\n\n\n\nR/mod_test_server.R\n\nmod_test_server &lt;- \\(id, numElems) {\n  moduleServer(\n    id = id,\n    module = \\(input, output, session) {\n      ns &lt;- session$ns\n      # reactive to track added UI ids:\n      rv_added_ids &lt;- reactiveValues(ids = NULL)\n      observeEvent(numElems(), {\n        # do nothing if `numElems()` is less than zero:\n        n &lt;- numElems()\n        if (n &lt; 0) return()\n        # remove previously rendered UIs:\n        removeUI(\n          selector = sprintf(\"#%s &gt; *\", ns(\"container\")),\n          multiple = TRUE,\n          immediate = TRUE\n        )\n        # inform JS to set the removed input id values to NULL:\n        lapply(rv_added_ids$ids, \\(id) {\n          session$sendCustomMessage(\n            type = \"set_to_null\",\n            list(id = id, value = NULL)\n          )\n        })\n        # reset tracker:\n        rv_added_ids$ids &lt;- NULL\n        # add new UIs:\n        lapply(seq_len(n), \\(i) {\n          id &lt;- ns(paste0(\"elem\", i))\n          # track new id:\n          rv_added_ids$ids &lt;- c(rv_added_ids$ids, id)\n          insertUI(\n            selector = paste0(\"#\", ns(\"container\")),\n            where = \"beforeEnd\",\n            ui = selectInput(\n              inputId = id, \n              label = i,\n              choices = LETTERS[sample(26, 3)]\n            )\n          )\n        }\n        )\n      })\n      getNames &lt;- reactive(reactiveValuesToList(input))\n      list(getNames = getNames)\n    }\n  )\n}\n\n\n\nwww/script.js\n\n$(document).ready(function() {\n  Shiny.addCustomMessageHandler(\"set_to_null\", (message) =&gt; {\n    Shiny.setInputValue(message.id, message.value, {priority: \"event\"});\n  });\n});"
+  },
+  {
+    "objectID": "posts/the-input-in-server-function/index.html#conclusion",
+    "href": "posts/the-input-in-server-function/index.html#conclusion",
+    "title": "The input in function(input, output, session)",
+    "section": "Conclusion",
+    "text": "Conclusion\n$(this) has been the input in function(input, output, session).\nMe: At this point I can confidently say that I like JavaScript.\nJS:"
   },
   {
     "objectID": "posts/shiny/injecting-tabpanelbodies-in-tabsetpanels/index.html",
@@ -56,53 +77,130 @@
     "text": "Enter rlang::inject().\nThe older I grow, the more I prefer reading the docs, so:\n?rlang::`!!!`\n\nThe splice operator ⁠!!!⁠ implemented in dynamic dots injects a list of arguments into a function call. It belongs to the family of injection operators and provides the same functionality as do.call().\nThe two main cases for splice injection are:\n\nTurning a list of inputs into distinct arguments. This is especially useful with functions that take data in ..., such as base::rbind().\n\ndfs &lt;- list(mtcars, mtcars)\ninject(rbind(!!!dfs))\n…\n\nThis is exactly what we need. Let’s now inject the tabPanelBody()s into the tabsetPanel():\ntabs &lt;- rlang::inject(\n  tabsetPanel(\n    id = \"tabs\",\n    type = \"hidden\",\n    selected = \"a\",\n    !!!panel_bodies\n  )\n)\nShiny comes with injection support out of the box. Therefore, there’s no need to wrap the code in rlang::inject():\ntabs &lt;- tabsetPanel(\n  id = \"tabs\",\n  type = \"hidden\",\n  selected = \"a\",\n  !!!panel_bodies\n)\nThis is way cleaner and also visually appealing.\nThere are numerous applications of code & data injection. Check out more in the docs."
   },
   {
-    "objectID": "posts/shiny/jquery-effects/index.html",
-    "href": "posts/shiny/jquery-effects/index.html",
-    "title": "JQuery Effects in Shiny",
-    "section": "",
-    "text": "Here is how renderUI() normally functions:\n\n\n\nThere’s nothing wrong with it. It works well.\nBut notice how on the initial render, the user is just slapped with the content. It gets worse if you’re rendering a huge portion.\nI’m not here to offer you another version of renderUI. What I can do, however, is show you how you can improvise and make the rendering feel magical to the user.\nLet’s take a look at a sample:\n\n\n\nThe rendered UI now smoothly slides down and up depending on user action. How cool is that?"
-  },
-  {
-    "objectID": "posts/shiny/jquery-effects/index.html#demo",
-    "href": "posts/shiny/jquery-effects/index.html#demo",
-    "title": "JQuery Effects in Shiny",
-    "section": "",
-    "text": "Here is how renderUI() normally functions:\n\n\n\nThere’s nothing wrong with it. It works well.\nBut notice how on the initial render, the user is just slapped with the content. It gets worse if you’re rendering a huge portion.\nI’m not here to offer you another version of renderUI. What I can do, however, is show you how you can improvise and make the rendering feel magical to the user.\nLet’s take a look at a sample:\n\n\n\nThe rendered UI now smoothly slides down and up depending on user action. How cool is that?"
-  },
-  {
-    "objectID": "posts/shiny/jquery-effects/index.html#introduction",
-    "href": "posts/shiny/jquery-effects/index.html#introduction",
-    "title": "JQuery Effects in Shiny",
+    "objectID": "posts/shiny/download-button-spinner/index.html#introduction",
+    "href": "posts/shiny/download-button-spinner/index.html#introduction",
+    "title": "Add downLoading spinners",
     "section": "Introduction",
-    "text": "Introduction\nI’ve been playing around with JQuery and I must admit, it’s very fascinating. It has allowed me to do some exciting things.\nToday we’ll focus on one specific task:\n\nAdding a sliding animation (like the one in the demo) to a div\n\n\n\n\n\n\n\nWhy did you choose renderUI specifically?\n\n\n\nIt’s easy enough to add such effects on non-rendered divs. But with renderUI? I found it quite challenging.\nThat’s why I must remind you… I’m not here for the easy part."
+    "text": "Introduction\n\n\nI hope nobody is reading. But if you are, then keep this to yourself.\n\n\nMwavu\n\n\nOftentimes you have a large dataset that takes a while to download. To give your users a visual cue that the download is in progress, you can (and should) add spinners to your download buttons."
   },
   {
-    "objectID": "posts/shiny/jquery-effects/index.html#module",
-    "href": "posts/shiny/jquery-effects/index.html#module",
-    "title": "JQuery Effects in Shiny",
-    "section": "Module",
-    "text": "Module\nOne thing is for sure: I am going to use modules.\nThe module’s UI is pretty straightforward:\n\n\nR/mod_animated_ui.R\n\nmod_animated_ui &lt;- \\(id) {\n  ns &lt;- NS(id)\n  \n  tagList(\n    tags$h1(\"Animated renderUI\"),\n    actionButton(\n      inputId = ns(\"render_div\"),\n      label = \"Render UI\",\n      class = \"btn-outline-success px-5 mb-3\"\n    ),\n    uiOutput(outputId = ns(\"theui\"))\n  )\n}\n\nFor the server part, let’s build it up step by step. Starting with what we’re all used to, then levelling up to new heights.\n\n\nR/mod_animated_server.R\n\nmod_animated_server &lt;- \\(id) {\n  moduleServer(\n    id = id,\n    module = \\(input, output, session) {\n      ns &lt;- session$ns\n      # values to use for the textInput:\n      aliases &lt;- c(\n        \"Gandalf the grey\", \"Strider\", \"Saruman\",\n        \"Sauron\", \"Frodo\", \"Samwise Gamgee\"\n      )\n      output$theui &lt;- renderUI({\n        tagList(\n          tags$div(\n            id = ns(\"to_animate\"),\n            style = \"display: none;\",\n            selectInput(\n              inputId = ns(\"selector\"),\n              label = \"What's your fav letter?\",\n              choices = LETTERS,\n              selected = sample(x = LETTERS, size = 1)\n            ),\n            textInput(\n              inputId = ns(\"name\"),\n              label = \"Enter your pseudo name\",\n              value = sample(x = aliases, size = 1)\n            ),\n            checkboxInput(\n              inputId = ns(\"lotr_fan\"),\n              label = \"Are you a LOTR fan?\",\n              value = sample(x = c(FALSE, TRUE), size = 1)\n            ),\n            tags$p(\n              tags$em(\"PS: Don't overdo the animations! Thanks.\")\n            )\n          ),\n          tags$div(\n            class = \"d-flex\",\n            actionButton(\n              inputId = ns(\"toggle_div\"),\n              label = \"Hide the rendered UI\",\n              class = \"btn-outline-primary px-5 mr-1 mt-3\"\n            )\n          )\n        )\n      }) |&gt; bindEvent(input$render_div)\n      \n      observeEvent(input$render_div, {\n        updateActionButton(\n          session = session,\n          inputId = \"render_div\",\n          label = \"Re-render UI\"\n        )\n      }, once = TRUE)\n    }\n  )\n}\n\nA few things to note here:\n\nTo get this module’s namespace we use ns &lt;- session$ns. This is the equivalent of ns &lt;- NS(id) in the module’s UI.\nThe div we’re returning inside of the tagList has:\n\nAn id which we will use later in JQuery to select the div.\nA display of none. This means that even after it is rendered, it will take no space and hence won’t be visible. This is similar to what shinyjs::hide() does.\n\nWe only need to render the UI when the user clicks on the button, hence bindEvent(input$render_div).\nOnce the button render_div is clicked, we change it’s label to “Re-render UI”, and we only do this once since any further clicks will just be “Re-rendering the UI”. That’s why we have once = TRUE on the observeEvent. The observer is destroyed after the first time the handler expression is ran.\n\nNow, are you ready for the juicy (and probably messy) part?\nI’m not a fan of inline JS in a shiny app, unless it’s just a short one-liner.\nWhat I’m trying to tell you is that we’re going to use a script. Let’s add it just before closing the tagList:\n\n\nR/mod_animated_server.R\n\ntagList(\n  # ...\n  tags$script(src = \"animate.js\")\n)\n\nWe want the script to target elements in this module alone, not any other part of ui.R. This presents us with a huge problem:\n\nHow do we pass our module’s namespace to the script?\n\nThis is the point where I almost gave up on using modules. I tried numerous tricks, I googled, I even asked my grandma :)\n\nMonkey Laptop GIFfrom Monkey GIFs\n\n\nNone of those worked, least of all the last option. So I decided to take a walk.\nI was in the middle of nowhere when a thought crept into my mind:\n\nCan R read an arbitrary file? If so, I can read the JS file and modify it so that the selectors incorporate the namespace id.\n\nLet me explain."
+    "objectID": "posts/shiny/download-button-spinner/index.html#the-module",
+    "href": "posts/shiny/download-button-spinner/index.html#the-module",
+    "title": "Add downLoading spinners",
+    "section": "The module",
+    "text": "The module\nLet’s first create a basic download button module that we can build upon.\nWe’ll create an action button that will trigger the download (Yes, you read that right, an action button).\nWe’ll then add the real download button but it will be hidden.\n\n\nR/mod_dnld_ui.R\n\n#' Download button module UI\n#' @param id Module ID\n#' @return [shiny::tagList()]\nmod_dnld_ui &lt;- function(id) {\n  ns &lt;- shiny::NS(id)\n\n  shiny::tagList(\n    # Trigger button:\n    shiny::actionButton(\n      inputId = ns(\"actbtn\"),\n      label = htmltools::doRenderTags(\n        shiny::tags$span(\n          shiny::icon(\"download\"),\n          \"Download\"\n        )\n      )\n    ),\n\n    # Real download button:\n    shiny::downloadButton(\n      outputId = ns(\"dnld\"),\n      label = NULL,\n      style = \"visibility: hidden;\"\n    )\n  )\n}\n\nThe basic server piece is also as simple:\n\n\nR/mod_dnld_server.R\n\n#' Download button module server\n#' @param id Module ID\n#' @param given_data Data to download, as a reactive.\n#' @param filename Filename to use for download.\n#' @return NULL\nmod_dnld_server &lt;- function(\n  id,\n  given_data = reactive({iris}),\n  filename = \"iris.csv\"\n) {\n  stopifnot(\n    \"`given_data` must be a reactive\" = is.reactive(given_data)\n  )\n\n  shiny::moduleServer(\n    id = id,\n    module = function(input, output, session) {\n      output$dnld &lt;- downloadHandler(\n        filename = filename,\n        content = function(file) {\n          write.csv(given_data(), file)\n        }\n      )\n    }\n  )\n}\n\nIt takes in a reactive data object (given_data) and a filename. The rest is normal stuff.\nWe can now move on to adding the download button spinner."
   },
   {
-    "objectID": "posts/shiny/jquery-effects/index.html#script.js",
-    "href": "posts/shiny/jquery-effects/index.html#script.js",
-    "title": "JQuery Effects in Shiny",
+    "objectID": "posts/shiny/download-button-spinner/index.html#adding-a-spinner-to-the-download-button",
+    "href": "posts/shiny/download-button-spinner/index.html#adding-a-spinner-to-the-download-button",
+    "title": "Add downLoading spinners",
+    "section": "Adding a spinner to the download button",
+    "text": "Adding a spinner to the download button\nSpoiler alert: mod_dnld_ui is done. We’ll work on mod_dnld_server from now on.\nIn the server module, we’ll use shiny::observeEvent to listen for clicks on the action button.\nWhen the button is clicked, we update its label to show a spinner and a message indicating that the download is in progress.\nWe then trigger a click on the real download button using shinyjs::click:\n\n\nR/mod_dnld_server.R\n\nshiny::observeEvent(input$actbtn, {\n  # update label of 'actbtn':\n  shiny::updateActionButton(\n    session = session,\n    inputId = \"actbtn\",\n    label = htmltools::doRenderTags(\n      shiny::tags$span(\n        class = \"d-flex align-items-center\",\n        shiny::tags$span(\n          class = \"spinner-border spinner-border-sm\",\n          role = \"status\",\n          `aria-hidden` = \"true\"\n        ),\n        shiny::tags$span(\n          class = \"mx-1\",\n          \"Downloading...\"\n        )\n      )\n    )\n  )\n\n  # simulate click on 'dnld' btn:\n  shinyjs::delay(\n    ms = 2 * 1e3,\n    expr = shinyjs::click(id = \"dnld\")\n  )\n})\n\nTwo things to note here:\n\nI use Bootstrap 5 classes.\nI use shinyjs::delay to, well, delay the click for 2 seconds. Wanna know why?\n\n\n\n\nNext, after the download is complete, we need to update the label of the action button back to its original value.\n\n\nR/mod_dnld_server.R\n\noutput$dnld &lt;- downloadHandler(\n  filename = filename,\n  content = function(file) {\n    # on exit, update 'actbtn' label:\n    on.exit({\n      shiny::updateActionButton(\n        session = session,\n        inputId = \"actbtn\",\n        label = htmltools::doRenderTags(\n          shiny::tags$span(\n            shiny::icon(\"download\"),\n            \"Download\"\n          )\n        )\n      )\n    })\n\n    # write data to file:\n    write.csv(given_data(), file)\n  }\n)\n\n?on.exit:\n\non.exit records the expression given as its argument as needing to be executed when the current function exits (either naturally or as the result of an error). This is useful for resetting graphical parameters or performing other cleanup actions.\n\nIn our case, we’re performing a cleanup action: updating the label of the action button back to its original state.\nThe complete module server function is as follows:\n\n\nR/mod_dnld_server.R\n\n#' Download button module server\n#' @param id Module id\n#' @param given_data Data to download, as a reactive.\n#' @param filename Filename to use for download.\n#' @return NULL\nmod_dnld_server &lt;- function(\n    id,\n    given_data = reactive({\n      iris\n    }),\n    filename = \"iris.csv\") {\n  stopifnot(\n    \"`given_data` must be a reactive\" = is.reactive(given_data)\n  )\n\n  shiny::moduleServer(\n    id = id,\n    module = function(input, output, session) {\n      shiny::observeEvent(input$actbtn, {\n        # update label of 'actbtn':\n        shiny::updateActionButton(\n          session = session,\n          inputId = \"actbtn\",\n          label = htmltools::doRenderTags(\n            shiny::tags$span(\n              class = \"d-flex align-items-center\",\n              shiny::tags$span(\n                class = \"spinner-border spinner-border-sm\",\n                role = \"status\",\n                `aria-hidden` = \"true\"\n              ),\n              shiny::tags$span(\n                class = \"mx-1\",\n                \"Downloading...\"\n              )\n            )\n          )\n        )\n\n        # simulate click on 'dnld' btn:\n        shinyjs::delay(\n          ms = 2 * 1e3,\n          expr = shinyjs::click(id = \"dnld\")\n        )\n      })\n\n      output$dnld &lt;- downloadHandler(\n        filename = filename,\n        content = function(file) {\n          # on exit, update 'actbtn' label:\n          on.exit({\n            shiny::updateActionButton(\n              session = session,\n              inputId = \"actbtn\",\n              label = htmltools::doRenderTags(\n                shiny::tags$span(\n                  shiny::icon(\"download\"),\n                  \"Download\"\n                )\n              )\n            )\n          })\n\n          # write data to file:\n          write.csv(given_data(), file)\n        }\n      )\n    }\n  )\n}"
+  },
+  {
+    "objectID": "posts/shiny/download-button-spinner/index.html#putting-it-all-together",
+    "href": "posts/shiny/download-button-spinner/index.html#putting-it-all-together",
+    "title": "Add downLoading spinners",
+    "section": "Putting it all together",
+    "text": "Putting it all together\nNow that we have the module UI and server parts, we can put them together in a shiny app.\nThe app is as simple as it can get:\nui &lt;- bslib::page(\n  theme = bslib::bs_theme(version = 5),\n  shinyjs::useShinyjs(),\n\n  shiny::tags$div(\n    class = \"bg-light\",\n\n    shiny::tags$div(\n    class = paste(\n      \"container min-vh-100\",\n      \"d-flex justify-content-center align-items-center bg-white\"\n    ),\n\n    # module UI:\n    shiny::tags$div(\n      mod_dnld_ui(\"this\")\n    )\n  )\n  )\n)\n\nserver &lt;- function(input, output, session) {\n  # module server:\n  mod_dnld_server(\"this\")\n}\n\nshiny::shinyApp(ui, server)\nThe full code is available on this GitHub Gist."
+  },
+  {
+    "objectID": "posts/shiny/defensive-programming/index.html",
+    "href": "posts/shiny/defensive-programming/index.html",
+    "title": "Defensive Programming",
+    "section": "",
+    "text": "I hope nobody is reading. But if you are, then keep this to yourself.\n\n\nMwavu\n\n\nYour prod app should never have to fail, crash or display arcane red lines of errors on the UI.\nIf it has to, it should do so gracefully and with dignity. Only then will you have an easy time convincing the client that it’s a six-legged feature, not a bug."
+  },
+  {
+    "objectID": "posts/shiny/defensive-programming/index.html#introduction",
+    "href": "posts/shiny/defensive-programming/index.html#introduction",
+    "title": "Defensive Programming",
+    "section": "",
+    "text": "I hope nobody is reading. But if you are, then keep this to yourself.\n\n\nMwavu\n\n\nYour prod app should never have to fail, crash or display arcane red lines of errors on the UI.\nIf it has to, it should do so gracefully and with dignity. Only then will you have an easy time convincing the client that it’s a six-legged feature, not a bug."
+  },
+  {
+    "objectID": "posts/shiny/defensive-programming/index.html#when-do-errors-arise",
+    "href": "posts/shiny/defensive-programming/index.html#when-do-errors-arise",
+    "title": "Defensive Programming",
+    "section": "When do errors arise?",
+    "text": "When do errors arise?\nMost, if not all, application errors occur when you’re trying to perform an operation on data. This can be during app startup or in response to user action.\nCommon cases are:\n\nMathematical calculations eg. +, -, *, /\nData manipulations eg. subsetting (iris[, \"Sepal.Length\"])"
+  },
+  {
+    "objectID": "posts/shiny/defensive-programming/index.html#defensive-programming",
+    "href": "posts/shiny/defensive-programming/index.html#defensive-programming",
+    "title": "Defensive Programming",
+    "section": "Defensive programming",
+    "text": "Defensive programming\nDefensive programming is an approach to software development that focuses on anticipating and preventing potential errors, bugs, and vulnerabilities in the code.\nThe fundamental concept of this approach is to develop a program that can function correctly even in the presence of unforeseen circumstances or when users enter unexpected inputs.\nWe’ll focus on 2 key principles of defensive programming, both at the same time:\n\nValidating inputs: Checking that all input values are within expected ranges or formats, and handling unexpected input values appropriately.\nHandling errors: Catching and handling errors/exceptions in a way that allows the program to recover gracefully, without crashing or losing data\n\nThat’s where tryCatch comes in!"
+  },
+  {
+    "objectID": "posts/shiny/defensive-programming/index.html#trycatch",
+    "href": "posts/shiny/defensive-programming/index.html#trycatch",
+    "title": "Defensive Programming",
+    "section": "tryCatch()",
+    "text": "tryCatch()\nThe basic syntax of tryCatch() is this:\n\n\ntrycatch.R\n\nresult &lt;- tryCatch(\n  expr = {\n    # Code block to be executed\n  },\n  error = \\(e) {\n    # Error handling code\n  },\n  warning = \\(w) {\n    # Warning handling code\n  },\n  finally = {\n    # Do this, regardless of success or failure of 'expr' block\n  }\n)\n\n\n\n\n\n\n\nMental model:\n\n\n\n\n\nHey R, I have this block of code. I’m not sure if it’s flawless, but I need you to try and run it.  In case you encounter issues, here’s how you should proceed depending on the scenario:\n\nDid it throw an error? Then do &lt;error handling&gt;\nDid it give a warning? Then run this &lt;warning handling chunk&gt;\nFinally, regardless of whether it ran successfully or failed, please do &lt;finally block&gt;"
+  },
+  {
+    "objectID": "posts/shiny/defensive-programming/index.html#hands-on",
+    "href": "posts/shiny/defensive-programming/index.html#hands-on",
+    "title": "Defensive Programming",
+    "section": "Hands-On",
+    "text": "Hands-On\nPractical examples have been a great way for me to learn new concepts.\nBe sure to go through the examples thoroughly and see if you can remake similar ones of your own.\n\nExample 1: Generic errors & warnings\nIn case of an error or a warning during an operation, inform the user that something unexpected happened and show a glimpse of what might have went wrong.\n\n\napp.R\n\nlibrary(shiny)\n\nui &lt;- fluidPage(\n  shinytoastr::useToastr(),\n  \n  tags$div(\n    class = \"container\",\n    align = \"center\",\n    \n    selectInput(\n      inputId = \"cols\",\n      label = \"Choose one or more columns\",\n      choices = c(names(iris), \"Unknown Column\"),\n      multiple = TRUE\n    ),\n    \n    DT::DTOutput(outputId = \"table\")\n  )\n)\n\nserver &lt;- function(input, output, session) {\n  output$table &lt;- DT::renderDT({\n    tryCatch(\n      expr = {\n        { iris |&gt; dplyr::select(dplyr::all_of(input$cols)) } * 100\n      },\n      error = \\(e) {\n        shinytoastr::toastr_error(\n          title = \"Error in calculation\",\n          message = conditionMessage(e)\n        )\n      },\n      warning = \\(w) {\n        shinytoastr::toastr_warning(\n          title = \"Warning!\",\n          message = conditionMessage(w)\n        )\n      }\n    )\n  })\n}\n\nshinyApp(ui, server)\n\n\n\nExample 2: Custom errors & warnings\nSometimes you can choose to be more informative and specific. In this example, we tell the user what exactly went wrong.\nOn top of that, we leave room for unforeseen causes of errors & warnings.\n\n\napp.R\n\nlibrary(shiny)\n\nui &lt;- fluidPage(\n  shinytoastr::useToastr(),\n  \n  tags$div(\n    class = \"container\",\n    align = \"center\",\n    \n    selectInput(\n      inputId = \"cols\",\n      label = \"Choose one or more columns\",\n      choices = c(names(iris), \"Unknown Column\"),\n      multiple = TRUE\n    ),\n    \n    DT::DTOutput(outputId = \"table\")\n  )\n)\n\nserver &lt;- function(input, output, session) {\n  output$table &lt;- DT::renderDT({\n    cols &lt;- input$cols\n    req(cols)\n    \n    tryCatch(\n      expr = {\n        if (\"Species\" %in% cols) {\n          shinytoastr::toastr_warning(\n            title = \"Omitting column 'Species'\",\n            message = \"Cannot perform multiplication on a factor\"\n          )\n          \n          cols &lt;- setdiff(cols, \"Species\")\n        }\n        \n        if (\"Unknown Column\" %in% cols) {\n          shinytoastr::toastr_error(\n            title = \"Omitting 'Uknown Column'\",\n            message = \"Cannot subset columns which don't exist\"\n          )\n          \n          cols &lt;- setdiff(cols, \"Unknown Column\")\n        }\n        \n        { iris |&gt; dplyr::select(dplyr::all_of(cols)) } * 100\n      },\n      \n      # in case of other unforeseen errors & warnings:\n      error = \\(e) {\n        shinytoastr::toastr_error(\n          title = \"Error in calculation\",\n          message = conditionMessage(e)\n        )\n      },\n      warning = \\(w) {\n        shinytoastr::toastr_warning(\n          title = \"Warning!\",\n          message = conditionMessage(w)\n        )\n      }\n    )\n  })\n}\n\nshinyApp(ui, server)"
+  },
+  {
+    "objectID": "posts/shiny/download-button-spinner-js/index.html#introduction",
+    "href": "posts/shiny/download-button-spinner-js/index.html#introduction",
+    "title": "Add downLoading spinners… using JS",
+    "section": "Introduction",
+    "text": "Introduction\nIn an older post I explained how to add loading spinners to download buttons when the download is in progress using shinyjs.\nI did so by rendering a fake download button which, when clicked, triggered the real download button. Honestly, it was kind of cumbersome.\nToday, as I was walking in the streets of R Shiny articles by Posit, I came across JavaScript events in shiny.\nI was intrigued. It opened my eyes to the endless possibilities of using JS with shiny. This blog post is just the tip of that iceberg."
+  },
+  {
+    "objectID": "posts/shiny/download-button-spinner-js/index.html#motivation",
+    "href": "posts/shiny/download-button-spinner-js/index.html#motivation",
+    "title": "Add downLoading spinners… using JS",
+    "section": "Motivation",
+    "text": "Motivation\nAllow me to let you in on a small secret… Come here. Come closer.\n\nIn one way or another JavaScript is inevitable.\n\nI’ve spent so much time trying to run away from JS, forcing R to do what JS was purposed to do.\nIn the end I’ve come to one conclusion: Smith was always right.\n\nAs a matter of fact, I’m beginning to enjoy learning and using it."
+  },
+  {
+    "objectID": "posts/shiny/download-button-spinner-js/index.html#the-module",
+    "href": "posts/shiny/download-button-spinner-js/index.html#the-module",
+    "title": "Add downLoading spinners… using JS",
+    "section": "The module",
+    "text": "The module\nI refuse to NOT use modules. So, here we are.\nThe module’s UI is the simplest, there’s nothing to explain.\nI have a reminder for you though: It’s always a missing call to NS(). Thank me later.\n\n\nR/mod_dnld_ui.R\n\nmod_dnld_ui &lt;- \\(id) {\n  ns &lt;- NS(id)\n\n  tagList(\n    downloadButton(\n      outputId = ns(\"download\"),\n      icon = icon(name = NULL, class = \"bi bi-download\")\n    )\n  )\n}\n\n\n\nR/mod_dnld_server.R\n\nmod_dnld_server &lt;- \\(id, data) {\n  stopifnot(\"Argument 'data' must be a reactive!\" = is.reactive(data))\n  moduleServer(\n    id = id,\n    module = \\(input, output, session) {\n      ns &lt;- session$ns\n\n      output$download &lt;- downloadHandler(\n        filename = \\() {\n          paste(\"data-\", Sys.Date(), \".csv\", sep = \"\")\n        },\n        content = \\(file) {\n          session$sendCustomMessage(\n            type = \"starting_download\",\n            list(id = ns(\"download\"))\n          )\n          write.csv(data(), file)\n          session$sendCustomMessage(\n            type = \"end_download\",\n            list(id = ns(\"download\"))\n          )\n        }\n      )\n    }\n  )\n}\n\nEvery time the download button is clicked, shiny sends a message to JavaScript. It also sends another message when the download is complete.\n\n\n\n\n\n\nNote\n\n\n\nsendCustomMessage() sends information from the server to the client.\nOn the client side, a message handler function must be registered to receive and do something with the message."
+  },
+  {
+    "objectID": "posts/shiny/download-button-spinner-js/index.html#script.js",
+    "href": "posts/shiny/download-button-spinner-js/index.html#script.js",
+    "title": "Add downLoading spinners… using JS",
     "section": "script.js",
-    "text": "script.js\n\n\nwww/animate.js\n\n$(document).ready(function () {\n  const ns = undefined;\n  const div = $(\"#\" + ns + \"to_animate\");\n  const toggle_div = $(\"#\" + ns + \"toggle_div\");\n  const hide_text = \"Hide the rendered UI\";\n  const show_text = \"Show the rendered UI\";\n\n  div.slideToggle(600);\n\n  toggle_div.on(\"click\", () =&gt; {\n    div.slideToggle(\"slow\");\n    // toggle button text:\n    toggle_div.text(toggle_div.text() === hide_text ? show_text : hide_text);\n  });\n});\n\nHere’s what the script does, line by line:\n\nLine \\(1\\) says: Wait till this document is ready for manipulation and then call this anonymous function.\nLine \\(2\\) is the key to solving our problem. We assign undefined to a variable ns. We will replace the undefined with our module’s namespace.\nLine \\(3\\) selects the div to animate.\nLine \\(4\\) selects the button which hides and shows the rendered div.\nLine \\(5\\) & \\(6\\) are the button labels when the div is hidden or shown.\nRecall that by default the rendered div is hidden. Line \\(8\\) makes it visible and slides it down in a span of 600 ms.\nOn line \\(10\\), we are adding an observer to the button. We’re basically saying whenever the button is clicked:\n\nIf the div is hidden, show it [slowly]. If it’s shown, hide it [slowly] (Line \\(11\\)).\nRelabel the button. If its current label is hide_text, change it to show_text. Otherwise change it to hide_text (Line \\(13\\)).\n\n\nNow let’s circle back and add this script to our module’s server:\n\n\nR/mod_animated_server.R\n\nmod_animated_server &lt;- \\(id) {\n  moduleServer(\n    id = id,\n    module = \\(input, output, session) {\n      ns &lt;- session$ns\n      # read animate.js and add namespace to the line \"const ns = undefined\":\n      anim_js &lt;- readLines(con = file.path(\"www\", \"animate.js\")) |&gt; \n        gsub(\n          pattern = \"const ns = undefined\",\n          replacement = sprintf('const ns = \"%s\"', ns(\"\"))\n        ) |&gt; \n        paste0(collapse = \"\\n\") |&gt; \n        HTML()\n      \n      # ...\n      \n      output$theui &lt;- renderUI({\n        tagList(\n          # ...,\n          tags$script(anim_js)\n        )\n      }) |&gt; bindEvent(input$render_div)\n    }\n  )\n}\n\nThe most important thing to note here is that passing an empty string to ns returns the namespace of the module.\nThat’s it! Here’s how the final module server looks like:\n\n\nShow code\n\n\n\nR/mod_animated_server.R\n\nmod_animated_server &lt;- \\(id) {\n  moduleServer(\n    id = id,\n    module = \\(input, output, session) {\n      ns &lt;- session$ns\n      # read animate.js and add namespace to the line \"const ns = undefined\":\n      anim_js &lt;- readLines(con = file.path(\"www\", \"animate.js\")) |&gt; \n        gsub(\n          pattern = \"const ns = undefined\",\n          replacement = sprintf('const ns = \"%s\"', ns(\"\"))\n        ) |&gt; \n        paste0(collapse = \"\\n\") |&gt; \n        HTML()\n      # values to use for the textInput:\n      aliases &lt;- c(\n        \"Gandalf the grey\", \"Strider\", \"Saruman\",\n        \"Sauron\", \"Frodo\", \"Samwise Gamgee\"\n      )\n      output$theui &lt;- renderUI({\n        tagList(\n          tags$div(\n            id = ns(\"to_animate\"),\n            style = \"display: none;\",\n            selectInput(\n              inputId = ns(\"selector\"),\n              label = \"What's your fav letter?\",\n              choices = LETTERS,\n              selected = sample(x = LETTERS, size = 1)\n            ),\n            textInput(\n              inputId = ns(\"name\"),\n              label = \"Enter your pseudo name\",\n              value = sample(x = aliases, size = 1)\n            ),\n            checkboxInput(\n              inputId = ns(\"lotr_fan\"),\n              label = \"Are you a LOTR fan?\",\n              value = sample(x = c(FALSE, TRUE), size = 1)\n            ),\n            tags$p(\n              tags$em(\"PS: Don't overdo the animations! Thanks.\")\n            )\n          ),\n          tags$div(\n            class = \"d-flex\",\n            actionButton(\n              inputId = ns(\"toggle_div\"),\n              label = \"Hide the rendered UI\",\n              class = \"btn-outline-primary px-5 mr-1 mt-3\"\n            )\n          ),\n          tags$script(anim_js)\n        )\n      }) |&gt; bindEvent(input$render_div)\n      \n      observeEvent(input$render_div, {\n        updateActionButton(\n          session = session,\n          inputId = \"render_div\",\n          label = \"Re-render UI\"\n        )\n      }, once = TRUE)\n    }\n  )\n}"
+    "text": "script.js\n\n\nwww/script.js\n\nShiny.addCustomMessageHandler(\"starting_download\", (message) =&gt; {\n  let inner_html = '&lt;span class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\"&gt;&lt;/span&gt;' +\n  '&lt;span class=\"ps-1\"&gt;Downloading...&lt;/span&gt;';\n  $(\"#\" + message[\"id\"]).html(inner_html);\n});\n\nShiny.addCustomMessageHandler(\"end_download\", (message) =&gt; {\n  let inner_html = '&lt;i class=\"bi bi-download pe-1\"&gt;&lt;/i&gt;' + \"Download\";\n  $(\"#\" + message[\"id\"]).html(inner_html);\n});\n\nBoth message handlers change the inner HTML of the download button.\nThe first one (starting_download), adds a loading spinner to indicate that the download is in progress.\nThe second handler (end_download), changes the inner HTML to its original value, indicating that the download is done.\nThe module is complete!\n\n\nNested\nFor the sake of testing whether our module will work when nested in other modules, let’s define this:\n\n\nR/mod_nested_dnld.R\n\nmod_nested_dnld_ui &lt;- \\(id) {\n  ns &lt;- NS(id)\n  \n  tagList(\n    mod_dnld_ui(ns(\"this\"))\n  )\n}\n\nmod_nested_dnld_server &lt;- \\(id) {\n  moduleServer(\n    id = id,\n    module = \\(input, output, session) {\n      given_data &lt;- reactive({\n        lapply(seq_len(2000), \\(x) {\n          iris\n        }) |&gt;\n          do.call(what = rbind)\n      })\n      mod_dnld_server(\"this\", given_data)\n    }\n  )\n}"
   },
   {
-    "objectID": "posts/shiny/jquery-effects/index.html#the-app",
-    "href": "posts/shiny/jquery-effects/index.html#the-app",
-    "title": "JQuery Effects in Shiny",
+    "objectID": "posts/shiny/download-button-spinner-js/index.html#the-app",
+    "href": "posts/shiny/download-button-spinner-js/index.html#the-app",
+    "title": "Add downLoading spinners… using JS",
     "section": "The app",
-    "text": "The app\n\n\nglobal.R\n\nlibrary(shiny)\n\n\n\nui.R\n\nui &lt;- bslib::page(\n  title = \"Animate rendered UIs\",\n  theme = bslib::bs_theme(version = 5),\n  tags$div(\n    class = \"container\",\n    mod_animated_ui(\"animated\")\n  )\n)\n\n\n\nserver.R\n\nserver &lt;- \\(input, output, session) {\n  mod_animated_server(\"animated\")\n}"
+    "text": "The app\nLet’s now knit it all together by defining the app’s ui and server chunks:\n\n\n\nui.R\n\nui &lt;- bslib::page(\n  title = \"DownLoading spinner\",\n  theme = bslib::bs_theme(version = 5),\n  lang = \"en\",\n  tags$head(\n    tags$link(\n      rel = \"stylesheet\",\n      href = \"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css\"\n    )\n  ),\n  tags$body(\n    class = \"d-flex flex-column align-items-center bg-dark\",\n    tags$div(\n      tags$h1(\"H3110 W0r1d!\"),\n      tags$div(\n        class = \"my-5\",\n        tags$p(\"When the file is small:\"),\n        mod_dnld_ui(\"this\")\n      ),\n      tags$div(\n        class = \"my-5\",\n        tags$p(\"When the file is large:\"),\n        mod_nested_dnld_ui(\"that\")\n      ),\n      tags$div(\n        class = \"my-5\",\n        tags$p(\"Features:\"),\n        tags$ul(\n          tags$li(\n            \"Works even when the download module is nested in other modules\"\n          )\n        )\n      ),\n      tags$script(src = \"script.js\")\n    )\n  )\n)\n\n\n\n\nserver.R\n\nserver &lt;- \\(input, output, session) {\n  mod_dnld_server(\"this\", data = reactive(mtcars))\n  mod_nested_dnld_server(\"that\")\n}\n\n\n\n\nglobal.R\n\nlibrary(shiny)"
   },
   {
-    "objectID": "posts/shiny/jquery-effects/index.html#conclusion",
-    "href": "posts/shiny/jquery-effects/index.html#conclusion",
-    "title": "JQuery Effects in Shiny",
-    "section": "Conclusion",
-    "text": "Conclusion\nI don’t know about you, but I’m kinda liking JavaScript.\nJQuery has many such effects which you can use in your apps for better UI/UX.\n$(this) has been JQuery + Shiny in a nutshell."
+    "objectID": "posts/shiny/download-button-spinner-js/index.html#issawrap",
+    "href": "posts/shiny/download-button-spinner-js/index.html#issawrap",
+    "title": "Add downLoading spinners… using JS",
+    "section": "Issawrap!",
+    "text": "Issawrap!\nReally proud of myself today!\nI expect to learn more JavaScript, but I can’t promise.\nWait… What!?\n\nUhhmmm…\nAnddd I just tweeted that.\nI expect to learn more JavaScript, but I can't promise.— Mwavu (@kennedymwavu) May 28, 2023"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "Hi, I’m Mwavu. Just typing R code.\n\n\n Back to top"
+  },
+  {
+    "objectID": "posts/count-sequential-chars/index.html",
+    "href": "posts/count-sequential-chars/index.html",
+    "title": "Count sequential characters",
+    "section": "",
+    "text": "Hello, World!\n\n\n\n Back to top"
   },
   {
     "objectID": "posts/shiny/auto-reload/index.html",
@@ -159,6 +257,118 @@
     "title": "Autoreloading🔄 in Shiny",
     "section": "Run app",
     "text": "Run app\nEverything is ready.\n\nIn our project root folder, run this in the terminal:\nnpm run dev\nThis should fire up the shiny app. Now go ahead and make changes to any file within the directory and watch what happens.\nTo stop npm, press CTRL + C.\nHappy development!"
+  },
+  {
+    "objectID": "posts/shiny/bootstrap-icons-in-shiny/index.html",
+    "href": "posts/shiny/bootstrap-icons-in-shiny/index.html",
+    "title": "Bootstrap icons in Shiny",
+    "section": "",
+    "text": "Today’s one of those days when I’m like “Maybe I’m here for some easy parts after all”.\nI have an excuse though, hoping you’ll buy it. 🤞🏽\nWhen I was a beginner in shiny (Does one actually ever stop being a beginner?), every other website I visited had some cool icons.\nI couldn’t for the life of me figure out how to use another icon library apart from shiny’s default ones (Free fontawesome kit and glyphicons).\nIn short, this post is more of me narrating to my younger self how I finally made it.\n\nGood thing is that younger me didn’t know a lot and so it won’t take much to impress him, meaning this is going to be short."
+  },
+  {
+    "objectID": "posts/shiny/bootstrap-icons-in-shiny/index.html#introduction",
+    "href": "posts/shiny/bootstrap-icons-in-shiny/index.html#introduction",
+    "title": "Bootstrap icons in Shiny",
+    "section": "",
+    "text": "Today’s one of those days when I’m like “Maybe I’m here for some easy parts after all”.\nI have an excuse though, hoping you’ll buy it. 🤞🏽\nWhen I was a beginner in shiny (Does one actually ever stop being a beginner?), every other website I visited had some cool icons.\nI couldn’t for the life of me figure out how to use another icon library apart from shiny’s default ones (Free fontawesome kit and glyphicons).\nIn short, this post is more of me narrating to my younger self how I finally made it.\n\nGood thing is that younger me didn’t know a lot and so it won’t take much to impress him, meaning this is going to be short."
+  },
+  {
+    "objectID": "posts/shiny/bootstrap-icons-in-shiny/index.html#demo",
+    "href": "posts/shiny/bootstrap-icons-in-shiny/index.html#demo",
+    "title": "Bootstrap icons in Shiny",
+    "section": "Demo",
+    "text": "Demo\n\nBootstrap Icons is a free and open source library:\n\nIt has many icons you can choose from (over 1800 at the time of writing this)\nYou can style each of the icons as you wish"
+  },
+  {
+    "objectID": "posts/shiny/bootstrap-icons-in-shiny/index.html#importing",
+    "href": "posts/shiny/bootstrap-icons-in-shiny/index.html#importing",
+    "title": "Bootstrap icons in Shiny",
+    "section": "Importing",
+    "text": "Importing\nTo use the icons, you first need to import them. You can do so:\n\nIn the header of your UI using tags$link, or,\nIn your css file using @import.\n\nLet’s go with the first option.\nHead over to the website, find the CDN (Content Delivery Network) link and copy it.\n\n\n\n\n\n\nTip\n\n\n\nOnce on the website, press CTRL + F and type in cdn. The page will scroll directly to the cdn link.\nIf you’re on Mac I think COMMAND + F should work.\n\n\nNow let’s add it to our UI:\n\n\nui.R\n\nui &lt;- bslib::page(\n  title = \"Bootstrap Icons\",\n  theme = bslib::bs_theme(version = 5),\n  tags$head(\n    tags$link(\n      rel = \"stylesheet\",\n      href = \"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css\"\n    )\n  )\n)"
+  },
+  {
+    "objectID": "posts/shiny/bootstrap-icons-in-shiny/index.html#usage",
+    "href": "posts/shiny/bootstrap-icons-in-shiny/index.html#usage",
+    "title": "Bootstrap icons in Shiny",
+    "section": "Usage",
+    "text": "Usage\nWe will use the &lt;i&gt; html tag to add icons to our app. In shiny, this is equivalent to tags$i().\nOn the Bootstrap icons website click on any icon. You should be able to see the &lt;i&gt; tag for the icon. Copy the class.\nNow back in your shiny app, you can use tags$i(class = \"what-you-copied\") eg.\ntags$i(class = \"bi bi-x-circle\")\nWhich should show this:"
+  },
+  {
+    "objectID": "posts/shiny/bootstrap-icons-in-shiny/index.html#styling",
+    "href": "posts/shiny/bootstrap-icons-in-shiny/index.html#styling",
+    "title": "Bootstrap icons in Shiny",
+    "section": "Styling",
+    "text": "Styling\nFeel free to style the icons to your app’s theme.\nFor me, I’m okay using Bootstrap 5 classes on the icons. Here are 2 examples showing how you can customize the icons’ appearance:\n\nColor\nTo change the color, add the text-* classes.\ntags$div(\n  tags$i(class = \"bi bi-x-circle text-success\"),\n  tags$i(class = \"bi bi-x-circle text-danger\"),\n  tags$i(class = \"bi bi-x-circle text-warning\"),\n  tags$i(class = \"bi bi-x-circle text-primary\")\n)\n   \n\n\nSize\nYou can use the fs-* classes to change the size of an icon.\ntags$div(\n  tags$i(class = \"bi bi-x-circle text-success fs-1\"),\n  tags$i(class = \"bi bi-x-circle text-danger fs-2\"),\n  tags$i(class = \"bi bi-x-circle text-warning fs-3\"),\n  tags$i(class = \"bi bi-x-circle text-primary fs-4\")\n)"
+  },
+  {
+    "objectID": "posts/shiny/bootstrap-icons-in-shiny/index.html#tables",
+    "href": "posts/shiny/bootstrap-icons-in-shiny/index.html#tables",
+    "title": "Bootstrap icons in Shiny",
+    "section": "Tables",
+    "text": "Tables\nYou can as well use the icons in tables. I will demonstrate this using {DT}.\n\n\nui.R\n\nDT::DTOutput(outputId = \"thetable\")\n\n\n\nserver.R\n\n# up, down and side arrow icons:\nup &lt;- tags$i(class = \"bi bi-arrow-up-circle-fill text-success\") |&gt;\n  as.character()\ndown &lt;- tags$i(class = \"bi bi-arrow-down-circle-fill text-danger\") |&gt;\n  as.character()\nside &lt;- tags$i(class = \"bi bi-arrow-left-right text-primary\") |&gt;\n  as.character()\n\n# make an example data.frame:\na &lt;- sample(LETTERS, size = 10, replace = TRUE)\nb &lt;- sample(1:10, size = 10, replace = TRUE)\nc &lt;- ifelse(b &gt; 7, up, ifelse(b &gt; 4, side, down))\nDT &lt;- data.frame(a, b, c)\n\nserver &lt;- \\(input, output, session) {\n  output$thetable &lt;- DT::renderDT({\n    DT::datatable(DT, escape = FALSE, rownames = FALSE)\n  })\n}\n\nTwo things to note here:\n\nWe converted the icons to character format since a dataframe cannot contain an object of class shiny.tag\nWe set the option escape = FALSE in DT::datatable() to avoid escaping html entities in the table (our icons). So instead of them being showed as characters, they will be parsed to real html tags.\n\nThe resulting table should be the same as the one in the demo."
+  },
+  {
+    "objectID": "posts/shiny/bootstrap-icons-in-shiny/index.html#app",
+    "href": "posts/shiny/bootstrap-icons-in-shiny/index.html#app",
+    "title": "Bootstrap icons in Shiny",
+    "section": "App",
+    "text": "App\nHere’s the complete app:\n\n\nglobal.R\n\nlibrary(shiny)\n\n\n\nShow UI code\n\n\n\nui.R\n\none_to_nine &lt;- paste0(\"bi bi-\", 0:9, \"-circle\")\n\nui &lt;- bslib::page(\n  title = \"Bootstrap Icons\",\n  theme = bslib::bs_theme(version = 5),\n  tags$head(\n    tags$link(\n      rel = \"stylesheet\",\n      href = \"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css\"\n    )\n  ),\n  tags$div(\n    class = \"container\",\n    tags$h1(\"Bootstrap Icons\"),\n    lapply(one_to_nine, \\(x) tags$i(class = x)),\n    tags$div(\n      tags$i(class = \"bi bi-x-circle text-success\"),\n      tags$i(class = \"bi bi-x-circle text-danger\"),\n      tags$i(class = \"bi bi-x-circle text-warning\"),\n      tags$i(class = \"bi bi-x-circle text-primary\")\n    ),\n    tags$div(\n      tags$i(class = \"bi bi-x-circle text-success fs-1\"),\n      tags$i(class = \"bi bi-x-circle text-danger fs-2\"),\n      tags$i(class = \"bi bi-x-circle text-warning fs-3\"),\n      tags$i(class = \"bi bi-x-circle text-primary fs-4\")\n    ),\n    fluidRow(\n      class = \"mt-4\",\n      column(\n        width = 6,\n        DT::DTOutput(outputId = \"thetable\")\n      )\n    )\n  )\n)\n\n\n\n\nShow server code\n\n\n\nserver.R\n\n# up, down and side arrow icons:\nup &lt;- tags$i(class = \"bi bi-arrow-up-circle-fill text-success\") |&gt;\n  as.character()\ndown &lt;- tags$i(class = \"bi bi-arrow-down-circle-fill text-danger\") |&gt;\n  as.character()\nside &lt;- tags$i(class = \"bi bi-arrow-left-right text-primary\") |&gt;\n  as.character()\n\n# make an example data.frame:\na &lt;- sample(LETTERS, size = 10, replace = TRUE)\nb &lt;- sample(1:10, size = 10, replace = TRUE)\nc &lt;- ifelse(b &gt; 7, up, ifelse(b &gt; 4, side, down))\nDT &lt;- data.frame(a, b, c)\n\nserver &lt;- \\(input, output, session) {\n  output$thetable &lt;- DT::renderDT({\n    DT::datatable(DT, escape = FALSE, rownames = FALSE)\n  })\n}"
+  },
+  {
+    "objectID": "posts/shiny/bootstrap-icons-in-shiny/index.html#conclusion",
+    "href": "posts/shiny/bootstrap-icons-in-shiny/index.html#conclusion",
+    "title": "Bootstrap icons in Shiny",
+    "section": "Conclusion",
+    "text": "Conclusion\n$(this) has been Bootstrap icons in Shiny."
+  },
+  {
+    "objectID": "posts/shiny/jquery-effects/index.html",
+    "href": "posts/shiny/jquery-effects/index.html",
+    "title": "JQuery Effects in Shiny",
+    "section": "",
+    "text": "Here is how renderUI() normally functions:\n\n\n\nThere’s nothing wrong with it. It works well.\nBut notice how on the initial render, the user is just slapped with the content. It gets worse if you’re rendering a huge portion.\nI’m not here to offer you another version of renderUI. What I can do, however, is show you how you can improvise and make the rendering feel magical to the user.\nLet’s take a look at a sample:\n\n\n\nThe rendered UI now smoothly slides down and up depending on user action. How cool is that?"
+  },
+  {
+    "objectID": "posts/shiny/jquery-effects/index.html#demo",
+    "href": "posts/shiny/jquery-effects/index.html#demo",
+    "title": "JQuery Effects in Shiny",
+    "section": "",
+    "text": "Here is how renderUI() normally functions:\n\n\n\nThere’s nothing wrong with it. It works well.\nBut notice how on the initial render, the user is just slapped with the content. It gets worse if you’re rendering a huge portion.\nI’m not here to offer you another version of renderUI. What I can do, however, is show you how you can improvise and make the rendering feel magical to the user.\nLet’s take a look at a sample:\n\n\n\nThe rendered UI now smoothly slides down and up depending on user action. How cool is that?"
+  },
+  {
+    "objectID": "posts/shiny/jquery-effects/index.html#introduction",
+    "href": "posts/shiny/jquery-effects/index.html#introduction",
+    "title": "JQuery Effects in Shiny",
+    "section": "Introduction",
+    "text": "Introduction\nI’ve been playing around with JQuery and I must admit, it’s very fascinating. It has allowed me to do some exciting things.\nToday we’ll focus on one specific task:\n\nAdding a sliding animation (like the one in the demo) to a div\n\n\n\n\n\n\n\nWhy did you choose renderUI specifically?\n\n\n\nIt’s easy enough to add such effects on non-rendered divs. But with renderUI? I found it quite challenging.\nThat’s why I must remind you… I’m not here for the easy part."
+  },
+  {
+    "objectID": "posts/shiny/jquery-effects/index.html#module",
+    "href": "posts/shiny/jquery-effects/index.html#module",
+    "title": "JQuery Effects in Shiny",
+    "section": "Module",
+    "text": "Module\nOne thing is for sure: I am going to use modules.\nThe module’s UI is pretty straightforward:\n\n\nR/mod_animated_ui.R\n\nmod_animated_ui &lt;- \\(id) {\n  ns &lt;- NS(id)\n  \n  tagList(\n    tags$h1(\"Animated renderUI\"),\n    actionButton(\n      inputId = ns(\"render_div\"),\n      label = \"Render UI\",\n      class = \"btn-outline-success px-5 mb-3\"\n    ),\n    uiOutput(outputId = ns(\"theui\"))\n  )\n}\n\nFor the server part, let’s build it up step by step. Starting with what we’re all used to, then levelling up to new heights.\n\n\nR/mod_animated_server.R\n\nmod_animated_server &lt;- \\(id) {\n  moduleServer(\n    id = id,\n    module = \\(input, output, session) {\n      ns &lt;- session$ns\n      # values to use for the textInput:\n      aliases &lt;- c(\n        \"Gandalf the grey\", \"Strider\", \"Saruman\",\n        \"Sauron\", \"Frodo\", \"Samwise Gamgee\"\n      )\n      output$theui &lt;- renderUI({\n        tagList(\n          tags$div(\n            id = ns(\"to_animate\"),\n            style = \"display: none;\",\n            selectInput(\n              inputId = ns(\"selector\"),\n              label = \"What's your fav letter?\",\n              choices = LETTERS,\n              selected = sample(x = LETTERS, size = 1)\n            ),\n            textInput(\n              inputId = ns(\"name\"),\n              label = \"Enter your pseudo name\",\n              value = sample(x = aliases, size = 1)\n            ),\n            checkboxInput(\n              inputId = ns(\"lotr_fan\"),\n              label = \"Are you a LOTR fan?\",\n              value = sample(x = c(FALSE, TRUE), size = 1)\n            ),\n            tags$p(\n              tags$em(\"PS: Don't overdo the animations! Thanks.\")\n            )\n          ),\n          tags$div(\n            class = \"d-flex\",\n            actionButton(\n              inputId = ns(\"toggle_div\"),\n              label = \"Hide the rendered UI\",\n              class = \"btn-outline-primary px-5 mr-1 mt-3\"\n            )\n          )\n        )\n      }) |&gt; bindEvent(input$render_div)\n      \n      observeEvent(input$render_div, {\n        updateActionButton(\n          session = session,\n          inputId = \"render_div\",\n          label = \"Re-render UI\"\n        )\n      }, once = TRUE)\n    }\n  )\n}\n\nA few things to note here:\n\nTo get this module’s namespace we use ns &lt;- session$ns. This is the equivalent of ns &lt;- NS(id) in the module’s UI.\nThe div we’re returning inside of the tagList has:\n\nAn id which we will use later in JQuery to select the div.\nA display of none. This means that even after it is rendered, it will take no space and hence won’t be visible. This is similar to what shinyjs::hide() does.\n\nWe only need to render the UI when the user clicks on the button, hence bindEvent(input$render_div).\nOnce the button render_div is clicked, we change it’s label to “Re-render UI”, and we only do this once since any further clicks will just be “Re-rendering the UI”. That’s why we have once = TRUE on the observeEvent. The observer is destroyed after the first time the handler expression is ran.\n\nNow, are you ready for the juicy (and probably messy) part?\nI’m not a fan of inline JS in a shiny app, unless it’s just a short one-liner.\nWhat I’m trying to tell you is that we’re going to use a script. Let’s add it just before closing the tagList:\n\n\nR/mod_animated_server.R\n\ntagList(\n  # ...\n  tags$script(src = \"animate.js\")\n)\n\nWe want the script to target elements in this module alone, not any other part of ui.R. This presents us with a huge problem:\n\nHow do we pass our module’s namespace to the script?\n\nThis is the point where I almost gave up on using modules. I tried numerous tricks, I googled, I even asked my grandma :)\n\nMonkey Laptop GIFfrom Monkey GIFs\n\n\nNone of those worked, least of all the last option. So I decided to take a walk.\nI was in the middle of nowhere when a thought crept into my mind:\n\nCan R read an arbitrary file? If so, I can read the JS file and modify it so that the selectors incorporate the namespace id.\n\nLet me explain."
+  },
+  {
+    "objectID": "posts/shiny/jquery-effects/index.html#script.js",
+    "href": "posts/shiny/jquery-effects/index.html#script.js",
+    "title": "JQuery Effects in Shiny",
+    "section": "script.js",
+    "text": "script.js\n\n\nwww/animate.js\n\n$(document).ready(function () {\n  const ns = undefined;\n  const div = $(\"#\" + ns + \"to_animate\");\n  const toggle_div = $(\"#\" + ns + \"toggle_div\");\n  const hide_text = \"Hide the rendered UI\";\n  const show_text = \"Show the rendered UI\";\n\n  div.slideToggle(600);\n\n  toggle_div.on(\"click\", () =&gt; {\n    div.slideToggle(\"slow\");\n    // toggle button text:\n    toggle_div.text(toggle_div.text() === hide_text ? show_text : hide_text);\n  });\n});\n\nHere’s what the script does, line by line:\n\nLine \\(1\\) says: Wait till this document is ready for manipulation and then call this anonymous function.\nLine \\(2\\) is the key to solving our problem. We assign undefined to a variable ns. We will replace the undefined with our module’s namespace.\nLine \\(3\\) selects the div to animate.\nLine \\(4\\) selects the button which hides and shows the rendered div.\nLine \\(5\\) & \\(6\\) are the button labels when the div is hidden or shown.\nRecall that by default the rendered div is hidden. Line \\(8\\) makes it visible and slides it down in a span of 600 ms.\nOn line \\(10\\), we are adding an observer to the button. We’re basically saying whenever the button is clicked:\n\nIf the div is hidden, show it [slowly]. If it’s shown, hide it [slowly] (Line \\(11\\)).\nRelabel the button. If its current label is hide_text, change it to show_text. Otherwise change it to hide_text (Line \\(13\\)).\n\n\nNow let’s circle back and add this script to our module’s server:\n\n\nR/mod_animated_server.R\n\nmod_animated_server &lt;- \\(id) {\n  moduleServer(\n    id = id,\n    module = \\(input, output, session) {\n      ns &lt;- session$ns\n      # read animate.js and add namespace to the line \"const ns = undefined\":\n      anim_js &lt;- readLines(con = file.path(\"www\", \"animate.js\")) |&gt; \n        gsub(\n          pattern = \"const ns = undefined\",\n          replacement = sprintf('const ns = \"%s\"', ns(\"\"))\n        ) |&gt; \n        paste0(collapse = \"\\n\") |&gt; \n        HTML()\n      \n      # ...\n      \n      output$theui &lt;- renderUI({\n        tagList(\n          # ...,\n          tags$script(anim_js)\n        )\n      }) |&gt; bindEvent(input$render_div)\n    }\n  )\n}\n\nThe most important thing to note here is that passing an empty string to ns returns the namespace of the module.\nThat’s it! Here’s how the final module server looks like:\n\n\nShow code\n\n\n\nR/mod_animated_server.R\n\nmod_animated_server &lt;- \\(id) {\n  moduleServer(\n    id = id,\n    module = \\(input, output, session) {\n      ns &lt;- session$ns\n      # read animate.js and add namespace to the line \"const ns = undefined\":\n      anim_js &lt;- readLines(con = file.path(\"www\", \"animate.js\")) |&gt; \n        gsub(\n          pattern = \"const ns = undefined\",\n          replacement = sprintf('const ns = \"%s\"', ns(\"\"))\n        ) |&gt; \n        paste0(collapse = \"\\n\") |&gt; \n        HTML()\n      # values to use for the textInput:\n      aliases &lt;- c(\n        \"Gandalf the grey\", \"Strider\", \"Saruman\",\n        \"Sauron\", \"Frodo\", \"Samwise Gamgee\"\n      )\n      output$theui &lt;- renderUI({\n        tagList(\n          tags$div(\n            id = ns(\"to_animate\"),\n            style = \"display: none;\",\n            selectInput(\n              inputId = ns(\"selector\"),\n              label = \"What's your fav letter?\",\n              choices = LETTERS,\n              selected = sample(x = LETTERS, size = 1)\n            ),\n            textInput(\n              inputId = ns(\"name\"),\n              label = \"Enter your pseudo name\",\n              value = sample(x = aliases, size = 1)\n            ),\n            checkboxInput(\n              inputId = ns(\"lotr_fan\"),\n              label = \"Are you a LOTR fan?\",\n              value = sample(x = c(FALSE, TRUE), size = 1)\n            ),\n            tags$p(\n              tags$em(\"PS: Don't overdo the animations! Thanks.\")\n            )\n          ),\n          tags$div(\n            class = \"d-flex\",\n            actionButton(\n              inputId = ns(\"toggle_div\"),\n              label = \"Hide the rendered UI\",\n              class = \"btn-outline-primary px-5 mr-1 mt-3\"\n            )\n          ),\n          tags$script(anim_js)\n        )\n      }) |&gt; bindEvent(input$render_div)\n      \n      observeEvent(input$render_div, {\n        updateActionButton(\n          session = session,\n          inputId = \"render_div\",\n          label = \"Re-render UI\"\n        )\n      }, once = TRUE)\n    }\n  )\n}"
+  },
+  {
+    "objectID": "posts/shiny/jquery-effects/index.html#the-app",
+    "href": "posts/shiny/jquery-effects/index.html#the-app",
+    "title": "JQuery Effects in Shiny",
+    "section": "The app",
+    "text": "The app\n\n\nglobal.R\n\nlibrary(shiny)\n\n\n\nui.R\n\nui &lt;- bslib::page(\n  title = \"Animate rendered UIs\",\n  theme = bslib::bs_theme(version = 5),\n  tags$div(\n    class = \"container\",\n    mod_animated_ui(\"animated\")\n  )\n)\n\n\n\nserver.R\n\nserver &lt;- \\(input, output, session) {\n  mod_animated_server(\"animated\")\n}"
+  },
+  {
+    "objectID": "posts/shiny/jquery-effects/index.html#conclusion",
+    "href": "posts/shiny/jquery-effects/index.html#conclusion",
+    "title": "JQuery Effects in Shiny",
+    "section": "Conclusion",
+    "text": "Conclusion\nI don’t know about you, but I’m kinda liking JavaScript.\nJQuery has many such effects which you can use in your apps for better UI/UX.\n$(this) has been JQuery + Shiny in a nutshell."
   },
   {
     "objectID": "posts/subset-every-nth-element-from-a-vector/index.html",
@@ -285,250 +495,5 @@
     "title": "How I Ended Up With R",
     "section": "Wind up",
     "text": "Wind up\n“Interesting story you have there, Mwavu. Earlier you stated that you wanted to become a Data Scientist. Did that happen?”\nNo. After I got that first job my career took a different turn: Software Development.\n“You use R for software dev?!”\nYes.\n“Why? I thought its only use is statistical & data analysis.”\nThat is what most people think. And rightly so. I am certainly not a pro at the language, but its appeal to me comes not from viewing it as a statistical & data analysis tool (which it is), but from looking at it as a programming language.\nFrom how I see it, R has so much more to offer. For one, it is unusually good at creating UIs. Take a look at this tweet for example. Second, R integrates extremely well with other languages.\nAdmittedly, the main reason I use R is because I love it. There, I said it.\nI am just not able to ditch it. I’ve tried to, many times. And failed at each attempt. Maybe coz it was my first, and that first love hits hard. I just can’t seem to move on.\nIt has its quarks, but so does every other language. I’d never write a compiler using it, of course. That’d be stupid.\nAll I’m saying is if I were to go back, I’d still pick R.\nIf a day comes and the language ceases to amaze me, I shall look back and say: “It was good while it lasted. And like all good things, it was bound to come to an end”.\nJust like my letter to you, dear reader.\nYours truly,\nMwavu."
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About",
-    "section": "",
-    "text": "Hi, I’m Mwavu. Just typing R code.\n\n\n Back to top"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Sections",
-    "section": "",
-    "text": "Sections\n\nShiny\n\n\n\nAll Posts\n\n\n\n\n\n\n\n   \n     \n     \n       Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\nDate\n\n\nTitle\n\n\n\n\n\n\nFeb 8, 2024\n\n\nHow I Ended Up With R\n\n\n\n\nJan 6, 2024\n\n\nAutoreloading🔄 in Shiny\n\n\n\n\nJan 4, 2024\n\n\nInjecting 💉 tabPanelBodies into tabsetPanels\n\n\n\n\nJul 24, 2023\n\n\nThe input in function(input, output, session)\n\n\n\n\nJul 21, 2023\n\n\nBootstrap icons in Shiny\n\n\n\n\nJul 20, 2023\n\n\nJQuery Effects in Shiny\n\n\n\n\nMay 28, 2023\n\n\nAdd downLoading spinners… using JS\n\n\n\n\nApr 16, 2023\n\n\nSubset every nth element from a vector\n\n\n\n\nFeb 26, 2023\n\n\nDefensive Programming\n\n\n\n\nFeb 21, 2023\n\n\nAdd downLoading spinners\n\n\n\n\n\n\nNo matching items\n\n Back to top"
-  },
-  {
-    "objectID": "authentication-in-r-shiny.html",
-    "href": "authentication-in-r-shiny.html",
-    "title": "Series: Authentication in R Shiny",
-    "section": "",
-    "text": "Many are the times you develop an in-house app for your organization. Two conditions must be met:\n\nA user can only access the app if and only if they are part of your organization ie. using the company email\nOnly certain users can access some parts of the app eg. the admin section\n\nAll I ever wanted was to build an app that felt intuitive:\n\na landing page,\na sign-in/up section, and\nthe app itself\n\nFor a long time I could not figure out how to build the sign-in/up section. The options I found online didn’t suit my needs either.\nWhich brings us to the topic of this series…\nShiny doesn’t have in-built features for user authentication or authorization.\nI found 2 remarkable packages which solve that problem:\n\npolished\nfirebase\n\nThey are easy enough to get started with, but not a walk in the park if you want the good stuff. By “good stuff” I mean detailed customization.\nI’m not here to show you the easy part, I’m here for the hard part."
-  },
-  {
-    "objectID": "authentication-in-r-shiny.html#user-authentication-authorization",
-    "href": "authentication-in-r-shiny.html#user-authentication-authorization",
-    "title": "Series: Authentication in R Shiny",
-    "section": "",
-    "text": "Many are the times you develop an in-house app for your organization. Two conditions must be met:\n\nA user can only access the app if and only if they are part of your organization ie. using the company email\nOnly certain users can access some parts of the app eg. the admin section\n\nAll I ever wanted was to build an app that felt intuitive:\n\na landing page,\na sign-in/up section, and\nthe app itself\n\nFor a long time I could not figure out how to build the sign-in/up section. The options I found online didn’t suit my needs either.\nWhich brings us to the topic of this series…\nShiny doesn’t have in-built features for user authentication or authorization.\nI found 2 remarkable packages which solve that problem:\n\npolished\nfirebase\n\nThey are easy enough to get started with, but not a walk in the park if you want the good stuff. By “good stuff” I mean detailed customization.\nI’m not here to show you the easy part, I’m here for the hard part."
-  },
-  {
-    "objectID": "authentication-in-r-shiny.html#posts-in-this-series",
-    "href": "authentication-in-r-shiny.html#posts-in-this-series",
-    "title": "Series: Authentication in R Shiny",
-    "section": "Posts in this series",
-    "text": "Posts in this series"
-  },
-  {
-    "objectID": "posts/the-input-in-server-function/index.html",
-    "href": "posts/the-input-in-server-function/index.html",
-    "title": "The input in function(input, output, session)",
-    "section": "",
-    "text": "I recently came across this stackoverflow post from 6 years ago and I was intrigued.\nThe OP wanted to render a dynamic number of selectInputs. The number of the selectInputs would be dependent on the value of a numericInput.\nIf the numericInput had a value of 3 then there would be 3 selectInputs on the UI.\nThe OP correctly made this observation:\n\nSay the default value of the numericInput is 3. If you change it to 2, the UI correctly updates and there are only 2 selectInputs. But when you print the input object, it still contains the id and value of the 3rd selectInput even though it is not currently rendered.\nGenerally, the input slot does not correspond with the current number of elements, but with the largest number chosen during the session.\n\nHere is the reprex the OP provided:\n\n\nreprex-from-op.R\n\nlibrary(shiny)\nlibrary(plyr)\n\ntestUI &lt;- function(id) {\n  ns &lt;- NS(id)\n  uiOutput(ns(\"container\"))\n}\n\ntest &lt;- function(input, output, session, numElems) {\n   output$container &lt;- renderUI(do.call(tagList, llply(1:numElems(), function(i) \n            selectInput(session$ns(paste0(\"elem\", i)), \n                        label = i, choices = LETTERS[sample(26, 3)]))))\n   getNames &lt;- reactive(reactiveValuesToList(input))\n   list(getNames = getNames)\n}\n\nui &lt;- fluidPage(numericInput(\"n\", \"Number of Elems\", value = 3), \n                testUI(\"column1\"), \n                verbatimTextOutput(\"debug\"))\n\nserver &lt;- function(input, output, session) {\n   getN &lt;- reactive(input$n)\n   handler &lt;- callModule(test, \"column1\", getN)\n   output$debug &lt;- renderPrint(handler$getNames())\n}\n\nshinyApp(ui, server)\n\nMy manager at work always says “Trust but verify”. So please run the reprex and ascertain that all the above observations are indeed true."
-  },
-  {
-    "objectID": "posts/the-input-in-server-function/index.html#introduction",
-    "href": "posts/the-input-in-server-function/index.html#introduction",
-    "title": "The input in function(input, output, session)",
-    "section": "",
-    "text": "I recently came across this stackoverflow post from 6 years ago and I was intrigued.\nThe OP wanted to render a dynamic number of selectInputs. The number of the selectInputs would be dependent on the value of a numericInput.\nIf the numericInput had a value of 3 then there would be 3 selectInputs on the UI.\nThe OP correctly made this observation:\n\nSay the default value of the numericInput is 3. If you change it to 2, the UI correctly updates and there are only 2 selectInputs. But when you print the input object, it still contains the id and value of the 3rd selectInput even though it is not currently rendered.\nGenerally, the input slot does not correspond with the current number of elements, but with the largest number chosen during the session.\n\nHere is the reprex the OP provided:\n\n\nreprex-from-op.R\n\nlibrary(shiny)\nlibrary(plyr)\n\ntestUI &lt;- function(id) {\n  ns &lt;- NS(id)\n  uiOutput(ns(\"container\"))\n}\n\ntest &lt;- function(input, output, session, numElems) {\n   output$container &lt;- renderUI(do.call(tagList, llply(1:numElems(), function(i) \n            selectInput(session$ns(paste0(\"elem\", i)), \n                        label = i, choices = LETTERS[sample(26, 3)]))))\n   getNames &lt;- reactive(reactiveValuesToList(input))\n   list(getNames = getNames)\n}\n\nui &lt;- fluidPage(numericInput(\"n\", \"Number of Elems\", value = 3), \n                testUI(\"column1\"), \n                verbatimTextOutput(\"debug\"))\n\nserver &lt;- function(input, output, session) {\n   getN &lt;- reactive(input$n)\n   handler &lt;- callModule(test, \"column1\", getN)\n   output$debug &lt;- renderPrint(handler$getNames())\n}\n\nshinyApp(ui, server)\n\nMy manager at work always says “Trust but verify”. So please run the reprex and ascertain that all the above observations are indeed true."
-  },
-  {
-    "objectID": "posts/the-input-in-server-function/index.html#my-0.02",
-    "href": "posts/the-input-in-server-function/index.html#my-0.02",
-    "title": "The input in function(input, output, session)",
-    "section": "My $0.02",
-    "text": "My $0.02\n\nJackie Redmond Jackie GIFfrom Jackie Redmond GIFs\n\n\nThe OP had 2 questions:\n\nIs this behaviour intentional?\nIf so, how can I update the input to assure that it only contains valid slots?\n\n\nTL;DR\n\nIs this behaviour intentional?\n\nI don’t know. But it is consistent. The OP used renderUI in the reprex, I will use insertUI/removeUI in my reprex later and you will see that the behaviour is the same.\n\nHow can I update the input to assure that it only contains valid slots?\n\nYou can set the “invalid” slots to NULL, then use req() or isTruthy() to check for validity in your server.R.\n\n\nExplanation\nWe finally get to the juicy part.\nHere’s what I know about input:\n\ninput is immutable from the app’s server, unless you use update*Input(). eg. If you try this:\n\n\nserver.R\n\ninput$random_id &lt;- \"trial\"\n\nyou will get an error: “Can’t modify read-only reactive value ‘random_id’”.\nOnce added, you can’t remove an element (an input id) from input, but you can change its value (using update*Input() or JavaScript).\nChanging the value of an element to NULL will not remove it from input.\nBy that I mean input will not behave like a regular list where setting the value of an element to NULL removes it from the list:\n\n\nregular-list.R\n\nx &lt;- list(a = 1, b = 2, c = 3)\nx$a &lt;- NULL\nx\n\n# $b\n# [1] 2\n#\n# $c\n# [1] 3\n\nAlso, you can’t use update*Input() to set the value of an input id to NULL. From ?updateSelectInput:\n\nAny arguments with NULL values will be ignored; they will not result in any changes to the input object on the client.\n\nSo to set the value of an input element to NULL you have to use JavaScript and provide the option priority: \"event\". Reference.\n\n\nscript.js\n\nShiny.setInputValue(input_id, new_input_value, {priority: \"event\"});\n\nWe can use 3 above to our advantage: Set the unwanted input id values (the ones whose UI has been removed/deleted) to NULL.\nThis is what will allow us to use req() or isTruthy() if need be."
-  },
-  {
-    "objectID": "posts/the-input-in-server-function/index.html#reprex",
-    "href": "posts/the-input-in-server-function/index.html#reprex",
-    "title": "The input in function(input, output, session)",
-    "section": "Reprex",
-    "text": "Reprex\nIn the reprex below, I show how you can set the input id values to NULL.\nAlso, I use insertUI/removeUI as stated earlier.\n\n\n\nglobal.R\n\nlibrary(shiny)\n\n\n\nui.R\n\nui &lt;- fluidPage(\n  numericInput(\"n\", \"Number of Elems\", value = 3), \n  mod_test_ui(\"column1\"), \n  verbatimTextOutput(\"debug\"),\n  tags$script(src = \"script.js\")\n)\n\n\n\nserver.R\n\nserver &lt;- function(input, output, session) {\n  handler &lt;- mod_test_server(\n    id = \"column1\",\n    numElems = reactive({ input$n })\n  )\n  output$debug &lt;- renderPrint({ handler$getNames() })\n}\n\n\n\nR/mod_test_ui.R\n\nmod_test_ui &lt;- function(id) {\n  ns &lt;- NS(id)\n  tags$div(id = ns(\"container\"))\n}\n\n\n\nR/mod_test_ui.R\n\n\n\nR/mod_test_server.R\n\nmod_test_server &lt;- \\(id, numElems) {\n  moduleServer(\n    id = id,\n    module = \\(input, output, session) {\n      ns &lt;- session$ns\n      # reactive to track added UI ids:\n      rv_added_ids &lt;- reactiveValues(ids = NULL)\n      observeEvent(numElems(), {\n        # do nothing if `numElems()` is less than zero:\n        n &lt;- numElems()\n        if (n &lt; 0) return()\n        # remove previously rendered UIs:\n        removeUI(\n          selector = sprintf(\"#%s &gt; *\", ns(\"container\")),\n          multiple = TRUE,\n          immediate = TRUE\n        )\n        # inform JS to set the removed input id values to NULL:\n        lapply(rv_added_ids$ids, \\(id) {\n          session$sendCustomMessage(\n            type = \"set_to_null\",\n            list(id = id, value = NULL)\n          )\n        })\n        # reset tracker:\n        rv_added_ids$ids &lt;- NULL\n        # add new UIs:\n        lapply(seq_len(n), \\(i) {\n          id &lt;- ns(paste0(\"elem\", i))\n          # track new id:\n          rv_added_ids$ids &lt;- c(rv_added_ids$ids, id)\n          insertUI(\n            selector = paste0(\"#\", ns(\"container\")),\n            where = \"beforeEnd\",\n            ui = selectInput(\n              inputId = id, \n              label = i,\n              choices = LETTERS[sample(26, 3)]\n            )\n          )\n        }\n        )\n      })\n      getNames &lt;- reactive(reactiveValuesToList(input))\n      list(getNames = getNames)\n    }\n  )\n}\n\n\n\nwww/script.js\n\n$(document).ready(function() {\n  Shiny.addCustomMessageHandler(\"set_to_null\", (message) =&gt; {\n    Shiny.setInputValue(message.id, message.value, {priority: \"event\"});\n  });\n});"
-  },
-  {
-    "objectID": "posts/the-input-in-server-function/index.html#conclusion",
-    "href": "posts/the-input-in-server-function/index.html#conclusion",
-    "title": "The input in function(input, output, session)",
-    "section": "Conclusion",
-    "text": "Conclusion\n$(this) has been the input in function(input, output, session).\nMe: At this point I can confidently say that I like JavaScript.\nJS:"
-  },
-  {
-    "objectID": "posts/shiny/download-button-spinner/index.html#introduction",
-    "href": "posts/shiny/download-button-spinner/index.html#introduction",
-    "title": "Add downLoading spinners",
-    "section": "Introduction",
-    "text": "Introduction\n\n\nI hope nobody is reading. But if you are, then keep this to yourself.\n\n\nMwavu\n\n\nOftentimes you have a large dataset that takes a while to download. To give your users a visual cue that the download is in progress, you can (and should) add spinners to your download buttons."
-  },
-  {
-    "objectID": "posts/shiny/download-button-spinner/index.html#the-module",
-    "href": "posts/shiny/download-button-spinner/index.html#the-module",
-    "title": "Add downLoading spinners",
-    "section": "The module",
-    "text": "The module\nLet’s first create a basic download button module that we can build upon.\nWe’ll create an action button that will trigger the download (Yes, you read that right, an action button).\nWe’ll then add the real download button but it will be hidden.\n\n\nR/mod_dnld_ui.R\n\n#' Download button module UI\n#' @param id Module ID\n#' @return [shiny::tagList()]\nmod_dnld_ui &lt;- function(id) {\n  ns &lt;- shiny::NS(id)\n\n  shiny::tagList(\n    # Trigger button:\n    shiny::actionButton(\n      inputId = ns(\"actbtn\"),\n      label = htmltools::doRenderTags(\n        shiny::tags$span(\n          shiny::icon(\"download\"),\n          \"Download\"\n        )\n      )\n    ),\n\n    # Real download button:\n    shiny::downloadButton(\n      outputId = ns(\"dnld\"),\n      label = NULL,\n      style = \"visibility: hidden;\"\n    )\n  )\n}\n\nThe basic server piece is also as simple:\n\n\nR/mod_dnld_server.R\n\n#' Download button module server\n#' @param id Module ID\n#' @param given_data Data to download, as a reactive.\n#' @param filename Filename to use for download.\n#' @return NULL\nmod_dnld_server &lt;- function(\n  id,\n  given_data = reactive({iris}),\n  filename = \"iris.csv\"\n) {\n  stopifnot(\n    \"`given_data` must be a reactive\" = is.reactive(given_data)\n  )\n\n  shiny::moduleServer(\n    id = id,\n    module = function(input, output, session) {\n      output$dnld &lt;- downloadHandler(\n        filename = filename,\n        content = function(file) {\n          write.csv(given_data(), file)\n        }\n      )\n    }\n  )\n}\n\nIt takes in a reactive data object (given_data) and a filename. The rest is normal stuff.\nWe can now move on to adding the download button spinner."
-  },
-  {
-    "objectID": "posts/shiny/download-button-spinner/index.html#adding-a-spinner-to-the-download-button",
-    "href": "posts/shiny/download-button-spinner/index.html#adding-a-spinner-to-the-download-button",
-    "title": "Add downLoading spinners",
-    "section": "Adding a spinner to the download button",
-    "text": "Adding a spinner to the download button\nSpoiler alert: mod_dnld_ui is done. We’ll work on mod_dnld_server from now on.\nIn the server module, we’ll use shiny::observeEvent to listen for clicks on the action button.\nWhen the button is clicked, we update its label to show a spinner and a message indicating that the download is in progress.\nWe then trigger a click on the real download button using shinyjs::click:\n\n\nR/mod_dnld_server.R\n\nshiny::observeEvent(input$actbtn, {\n  # update label of 'actbtn':\n  shiny::updateActionButton(\n    session = session,\n    inputId = \"actbtn\",\n    label = htmltools::doRenderTags(\n      shiny::tags$span(\n        class = \"d-flex align-items-center\",\n        shiny::tags$span(\n          class = \"spinner-border spinner-border-sm\",\n          role = \"status\",\n          `aria-hidden` = \"true\"\n        ),\n        shiny::tags$span(\n          class = \"mx-1\",\n          \"Downloading...\"\n        )\n      )\n    )\n  )\n\n  # simulate click on 'dnld' btn:\n  shinyjs::delay(\n    ms = 2 * 1e3,\n    expr = shinyjs::click(id = \"dnld\")\n  )\n})\n\nTwo things to note here:\n\nI use Bootstrap 5 classes.\nI use shinyjs::delay to, well, delay the click for 2 seconds. Wanna know why?\n\n\n\n\nNext, after the download is complete, we need to update the label of the action button back to its original value.\n\n\nR/mod_dnld_server.R\n\noutput$dnld &lt;- downloadHandler(\n  filename = filename,\n  content = function(file) {\n    # on exit, update 'actbtn' label:\n    on.exit({\n      shiny::updateActionButton(\n        session = session,\n        inputId = \"actbtn\",\n        label = htmltools::doRenderTags(\n          shiny::tags$span(\n            shiny::icon(\"download\"),\n            \"Download\"\n          )\n        )\n      )\n    })\n\n    # write data to file:\n    write.csv(given_data(), file)\n  }\n)\n\n?on.exit:\n\non.exit records the expression given as its argument as needing to be executed when the current function exits (either naturally or as the result of an error). This is useful for resetting graphical parameters or performing other cleanup actions.\n\nIn our case, we’re performing a cleanup action: updating the label of the action button back to its original state.\nThe complete module server function is as follows:\n\n\nR/mod_dnld_server.R\n\n#' Download button module server\n#' @param id Module id\n#' @param given_data Data to download, as a reactive.\n#' @param filename Filename to use for download.\n#' @return NULL\nmod_dnld_server &lt;- function(\n    id,\n    given_data = reactive({\n      iris\n    }),\n    filename = \"iris.csv\") {\n  stopifnot(\n    \"`given_data` must be a reactive\" = is.reactive(given_data)\n  )\n\n  shiny::moduleServer(\n    id = id,\n    module = function(input, output, session) {\n      shiny::observeEvent(input$actbtn, {\n        # update label of 'actbtn':\n        shiny::updateActionButton(\n          session = session,\n          inputId = \"actbtn\",\n          label = htmltools::doRenderTags(\n            shiny::tags$span(\n              class = \"d-flex align-items-center\",\n              shiny::tags$span(\n                class = \"spinner-border spinner-border-sm\",\n                role = \"status\",\n                `aria-hidden` = \"true\"\n              ),\n              shiny::tags$span(\n                class = \"mx-1\",\n                \"Downloading...\"\n              )\n            )\n          )\n        )\n\n        # simulate click on 'dnld' btn:\n        shinyjs::delay(\n          ms = 2 * 1e3,\n          expr = shinyjs::click(id = \"dnld\")\n        )\n      })\n\n      output$dnld &lt;- downloadHandler(\n        filename = filename,\n        content = function(file) {\n          # on exit, update 'actbtn' label:\n          on.exit({\n            shiny::updateActionButton(\n              session = session,\n              inputId = \"actbtn\",\n              label = htmltools::doRenderTags(\n                shiny::tags$span(\n                  shiny::icon(\"download\"),\n                  \"Download\"\n                )\n              )\n            )\n          })\n\n          # write data to file:\n          write.csv(given_data(), file)\n        }\n      )\n    }\n  )\n}"
-  },
-  {
-    "objectID": "posts/shiny/download-button-spinner/index.html#putting-it-all-together",
-    "href": "posts/shiny/download-button-spinner/index.html#putting-it-all-together",
-    "title": "Add downLoading spinners",
-    "section": "Putting it all together",
-    "text": "Putting it all together\nNow that we have the module UI and server parts, we can put them together in a shiny app.\nThe app is as simple as it can get:\nui &lt;- bslib::page(\n  theme = bslib::bs_theme(version = 5),\n  shinyjs::useShinyjs(),\n\n  shiny::tags$div(\n    class = \"bg-light\",\n\n    shiny::tags$div(\n    class = paste(\n      \"container min-vh-100\",\n      \"d-flex justify-content-center align-items-center bg-white\"\n    ),\n\n    # module UI:\n    shiny::tags$div(\n      mod_dnld_ui(\"this\")\n    )\n  )\n  )\n)\n\nserver &lt;- function(input, output, session) {\n  # module server:\n  mod_dnld_server(\"this\")\n}\n\nshiny::shinyApp(ui, server)\nThe full code is available on this GitHub Gist."
-  },
-  {
-    "objectID": "posts/shiny/defensive-programming/index.html",
-    "href": "posts/shiny/defensive-programming/index.html",
-    "title": "Defensive Programming",
-    "section": "",
-    "text": "I hope nobody is reading. But if you are, then keep this to yourself.\n\n\nMwavu\n\n\nYour prod app should never have to fail, crash or display arcane red lines of errors on the UI.\nIf it has to, it should do so gracefully and with dignity. Only then will you have an easy time convincing the client that it’s a six-legged feature, not a bug."
-  },
-  {
-    "objectID": "posts/shiny/defensive-programming/index.html#introduction",
-    "href": "posts/shiny/defensive-programming/index.html#introduction",
-    "title": "Defensive Programming",
-    "section": "",
-    "text": "I hope nobody is reading. But if you are, then keep this to yourself.\n\n\nMwavu\n\n\nYour prod app should never have to fail, crash or display arcane red lines of errors on the UI.\nIf it has to, it should do so gracefully and with dignity. Only then will you have an easy time convincing the client that it’s a six-legged feature, not a bug."
-  },
-  {
-    "objectID": "posts/shiny/defensive-programming/index.html#when-do-errors-arise",
-    "href": "posts/shiny/defensive-programming/index.html#when-do-errors-arise",
-    "title": "Defensive Programming",
-    "section": "When do errors arise?",
-    "text": "When do errors arise?\nMost, if not all, application errors occur when you’re trying to perform an operation on data. This can be during app startup or in response to user action.\nCommon cases are:\n\nMathematical calculations eg. +, -, *, /\nData manipulations eg. subsetting (iris[, \"Sepal.Length\"])"
-  },
-  {
-    "objectID": "posts/shiny/defensive-programming/index.html#defensive-programming",
-    "href": "posts/shiny/defensive-programming/index.html#defensive-programming",
-    "title": "Defensive Programming",
-    "section": "Defensive programming",
-    "text": "Defensive programming\nDefensive programming is an approach to software development that focuses on anticipating and preventing potential errors, bugs, and vulnerabilities in the code.\nThe fundamental concept of this approach is to develop a program that can function correctly even in the presence of unforeseen circumstances or when users enter unexpected inputs.\nWe’ll focus on 2 key principles of defensive programming, both at the same time:\n\nValidating inputs: Checking that all input values are within expected ranges or formats, and handling unexpected input values appropriately.\nHandling errors: Catching and handling errors/exceptions in a way that allows the program to recover gracefully, without crashing or losing data\n\nThat’s where tryCatch comes in!"
-  },
-  {
-    "objectID": "posts/shiny/defensive-programming/index.html#trycatch",
-    "href": "posts/shiny/defensive-programming/index.html#trycatch",
-    "title": "Defensive Programming",
-    "section": "tryCatch()",
-    "text": "tryCatch()\nThe basic syntax of tryCatch() is this:\n\n\ntrycatch.R\n\nresult &lt;- tryCatch(\n  expr = {\n    # Code block to be executed\n  },\n  error = \\(e) {\n    # Error handling code\n  },\n  warning = \\(w) {\n    # Warning handling code\n  },\n  finally = {\n    # Do this, regardless of success or failure of 'expr' block\n  }\n)\n\n\n\n\n\n\n\nMental model:\n\n\n\n\n\nHey R, I have this block of code. I’m not sure if it’s flawless, but I need you to try and run it.  In case you encounter issues, here’s how you should proceed depending on the scenario:\n\nDid it throw an error? Then do &lt;error handling&gt;\nDid it give a warning? Then run this &lt;warning handling chunk&gt;\nFinally, regardless of whether it ran successfully or failed, please do &lt;finally block&gt;"
-  },
-  {
-    "objectID": "posts/shiny/defensive-programming/index.html#hands-on",
-    "href": "posts/shiny/defensive-programming/index.html#hands-on",
-    "title": "Defensive Programming",
-    "section": "Hands-On",
-    "text": "Hands-On\nPractical examples have been a great way for me to learn new concepts.\nBe sure to go through the examples thoroughly and see if you can remake similar ones of your own.\n\nExample 1: Generic errors & warnings\nIn case of an error or a warning during an operation, inform the user that something unexpected happened and show a glimpse of what might have went wrong.\n\n\napp.R\n\nlibrary(shiny)\n\nui &lt;- fluidPage(\n  shinytoastr::useToastr(),\n  \n  tags$div(\n    class = \"container\",\n    align = \"center\",\n    \n    selectInput(\n      inputId = \"cols\",\n      label = \"Choose one or more columns\",\n      choices = c(names(iris), \"Unknown Column\"),\n      multiple = TRUE\n    ),\n    \n    DT::DTOutput(outputId = \"table\")\n  )\n)\n\nserver &lt;- function(input, output, session) {\n  output$table &lt;- DT::renderDT({\n    tryCatch(\n      expr = {\n        { iris |&gt; dplyr::select(dplyr::all_of(input$cols)) } * 100\n      },\n      error = \\(e) {\n        shinytoastr::toastr_error(\n          title = \"Error in calculation\",\n          message = conditionMessage(e)\n        )\n      },\n      warning = \\(w) {\n        shinytoastr::toastr_warning(\n          title = \"Warning!\",\n          message = conditionMessage(w)\n        )\n      }\n    )\n  })\n}\n\nshinyApp(ui, server)\n\n\n\nExample 2: Custom errors & warnings\nSometimes you can choose to be more informative and specific. In this example, we tell the user what exactly went wrong.\nOn top of that, we leave room for unforeseen causes of errors & warnings.\n\n\napp.R\n\nlibrary(shiny)\n\nui &lt;- fluidPage(\n  shinytoastr::useToastr(),\n  \n  tags$div(\n    class = \"container\",\n    align = \"center\",\n    \n    selectInput(\n      inputId = \"cols\",\n      label = \"Choose one or more columns\",\n      choices = c(names(iris), \"Unknown Column\"),\n      multiple = TRUE\n    ),\n    \n    DT::DTOutput(outputId = \"table\")\n  )\n)\n\nserver &lt;- function(input, output, session) {\n  output$table &lt;- DT::renderDT({\n    cols &lt;- input$cols\n    req(cols)\n    \n    tryCatch(\n      expr = {\n        if (\"Species\" %in% cols) {\n          shinytoastr::toastr_warning(\n            title = \"Omitting column 'Species'\",\n            message = \"Cannot perform multiplication on a factor\"\n          )\n          \n          cols &lt;- setdiff(cols, \"Species\")\n        }\n        \n        if (\"Unknown Column\" %in% cols) {\n          shinytoastr::toastr_error(\n            title = \"Omitting 'Uknown Column'\",\n            message = \"Cannot subset columns which don't exist\"\n          )\n          \n          cols &lt;- setdiff(cols, \"Unknown Column\")\n        }\n        \n        { iris |&gt; dplyr::select(dplyr::all_of(cols)) } * 100\n      },\n      \n      # in case of other unforeseen errors & warnings:\n      error = \\(e) {\n        shinytoastr::toastr_error(\n          title = \"Error in calculation\",\n          message = conditionMessage(e)\n        )\n      },\n      warning = \\(w) {\n        shinytoastr::toastr_warning(\n          title = \"Warning!\",\n          message = conditionMessage(w)\n        )\n      }\n    )\n  })\n}\n\nshinyApp(ui, server)"
-  },
-  {
-    "objectID": "posts/shiny/bootstrap-icons-in-shiny/index.html",
-    "href": "posts/shiny/bootstrap-icons-in-shiny/index.html",
-    "title": "Bootstrap icons in Shiny",
-    "section": "",
-    "text": "Today’s one of those days when I’m like “Maybe I’m here for some easy parts after all”.\nI have an excuse though, hoping you’ll buy it. 🤞🏽\nWhen I was a beginner in shiny (Does one actually ever stop being a beginner?), every other website I visited had some cool icons.\nI couldn’t for the life of me figure out how to use another icon library apart from shiny’s default ones (Free fontawesome kit and glyphicons).\nIn short, this post is more of me narrating to my younger self how I finally made it.\n\nGood thing is that younger me didn’t know a lot and so it won’t take much to impress him, meaning this is going to be short."
-  },
-  {
-    "objectID": "posts/shiny/bootstrap-icons-in-shiny/index.html#introduction",
-    "href": "posts/shiny/bootstrap-icons-in-shiny/index.html#introduction",
-    "title": "Bootstrap icons in Shiny",
-    "section": "",
-    "text": "Today’s one of those days when I’m like “Maybe I’m here for some easy parts after all”.\nI have an excuse though, hoping you’ll buy it. 🤞🏽\nWhen I was a beginner in shiny (Does one actually ever stop being a beginner?), every other website I visited had some cool icons.\nI couldn’t for the life of me figure out how to use another icon library apart from shiny’s default ones (Free fontawesome kit and glyphicons).\nIn short, this post is more of me narrating to my younger self how I finally made it.\n\nGood thing is that younger me didn’t know a lot and so it won’t take much to impress him, meaning this is going to be short."
-  },
-  {
-    "objectID": "posts/shiny/bootstrap-icons-in-shiny/index.html#demo",
-    "href": "posts/shiny/bootstrap-icons-in-shiny/index.html#demo",
-    "title": "Bootstrap icons in Shiny",
-    "section": "Demo",
-    "text": "Demo\n\nBootstrap Icons is a free and open source library:\n\nIt has many icons you can choose from (over 1800 at the time of writing this)\nYou can style each of the icons as you wish"
-  },
-  {
-    "objectID": "posts/shiny/bootstrap-icons-in-shiny/index.html#importing",
-    "href": "posts/shiny/bootstrap-icons-in-shiny/index.html#importing",
-    "title": "Bootstrap icons in Shiny",
-    "section": "Importing",
-    "text": "Importing\nTo use the icons, you first need to import them. You can do so:\n\nIn the header of your UI using tags$link, or,\nIn your css file using @import.\n\nLet’s go with the first option.\nHead over to the website, find the CDN (Content Delivery Network) link and copy it.\n\n\n\n\n\n\nTip\n\n\n\nOnce on the website, press CTRL + F and type in cdn. The page will scroll directly to the cdn link.\nIf you’re on Mac I think COMMAND + F should work.\n\n\nNow let’s add it to our UI:\n\n\nui.R\n\nui &lt;- bslib::page(\n  title = \"Bootstrap Icons\",\n  theme = bslib::bs_theme(version = 5),\n  tags$head(\n    tags$link(\n      rel = \"stylesheet\",\n      href = \"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css\"\n    )\n  )\n)"
-  },
-  {
-    "objectID": "posts/shiny/bootstrap-icons-in-shiny/index.html#usage",
-    "href": "posts/shiny/bootstrap-icons-in-shiny/index.html#usage",
-    "title": "Bootstrap icons in Shiny",
-    "section": "Usage",
-    "text": "Usage\nWe will use the &lt;i&gt; html tag to add icons to our app. In shiny, this is equivalent to tags$i().\nOn the Bootstrap icons website click on any icon. You should be able to see the &lt;i&gt; tag for the icon. Copy the class.\nNow back in your shiny app, you can use tags$i(class = \"what-you-copied\") eg.\ntags$i(class = \"bi bi-x-circle\")\nWhich should show this:"
-  },
-  {
-    "objectID": "posts/shiny/bootstrap-icons-in-shiny/index.html#styling",
-    "href": "posts/shiny/bootstrap-icons-in-shiny/index.html#styling",
-    "title": "Bootstrap icons in Shiny",
-    "section": "Styling",
-    "text": "Styling\nFeel free to style the icons to your app’s theme.\nFor me, I’m okay using Bootstrap 5 classes on the icons. Here are 2 examples showing how you can customize the icons’ appearance:\n\nColor\nTo change the color, add the text-* classes.\ntags$div(\n  tags$i(class = \"bi bi-x-circle text-success\"),\n  tags$i(class = \"bi bi-x-circle text-danger\"),\n  tags$i(class = \"bi bi-x-circle text-warning\"),\n  tags$i(class = \"bi bi-x-circle text-primary\")\n)\n   \n\n\nSize\nYou can use the fs-* classes to change the size of an icon.\ntags$div(\n  tags$i(class = \"bi bi-x-circle text-success fs-1\"),\n  tags$i(class = \"bi bi-x-circle text-danger fs-2\"),\n  tags$i(class = \"bi bi-x-circle text-warning fs-3\"),\n  tags$i(class = \"bi bi-x-circle text-primary fs-4\")\n)"
-  },
-  {
-    "objectID": "posts/shiny/bootstrap-icons-in-shiny/index.html#tables",
-    "href": "posts/shiny/bootstrap-icons-in-shiny/index.html#tables",
-    "title": "Bootstrap icons in Shiny",
-    "section": "Tables",
-    "text": "Tables\nYou can as well use the icons in tables. I will demonstrate this using {DT}.\n\n\nui.R\n\nDT::DTOutput(outputId = \"thetable\")\n\n\n\nserver.R\n\n# up, down and side arrow icons:\nup &lt;- tags$i(class = \"bi bi-arrow-up-circle-fill text-success\") |&gt;\n  as.character()\ndown &lt;- tags$i(class = \"bi bi-arrow-down-circle-fill text-danger\") |&gt;\n  as.character()\nside &lt;- tags$i(class = \"bi bi-arrow-left-right text-primary\") |&gt;\n  as.character()\n\n# make an example data.frame:\na &lt;- sample(LETTERS, size = 10, replace = TRUE)\nb &lt;- sample(1:10, size = 10, replace = TRUE)\nc &lt;- ifelse(b &gt; 7, up, ifelse(b &gt; 4, side, down))\nDT &lt;- data.frame(a, b, c)\n\nserver &lt;- \\(input, output, session) {\n  output$thetable &lt;- DT::renderDT({\n    DT::datatable(DT, escape = FALSE, rownames = FALSE)\n  })\n}\n\nTwo things to note here:\n\nWe converted the icons to character format since a dataframe cannot contain an object of class shiny.tag\nWe set the option escape = FALSE in DT::datatable() to avoid escaping html entities in the table (our icons). So instead of them being showed as characters, they will be parsed to real html tags.\n\nThe resulting table should be the same as the one in the demo."
-  },
-  {
-    "objectID": "posts/shiny/bootstrap-icons-in-shiny/index.html#app",
-    "href": "posts/shiny/bootstrap-icons-in-shiny/index.html#app",
-    "title": "Bootstrap icons in Shiny",
-    "section": "App",
-    "text": "App\nHere’s the complete app:\n\n\nglobal.R\n\nlibrary(shiny)\n\n\n\nShow UI code\n\n\n\nui.R\n\none_to_nine &lt;- paste0(\"bi bi-\", 0:9, \"-circle\")\n\nui &lt;- bslib::page(\n  title = \"Bootstrap Icons\",\n  theme = bslib::bs_theme(version = 5),\n  tags$head(\n    tags$link(\n      rel = \"stylesheet\",\n      href = \"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css\"\n    )\n  ),\n  tags$div(\n    class = \"container\",\n    tags$h1(\"Bootstrap Icons\"),\n    lapply(one_to_nine, \\(x) tags$i(class = x)),\n    tags$div(\n      tags$i(class = \"bi bi-x-circle text-success\"),\n      tags$i(class = \"bi bi-x-circle text-danger\"),\n      tags$i(class = \"bi bi-x-circle text-warning\"),\n      tags$i(class = \"bi bi-x-circle text-primary\")\n    ),\n    tags$div(\n      tags$i(class = \"bi bi-x-circle text-success fs-1\"),\n      tags$i(class = \"bi bi-x-circle text-danger fs-2\"),\n      tags$i(class = \"bi bi-x-circle text-warning fs-3\"),\n      tags$i(class = \"bi bi-x-circle text-primary fs-4\")\n    ),\n    fluidRow(\n      class = \"mt-4\",\n      column(\n        width = 6,\n        DT::DTOutput(outputId = \"thetable\")\n      )\n    )\n  )\n)\n\n\n\n\nShow server code\n\n\n\nserver.R\n\n# up, down and side arrow icons:\nup &lt;- tags$i(class = \"bi bi-arrow-up-circle-fill text-success\") |&gt;\n  as.character()\ndown &lt;- tags$i(class = \"bi bi-arrow-down-circle-fill text-danger\") |&gt;\n  as.character()\nside &lt;- tags$i(class = \"bi bi-arrow-left-right text-primary\") |&gt;\n  as.character()\n\n# make an example data.frame:\na &lt;- sample(LETTERS, size = 10, replace = TRUE)\nb &lt;- sample(1:10, size = 10, replace = TRUE)\nc &lt;- ifelse(b &gt; 7, up, ifelse(b &gt; 4, side, down))\nDT &lt;- data.frame(a, b, c)\n\nserver &lt;- \\(input, output, session) {\n  output$thetable &lt;- DT::renderDT({\n    DT::datatable(DT, escape = FALSE, rownames = FALSE)\n  })\n}"
-  },
-  {
-    "objectID": "posts/shiny/bootstrap-icons-in-shiny/index.html#conclusion",
-    "href": "posts/shiny/bootstrap-icons-in-shiny/index.html#conclusion",
-    "title": "Bootstrap icons in Shiny",
-    "section": "Conclusion",
-    "text": "Conclusion\n$(this) has been Bootstrap icons in Shiny."
-  },
-  {
-    "objectID": "posts/shiny/download-button-spinner-js/index.html#introduction",
-    "href": "posts/shiny/download-button-spinner-js/index.html#introduction",
-    "title": "Add downLoading spinners… using JS",
-    "section": "Introduction",
-    "text": "Introduction\nIn an older post I explained how to add loading spinners to download buttons when the download is in progress using shinyjs.\nI did so by rendering a fake download button which, when clicked, triggered the real download button. Honestly, it was kind of cumbersome.\nToday, as I was walking in the streets of R Shiny articles by Posit, I came across JavaScript events in shiny.\nI was intrigued. It opened my eyes to the endless possibilities of using JS with shiny. This blog post is just the tip of that iceberg."
-  },
-  {
-    "objectID": "posts/shiny/download-button-spinner-js/index.html#motivation",
-    "href": "posts/shiny/download-button-spinner-js/index.html#motivation",
-    "title": "Add downLoading spinners… using JS",
-    "section": "Motivation",
-    "text": "Motivation\nAllow me to let you in on a small secret… Come here. Come closer.\n\nIn one way or another JavaScript is inevitable.\n\nI’ve spent so much time trying to run away from JS, forcing R to do what JS was purposed to do.\nIn the end I’ve come to one conclusion: Smith was always right.\n\nAs a matter of fact, I’m beginning to enjoy learning and using it."
-  },
-  {
-    "objectID": "posts/shiny/download-button-spinner-js/index.html#the-module",
-    "href": "posts/shiny/download-button-spinner-js/index.html#the-module",
-    "title": "Add downLoading spinners… using JS",
-    "section": "The module",
-    "text": "The module\nI refuse to NOT use modules. So, here we are.\nThe module’s UI is the simplest, there’s nothing to explain.\nI have a reminder for you though: It’s always a missing call to NS(). Thank me later.\n\n\nR/mod_dnld_ui.R\n\nmod_dnld_ui &lt;- \\(id) {\n  ns &lt;- NS(id)\n\n  tagList(\n    downloadButton(\n      outputId = ns(\"download\"),\n      icon = icon(name = NULL, class = \"bi bi-download\")\n    )\n  )\n}\n\n\n\nR/mod_dnld_server.R\n\nmod_dnld_server &lt;- \\(id, data) {\n  stopifnot(\"Argument 'data' must be a reactive!\" = is.reactive(data))\n  moduleServer(\n    id = id,\n    module = \\(input, output, session) {\n      ns &lt;- session$ns\n\n      output$download &lt;- downloadHandler(\n        filename = \\() {\n          paste(\"data-\", Sys.Date(), \".csv\", sep = \"\")\n        },\n        content = \\(file) {\n          session$sendCustomMessage(\n            type = \"starting_download\",\n            list(id = ns(\"download\"))\n          )\n          write.csv(data(), file)\n          session$sendCustomMessage(\n            type = \"end_download\",\n            list(id = ns(\"download\"))\n          )\n        }\n      )\n    }\n  )\n}\n\nEvery time the download button is clicked, shiny sends a message to JavaScript. It also sends another message when the download is complete.\n\n\n\n\n\n\nNote\n\n\n\nsendCustomMessage() sends information from the server to the client.\nOn the client side, a message handler function must be registered to receive and do something with the message."
-  },
-  {
-    "objectID": "posts/shiny/download-button-spinner-js/index.html#script.js",
-    "href": "posts/shiny/download-button-spinner-js/index.html#script.js",
-    "title": "Add downLoading spinners… using JS",
-    "section": "script.js",
-    "text": "script.js\n\n\nwww/script.js\n\nShiny.addCustomMessageHandler(\"starting_download\", (message) =&gt; {\n  let inner_html = '&lt;span class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\"&gt;&lt;/span&gt;' +\n  '&lt;span class=\"ps-1\"&gt;Downloading...&lt;/span&gt;';\n  $(\"#\" + message[\"id\"]).html(inner_html);\n});\n\nShiny.addCustomMessageHandler(\"end_download\", (message) =&gt; {\n  let inner_html = '&lt;i class=\"bi bi-download pe-1\"&gt;&lt;/i&gt;' + \"Download\";\n  $(\"#\" + message[\"id\"]).html(inner_html);\n});\n\nBoth message handlers change the inner HTML of the download button.\nThe first one (starting_download), adds a loading spinner to indicate that the download is in progress.\nThe second handler (end_download), changes the inner HTML to its original value, indicating that the download is done.\nThe module is complete!\n\n\nNested\nFor the sake of testing whether our module will work when nested in other modules, let’s define this:\n\n\nR/mod_nested_dnld.R\n\nmod_nested_dnld_ui &lt;- \\(id) {\n  ns &lt;- NS(id)\n  \n  tagList(\n    mod_dnld_ui(ns(\"this\"))\n  )\n}\n\nmod_nested_dnld_server &lt;- \\(id) {\n  moduleServer(\n    id = id,\n    module = \\(input, output, session) {\n      given_data &lt;- reactive({\n        lapply(seq_len(2000), \\(x) {\n          iris\n        }) |&gt;\n          do.call(what = rbind)\n      })\n      mod_dnld_server(\"this\", given_data)\n    }\n  )\n}"
-  },
-  {
-    "objectID": "posts/shiny/download-button-spinner-js/index.html#the-app",
-    "href": "posts/shiny/download-button-spinner-js/index.html#the-app",
-    "title": "Add downLoading spinners… using JS",
-    "section": "The app",
-    "text": "The app\nLet’s now knit it all together by defining the app’s ui and server chunks:\n\n\n\nui.R\n\nui &lt;- bslib::page(\n  title = \"DownLoading spinner\",\n  theme = bslib::bs_theme(version = 5),\n  lang = \"en\",\n  tags$head(\n    tags$link(\n      rel = \"stylesheet\",\n      href = \"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css\"\n    )\n  ),\n  tags$body(\n    class = \"d-flex flex-column align-items-center bg-dark\",\n    tags$div(\n      tags$h1(\"H3110 W0r1d!\"),\n      tags$div(\n        class = \"my-5\",\n        tags$p(\"When the file is small:\"),\n        mod_dnld_ui(\"this\")\n      ),\n      tags$div(\n        class = \"my-5\",\n        tags$p(\"When the file is large:\"),\n        mod_nested_dnld_ui(\"that\")\n      ),\n      tags$div(\n        class = \"my-5\",\n        tags$p(\"Features:\"),\n        tags$ul(\n          tags$li(\n            \"Works even when the download module is nested in other modules\"\n          )\n        )\n      ),\n      tags$script(src = \"script.js\")\n    )\n  )\n)\n\n\n\n\nserver.R\n\nserver &lt;- \\(input, output, session) {\n  mod_dnld_server(\"this\", data = reactive(mtcars))\n  mod_nested_dnld_server(\"that\")\n}\n\n\n\n\nglobal.R\n\nlibrary(shiny)"
-  },
-  {
-    "objectID": "posts/shiny/download-button-spinner-js/index.html#issawrap",
-    "href": "posts/shiny/download-button-spinner-js/index.html#issawrap",
-    "title": "Add downLoading spinners… using JS",
-    "section": "Issawrap!",
-    "text": "Issawrap!\nReally proud of myself today!\nI expect to learn more JavaScript, but I can’t promise.\nWait… What!?\n\nUhhmmm…\nAnddd I just tweeted that.\nI expect to learn more JavaScript, but I can't promise.— Mwavu (@kennedymwavu) May 28, 2023"
   }
 ]

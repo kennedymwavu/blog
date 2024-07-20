@@ -6,16 +6,36 @@
       version="2.0">
 <channel>
 <title>Mwavu</title>
-<link>https://mwavu.com/blog/index.html</link>
+<link>https://mwavu.com/blog/</link>
 <atom:link href="https://mwavu.com/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description>Kennedy Mwavu</description>
-<generator>quarto-1.3.450</generator>
-<lastBuildDate>Wed, 07 Feb 2024 21:00:00 GMT</lastBuildDate>
+<generator>quarto-1.4.553</generator>
+<lastBuildDate>Fri, 19 Jul 2024 21:00:00 GMT</lastBuildDate>
+<item>
+  <title>Count sequential characters</title>
+  <dc:creator>Kennedy Mwavu</dc:creator>
+  <link>https://mwavu.com/blog/posts/count-sequential-chars/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>Hello, World!</p>
+
+
+
+<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
+  <category>R</category>
+  <guid>https://mwavu.com/blog/posts/count-sequential-chars/</guid>
+  <pubDate>Fri, 19 Jul 2024 21:00:00 GMT</pubDate>
+</item>
 <item>
   <title>How I Ended Up With R</title>
   <dc:creator>Kennedy Mwavu</dc:creator>
-  <link>https://mwavu.com/blog/posts/how-i-ended-up-with-r/index.html</link>
+  <link>https://mwavu.com/blog/posts/how-i-ended-up-with-r/</link>
   <description><![CDATA[ 
+
 
 
 
@@ -166,14 +186,15 @@ Caution
 <a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
   <category>Story</category>
   <category>R</category>
-  <guid>https://mwavu.com/blog/posts/how-i-ended-up-with-r/index.html</guid>
+  <guid>https://mwavu.com/blog/posts/how-i-ended-up-with-r/</guid>
   <pubDate>Wed, 07 Feb 2024 21:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Autoreloading🔄 in Shiny</title>
   <dc:creator>Kennedy Mwavu</dc:creator>
-  <link>https://mwavu.com/blog/posts/shiny/auto-reload/index.html</link>
+  <link>https://mwavu.com/blog/posts/shiny/auto-reload/</link>
   <description><![CDATA[ 
+
 
 
 
@@ -221,7 +242,7 @@ font-style: inherit;">::</span>getShinyOption</span></code></pre></div>
 <div class="code-with-filename-file">
 <pre><strong>global.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb3" data-filename="global.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(shiny)</span></code></pre></div>
 </div>
@@ -229,7 +250,7 @@ font-style: inherit;">library</span>(shiny)</span></code></pre></div>
 <div class="code-with-filename-file">
 <pre><strong>ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">ui <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb4" data-filename="ui.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">ui <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -265,7 +286,7 @@ font-style: inherit;">"select"</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1">server <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb5" data-filename="server.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1">server <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(input, output, session) {</span>
 <span id="cb5-2">  <span class="fu" style="color: #4758AB;
@@ -281,7 +302,7 @@ font-style: inherit;">"select"</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>R/mod_select_ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1">mod_select_ui <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb6" data-filename="R/mod_select_ui.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1">mod_select_ui <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(id) {</span>
 <span id="cb6-2">  ns <span class="ot" style="color: #003B4F;
@@ -334,7 +355,7 @@ font-style: inherit;">"Case Sensitive"</span></span>
 <div class="code-with-filename-file">
 <pre><strong>R/mod_select_server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1">mod_select_server <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb7" data-filename="R/mod_select_server.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1">mod_select_server <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(id) {</span>
 <span id="cb7-2">  <span class="fu" style="color: #4758AB;
@@ -394,13 +415,15 @@ font-style: inherit;">-D</span> nodemon</span></code></pre></div>
 <div class="code-with-filename-file">
 <pre><strong>run_app.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1">shiny<span class="sc" style="color: #5E5E5E;
+<div class="sourceCode" id="cb10" data-filename="run_app.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1">shiny<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">runApp</span>(<span class="at" style="color: #657422;
 background-color: null;
-font-style: inherit;">port =</span> 3000L, <span class="at" style="color: #657422;
+font-style: inherit;">port =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3000</span>L, <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">launch.browser =</span> <span class="cn" style="color: #8f5902;
 background-color: null;
@@ -451,15 +474,15 @@ font-style: inherit;">"sh -c 'fuser -n tcp -k 3000'"</span></span>
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-11" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="3" data-code-cell="annotated-cell-11" data-code-annotation="1">Specifies an executable mapping for <code>.R</code> files: <code>Rscript</code></span>
+<span data-code-cell="annotated-cell-11" data-code-lines="3" data-code-annotation="1">Specifies an executable mapping for <code>.R</code> files: <code>Rscript</code></span>
 </dd>
 <dt data-target-cell="annotated-cell-11" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-lines="6" data-code-cell="annotated-cell-11" data-code-annotation="2">After every restart, first kill whatever process is running in port 3000</span>
+<span data-code-cell="annotated-cell-11" data-code-lines="6" data-code-annotation="2">After every restart, first kill whatever process is running in port 3000</span>
 </dd>
 <dt data-target-cell="annotated-cell-11" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-lines="7" data-code-cell="annotated-cell-11" data-code-annotation="3">Do the same whenever the app crashes</span>
+<span data-code-cell="annotated-cell-11" data-code-lines="7" data-code-annotation="3">Do the same whenever the app crashes</span>
 </dd>
 </dl>
 <p><code>2</code> &amp; <code>3</code> ensure that the port 3000 is freed up before the application is rerun again.</p>
@@ -562,7 +585,7 @@ font-style: inherit;">"^3.0.2"</span></span>
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-12" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="7" data-code-cell="annotated-cell-12" data-code-annotation="1">Creates a custom npm script called “dev”</span>
+<span data-code-cell="annotated-cell-12" data-code-lines="7" data-code-annotation="1">Creates a custom npm script called “dev”</span>
 </dd>
 </dl>
 <p>Let’s break it down:</p>
@@ -590,14 +613,15 @@ font-style: inherit;">npm</span> run dev</span></code></pre></div>
 <a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
   <category>R</category>
   <category>Shiny</category>
-  <guid>https://mwavu.com/blog/posts/shiny/auto-reload/index.html</guid>
+  <guid>https://mwavu.com/blog/posts/shiny/auto-reload/</guid>
   <pubDate>Fri, 05 Jan 2024 21:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Injecting 💉 tabPanelBodies into tabsetPanels</title>
   <dc:creator>Kennedy Mwavu</dc:creator>
-  <link>https://mwavu.com/blog/posts/shiny/injecting-tabpanelbodies-in-tabsetpanels/index.html</link>
+  <link>https://mwavu.com/blog/posts/shiny/injecting-tabpanelbodies-in-tabsetpanels/</link>
   <description><![CDATA[ 
+
 
 
 
@@ -611,7 +635,7 @@ font-style: inherit;">npm</span> run dev</span></code></pre></div>
 <div class="code-with-filename-file">
 <pre><strong>global.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb1" data-filename="global.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(shiny)</span></code></pre></div>
 </div>
@@ -619,7 +643,7 @@ font-style: inherit;">library</span>(shiny)</span></code></pre></div>
 <div class="code-with-filename-file">
 <pre><strong>ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode" id="cb2" data-filename="ui.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># btns to switch from one tab to the other:</span></span>
 <span id="cb2-2">btns <span class="ot" style="color: #003B4F;
@@ -840,7 +864,7 @@ font-style: inherit;">"page-header"</span>, btns),</span>
 <div class="code-with-filename-file">
 <pre><strong>server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1">server <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb3" data-filename="server.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1">server <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(input, output, session) {</span>
 <span id="cb3-2">  <span class="co" style="color: #5E5E5E;
@@ -1306,14 +1330,15 @@ font-style: inherit;">!!!</span>panel_bodies</span>
   <category>R</category>
   <category>Shiny</category>
   <category>UI/UX</category>
-  <guid>https://mwavu.com/blog/posts/shiny/injecting-tabpanelbodies-in-tabsetpanels/index.html</guid>
+  <guid>https://mwavu.com/blog/posts/shiny/injecting-tabpanelbodies-in-tabsetpanels/</guid>
   <pubDate>Wed, 03 Jan 2024 21:00:00 GMT</pubDate>
 </item>
 <item>
   <title>The input in function(input, output, session)</title>
   <dc:creator>Kennedy Mwavu</dc:creator>
-  <link>https://mwavu.com/blog/posts/the-input-in-server-function/index.html</link>
+  <link>https://mwavu.com/blog/posts/the-input-in-server-function/</link>
   <description><![CDATA[ 
+
 
 
 
@@ -1333,7 +1358,7 @@ font-style: inherit;">!!!</span>panel_bodies</span>
 <div class="code-with-filename-file">
 <pre><strong>reprex-from-op.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb1" data-filename="reprex-from-op.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(shiny)</span>
 <span id="cb1-2"><span class="fu" style="color: #4758AB;
@@ -1515,7 +1540,7 @@ font-style: inherit;">shinyApp</span>(ui, server)</span></code></pre></div>
 <div class="code-with-filename-file">
 <pre><strong>server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1">input<span class="sc" style="color: #5E5E5E;
+<div class="sourceCode" id="cb2" data-filename="server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1">input<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">$</span>random_id <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -1531,7 +1556,7 @@ font-style: inherit;">"trial"</span></span></code></pre></div>
 <div class="code-with-filename-file">
 <pre><strong>regular-list.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1">x <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb3" data-filename="regular-list.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1">x <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1582,7 +1607,7 @@ font-style: inherit;"># [1] 3</span></span></code></pre></div>
 <div class="code-with-filename-file">
 <pre><strong>script.js</strong></pre>
 </div>
-<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode numberSource javascript number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb4-1">Shiny<span class="op" style="color: #5E5E5E;
+<div class="sourceCode" id="cb4" data-filename="script.js" style="background: #f1f3f5;"><pre class="sourceCode numberSource javascript number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb4-1">Shiny<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1614,7 +1639,7 @@ font-style: inherit;">;</span></span></code></pre></div>
 <div class="code-with-filename-file">
 <pre><strong>global.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb5" data-filename="global.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(shiny)</span></code></pre></div>
 </div>
@@ -1622,7 +1647,7 @@ font-style: inherit;">library</span>(shiny)</span></code></pre></div>
 <div class="code-with-filename-file">
 <pre><strong>ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1">ui <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb6" data-filename="ui.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1">ui <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1663,7 +1688,7 @@ font-style: inherit;">"script.js"</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1">server <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb7" data-filename="server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1">server <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
@@ -1703,7 +1728,7 @@ font-style: inherit;">getNames</span>() })</span>
 <div class="code-with-filename-file">
 <pre><strong>R/mod_test_ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1">mod_test_ui <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb8" data-filename="R/mod_test_ui.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1">mod_test_ui <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
@@ -1734,7 +1759,7 @@ font-style: inherit;">"container"</span>))</span>
 <div class="code-with-filename-file">
 <pre><strong>R/mod_test_server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1">mod_test_server <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb9" data-filename="R/mod_test_server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1">mod_test_server <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(id, numElems) {</span>
 <span id="cb9-2">  <span class="fu" style="color: #4758AB;
@@ -1945,7 +1970,7 @@ font-style: inherit;">getNames =</span> getNames)</span>
 <div class="code-with-filename-file">
 <pre><strong>www/script.js</strong></pre>
 </div>
-<div class="sourceCode" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode numberSource javascript number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb10-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb10" data-filename="www/script.js" style="background: #f1f3f5;"><pre class="sourceCode numberSource javascript number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb10-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">$</span>(<span class="bu" style="color: null;
 background-color: null;
@@ -2014,14 +2039,15 @@ font-style: inherit;">;</span></span></code></pre></div>
 <a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
   <category>R</category>
   <category>Shiny</category>
-  <guid>https://mwavu.com/blog/posts/the-input-in-server-function/index.html</guid>
+  <guid>https://mwavu.com/blog/posts/the-input-in-server-function/</guid>
   <pubDate>Sun, 23 Jul 2023 21:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Bootstrap icons in Shiny</title>
   <dc:creator>Kennedy Mwavu</dc:creator>
-  <link>https://mwavu.com/blog/posts/shiny/bootstrap-icons-in-shiny/index.html</link>
+  <link>https://mwavu.com/blog/posts/shiny/bootstrap-icons-in-shiny/</link>
   <description><![CDATA[ 
+
 
 
 
@@ -2073,7 +2099,7 @@ Tip
 <div class="code-with-filename-file">
 <pre><strong>ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1">ui <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb1" data-filename="ui.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1">ui <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> bslib<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -2244,7 +2270,7 @@ font-style: inherit;">"bi bi-x-circle text-primary fs-4"</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1">DT<span class="sc" style="color: #5E5E5E;
+<div class="sourceCode" id="cb5" data-filename="ui.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1">DT<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -2258,7 +2284,7 @@ font-style: inherit;">"thetable"</span>)</span></code></pre></div>
 <div class="code-with-filename-file">
 <pre><strong>server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode" id="cb6" data-filename="server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># up, down and side arrow icons:</span></span>
 <span id="cb6-2">up <span class="ot" style="color: #003B4F;
@@ -2408,7 +2434,7 @@ font-style: inherit;">FALSE</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>global.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb7" data-filename="global.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(shiny)</span></code></pre></div>
 </div>
@@ -2420,7 +2446,7 @@ Show UI code
 <div class="code-with-filename-file">
 <pre><strong>ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1">one_to_nine <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb8" data-filename="ui.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1">one_to_nine <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -2630,7 +2656,7 @@ Show server code
 <div class="code-with-filename-file">
 <pre><strong>server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode" id="cb9" data-filename="server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># up, down and side arrow icons:</span></span>
 <span id="cb9-2">up <span class="ot" style="color: #003B4F;
@@ -2780,14 +2806,15 @@ font-style: inherit;">FALSE</span>)</span>
   <category>R</category>
   <category>Shiny</category>
   <category>UI/UX</category>
-  <guid>https://mwavu.com/blog/posts/shiny/bootstrap-icons-in-shiny/index.html</guid>
+  <guid>https://mwavu.com/blog/posts/shiny/bootstrap-icons-in-shiny/</guid>
   <pubDate>Thu, 20 Jul 2023 21:00:00 GMT</pubDate>
 </item>
 <item>
   <title>JQuery Effects in Shiny</title>
   <dc:creator>Kennedy Mwavu</dc:creator>
-  <link>https://mwavu.com/blog/posts/shiny/jquery-effects/index.html</link>
+  <link>https://mwavu.com/blog/posts/shiny/jquery-effects/</link>
   <description><![CDATA[ 
+
 
 
 
@@ -2837,7 +2864,7 @@ font-style: inherit;">FALSE</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>R/mod_animated_ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1">mod_animated_ui <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb1" data-filename="R/mod_animated_ui.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1">mod_animated_ui <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(id) {</span>
 <span id="cb1-2">  ns <span class="ot" style="color: #003B4F;
@@ -2894,7 +2921,7 @@ font-style: inherit;">"theui"</span>))</span>
 <div class="code-with-filename-file">
 <pre><strong>R/mod_animated_server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1">mod_animated_server <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb2" data-filename="R/mod_animated_server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1">mod_animated_server <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(id) {</span>
 <span id="cb2-2">  <span class="fu" style="color: #4758AB;
@@ -3155,7 +3182,7 @@ font-style: inherit;">TRUE</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>R/mod_animated_server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb3" data-filename="R/mod_animated_server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">tagList</span>(</span>
 <span id="cb3-2">  <span class="co" style="color: #5E5E5E;
@@ -3194,7 +3221,7 @@ font-style: inherit;">"animate.js"</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>www/animate.js</strong></pre>
 </div>
-<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode numberSource javascript number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb4-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb4" data-filename="www/animate.js" style="background: #f1f3f5;"><pre class="sourceCode numberSource javascript number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb4-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">$</span>(<span class="bu" style="color: null;
 background-color: null;
@@ -3343,7 +3370,7 @@ font-style: inherit;">;</span></span></code></pre></div>
 <div class="code-with-filename-file">
 <pre><strong>R/mod_animated_server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1">mod_animated_server <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb5" data-filename="R/mod_animated_server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1">mod_animated_server <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(id) {</span>
 <span id="cb5-2">  <span class="fu" style="color: #4758AB;
@@ -3461,7 +3488,7 @@ Show code
 <div class="code-with-filename-file">
 <pre><strong>R/mod_animated_server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1">mod_animated_server <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb6" data-filename="R/mod_animated_server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1">mod_animated_server <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(id) {</span>
 <span id="cb6-2">  <span class="fu" style="color: #4758AB;
@@ -3773,7 +3800,7 @@ font-style: inherit;">TRUE</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>global.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb7" data-filename="global.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(shiny)</span></code></pre></div>
 </div>
@@ -3781,7 +3808,7 @@ font-style: inherit;">library</span>(shiny)</span></code></pre></div>
 <div class="code-with-filename-file">
 <pre><strong>ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1">ui <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb8" data-filename="ui.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1">ui <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> bslib<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -3826,7 +3853,7 @@ font-style: inherit;">"animated"</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1">server <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb9" data-filename="server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1">server <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(input, output, session) {</span>
 <span id="cb9-2">  <span class="fu" style="color: #4758AB;
@@ -3851,14 +3878,15 @@ font-style: inherit;">"animated"</span>)</span>
   <category>Shiny</category>
   <category>JavaScript</category>
   <category>UI/UX</category>
-  <guid>https://mwavu.com/blog/posts/shiny/jquery-effects/index.html</guid>
+  <guid>https://mwavu.com/blog/posts/shiny/jquery-effects/</guid>
   <pubDate>Wed, 19 Jul 2023 21:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Add downLoading spinners… using JS</title>
   <dc:creator>Kennedy Mwavu</dc:creator>
-  <link>https://mwavu.com/blog/posts/shiny/download-button-spinner-js/index.html</link>
+  <link>https://mwavu.com/blog/posts/shiny/download-button-spinner-js/</link>
   <description><![CDATA[ 
+
 
 
 
@@ -3894,7 +3922,7 @@ font-style: inherit;">"animated"</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>R/mod_dnld_ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1">mod_dnld_ui <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb1" data-filename="R/mod_dnld_ui.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1">mod_dnld_ui <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(id) {</span>
 <span id="cb1-2">  ns <span class="ot" style="color: #003B4F;
@@ -3937,7 +3965,7 @@ font-style: inherit;">"bi bi-download"</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>R/mod_dnld_server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1">mod_dnld_server <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb2" data-filename="R/mod_dnld_server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1">mod_dnld_server <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(id, data) {</span>
 <span id="cb2-2">  <span class="fu" style="color: #4758AB;
@@ -4064,7 +4092,7 @@ Note
 <div class="code-with-filename-file">
 <pre><strong>www/script.js</strong></pre>
 </div>
-<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb3-1">Shiny<span class="op" style="color: #5E5E5E;
+<div class="sourceCode" id="cb3" data-filename="www/script.js" style="background: #f1f3f5;"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb3-1">Shiny<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -4163,7 +4191,7 @@ font-style: inherit;">;</span></span></code></pre></div>
 <div class="code-with-filename-file">
 <pre><strong>R/mod_nested_dnld.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1">mod_nested_dnld_ui <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb4" data-filename="R/mod_nested_dnld.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1">mod_nested_dnld_ui <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(id) {</span>
 <span id="cb4-2">  ns <span class="ot" style="color: #003B4F;
@@ -4238,7 +4266,7 @@ font-style: inherit;">"this"</span>, given_data)</span>
 <div class="code-with-filename-file">
 <pre><strong>ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1">ui <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb5" data-filename="ui.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1">ui <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> bslib<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -4407,7 +4435,7 @@ font-style: inherit;">"script.js"</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1">server <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb6" data-filename="server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1">server <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(input, output, session) {</span>
 <span id="cb6-2">  <span class="fu" style="color: #4758AB;
@@ -4431,7 +4459,7 @@ font-style: inherit;">"that"</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>global.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb7" data-filename="global.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(shiny)</span></code></pre></div>
 </div>
@@ -4454,14 +4482,15 @@ font-style: inherit;">library</span>(shiny)</span></code></pre></div>
   <category>Shiny</category>
   <category>JavaScript</category>
   <category>UI/UX</category>
-  <guid>https://mwavu.com/blog/posts/shiny/download-button-spinner-js/index.html</guid>
+  <guid>https://mwavu.com/blog/posts/shiny/download-button-spinner-js/</guid>
   <pubDate>Sat, 27 May 2023 21:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Subset every nth element from a vector</title>
   <dc:creator>Kennedy Mwavu</dc:creator>
-  <link>https://mwavu.com/blog/posts/subset-every-nth-element-from-a-vector/index.html</link>
+  <link>https://mwavu.com/blog/posts/subset-every-nth-element-from-a-vector/</link>
   <description><![CDATA[ 
+
 
 
 
@@ -4689,15 +4718,16 @@ font-style: inherit;">TRUE</span>)]</span></code></pre></div>
 
 <a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
   <category>R</category>
-  <guid>https://mwavu.com/blog/posts/subset-every-nth-element-from-a-vector/index.html</guid>
+  <guid>https://mwavu.com/blog/posts/subset-every-nth-element-from-a-vector/</guid>
   <pubDate>Sat, 15 Apr 2023 21:00:00 GMT</pubDate>
   <media:content url="https://mwavu.com/blog/posts/subset-every-nth-element-from-a-vector/nth.svg" medium="image" type="image/svg+xml"/>
 </item>
 <item>
   <title>Defensive Programming</title>
   <dc:creator>Kennedy Mwavu</dc:creator>
-  <link>https://mwavu.com/blog/posts/shiny/defensive-programming/index.html</link>
+  <link>https://mwavu.com/blog/posts/shiny/defensive-programming/</link>
   <description><![CDATA[ 
+
 
 
 
@@ -4745,7 +4775,7 @@ Mwavu
 <div class="code-with-filename-file">
 <pre><strong>trycatch.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1">result <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb1" data-filename="trycatch.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1">result <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -4813,7 +4843,7 @@ Mental model:
 <div class="code-with-filename-file">
 <pre><strong>app.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb2" data-filename="app.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(shiny)</span>
 <span id="cb2-2"></span>
@@ -4980,7 +5010,7 @@ font-style: inherit;">shinyApp</span>(ui, server)</span></code></pre></div>
 <div class="code-with-filename-file">
 <pre><strong>app.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb3" data-filename="app.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(shiny)</span>
 <span id="cb3-2"></span>
@@ -5224,15 +5254,16 @@ font-style: inherit;">shinyApp</span>(ui, server)</span></code></pre></div>
   <category>R</category>
   <category>Shiny</category>
   <category>UI/UX</category>
-  <guid>https://mwavu.com/blog/posts/shiny/defensive-programming/index.html</guid>
+  <guid>https://mwavu.com/blog/posts/shiny/defensive-programming/</guid>
   <pubDate>Sat, 25 Feb 2023 21:00:00 GMT</pubDate>
   <media:content url="https://mwavu.com/blog/posts/shiny/defensive-programming/tc.png" medium="image" type="image/png"/>
 </item>
 <item>
   <title>Add downLoading spinners</title>
   <dc:creator>Kennedy Mwavu</dc:creator>
-  <link>https://mwavu.com/blog/posts/shiny/download-button-spinner/index.html</link>
+  <link>https://mwavu.com/blog/posts/shiny/download-button-spinner/</link>
   <description><![CDATA[ 
+
 
 
 
@@ -5262,7 +5293,7 @@ Mwavu
 <div class="code-with-filename-file">
 <pre><strong>R/mod_dnld_ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode" id="cb1" data-filename="R/mod_dnld_ui.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">#' Download button module UI</span></span>
 <span id="cb1-2"><span class="co" style="color: #5E5E5E;
@@ -5366,7 +5397,7 @@ font-style: inherit;">"visibility: hidden;"</span></span>
 <div class="code-with-filename-file">
 <pre><strong>R/mod_dnld_server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode" id="cb2" data-filename="R/mod_dnld_server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">#' Download button module server</span></span>
 <span id="cb2-2"><span class="co" style="color: #5E5E5E;
@@ -5462,7 +5493,7 @@ font-style: inherit;">given_data</span>(), file)</span>
 <div class="code-with-filename-file">
 <pre><strong>R/mod_dnld_server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb3" data-code-line-numbers="false" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1">shiny<span class="sc" style="color: #5E5E5E;
+<div class="sourceCode" id="cb3" data-filename="R/mod_dnld_server.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1">shiny<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -5597,7 +5628,7 @@ font-style: inherit;">"dnld"</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>R/mod_dnld_server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb4" data-code-line-numbers="false" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">output<span class="sc" style="color: #5E5E5E;
+<div class="sourceCode" id="cb4" data-filename="R/mod_dnld_server.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">output<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">$</span>dnld <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -5681,7 +5712,7 @@ font-style: inherit;">given_data</span>(), file)</span>
 <div class="code-with-filename-file">
 <pre><strong>R/mod_dnld_server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode" id="cb5" data-filename="R/mod_dnld_server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">#' Download button module server</span></span>
 <span id="cb5-2"><span class="co" style="color: #5E5E5E;
@@ -6049,7 +6080,7 @@ font-style: inherit;">shinyApp</span>(ui, server)</span></code></pre></div>
   <category>R</category>
   <category>Shiny</category>
   <category>UI/UX</category>
-  <guid>https://mwavu.com/blog/posts/shiny/download-button-spinner/index.html</guid>
+  <guid>https://mwavu.com/blog/posts/shiny/download-button-spinner/</guid>
   <pubDate>Mon, 20 Feb 2023 21:00:00 GMT</pubDate>
   <media:content url="https://mwavu.com/blog/posts/shiny/download-button-spinner/loader.webp" medium="image" type="image/webp"/>
 </item>

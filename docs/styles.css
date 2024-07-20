@@ -33,25 +33,14 @@ nav .nav-item:hover {
   padding-top: 10px;
 }
 
-/* buy me a coffee button */
-#bmc {
-  background-color: #238636;
-  color: white;
-  /* transition: all 0.3s ease-in-out; */
-}
-#bmc:hover {
-  /* transform: scale(1.08); */
-  background-color: #2ea043;
-}
-
 /* scroll to top btn */
 #quarto-back-to-top {
-  color: white;
   opacity: 0.8;
   bottom: 10px;
   box-shadow: none;
   border: 1px solid;
 }
+
 #quarto-back-to-top:hover {
   opacity: 1;
 }

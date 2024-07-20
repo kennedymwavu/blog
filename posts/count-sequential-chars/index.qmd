@@ -1,0 +1,10 @@
+---
+title: "Count sequential characters"
+description: "This problem has eluded me for over a year!"
+author: "Kennedy Mwavu"
+date: "2024-07-20"
+categories: [R]
+draft: false
+---
+
+Hello, World!

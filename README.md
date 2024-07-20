@@ -1,2 +1,5 @@
+# Blog
 
-Hi, I'm Mwavu. Just typing R code.
+Hi there!
+
+Welcome to my blog.
