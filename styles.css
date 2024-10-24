@@ -1,0 +1,67 @@
+@font-face {
+  font-family: "Quicksand";
+  src: url(assets/fonts/Quicksand-VariableFont_wght.ttf) format("truetype");
+  src: url(assets/fonts/static/Quicksand-Medium.ttf) format("truetype");
+}
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
+
+body {
+  font-family: "Quicksand", sans-serif;
+}
+
+.quarto-grid-item.card {
+  background-color: transparent;
+  border: 1px solid;
+  opacity: 0.8;
+  transition: all 0.3s ease-in-out;
+}
+
+.quarto-grid-item.card:hover {
+  opacity: 1;
+  transform: scale(1.08);
+}
+
+nav .nav-item {
+  opacity: 0.8;
+}
+
+nav .nav-item:hover {
+  opacity: 1;
+}
+
+.quarto-grid-item .listing-categories {
+  padding-top: 10px;
+}
+
+/* scroll to top btn */
+#quarto-back-to-top {
+  opacity: 0.8;
+  bottom: 10px;
+  box-shadow: none;
+  border: 1px solid;
+}
+
+#quarto-back-to-top:hover {
+  opacity: 1;
+}
+
+/*
+add margin for giscus so that comments don't get overlaid
+by the scroll to top btn
+*/
+.giscus {
+  margin-bottom: 50px;
+}
+
+/*
+hide div with id "quarto-sidebar-glass" as it makes the About content
+appear at the bottom
+*/
+#quarto-sidebar-glass {
+  display: none;
+}
+
+/* filter and search icons on landing page */
+.input-group-text {
+  background-color: inherit;
+}
