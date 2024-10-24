@@ -73,10 +73,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../site_libs/quarto-contrib/bookup_fonts_gwf-0.0/fonts-embed.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -270,16 +271,16 @@ Tip
 <div class="code-with-filename-file">
 <pre><strong>ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb1" data-filename="ui.R"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>ui <span class="ot">&lt;-</span> bslib<span class="sc">::</span><span class="fu">page</span>(</span>
-<span id="cb1-2"><a href="#cb1-2"></a>  <span class="at">title =</span> <span class="st">"Bootstrap Icons"</span>,</span>
-<span id="cb1-3"><a href="#cb1-3"></a>  <span class="at">theme =</span> bslib<span class="sc">::</span><span class="fu">bs_theme</span>(<span class="at">version =</span> <span class="dv">5</span>),</span>
-<span id="cb1-4"><a href="#cb1-4"></a>  tags<span class="sc">$</span><span class="fu">head</span>(</span>
-<span id="cb1-5"><a href="#cb1-5"></a>    tags<span class="sc">$</span><span class="fu">link</span>(</span>
-<span id="cb1-6"><a href="#cb1-6"></a>      <span class="at">rel =</span> <span class="st">"stylesheet"</span>,</span>
-<span id="cb1-7"><a href="#cb1-7"></a>      <span class="at">href =</span> <span class="st">"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"</span></span>
-<span id="cb1-8"><a href="#cb1-8"></a>    )</span>
-<span id="cb1-9"><a href="#cb1-9"></a>  )</span>
-<span id="cb1-10"><a href="#cb1-10"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1" data-filename="ui.R"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> bslib<span class="sc">::</span><span class="fu">page</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Bootstrap Icons"</span>,</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">theme =</span> bslib<span class="sc">::</span><span class="fu">bs_theme</span>(<span class="at">version =</span> <span class="dv">5</span>),</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">head</span>(</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    tags<span class="sc">$</span><span class="fu">link</span>(</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">rel =</span> <span class="st">"stylesheet"</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">href =</span> <span class="st">"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="usage" class="level2">
@@ -287,7 +288,7 @@ Tip
 <p>We will use the <code>&lt;i&gt;</code> html tag to add icons to our app. In shiny, this is equivalent to <code>tags$i()</code>.</p>
 <p>On the <a href="https://icons.getbootstrap.com/">Bootstrap icons website</a> click on any icon. You should be able to see the <code>&lt;i&gt;</code> tag for the icon. Copy the class.</p>
 <p>Now back in your shiny app, you can use <code>tags$i(class = "what-you-copied")</code> eg.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Which should show this:</p>
 <p><i class="bi bi-x-circle"></i></p>
 </section>
@@ -298,23 +299,23 @@ Tip
 <section id="color" class="level3">
 <h3 class="anchored" data-anchor-id="color">Color</h3>
 <p>To change the color, add the <code>text-*</code> classes.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>tags<span class="sc">$</span><span class="fu">div</span>(</span>
-<span id="cb3-2"><a href="#cb3-2"></a>  tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-success"</span>),</span>
-<span id="cb3-3"><a href="#cb3-3"></a>  tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-danger"</span>),</span>
-<span id="cb3-4"><a href="#cb3-4"></a>  tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-warning"</span>),</span>
-<span id="cb3-5"><a href="#cb3-5"></a>  tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-primary"</span>)</span>
-<span id="cb3-6"><a href="#cb3-6"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>tags<span class="sc">$</span><span class="fu">div</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-success"</span>),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-danger"</span>),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-warning"</span>),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-primary"</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><i class="bi bi-x-circle text-success"></i> <i class="bi bi-x-circle text-danger"></i> <i class="bi bi-x-circle text-warning"></i> <i class="bi bi-x-circle text-primary"></i></p>
 </section>
 <section id="size" class="level3">
 <h3 class="anchored" data-anchor-id="size">Size</h3>
 <p>You can use the <code>fs-*</code> classes to change the size of an icon.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>tags<span class="sc">$</span><span class="fu">div</span>(</span>
-<span id="cb4-2"><a href="#cb4-2"></a>  tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-success fs-1"</span>),</span>
-<span id="cb4-3"><a href="#cb4-3"></a>  tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-danger fs-2"</span>),</span>
-<span id="cb4-4"><a href="#cb4-4"></a>  tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-warning fs-3"</span>),</span>
-<span id="cb4-5"><a href="#cb4-5"></a>  tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-primary fs-4"</span>)</span>
-<span id="cb4-6"><a href="#cb4-6"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>tags<span class="sc">$</span><span class="fu">div</span>(</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-success fs-1"</span>),</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-danger fs-2"</span>),</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-warning fs-3"</span>),</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-primary fs-4"</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><i class="bi bi-x-circle text-success fs-1"></i> <i class="bi bi-x-circle text-danger fs-2"></i> <i class="bi bi-x-circle text-warning fs-3"></i> <i class="bi bi-x-circle text-primary fs-4"></i></p>
 </section>
 </section>
@@ -325,31 +326,31 @@ Tip
 <div class="code-with-filename-file">
 <pre><strong>ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb5" data-filename="ui.R"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>DT<span class="sc">::</span><span class="fu">DTOutput</span>(<span class="at">outputId =</span> <span class="st">"thetable"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb5" data-filename="ui.R"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>DT<span class="sc">::</span><span class="fu">DTOutput</span>(<span class="at">outputId =</span> <span class="st">"thetable"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb6" data-filename="server.R"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># up, down and side arrow icons:</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a>up <span class="ot">&lt;-</span> tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-arrow-up-circle-fill text-success"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a>  <span class="fu">as.character</span>()</span>
-<span id="cb6-4"><a href="#cb6-4"></a>down <span class="ot">&lt;-</span> tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-arrow-down-circle-fill text-danger"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb6-5"><a href="#cb6-5"></a>  <span class="fu">as.character</span>()</span>
-<span id="cb6-6"><a href="#cb6-6"></a>side <span class="ot">&lt;-</span> tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-arrow-left-right text-primary"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb6-7"><a href="#cb6-7"></a>  <span class="fu">as.character</span>()</span>
-<span id="cb6-8"><a href="#cb6-8"></a></span>
-<span id="cb6-9"><a href="#cb6-9"></a><span class="co"># make an example data.frame:</span></span>
-<span id="cb6-10"><a href="#cb6-10"></a>a <span class="ot">&lt;-</span> <span class="fu">sample</span>(LETTERS, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb6-11"><a href="#cb6-11"></a>b <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb6-12"><a href="#cb6-12"></a>c <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(b <span class="sc">&gt;</span> <span class="dv">7</span>, up, <span class="fu">ifelse</span>(b <span class="sc">&gt;</span> <span class="dv">4</span>, side, down))</span>
-<span id="cb6-13"><a href="#cb6-13"></a>DT <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(a, b, c)</span>
-<span id="cb6-14"><a href="#cb6-14"></a></span>
-<span id="cb6-15"><a href="#cb6-15"></a>server <span class="ot">&lt;-</span> \(input, output, session) {</span>
-<span id="cb6-16"><a href="#cb6-16"></a>  output<span class="sc">$</span>thetable <span class="ot">&lt;-</span> DT<span class="sc">::</span><span class="fu">renderDT</span>({</span>
-<span id="cb6-17"><a href="#cb6-17"></a>    DT<span class="sc">::</span><span class="fu">datatable</span>(DT, <span class="at">escape =</span> <span class="cn">FALSE</span>, <span class="at">rownames =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb6-18"><a href="#cb6-18"></a>  })</span>
-<span id="cb6-19"><a href="#cb6-19"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6" data-filename="server.R"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># up, down and side arrow icons:</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>up <span class="ot">&lt;-</span> tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-arrow-up-circle-fill text-success"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.character</span>()</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>down <span class="ot">&lt;-</span> tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-arrow-down-circle-fill text-danger"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.character</span>()</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>side <span class="ot">&lt;-</span> tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-arrow-left-right text-primary"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.character</span>()</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"># make an example data.frame:</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">sample</span>(LETTERS, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(b <span class="sc">&gt;</span> <span class="dv">7</span>, up, <span class="fu">ifelse</span>(b <span class="sc">&gt;</span> <span class="dv">4</span>, side, down))</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>DT <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(a, b, c)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> \(input, output, session) {</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>thetable <span class="ot">&lt;-</span> DT<span class="sc">::</span><span class="fu">renderDT</span>({</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    DT<span class="sc">::</span><span class="fu">datatable</span>(DT, <span class="at">escape =</span> <span class="cn">FALSE</span>, <span class="at">rownames =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Two things to note here:</p>
 <ol type="1">
@@ -365,7 +366,7 @@ Tip
 <div class="code-with-filename-file">
 <pre><strong>global.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb7" data-filename="global.R"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">library</span>(shiny)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7" data-filename="global.R"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <details>
 <summary>
@@ -375,42 +376,42 @@ Show UI code
 <div class="code-with-filename-file">
 <pre><strong>ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb8" data-filename="ui.R"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>one_to_nine <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"bi bi-"</span>, <span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>, <span class="st">"-circle"</span>)</span>
-<span id="cb8-2"><a href="#cb8-2"></a></span>
-<span id="cb8-3"><a href="#cb8-3"></a>ui <span class="ot">&lt;-</span> bslib<span class="sc">::</span><span class="fu">page</span>(</span>
-<span id="cb8-4"><a href="#cb8-4"></a>  <span class="at">title =</span> <span class="st">"Bootstrap Icons"</span>,</span>
-<span id="cb8-5"><a href="#cb8-5"></a>  <span class="at">theme =</span> bslib<span class="sc">::</span><span class="fu">bs_theme</span>(<span class="at">version =</span> <span class="dv">5</span>),</span>
-<span id="cb8-6"><a href="#cb8-6"></a>  tags<span class="sc">$</span><span class="fu">head</span>(</span>
-<span id="cb8-7"><a href="#cb8-7"></a>    tags<span class="sc">$</span><span class="fu">link</span>(</span>
-<span id="cb8-8"><a href="#cb8-8"></a>      <span class="at">rel =</span> <span class="st">"stylesheet"</span>,</span>
-<span id="cb8-9"><a href="#cb8-9"></a>      <span class="at">href =</span> <span class="st">"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"</span></span>
-<span id="cb8-10"><a href="#cb8-10"></a>    )</span>
-<span id="cb8-11"><a href="#cb8-11"></a>  ),</span>
-<span id="cb8-12"><a href="#cb8-12"></a>  tags<span class="sc">$</span><span class="fu">div</span>(</span>
-<span id="cb8-13"><a href="#cb8-13"></a>    <span class="at">class =</span> <span class="st">"container"</span>,</span>
-<span id="cb8-14"><a href="#cb8-14"></a>    tags<span class="sc">$</span><span class="fu">h1</span>(<span class="st">"Bootstrap Icons"</span>),</span>
-<span id="cb8-15"><a href="#cb8-15"></a>    <span class="fu">lapply</span>(one_to_nine, \(x) tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> x)),</span>
-<span id="cb8-16"><a href="#cb8-16"></a>    tags<span class="sc">$</span><span class="fu">div</span>(</span>
-<span id="cb8-17"><a href="#cb8-17"></a>      tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-success"</span>),</span>
-<span id="cb8-18"><a href="#cb8-18"></a>      tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-danger"</span>),</span>
-<span id="cb8-19"><a href="#cb8-19"></a>      tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-warning"</span>),</span>
-<span id="cb8-20"><a href="#cb8-20"></a>      tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-primary"</span>)</span>
-<span id="cb8-21"><a href="#cb8-21"></a>    ),</span>
-<span id="cb8-22"><a href="#cb8-22"></a>    tags<span class="sc">$</span><span class="fu">div</span>(</span>
-<span id="cb8-23"><a href="#cb8-23"></a>      tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-success fs-1"</span>),</span>
-<span id="cb8-24"><a href="#cb8-24"></a>      tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-danger fs-2"</span>),</span>
-<span id="cb8-25"><a href="#cb8-25"></a>      tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-warning fs-3"</span>),</span>
-<span id="cb8-26"><a href="#cb8-26"></a>      tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-primary fs-4"</span>)</span>
-<span id="cb8-27"><a href="#cb8-27"></a>    ),</span>
-<span id="cb8-28"><a href="#cb8-28"></a>    <span class="fu">fluidRow</span>(</span>
-<span id="cb8-29"><a href="#cb8-29"></a>      <span class="at">class =</span> <span class="st">"mt-4"</span>,</span>
-<span id="cb8-30"><a href="#cb8-30"></a>      <span class="fu">column</span>(</span>
-<span id="cb8-31"><a href="#cb8-31"></a>        <span class="at">width =</span> <span class="dv">6</span>,</span>
-<span id="cb8-32"><a href="#cb8-32"></a>        DT<span class="sc">::</span><span class="fu">DTOutput</span>(<span class="at">outputId =</span> <span class="st">"thetable"</span>)</span>
-<span id="cb8-33"><a href="#cb8-33"></a>      )</span>
-<span id="cb8-34"><a href="#cb8-34"></a>    )</span>
-<span id="cb8-35"><a href="#cb8-35"></a>  )</span>
-<span id="cb8-36"><a href="#cb8-36"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8" data-filename="ui.R"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>one_to_nine <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">"bi bi-"</span>, <span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>, <span class="st">"-circle"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> bslib<span class="sc">::</span><span class="fu">page</span>(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">title =</span> <span class="st">"Bootstrap Icons"</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">theme =</span> bslib<span class="sc">::</span><span class="fu">bs_theme</span>(<span class="at">version =</span> <span class="dv">5</span>),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">head</span>(</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    tags<span class="sc">$</span><span class="fu">link</span>(</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">rel =</span> <span class="st">"stylesheet"</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">href =</span> <span class="st">"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">div</span>(</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">class =</span> <span class="st">"container"</span>,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    tags<span class="sc">$</span><span class="fu">h1</span>(<span class="st">"Bootstrap Icons"</span>),</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">lapply</span>(one_to_nine, \(x) tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> x)),</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    tags<span class="sc">$</span><span class="fu">div</span>(</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>      tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-success"</span>),</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>      tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-danger"</span>),</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>      tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-warning"</span>),</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>      tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-primary"</span>)</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    tags<span class="sc">$</span><span class="fu">div</span>(</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>      tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-success fs-1"</span>),</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>      tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-danger fs-2"</span>),</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>      tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-warning fs-3"</span>),</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>      tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-x-circle text-primary fs-4"</span>)</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fluidRow</span>(</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>      <span class="at">class =</span> <span class="st">"mt-4"</span>,</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>      <span class="fu">column</span>(</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>        <span class="at">width =</span> <span class="dv">6</span>,</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>        DT<span class="sc">::</span><span class="fu">DTOutput</span>(<span class="at">outputId =</span> <span class="st">"thetable"</span>)</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </details>
 <details>
@@ -421,25 +422,25 @@ Show server code
 <div class="code-with-filename-file">
 <pre><strong>server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb9" data-filename="server.R"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># up, down and side arrow icons:</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a>up <span class="ot">&lt;-</span> tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-arrow-up-circle-fill text-success"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb9-3"><a href="#cb9-3"></a>  <span class="fu">as.character</span>()</span>
-<span id="cb9-4"><a href="#cb9-4"></a>down <span class="ot">&lt;-</span> tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-arrow-down-circle-fill text-danger"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb9-5"><a href="#cb9-5"></a>  <span class="fu">as.character</span>()</span>
-<span id="cb9-6"><a href="#cb9-6"></a>side <span class="ot">&lt;-</span> tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-arrow-left-right text-primary"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb9-7"><a href="#cb9-7"></a>  <span class="fu">as.character</span>()</span>
-<span id="cb9-8"><a href="#cb9-8"></a></span>
-<span id="cb9-9"><a href="#cb9-9"></a><span class="co"># make an example data.frame:</span></span>
-<span id="cb9-10"><a href="#cb9-10"></a>a <span class="ot">&lt;-</span> <span class="fu">sample</span>(LETTERS, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb9-11"><a href="#cb9-11"></a>b <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb9-12"><a href="#cb9-12"></a>c <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(b <span class="sc">&gt;</span> <span class="dv">7</span>, up, <span class="fu">ifelse</span>(b <span class="sc">&gt;</span> <span class="dv">4</span>, side, down))</span>
-<span id="cb9-13"><a href="#cb9-13"></a>DT <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(a, b, c)</span>
-<span id="cb9-14"><a href="#cb9-14"></a></span>
-<span id="cb9-15"><a href="#cb9-15"></a>server <span class="ot">&lt;-</span> \(input, output, session) {</span>
-<span id="cb9-16"><a href="#cb9-16"></a>  output<span class="sc">$</span>thetable <span class="ot">&lt;-</span> DT<span class="sc">::</span><span class="fu">renderDT</span>({</span>
-<span id="cb9-17"><a href="#cb9-17"></a>    DT<span class="sc">::</span><span class="fu">datatable</span>(DT, <span class="at">escape =</span> <span class="cn">FALSE</span>, <span class="at">rownames =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb9-18"><a href="#cb9-18"></a>  })</span>
-<span id="cb9-19"><a href="#cb9-19"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb9" data-filename="server.R"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># up, down and side arrow icons:</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>up <span class="ot">&lt;-</span> tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-arrow-up-circle-fill text-success"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.character</span>()</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>down <span class="ot">&lt;-</span> tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-arrow-down-circle-fill text-danger"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.character</span>()</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>side <span class="ot">&lt;-</span> tags<span class="sc">$</span><span class="fu">i</span>(<span class="at">class =</span> <span class="st">"bi bi-arrow-left-right text-primary"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.character</span>()</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co"># make an example data.frame:</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="fu">sample</span>(LETTERS, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>c <span class="ot">&lt;-</span> <span class="fu">ifelse</span>(b <span class="sc">&gt;</span> <span class="dv">7</span>, up, <span class="fu">ifelse</span>(b <span class="sc">&gt;</span> <span class="dv">4</span>, side, down))</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>DT <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(a, b, c)</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> \(input, output, session) {</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>thetable <span class="ot">&lt;-</span> DT<span class="sc">::</span><span class="fu">renderDT</span>({</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    DT<span class="sc">::</span><span class="fu">datatable</span>(DT, <span class="at">escape =</span> <span class="cn">FALSE</span>, <span class="at">rownames =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </details>
 </section>
@@ -861,10 +862,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<script src="https://giscus.app/client.js" data-repo="kennedymwavu/blog-comments" data-repo-id="R_kgDOJ7CFzw" data-category="Announcements" data-category-id="DIC_kwDOJ7CFz84CX246" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
+<script src="https://giscus.app/client.js" data-repo="kennedymwavu/blog-comments" data-repo-id="R_kgDOJ7CFzw" data-category="Announcements" data-category-id="DIC_kwDOJ7CFz84CX246" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="dark" data-lang="en" crossorigin="anonymous" async="">
 </script>
-<input type="hidden" id="giscus-base-theme" value="light">
-<input type="hidden" id="giscus-alt-theme" value="light">
+<input type="hidden" id="giscus-base-theme" value="dark">
+<input type="hidden" id="giscus-alt-theme" value="dark">
 </div> <!-- /content -->
 
 

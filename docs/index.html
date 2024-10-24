@@ -38,10 +38,11 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/quarto-contrib/bookup_fonts_gwf-0.0/fonts-embed.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -79,9 +80,9 @@ ul.task-list li input[type="checkbox"] {
     }
 
     const options = {
-      valueNames: ['listing-date','listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-title-sort'] }],
+      valueNames: ['listing-date','listing-title',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
       
-      searchColumns: ["listing-date","listing-title","listing-author"],
+      searchColumns: ["listing-title","listing-author","listing-date","listing-image","listing-description","listing-categories"],
     };
 
     window['quarto-listings'] = window['quarto-listings'] || {};
@@ -194,21 +195,21 @@ window.Quarto = {
 
 </section>
 
-<div class="quarto-listing quarto-listing-container-table" id="listing-listing">
+<div class="quarto-listing quarto-listing-container-grid" id="listing-listing">
 <div class="listing-actions-group">
    <div class="input-group input-group-sm quarto-listing-sort">
      <span class="input-group-text"><i class="bi bi-sort-down"></i></span>
      <select id="listing-listing-sort" class="form-select" aria-label="Order By" onchange="window['quarto-listings']['listing-listing'].sort(this.options[this.selectedIndex].value, { order: this.options[this.selectedIndex].getAttribute('data-direction')})">
        <option value="" disabled="" selected="" hidden="">Order By</option>
        <option value="index" data-direction="asc">Default</option>
+         <option value="listing-title" data-direction="asc">
+          Title
+        </option>
          <option value="listing-date-sort" data-direction="asc">
           Date - Oldest
         </option>
          <option value="listing-date-sort" data-direction="desc">
           Date - Newest
-        </option>
-         <option value="listing-title-sort" data-direction="asc">
-          Title
         </option>
      </select>
   </div>
@@ -217,108 +218,184 @@ window.Quarto = {
       <input type="text" class="search form-control" placeholder="Filter">
     </div>
 </div>
-<table class="quarto-listing-table table">
-<thead>
-<tr>
-<th>
-<a class="sort" data-sort="listing-date-sort" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">Date</a>
-</th>
-<th>
-<a class="sort" data-sort="listing-title-sort" onclick="if (this.classList.contains('sort-asc')) { this.classList.add('sort-desc'); this.classList.remove('sort-asc') } else { this.classList.add('sort-asc'); this.classList.remove('sort-desc')} return false;">Title</a>
-</th>
-</tr>
-</thead>
-<tbody class="list">
-<tr data-index="0" data-categories="R" data-listing-date-sort="1721422800000" data-listing-file-modified-sort="1721503318761" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1420" data-listing-title-sort="Count sequential characters" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">Jul 20, 2024</span>
-</td>
-<td>
-<a href="./posts/count-sequential-chars/index.html" class="title listing-title">Count sequential characters</a>
-</td>
-</tr>
-<tr data-index="1" data-categories="Story,R" data-listing-date-sort="1707339600000" data-listing-file-modified-sort="1721479756426" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2221" data-listing-title-sort="How I Ended Up With R" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">Feb 8, 2024</span>
-</td>
-<td>
-<a href="./posts/how-i-ended-up-with-r/index.html" class="title listing-title">How I Ended Up With R</a>
-</td>
-</tr>
-<tr data-index="2" data-categories="R,Shiny" data-listing-date-sort="1704488400000" data-listing-file-modified-sort="1721479756429" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="865" data-listing-title-sort="Autoreloading🔄 in Shiny" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">Jan 6, 2024</span>
-</td>
-<td>
-<a href="./posts/shiny/auto-reload/index.html" class="title listing-title">Autoreloading🔄 in Shiny</a>
-</td>
-</tr>
-<tr data-index="3" data-categories="R,Shiny,UI/UX" data-listing-date-sort="1704315600000" data-listing-file-modified-sort="1721479756446" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="834" data-listing-title-sort="Injecting 💉 tabPanelBodies into tabsetPanels" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">Jan 4, 2024</span>
-</td>
-<td>
-<a href="./posts/shiny/injecting-tabpanelbodies-in-tabsetpanels/index.html" class="title listing-title">Injecting 💉 tabPanelBodies into tabsetPanels</a>
-</td>
-</tr>
-<tr data-index="4" data-categories="R,Shiny" data-listing-date-sort="1690146000000" data-listing-file-modified-sort="1721479756450" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1377" data-listing-title-sort="The `input` in function(input, output, session)" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">Jul 24, 2023</span>
-</td>
-<td>
-<a href="./posts/the-input-in-server-function/index.html" class="title listing-title">The <code>input</code> in function(input, output, session)</a>
-</td>
-</tr>
-<tr data-index="5" data-categories="R,Shiny,UI/UX" data-listing-date-sort="1689886800000" data-listing-file-modified-sort="1721479756431" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="985" data-listing-title-sort="Bootstrap icons in Shiny" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">Jul 21, 2023</span>
-</td>
-<td>
-<a href="./posts/shiny/bootstrap-icons-in-shiny/index.html" class="title listing-title">Bootstrap icons in Shiny</a>
-</td>
-</tr>
-<tr data-index="6" data-categories="R,Shiny,JavaScript,UI/UX" data-listing-date-sort="1689800400000" data-listing-file-modified-sort="1721479756448" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="13" data-listing-word-count-sort="2593" data-listing-title-sort="JQuery Effects in Shiny" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">Jul 20, 2023</span>
-</td>
-<td>
-<a href="./posts/shiny/jquery-effects/index.html" class="title listing-title">JQuery Effects in Shiny</a>
-</td>
-</tr>
-<tr data-index="7" data-categories="R,Shiny,JavaScript,UI/UX" data-listing-date-sort="1685221200000" data-listing-file-modified-sort="1721479756442" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1044" data-listing-title-sort="Add downLoading spinners... using JS" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">May 28, 2023</span>
-</td>
-<td>
-<a href="./posts/shiny/download-button-spinner-js/index.html" class="title listing-title">Add downLoading spinners… using JS</a>
-</td>
-</tr>
-<tr data-index="8" data-categories="R" data-listing-date-sort="1681592400000" data-listing-file-modified-sort="1721479756449" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="523" data-listing-title-sort="Subset every nth element from a vector" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">Apr 16, 2023</span>
-</td>
-<td>
-<a href="./posts/subset-every-nth-element-from-a-vector/index.html" class="title listing-title">Subset every nth element from a vector</a>
-</td>
-</tr>
-<tr data-index="9" data-categories="R,Shiny,UI/UX" data-listing-date-sort="1677358800000" data-listing-file-modified-sort="1721479756431" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1207" data-listing-title-sort="Defensive Programming" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">Feb 26, 2023</span>
-</td>
-<td>
-<a href="./posts/shiny/defensive-programming/index.html" class="title listing-title">Defensive Programming</a>
-</td>
-</tr>
-<tr data-index="10" data-categories="R,Shiny,UI/UX" data-listing-date-sort="1676926800000" data-listing-file-modified-sort="1721479756445" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1706" data-listing-title-sort="Add downLoading spinners" data-listing-filename-sort="index.qmd">
-<td>
-<span class="listing-date">Feb 21, 2023</span>
-</td>
-<td>
-<a href="./posts/shiny/download-button-spinner/index.html" class="title listing-title">Add downLoading spinners</a>
-</td>
-</tr>
-</tbody>
-</table>
+<div class="list grid quarto-listing-cols-3">
+<div class="g-col-1" data-index="0" data-categories="R" data-listing-date-sort="1721422800000" data-listing-file-modified-sort="1729801709474" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1420">
+<a href="./posts/count-sequential-chars/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Count sequential characters
+</h5>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+Jul 20, 2024
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="1" data-categories="Story,R" data-listing-date-sort="1707339600000" data-listing-file-modified-sort="1721479756426" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="12" data-listing-word-count-sort="2221">
+<a href="./posts/how-i-ended-up-with-r/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+How I Ended Up With R
+</h5>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+Feb 8, 2024
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="2" data-categories="R,Shiny" data-listing-date-sort="1704488400000" data-listing-file-modified-sort="1729802298215" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="865">
+<a href="./posts/shiny/auto-reload/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Autoreloading🔄 in Shiny
+</h5>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+Jan 6, 2024
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="3" data-categories="R,Shiny,UI/UX" data-listing-date-sort="1704315600000" data-listing-file-modified-sort="1729802328843" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="834">
+<a href="./posts/shiny/injecting-tabpanelbodies-in-tabsetpanels/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Injecting 💉 tabPanelBodies into tabsetPanels
+</h5>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+Jan 4, 2024
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="4" data-categories="R,Shiny" data-listing-date-sort="1690146000000" data-listing-file-modified-sort="1721479756450" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1377">
+<a href="./posts/the-input-in-server-function/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+The <code>input</code> in function(input, output, session)
+</h5>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+Jul 24, 2023
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="5" data-categories="R,Shiny,UI/UX" data-listing-date-sort="1689886800000" data-listing-file-modified-sort="1721479756431" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="985">
+<a href="./posts/shiny/bootstrap-icons-in-shiny/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Bootstrap icons in Shiny
+</h5>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+Jul 21, 2023
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="6" data-categories="R,Shiny,JavaScript,UI/UX" data-listing-date-sort="1689800400000" data-listing-file-modified-sort="1721479756448" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="13" data-listing-word-count-sort="2593">
+<a href="./posts/shiny/jquery-effects/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+JQuery Effects in Shiny
+</h5>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+Jul 20, 2023
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="7" data-categories="R,Shiny,JavaScript,UI/UX" data-listing-date-sort="1685221200000" data-listing-file-modified-sort="1721479756442" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1044">
+<a href="./posts/shiny/download-button-spinner-js/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Add downLoading spinners… using JS
+</h5>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+May 28, 2023
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="8" data-categories="R" data-listing-date-sort="1681592400000" data-listing-file-modified-sort="1721479756449" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="523">
+<a href="./posts/subset-every-nth-element-from-a-vector/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Subset every nth element from a vector
+</h5>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+Apr 16, 2023
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="9" data-categories="R,Shiny,UI/UX" data-listing-date-sort="1677358800000" data-listing-file-modified-sort="1721479756431" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="7" data-listing-word-count-sort="1207">
+<a href="./posts/shiny/defensive-programming/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Defensive Programming
+</h5>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+Feb 26, 2023
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+<div class="g-col-1" data-index="10" data-categories="R,Shiny,UI/UX" data-listing-date-sort="1676926800000" data-listing-file-modified-sort="1721479756445" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="9" data-listing-word-count-sort="1706">
+<a href="./posts/shiny/download-button-spinner/index.html" class="quarto-grid-link">
+<div class="quarto-grid-item card h-100 card-left">
+<div class="card-body post-contents">
+<h5 class="no-anchor card-title listing-title">
+Add downLoading spinners
+</h5>
+<div class="card-attribution card-text-small end">
+<div class="listing-date">
+Feb 21, 2023
+</div>
+</div>
+</div>
+</div>
+</a>
+</div>
+</div>
 <div class="listing-no-matching d-none">
 No matching items
 </div>

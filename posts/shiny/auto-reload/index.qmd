@@ -5,9 +5,6 @@ author: "Kennedy Mwavu"
 date: "2024-01-06"
 categories: [R, Shiny]
 draft: false
-format:
-  html:
-    code-line-numbers: false
 ---
 
 ::: {.callout-tip}

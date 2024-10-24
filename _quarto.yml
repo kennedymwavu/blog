@@ -16,16 +16,9 @@ website:
   back-to-top-navigation: true
   twitter-card: true
 format:
-  html:
-    theme: journal
+  bookup-html+darkonly:
     css: styles.css
     toc: true
     toc-location: left
-    highlight-style: arrow
-    code-line-numbers: true
+    highlight-style: github-dark
     smooth-scroll: true
-    comments:
-      giscus:
-        repo: kennedymwavu/blog-comments
-        category: Announcements
-        theme: light

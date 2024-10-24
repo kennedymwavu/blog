@@ -60,3 +60,8 @@ appear at the bottom
 #quarto-sidebar-glass {
   display: none;
 }
+
+/* filter and search icons on landing page */
+.input-group-text {
+  background-color: inherit;
+}

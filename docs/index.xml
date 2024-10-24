@@ -28,7 +28,7 @@
 <h1>Reprex</h1>
 <p>A reprex is always a good starting point. Basically a practical explanation of what you want to achieve.</p>
 <p>We want to create a function <code>count_sequential_chars()</code> such that:</p>
-<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1">string <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1">string <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
 background-color: null;
@@ -55,7 +55,7 @@ font-style: inherit;">string =</span> string)</span>
 <span id="cb1-5"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># [1] 6 5 1</span></span></code></pre></div>
-<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">count_sequential_chars</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -67,7 +67,7 @@ font-style: inherit;">"ab"</span>)</span>
 <span id="cb2-2"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># [1] 2 2 1</span></span></code></pre></div>
-<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">count_sequential_chars</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -79,7 +79,7 @@ font-style: inherit;">"ac"</span>)</span>
 <span id="cb3-2"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># [1] 1 1 2</span></span></code></pre></div>
-<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">count_sequential_chars</span>(<span class="at" style="color: #657422;
 background-color: null;
@@ -164,7 +164,7 @@ font-style: inherit;"># [1] 0 0 0</span></span></code></pre></div>
 <h1>First attempt</h1>
 <p>My first attempt was in Dec 8 2023:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1">csc <span class="ot" style="color: #003B4F;
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1">csc <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(char_vec, str) {</span>
 <span id="cb5-2">  patterns <span class="ot" style="color: #003B4F;
@@ -236,7 +236,7 @@ font-style: inherit;">x =</span> char_vec)</span>
 <p><code>csc</code> for <code>count_sequential_characters</code>, btw.</p>
 <p>This solution works fine:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1">string <span class="ot" style="color: #003B4F;
+<div class="sourceCode cell-code" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1">string <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
 background-color: null;
@@ -264,7 +264,7 @@ font-style: inherit;">str =</span> string)</span></code></pre></div>
 </div>
 </div>
 <p>but… it’s too slow:</p>
-<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1">sample_strings <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1">sample_strings <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -387,7 +387,7 @@ font-style: inherit;">str =</span> string</span>
 <section id="nth-attempt" class="level1">
 <h1><img src="https://latex.codecogs.com/png.latex?n%5E%7Bth%7D"> attempt</h1>
 <p>So I re-wrote the function again. The major change was that this time I used <code>startsWith()</code>:</p>
-<div class="sourceCode" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1">count_sequential_chars <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb10" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1">count_sequential_chars <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(char_vec, string) {</span>
 <span id="cb10-2">  split_string <span class="ot" style="color: #003B4F;
@@ -467,7 +467,7 @@ font-style: inherit;">prefix =</span> pattern)</span>
 <span id="cb10-14">  res</span>
 <span id="cb10-15">}</span></code></pre></div>
 <p>Of course, it works fine:</p>
-<div class="sourceCode" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1">string <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1">string <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="st" style="color: #20794D;
 background-color: null;
@@ -494,7 +494,7 @@ font-style: inherit;">string =</span> string)</span>
 background-color: null;
 font-style: inherit;"># [1] 6 5 1</span></span></code></pre></div>
 <p>Now, let’s see how it performs:</p>
-<div class="sourceCode" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1">bench<span class="sc" style="color: #5E5E5E;
+<div class="sourceCode" id="cb12" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1">bench<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -1878,7 +1878,7 @@ font-style: inherit;">!!!</span>panel_bodies</span>
 <div class="code-with-filename-file">
 <pre><strong>reprex-from-op.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb1" data-filename="reprex-from-op.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb1" data-filename="reprex-from-op.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(shiny)</span>
 <span id="cb1-2"><span class="fu" style="color: #4758AB;
@@ -2060,7 +2060,7 @@ font-style: inherit;">shinyApp</span>(ui, server)</span></code></pre></div>
 <div class="code-with-filename-file">
 <pre><strong>server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb2" data-filename="server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1">input<span class="sc" style="color: #5E5E5E;
+<div class="sourceCode" id="cb2" data-filename="server.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">input<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">$</span>random_id <span class="ot" style="color: #003B4F;
 background-color: null;
@@ -2076,7 +2076,7 @@ font-style: inherit;">"trial"</span></span></code></pre></div>
 <div class="code-with-filename-file">
 <pre><strong>regular-list.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb3" data-filename="regular-list.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1">x <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb3" data-filename="regular-list.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1">x <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -2127,7 +2127,7 @@ font-style: inherit;"># [1] 3</span></span></code></pre></div>
 <div class="code-with-filename-file">
 <pre><strong>script.js</strong></pre>
 </div>
-<div class="sourceCode" id="cb4" data-filename="script.js" style="background: #f1f3f5;"><pre class="sourceCode numberSource javascript number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb4-1">Shiny<span class="op" style="color: #5E5E5E;
+<div class="sourceCode" id="cb4" data-filename="script.js" style="background: #f1f3f5;"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb4-1">Shiny<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -2159,7 +2159,7 @@ font-style: inherit;">;</span></span></code></pre></div>
 <div class="code-with-filename-file">
 <pre><strong>global.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb5" data-filename="global.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb5" data-filename="global.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(shiny)</span></code></pre></div>
 </div>
@@ -2167,7 +2167,7 @@ font-style: inherit;">library</span>(shiny)</span></code></pre></div>
 <div class="code-with-filename-file">
 <pre><strong>ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb6" data-filename="ui.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1">ui <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb6" data-filename="ui.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1">ui <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -2208,7 +2208,7 @@ font-style: inherit;">"script.js"</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb7" data-filename="server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1">server <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb7" data-filename="server.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1">server <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
@@ -2248,7 +2248,7 @@ font-style: inherit;">getNames</span>() })</span>
 <div class="code-with-filename-file">
 <pre><strong>R/mod_test_ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb8" data-filename="R/mod_test_ui.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1">mod_test_ui <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb8" data-filename="R/mod_test_ui.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1">mod_test_ui <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="cf" style="color: #003B4F;
 background-color: null;
@@ -2279,7 +2279,7 @@ font-style: inherit;">"container"</span>))</span>
 <div class="code-with-filename-file">
 <pre><strong>R/mod_test_server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb9" data-filename="R/mod_test_server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1">mod_test_server <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb9" data-filename="R/mod_test_server.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1">mod_test_server <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(id, numElems) {</span>
 <span id="cb9-2">  <span class="fu" style="color: #4758AB;
@@ -2490,7 +2490,7 @@ font-style: inherit;">getNames =</span> getNames)</span>
 <div class="code-with-filename-file">
 <pre><strong>www/script.js</strong></pre>
 </div>
-<div class="sourceCode" id="cb10" data-filename="www/script.js" style="background: #f1f3f5;"><pre class="sourceCode numberSource javascript number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb10-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb10" data-filename="www/script.js" style="background: #f1f3f5;"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb10-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">$</span>(<span class="bu" style="color: null;
 background-color: null;
@@ -2619,7 +2619,7 @@ Tip
 <div class="code-with-filename-file">
 <pre><strong>ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb1" data-filename="ui.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1">ui <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb1" data-filename="ui.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1">ui <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> bslib<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -2672,7 +2672,7 @@ font-style: inherit;">"https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/
 <p>We will use the <code>&lt;i&gt;</code> html tag to add icons to our app. In shiny, this is equivalent to <code>tags$i()</code>.</p>
 <p>On the <a href="https://icons.getbootstrap.com/">Bootstrap icons website</a> click on any icon. You should be able to see the <code>&lt;i&gt;</code> tag for the icon. Copy the class.</p>
 <p>Now back in your shiny app, you can use <code>tags$i(class = "what-you-copied")</code> eg.</p>
-<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1">tags<span class="sc" style="color: #5E5E5E;
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">tags<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -2691,7 +2691,7 @@ font-style: inherit;">"bi bi-x-circle"</span>)</span></code></pre></div>
 <section id="color" class="level3">
 <h3 class="anchored" data-anchor-id="color">Color</h3>
 <p>To change the color, add the <code>text-*</code> classes.</p>
-<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1">tags<span class="sc" style="color: #5E5E5E;
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1">tags<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -2738,7 +2738,7 @@ font-style: inherit;">"bi bi-x-circle text-primary"</span>)</span>
 <section id="size" class="level3">
 <h3 class="anchored" data-anchor-id="size">Size</h3>
 <p>You can use the <code>fs-*</code> classes to change the size of an icon.</p>
-<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1">tags<span class="sc" style="color: #5E5E5E;
+<div class="sourceCode" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">tags<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -2790,7 +2790,7 @@ font-style: inherit;">"bi bi-x-circle text-primary fs-4"</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb5" data-filename="ui.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1">DT<span class="sc" style="color: #5E5E5E;
+<div class="sourceCode" id="cb5" data-filename="ui.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1">DT<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -2804,7 +2804,7 @@ font-style: inherit;">"thetable"</span>)</span></code></pre></div>
 <div class="code-with-filename-file">
 <pre><strong>server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb6" data-filename="server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode" id="cb6" data-filename="server.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># up, down and side arrow icons:</span></span>
 <span id="cb6-2">up <span class="ot" style="color: #003B4F;
@@ -2954,7 +2954,7 @@ font-style: inherit;">FALSE</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>global.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb7" data-filename="global.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb7" data-filename="global.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(shiny)</span></code></pre></div>
 </div>
@@ -2966,7 +2966,7 @@ Show UI code
 <div class="code-with-filename-file">
 <pre><strong>ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb8" data-filename="ui.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1">one_to_nine <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb8" data-filename="ui.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1">one_to_nine <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -3176,7 +3176,7 @@ Show server code
 <div class="code-with-filename-file">
 <pre><strong>server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb9" data-filename="server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode" id="cb9" data-filename="server.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># up, down and side arrow icons:</span></span>
 <span id="cb9-2">up <span class="ot" style="color: #003B4F;
@@ -3384,7 +3384,7 @@ font-style: inherit;">FALSE</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>R/mod_animated_ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb1" data-filename="R/mod_animated_ui.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1">mod_animated_ui <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb1" data-filename="R/mod_animated_ui.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1">mod_animated_ui <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(id) {</span>
 <span id="cb1-2">  ns <span class="ot" style="color: #003B4F;
@@ -3441,7 +3441,7 @@ font-style: inherit;">"theui"</span>))</span>
 <div class="code-with-filename-file">
 <pre><strong>R/mod_animated_server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb2" data-filename="R/mod_animated_server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1">mod_animated_server <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb2" data-filename="R/mod_animated_server.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">mod_animated_server <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(id) {</span>
 <span id="cb2-2">  <span class="fu" style="color: #4758AB;
@@ -3702,7 +3702,7 @@ font-style: inherit;">TRUE</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>R/mod_animated_server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb3" data-filename="R/mod_animated_server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb3" data-filename="R/mod_animated_server.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">tagList</span>(</span>
 <span id="cb3-2">  <span class="co" style="color: #5E5E5E;
@@ -3741,7 +3741,7 @@ font-style: inherit;">"animate.js"</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>www/animate.js</strong></pre>
 </div>
-<div class="sourceCode" id="cb4" data-filename="www/animate.js" style="background: #f1f3f5;"><pre class="sourceCode numberSource javascript number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb4-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb4" data-filename="www/animate.js" style="background: #f1f3f5;"><pre class="sourceCode javascript code-with-copy"><code class="sourceCode javascript"><span id="cb4-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">$</span>(<span class="bu" style="color: null;
 background-color: null;
@@ -3890,7 +3890,7 @@ font-style: inherit;">;</span></span></code></pre></div>
 <div class="code-with-filename-file">
 <pre><strong>R/mod_animated_server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb5" data-filename="R/mod_animated_server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1">mod_animated_server <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb5" data-filename="R/mod_animated_server.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1">mod_animated_server <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(id) {</span>
 <span id="cb5-2">  <span class="fu" style="color: #4758AB;
@@ -4008,7 +4008,7 @@ Show code
 <div class="code-with-filename-file">
 <pre><strong>R/mod_animated_server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb6" data-filename="R/mod_animated_server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1">mod_animated_server <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb6" data-filename="R/mod_animated_server.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1">mod_animated_server <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(id) {</span>
 <span id="cb6-2">  <span class="fu" style="color: #4758AB;
@@ -4320,7 +4320,7 @@ font-style: inherit;">TRUE</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>global.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb7" data-filename="global.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb7" data-filename="global.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(shiny)</span></code></pre></div>
 </div>
@@ -4328,7 +4328,7 @@ font-style: inherit;">library</span>(shiny)</span></code></pre></div>
 <div class="code-with-filename-file">
 <pre><strong>ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb8" data-filename="ui.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1">ui <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb8" data-filename="ui.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1">ui <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> bslib<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -4373,7 +4373,7 @@ font-style: inherit;">"animated"</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb9" data-filename="server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1">server <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb9" data-filename="server.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1">server <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(input, output, session) {</span>
 <span id="cb9-2">  <span class="fu" style="color: #4758AB;
@@ -4442,7 +4442,7 @@ font-style: inherit;">"animated"</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>R/mod_dnld_ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb1" data-filename="R/mod_dnld_ui.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1">mod_dnld_ui <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb1" data-filename="R/mod_dnld_ui.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1">mod_dnld_ui <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(id) {</span>
 <span id="cb1-2">  ns <span class="ot" style="color: #003B4F;
@@ -4485,7 +4485,7 @@ font-style: inherit;">"bi bi-download"</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>R/mod_dnld_server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb2" data-filename="R/mod_dnld_server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1">mod_dnld_server <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb2" data-filename="R/mod_dnld_server.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1">mod_dnld_server <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(id, data) {</span>
 <span id="cb2-2">  <span class="fu" style="color: #4758AB;
@@ -4612,7 +4612,7 @@ Note
 <div class="code-with-filename-file">
 <pre><strong>www/script.js</strong></pre>
 </div>
-<div class="sourceCode" id="cb3" data-filename="www/script.js" style="background: #f1f3f5;"><pre class="sourceCode numberSource js number-lines code-with-copy"><code class="sourceCode javascript"><span id="cb3-1">Shiny<span class="op" style="color: #5E5E5E;
+<div class="sourceCode" id="cb3" data-filename="www/script.js" style="background: #f1f3f5;"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb3-1">Shiny<span class="op" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
 background-color: null;
@@ -4711,7 +4711,7 @@ font-style: inherit;">;</span></span></code></pre></div>
 <div class="code-with-filename-file">
 <pre><strong>R/mod_nested_dnld.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb4" data-filename="R/mod_nested_dnld.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1">mod_nested_dnld_ui <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb4" data-filename="R/mod_nested_dnld.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1">mod_nested_dnld_ui <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(id) {</span>
 <span id="cb4-2">  ns <span class="ot" style="color: #003B4F;
@@ -4786,7 +4786,7 @@ font-style: inherit;">"this"</span>, given_data)</span>
 <div class="code-with-filename-file">
 <pre><strong>ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb5" data-filename="ui.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1">ui <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb5" data-filename="ui.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1">ui <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> bslib<span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -4955,7 +4955,7 @@ font-style: inherit;">"script.js"</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb6" data-filename="server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1">server <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb6" data-filename="server.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1">server <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> \(input, output, session) {</span>
 <span id="cb6-2">  <span class="fu" style="color: #4758AB;
@@ -4979,7 +4979,7 @@ font-style: inherit;">"that"</span>)</span>
 <div class="code-with-filename-file">
 <pre><strong>global.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb7" data-filename="global.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb7" data-filename="global.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(shiny)</span></code></pre></div>
 </div>
@@ -5037,7 +5037,7 @@ font-style: inherit;">library</span>(shiny)</span></code></pre></div>
 <p>About a week ago I needed to subset every second element of a vector. Let me explain.</p>
 <p>Take a look at <code>letters</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1">letters</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1">letters</span></code></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"
 [20] "t" "u" "v" "w" "x" "y" "z"</code></pre>
@@ -5054,7 +5054,7 @@ font-style: inherit;">library</span>(shiny)</span></code></pre></div>
 <h3 class="anchored" data-anchor-id="seq"><code>seq()</code></h3>
 <p>This was definitely the first option that came to mind:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1">indices <span class="ot" style="color: #003B4F;
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1">indices <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -5085,7 +5085,7 @@ font-style: inherit;">2</span>)</span>
 <p>For example, <code>4 %% 2</code> would return <code>0</code> since: <img src="https://latex.codecogs.com/png.latex?%0A%5Cfrac%7B4%7D%7B2%7D%20=%202%5C;remainder%5C;0%0A"> and <code>9 %% 7</code> would return <code>2</code> since: <img src="https://latex.codecogs.com/png.latex?%0A%5Cfrac%7B9%7D%7B7%7D%20=%201%5C;remainder%5C;2%0A"></p>
 <p>Back to our problem: I basically want all indices which are divisible by <img src="https://latex.codecogs.com/png.latex?2"> <em>ie.</em> Leave a remainder of zero.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1">indices <span class="ot" style="color: #003B4F;
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1">indices <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="sc" style="color: #5E5E5E;
 background-color: null;
@@ -5113,7 +5113,7 @@ font-style: inherit;">2</span></span>
 <p>This time round, it swept me off my feet completely.</p>
 <p>The solution was as simple as this:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1">letters[<span class="fu" style="color: #4758AB;
+<div class="sourceCode cell-code" id="cb7" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1">letters[<span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">c</span>(<span class="cn" style="color: #8f5902;
 background-color: null;
@@ -5140,7 +5140,7 @@ font-style: inherit;">TRUE</span>)]</span></code></pre></div>
 <h3 class="anchored" data-anchor-id="ith-element"><img src="https://latex.codecogs.com/png.latex?i%5E%7Bth%7D"> element</h3>
 <p>What if you wanted to subset every 9th element? Repeat <code>TRUE</code> &amp; <code>FALSE</code> the required number of times:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode cell-code" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># Subset every 9th element:</span></span>
 <span id="cb9-2">letters[<span class="fu" style="color: #4758AB;
@@ -5163,7 +5163,7 @@ font-style: inherit;">TRUE</span>)]</span></code></pre></div>
 <p>We repeat <code>FALSE</code> <img src="https://latex.codecogs.com/png.latex?8"> times because we want every <img src="https://latex.codecogs.com/png.latex?9">th index to be retrieved.</p>
 <p>Taking <img src="https://latex.codecogs.com/png.latex?9"> as our <code>i</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1">i <span class="ot" style="color: #003B4F;
+<div class="sourceCode cell-code" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1">i <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="dv" style="color: #AD0000;
 background-color: null;
@@ -5192,7 +5192,7 @@ font-style: inherit;">TRUE</span>)]</span></code></pre></div>
 <h3 class="anchored" data-anchor-id="i-nth-element"><img src="https://latex.codecogs.com/png.latex?(i%20+%20n)%5E%7Bth%7D"> element</h3>
 <p>Extending the above logic, let’s assume <code>i</code> is <img src="https://latex.codecogs.com/png.latex?9"> and <code>n</code> is <img src="https://latex.codecogs.com/png.latex?10">. So it’s like saying we want to subset every <img src="https://latex.codecogs.com/png.latex?(9%20+%2010)%5E%7Bth%7D%20=%2019%5E%7Bth%7D"> element.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1">i <span class="ot" style="color: #003B4F;
+<div class="sourceCode cell-code" id="cb13" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1">i <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="dv" style="color: #AD0000;
 background-color: null;
@@ -5295,7 +5295,7 @@ Mwavu
 <div class="code-with-filename-file">
 <pre><strong>trycatch.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb1" data-filename="trycatch.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1">result <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb1" data-filename="trycatch.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1">result <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
 background-color: null;
@@ -5363,7 +5363,7 @@ Mental model:
 <div class="code-with-filename-file">
 <pre><strong>app.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb2" data-filename="app.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb2" data-filename="app.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(shiny)</span>
 <span id="cb2-2"></span>
@@ -5530,7 +5530,7 @@ font-style: inherit;">shinyApp</span>(ui, server)</span></code></pre></div>
 <div class="code-with-filename-file">
 <pre><strong>app.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb3" data-filename="app.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
+<div class="sourceCode" id="cb3" data-filename="app.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">library</span>(shiny)</span>
 <span id="cb3-2"></span>
@@ -5813,7 +5813,7 @@ Mwavu
 <div class="code-with-filename-file">
 <pre><strong>R/mod_dnld_ui.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb1" data-filename="R/mod_dnld_ui.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode" id="cb1" data-filename="R/mod_dnld_ui.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">#' Download button module UI</span></span>
 <span id="cb1-2"><span class="co" style="color: #5E5E5E;
@@ -5917,7 +5917,7 @@ font-style: inherit;">"visibility: hidden;"</span></span>
 <div class="code-with-filename-file">
 <pre><strong>R/mod_dnld_server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb2" data-filename="R/mod_dnld_server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode" id="cb2" data-filename="R/mod_dnld_server.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">#' Download button module server</span></span>
 <span id="cb2-2"><span class="co" style="color: #5E5E5E;
@@ -6232,7 +6232,7 @@ font-style: inherit;">given_data</span>(), file)</span>
 <div class="code-with-filename-file">
 <pre><strong>R/mod_dnld_server.R</strong></pre>
 </div>
-<div class="sourceCode" id="cb5" data-filename="R/mod_dnld_server.R" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="co" style="color: #5E5E5E;
+<div class="sourceCode" id="cb5" data-filename="R/mod_dnld_server.R" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">#' Download button module server</span></span>
 <span id="cb5-2"><span class="co" style="color: #5E5E5E;
@@ -6494,7 +6494,7 @@ font-style: inherit;">given_data</span>(), file)</span>
 <h2 class="anchored" data-anchor-id="putting-it-all-together">Putting it all together</h2>
 <p>Now that we have the module UI and server parts, we can put them together in a shiny app.</p>
 <p>The app is as simple as it can get:</p>
-<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1">ui <span class="ot" style="color: #003B4F;
+<div class="sourceCode" id="cb6" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1">ui <span class="ot" style="color: #003B4F;
 background-color: null;
 font-style: inherit;">&lt;-</span> bslib<span class="sc" style="color: #5E5E5E;
 background-color: null;

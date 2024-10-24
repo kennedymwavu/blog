@@ -3,7 +3,7 @@ listing:
   contents: posts/**/*.qmd
   sort: "date desc"
   feed: true
-  type: table
+  type: grid
   image-height: "200px"
   categories: true
   sort-ui: true

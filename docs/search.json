@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "All Posts",
     "section": "",
-    "text": "All Posts\n\n\n\n\n\n\n\n   \n     \n     \n       Order By\n       Default\n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n         \n          Title\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\nDate\n\n\nTitle\n\n\n\n\n\n\nJul 20, 2024\n\n\nCount sequential characters\n\n\n\n\nFeb 8, 2024\n\n\nHow I Ended Up With R\n\n\n\n\nJan 6, 2024\n\n\nAutoreloading🔄 in Shiny\n\n\n\n\nJan 4, 2024\n\n\nInjecting 💉 tabPanelBodies into tabsetPanels\n\n\n\n\nJul 24, 2023\n\n\nThe input in function(input, output, session)\n\n\n\n\nJul 21, 2023\n\n\nBootstrap icons in Shiny\n\n\n\n\nJul 20, 2023\n\n\nJQuery Effects in Shiny\n\n\n\n\nMay 28, 2023\n\n\nAdd downLoading spinners… using JS\n\n\n\n\nApr 16, 2023\n\n\nSubset every nth element from a vector\n\n\n\n\nFeb 26, 2023\n\n\nDefensive Programming\n\n\n\n\nFeb 21, 2023\n\n\nAdd downLoading spinners\n\n\n\n\n\nNo matching items\n\n Back to top"
+    "text": "All Posts\n\n\n\n\n\n\n\n   \n     \n     \n       Order By\n       Default\n         \n          Title\n        \n         \n          Date - Oldest\n        \n         \n          Date - Newest\n        \n     \n  \n    \n      \n      \n    \n\n\n\n\n\n\n\nCount sequential characters\n\n\n\nJul 20, 2024\n\n\n\n\n\n\n\n\n\n\n\nHow I Ended Up With R\n\n\n\nFeb 8, 2024\n\n\n\n\n\n\n\n\n\n\n\nAutoreloading🔄 in Shiny\n\n\n\nJan 6, 2024\n\n\n\n\n\n\n\n\n\n\n\nInjecting 💉 tabPanelBodies into tabsetPanels\n\n\n\nJan 4, 2024\n\n\n\n\n\n\n\n\n\n\n\nThe input in function(input, output, session)\n\n\n\nJul 24, 2023\n\n\n\n\n\n\n\n\n\n\n\nBootstrap icons in Shiny\n\n\n\nJul 21, 2023\n\n\n\n\n\n\n\n\n\n\n\nJQuery Effects in Shiny\n\n\n\nJul 20, 2023\n\n\n\n\n\n\n\n\n\n\n\nAdd downLoading spinners… using JS\n\n\n\nMay 28, 2023\n\n\n\n\n\n\n\n\n\n\n\nSubset every nth element from a vector\n\n\n\nApr 16, 2023\n\n\n\n\n\n\n\n\n\n\n\nDefensive Programming\n\n\n\nFeb 26, 2023\n\n\n\n\n\n\n\n\n\n\n\nAdd downLoading spinners\n\n\n\nFeb 21, 2023\n\n\n\n\n\n\n\n\nNo matching items\n\n Back to top"
   },
   {
     "objectID": "posts/the-input-in-server-function/index.html",
@@ -193,7 +193,7 @@
     "href": "about.html",
     "title": "About",
     "section": "",
-    "text": "Hi, I’m Mwavu. Just typing R code.\n\n\n Back to top"
+    "text": "Hi, I’m Mwavu. I write R for fun & profit.\n\n\n Back to top"
   },
   {
     "objectID": "posts/count-sequential-chars/index.html",

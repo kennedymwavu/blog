@@ -73,10 +73,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/quarto-contrib/bookup_fonts_gwf-0.0/fonts-embed.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -275,7 +276,7 @@ window.Quarto = {
 <p>About a week ago I needed to subset every second element of a vector. Let me explain.</p>
 <p>Take a look at <code>letters</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>letters</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>letters</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"
 [20] "t" "u" "v" "w" "x" "y" "z"</code></pre>
@@ -292,8 +293,8 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="seq"><code>seq()</code></h3>
 <p>This was definitely the first option that came to mind:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>indices <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">2</span>, <span class="at">to =</span> <span class="fu">length</span>(letters), <span class="at">by =</span> <span class="dv">2</span>)</span>
-<span id="cb3-2"><a href="#cb3-2"></a>letters[indices]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>indices <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">2</span>, <span class="at">to =</span> <span class="fu">length</span>(letters), <span class="at">by =</span> <span class="dv">2</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>letters[indices]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "b" "d" "f" "h" "j" "l" "n" "p" "r" "t" "v" "x" "z"</code></pre>
 </div>
@@ -311,8 +312,8 @@ window.Quarto = {
 \]</span></p>
 <p>Back to our problem: I basically want all indices which are divisible by <span class="math inline">\(2\)</span> <em>ie.</em> Leave a remainder of zero.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>indices <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">seq_along</span>(letters) <span class="sc">%%</span> <span class="dv">2</span></span>
-<span id="cb5-2"><a href="#cb5-2"></a>letters[indices]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>indices <span class="ot">&lt;-</span> <span class="sc">!</span><span class="fu">seq_along</span>(letters) <span class="sc">%%</span> <span class="dv">2</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>letters[indices]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "b" "d" "f" "h" "j" "l" "n" "p" "r" "t" "v" "x" "z"</code></pre>
 </div>
@@ -329,7 +330,7 @@ window.Quarto = {
 <p>This time round, it swept me off my feet completely.</p>
 <p>The solution was as simple as this:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>letters[<span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>letters[<span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">TRUE</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "b" "d" "f" "h" "j" "l" "n" "p" "r" "t" "v" "x" "z"</code></pre>
 </div>
@@ -350,8 +351,8 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="ith-element"><span class="math inline">\(i^{th}\)</span> element</h3>
 <p>What if you wanted to subset every 9th element? Repeat <code>TRUE</code> &amp; <code>FALSE</code> the required number of times:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># Subset every 9th element:</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a>letters[<span class="fu">c</span>(<span class="fu">rep</span>(<span class="cn">FALSE</span>, <span class="at">times =</span> <span class="dv">8</span>), <span class="cn">TRUE</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset every 9th element:</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>letters[<span class="fu">c</span>(<span class="fu">rep</span>(<span class="cn">FALSE</span>, <span class="at">times =</span> <span class="dv">8</span>), <span class="cn">TRUE</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "i" "r"</code></pre>
 </div>
@@ -359,8 +360,8 @@ window.Quarto = {
 <p>We repeat <code>FALSE</code> <span class="math inline">\(8\)</span> times because we want every <span class="math inline">\(9\)</span>th index to be retrieved.</p>
 <p>Taking <span class="math inline">\(9\)</span> as our <code>i</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>i <span class="ot">&lt;-</span> <span class="dv">9</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a>letters[<span class="fu">c</span>(<span class="fu">rep</span>(<span class="cn">FALSE</span>, <span class="at">times =</span> i <span class="sc">-</span> <span class="dv">1</span>), <span class="cn">TRUE</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">9</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>letters[<span class="fu">c</span>(<span class="fu">rep</span>(<span class="cn">FALSE</span>, <span class="at">times =</span> i <span class="sc">-</span> <span class="dv">1</span>), <span class="cn">TRUE</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "i" "r"</code></pre>
 </div>
@@ -370,10 +371,10 @@ window.Quarto = {
 <h3 class="anchored" data-anchor-id="i-nth-element"><span class="math inline">\((i + n)^{th}\)</span> element</h3>
 <p>Extending the above logic, let’s assume <code>i</code> is <span class="math inline">\(9\)</span> and <code>n</code> is <span class="math inline">\(10\)</span>. So it’s like saying we want to subset every <span class="math inline">\((9 + 10)^{th} = 19^{th}\)</span> element.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>i <span class="ot">&lt;-</span> <span class="dv">9</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
-<span id="cb13-3"><a href="#cb13-3"></a><span class="co"># So we repeat FALSE "i + n - 1" times:</span></span>
-<span id="cb13-4"><a href="#cb13-4"></a>letters[<span class="fu">c</span>(<span class="fu">rep</span>(<span class="cn">FALSE</span>, <span class="at">times =</span> i <span class="sc">+</span> n <span class="sc">-</span> <span class="dv">1</span>), <span class="cn">TRUE</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">9</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">10</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># So we repeat FALSE "i + n - 1" times:</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>letters[<span class="fu">c</span>(<span class="fu">rep</span>(<span class="cn">FALSE</span>, <span class="at">times =</span> i <span class="sc">+</span> n <span class="sc">-</span> <span class="dv">1</span>), <span class="cn">TRUE</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "s"</code></pre>
 </div>
@@ -798,10 +799,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script>
-<script src="https://giscus.app/client.js" data-repo="kennedymwavu/blog-comments" data-repo-id="R_kgDOJ7CFzw" data-category="Announcements" data-category-id="DIC_kwDOJ7CFz84CX246" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="en" crossorigin="anonymous" async="">
+<script src="https://giscus.app/client.js" data-repo="kennedymwavu/blog-comments" data-repo-id="R_kgDOJ7CFzw" data-category="Announcements" data-category-id="DIC_kwDOJ7CFz84CX246" data-mapping="title" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="dark" data-lang="en" crossorigin="anonymous" async="">
 </script>
-<input type="hidden" id="giscus-base-theme" value="light">
-<input type="hidden" id="giscus-alt-theme" value="light">
+<input type="hidden" id="giscus-base-theme" value="dark">
+<input type="hidden" id="giscus-alt-theme" value="dark">
 </div> <!-- /content -->
 
 

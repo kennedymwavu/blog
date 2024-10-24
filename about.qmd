@@ -16,8 +16,8 @@ about:
       href: https://github.com/kennedymwavu
     - icon: globe
       text: Website
-      href: https://kennedymwavu.github.io/
+      href: https://mwavu.com
 
 ---
 
-Hi, I'm Mwavu. Just typing R code.
+Hi, I'm Mwavu. I write R for fun & profit.
