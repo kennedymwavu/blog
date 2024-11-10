@@ -1,0 +1,27 @@
+---
+title: "Random sqlite tidings"
+subtitle: "How to's I've learnt along the way about sqlite"
+date: 2024-11-10
+---
+
+## How to check if a table exists?
+
+```sql
+SELECT * FROM sqlite_master WHERE type = 'table' AND name = 'your_table_name';
+```
+
+```sql
+SELECT EXISTS (SELECT * FROM sqlite_master WHERE type = 'table' AND name = 'your_table_name');
+```
+
+Reference: [Storage of The SQL Database Schema](https://www.sqlite.org/fileformat2.html#storage_of_the_sql_database_schema).
+
+## How to check if a table column exists?
+
+```sql
+PRAGMA table_info('your_table_name');
+```
+
+Reference: [pragma](https://www.sqlite.org/pragma.html#pragma_table_info).
+
+Please note that PRAGMA feature was added in SQLite version 3.16.0 (2017-01-02): [PRAGMA functions](https://sqlite.org/pragma.html#pragfunc).
