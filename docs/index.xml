@@ -10,7 +10,108 @@
 <atom:link href="https://mwavu.com/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description>Kennedy Mwavu</description>
 <generator>quarto-1.4.553</generator>
-<lastBuildDate>Fri, 19 Jul 2024 21:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sat, 09 Nov 2024 21:00:00 GMT</lastBuildDate>
+<item>
+  <title>Random tidings on SQLite &amp; {DBI}</title>
+  <link>https://mwavu.com/blog/posts/random-sqlite-tidings/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<section id="how-to-check-if-a-table-exists" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-check-if-a-table-exists">How to check if a table exists?</h2>
+<div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">SELECT</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">FROM</span> sqlite_master <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">WHERE</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">type</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'table'</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">AND</span> name <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'your_table_name'</span>;</span></code></pre></div>
+<div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb2-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">SELECT</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">EXISTS</span> (<span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">SELECT</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">FROM</span> sqlite_master <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">WHERE</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">type</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'table'</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">AND</span> name <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'your_table_name'</span>);</span></code></pre></div>
+<p>Reference: <a href="https://www.sqlite.org/fileformat2.html#storage_of_the_sql_database_schema">Storage of The SQL Database Schema</a>.</p>
+</section>
+<section id="how-to-check-if-a-table-column-exists" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-check-if-a-table-column-exists">How to check if a table column exists?</h2>
+<div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode sql code-with-copy"><code class="sourceCode sql"><span id="cb3-1">PRAGMA table_info(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'your_table_name'</span>);</span></code></pre></div>
+<p>Reference: <a href="https://www.sqlite.org/pragma.html#pragma_table_info">pragma</a>.</p>
+<p>Please note that PRAGMA feature was added in SQLite version 3.16.0 (2017-01-02): <a href="https://sqlite.org/pragma.html#pragfunc">PRAGMA functions</a>.</p>
+</section>
+<section id="foreign-keys" class="level2">
+<h2 class="anchored" data-anchor-id="foreign-keys">Foreign keys</h2>
+<p>Foreign keys are disabled by default in sqlite. The have to be enabled on each connection.</p>
+<p>Reference: <a href="https://www.sqlite.org/foreignkeys.html">Foreign Keys</a>.</p>
+<p>That implies to use foreign keys with {pool}, you need to set the variable at the connection level. Hence, you cannot use the {pool} object itself.</p>
+<p>Reference: <a href="https://shiny.posit.co/r/articles/build/pool-advanced/">Advanced Usage of Pool</a>.</p>
+</section>
+<section id="timestamps" class="level2">
+<h2 class="anchored" data-anchor-id="timestamps">Timestamps</h2>
+<p>In most cases you need timestamps for columns such as <code>created_at</code>, <code>modified_at</code>.</p>
+<p>Reference: <a href="https://www.sqlite.org/lang_datefunc.html">Date and Time Functions</a></p>
+</section>
+<section id="varcharn" class="level2">
+<h2 class="anchored" data-anchor-id="varcharn">VARCHAR(n)</h2>
+<p>Due to type affinity, <code>VARCHAR(n)</code> will be treated as <code>TEXT</code>.</p>
+<p>Reference: <a href="https://www.sqlite.org/datatype3.html#type_affinity">Type affinity</a>.</p>
+</section>
+<section id="running-an-sql-script" class="level2">
+<h2 class="anchored" data-anchor-id="running-an-sql-script">Running an SQL script</h2>
+<p>{RSQLite} does not allow running multiple SQL statements at once. As such, if you have an SQL script, you have to split it into individual statements and run them one after the other.</p>
+<p>Reference: <a href="https://github.com/r-dbi/RSQLite/issues/313">Statements after the first dbExecute are ignored</a>.</p>
+</section>
+<section id="query-parameterization" class="level2">
+<h2 class="anchored" data-anchor-id="query-parameterization">Query parameterization</h2>
+<p>{DBI} currently has no way to parameterize queries across relational databases. Hence, if you’re writing a query to be run on multiple SQL backends, you need to change the parameterization for depending on the format used for each of the databases.</p>
+<p>Reference: <a href="https://dbi.r-dbi.org/reference/dbBind.html#details">Parameterize Queries Across Relational DBs</a>.</p>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
+  <guid>https://mwavu.com/blog/posts/random-sqlite-tidings/</guid>
+  <pubDate>Sat, 09 Nov 2024 21:00:00 GMT</pubDate>
+</item>
 <item>
   <title>Count sequential characters</title>
   <dc:creator>Kennedy Mwavu</dc:creator>

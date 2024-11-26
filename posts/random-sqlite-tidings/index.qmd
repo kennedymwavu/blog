@@ -1,6 +1,6 @@
 ---
-title: "Random sqlite tidings"
-subtitle: "How to's I've learnt along the way about sqlite"
+title: "Random tidings on SQLite & {DBI}"
+subtitle: "SQLite, my precious! We loves it!"
 date: 2024-11-10
 ---
 
@@ -25,3 +25,43 @@ PRAGMA table_info('your_table_name');
 Reference: [pragma](https://www.sqlite.org/pragma.html#pragma_table_info).
 
 Please note that PRAGMA feature was added in SQLite version 3.16.0 (2017-01-02): [PRAGMA functions](https://sqlite.org/pragma.html#pragfunc).
+
+## Foreign keys
+
+Foreign keys are disabled by default in sqlite. The have to be enabled on each connection.
+
+Reference: [Foreign Keys](https://www.sqlite.org/foreignkeys.html).
+
+That implies to use foreign keys with {pool}, you need to set the variable at the connection
+level. Hence, you cannot use the {pool} object itself.
+
+Reference: [Advanced Usage of Pool](https://shiny.posit.co/r/articles/build/pool-advanced/).
+
+## Timestamps
+
+In most cases you need timestamps for columns such as `created_at`, `modified_at`.
+
+Reference: [Date and Time Functions](https://www.sqlite.org/lang_datefunc.html)
+
+## VARCHAR(n)
+
+Due to type affinity, `VARCHAR(n)` will be treated as `TEXT`.
+
+Reference: [Type affinity](https://www.sqlite.org/datatype3.html#type_affinity).
+
+## Running an SQL script
+
+{RSQLite} does not allow running multiple SQL statements at once.
+As such, if you have an SQL script, you have to split it into individual 
+statements and run them one after the other.
+
+Reference: [Statements after the first dbExecute are ignored](https://github.com/r-dbi/RSQLite/issues/313).
+
+## Query parameterization
+
+{DBI} currently has no way to parameterize queries across relational databases.
+Hence, if you're writing a query to be run on multiple SQL backends,
+you need to change the parameterization for depending on the format used
+for each of the databases.
+
+Reference: [Parameterize Queries Across Relational DBs](https://dbi.r-dbi.org/reference/dbBind.html#details).

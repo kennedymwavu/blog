@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/random-sqlite-tidings/index.html",
       "/posts/count-sequential-chars/index.html",
       "/posts/how-i-ended-up-with-r/index.html",
       "/posts/shiny/auto-reload/index.html",
