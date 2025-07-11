@@ -108,7 +108,7 @@ font-style: inherit;">'your_table_name'</span>);</span></code></pre></div>
 
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
+ ]]></description>
   <guid>https://mwavu.com/blog/posts/random-sqlite-tidings/</guid>
   <pubDate>Sat, 09 Nov 2024 21:00:00 GMT</pubDate>
 </item>
@@ -646,7 +646,7 @@ font-style: inherit;">string =</span> string</span>
 
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
+ ]]></description>
   <category>R</category>
   <guid>https://mwavu.com/blog/posts/count-sequential-chars/</guid>
   <pubDate>Fri, 19 Jul 2024 21:00:00 GMT</pubDate>
@@ -804,7 +804,7 @@ Caution
 
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
+ ]]></description>
   <category>Story</category>
   <category>R</category>
   <guid>https://mwavu.com/blog/posts/how-i-ended-up-with-r/</guid>
@@ -1231,7 +1231,7 @@ font-style: inherit;">npm</span> run dev</span></code></pre></div>
 
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
+ ]]></description>
   <category>R</category>
   <category>Shiny</category>
   <guid>https://mwavu.com/blog/posts/shiny/auto-reload/</guid>
@@ -1947,7 +1947,7 @@ font-style: inherit;">!!!</span>panel_bodies</span>
 
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
+ ]]></description>
   <category>R</category>
   <category>Shiny</category>
   <category>UI/UX</category>
@@ -2657,7 +2657,7 @@ font-style: inherit;">;</span></span></code></pre></div>
 
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
+ ]]></description>
   <category>R</category>
   <category>Shiny</category>
   <guid>https://mwavu.com/blog/posts/the-input-in-server-function/</guid>
@@ -3423,7 +3423,7 @@ font-style: inherit;">FALSE</span>)</span>
 
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
+ ]]></description>
   <category>R</category>
   <category>Shiny</category>
   <category>UI/UX</category>
@@ -4494,7 +4494,7 @@ font-style: inherit;">"animated"</span>)</span>
 
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
+ ]]></description>
   <category>R</category>
   <category>Shiny</category>
   <category>JavaScript</category>
@@ -5098,7 +5098,7 @@ font-style: inherit;">library</span>(shiny)</span></code></pre></div>
 
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
+ ]]></description>
   <category>R</category>
   <category>Shiny</category>
   <category>JavaScript</category>
@@ -5337,7 +5337,7 @@ font-style: inherit;">TRUE</span>)]</span></code></pre></div>
 
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
+ ]]></description>
   <category>R</category>
   <guid>https://mwavu.com/blog/posts/subset-every-nth-element-from-a-vector/</guid>
   <pubDate>Sat, 15 Apr 2023 21:00:00 GMT</pubDate>
@@ -5871,7 +5871,7 @@ font-style: inherit;">shinyApp</span>(ui, server)</span></code></pre></div>
 </section>
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
+ ]]></description>
   <category>R</category>
   <category>Shiny</category>
   <category>UI/UX</category>
@@ -6697,7 +6697,7 @@ font-style: inherit;">shinyApp</span>(ui, server)</span></code></pre></div>
 
 </section>
 
-<a onclick="window.scrollTo(0, 0); return false;" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a> ]]></description>
+ ]]></description>
   <category>R</category>
   <category>Shiny</category>
   <category>UI/UX</category>

@@ -6,6 +6,10 @@ website:
   site-url: https://mwavu.com/blog/
   description: "Kennedy Mwavu"
   favicon: me-colored.jpeg
+  page-footer: |
+    ----
+    blog by [Kennedy Mwavu](https://github.com/kennedymwavu)
+    ----
   navbar:
     title: Home
     right:
@@ -14,12 +18,14 @@ website:
         href: https://github.com/kennedymwavu
       - icon: twitter
         href: https://twitter.com/kennedymwavu
-  back-to-top-navigation: true
+  back-to-top-navigation: false
   twitter-card: true
 format:
   html:
+    theme: cosmo
     css: styles.css
     toc: true
     toc-location: left
-    highlight-style: github-dark
     smooth-scroll: true
+filters:
+  - auto-dark

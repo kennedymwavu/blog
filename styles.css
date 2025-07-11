@@ -1,62 +1,12 @@
 /*--------------------------------------------------------------
-# fonts
+# quarto grids
 --------------------------------------------------------------*/
-
-/* fira-code-300 - latin */
-@font-face {
-  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: "Fira Code";
-  font-style: normal;
-  font-weight: 300;
-  src: url("assets/fonts/fira-code-v22-latin-300.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-/* fira-code-regular - latin */
-@font-face {
-  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: "Fira Code";
-  font-style: normal;
-  font-weight: 400;
-  src: url("assets/fonts/fira-code-v22-latin-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-/* fira-code-500 - latin */
-@font-face {
-  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: "Fira Code";
-  font-style: normal;
-  font-weight: 500;
-  src: url("assets/fonts/fira-code-v22-latin-500.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-/* fira-code-600 - latin */
-@font-face {
-  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: "Fira Code";
-  font-style: normal;
-  font-weight: 600;
-  src: url("assets/fonts/fira-code-v22-latin-600.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-/* fira-code-700 - latin */
-@font-face {
-  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
-  font-family: "Fira Code";
-  font-style: normal;
-  font-weight: 700;
-  src: url("assets/fonts/fira-code-v22-latin-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
-}
-
-/*--------------------------------------------------------------
-# general
---------------------------------------------------------------*/
-
-body,
-code {
-  font-family: "Fira Code", sans-serif;
-}
-
 .quarto-grid-item.card {
   background-color: transparent;
-  border: 1px solid;
+  border: 1px solid #ccc;
+  border-radius: var(--bs-border-radius-lg);
   opacity: 0.8;
-  transition: all 0.3s ease-in-out;
+  transition: all 0.25s ease-in-out;
 }
 
 .quarto-grid-item.card:hover {
@@ -64,36 +14,8 @@ code {
   transform: scale(1.08);
 }
 
-nav .nav-item {
-  opacity: 0.8;
-}
-
-nav .nav-item:hover {
-  opacity: 1;
-}
-
 .quarto-grid-item .listing-categories {
   padding-top: 10px;
-}
-
-/* scroll to top btn */
-#quarto-back-to-top {
-  opacity: 0.8;
-  bottom: 10px;
-  box-shadow: none;
-  border: 1px solid;
-}
-
-#quarto-back-to-top:hover {
-  opacity: 1;
-}
-
-/*
-add margin for giscus so that comments don't get overlaid
-by the scroll to top btn
-*/
-.giscus {
-  margin-bottom: 50px;
 }
 
 /*
