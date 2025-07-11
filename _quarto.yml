@@ -17,7 +17,7 @@ website:
   back-to-top-navigation: true
   twitter-card: true
 format:
-  bookup-html+darkonly:
+  html:
     css: styles.css
     toc: true
     toc-location: left

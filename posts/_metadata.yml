@@ -6,11 +6,10 @@ freeze: false
 
 # Enable banner style title blocks
 title-block-banner: true
-
-format:
-  bookup-html+darkonly:
-    comments:
-      giscus:
-        repo: kennedymwavu/blog-comments
-        category: Announcements
-        theme: dark
+# format:
+# bookup-html+darkonly:
+#   comments:
+#     giscus:
+#       repo: kennedymwavu/blog-comments
+#       category: Announcements
+#       theme: dark
