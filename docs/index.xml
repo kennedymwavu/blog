@@ -80,6 +80,50 @@
   <media:content url="https://mwavu.com/blog/posts/shiny/download-button-spinner-again/thumbnail.png" medium="image" type="image/png" height="90" width="144"/>
 </item>
 <item>
+  <title>Get shiny’s input values on the frontend</title>
+  <link>https://mwavu.com/blog/posts/shiny/get-shiny-input-values-on-frontend/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<section id="problem" class="level1">
+<h1>Problem</h1>
+<p>You have a radio button group with two options:</p>
+<ul>
+<li>csv</li>
+<li>pdf</li>
+</ul>
+<p>You also have an action button whose label you want to change depending on the selected radio button option:</p>
+<ul>
+<li>“Download CSV”, or,</li>
+<li>“Download PDF”</li>
+</ul>
+</section>
+<section id="old-way" class="level1">
+<h1>Old way</h1>
+<p>young me would do it this way</p>
+</section>
+<section id="better-way" class="level1">
+<h1>Better way</h1>
+<p>you already have everything on the frontend. use that!</p>
+<ul>
+<li>Shiny.shinyapp.$inputValues.input-value-id</li>
+</ul>
+
+
+</section>
+
+ ]]></description>
+  <category>R</category>
+  <category>Shiny</category>
+  <category>UI/UX</category>
+  <guid>https://mwavu.com/blog/posts/shiny/get-shiny-input-values-on-frontend/</guid>
+  <pubDate>Sat, 12 Jul 2025 21:00:00 GMT</pubDate>
+  <media:content url="https://mwavu.com/blog/posts/shiny/get-shiny-input-values-on-frontend/thumbnail.png" medium="image" type="image/png" height="118" width="144"/>
+</item>
+<item>
   <title>Random tidings on SQLite &amp; {DBI}</title>
   <link>https://mwavu.com/blog/posts/random-sqlite-tidings/</link>
   <description><![CDATA[ 

@@ -1,0 +1,30 @@
+---
+title: "Get shiny's input values on the frontend"
+subtitle: "Cut that unnecessary trip to the server!"
+date: "2025-07-13"
+categories: [R, Shiny, UI/UX]
+image: "thumbnail.png"
+---
+
+# Problem
+
+You have a radio button group with two options:
+
+- csv
+- pdf
+
+You also have an action button whose label you want to
+change depending on the selected radio button option:
+
+- "Download CSV", or,
+- "Download PDF"
+
+# Old way
+
+young me would do it this way
+
+# Better way
+
+you already have everything on the frontend. use that!
+
+- Shiny.shinyapp.$inputValues.input-value-id
