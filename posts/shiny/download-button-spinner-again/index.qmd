@@ -1,0 +1,55 @@
+---
+title: "Downloading Spinners... Again!"
+subtitle: "Why, Mr. Anderson? Why, why? Why do you do it? Why, why get up? Why keep fighting?"
+date: "2025-07-13"
+categories: [R, Shiny, UI/UX]
+image: "thumbnail.png"
+---
+
+# Why do I keep coming back to this?
+
+> Agent Smith: "Why, Mr. Anderson? Why, why? Why do you do it? Why, why get up? 
+> Why keep fighting? Do you believe you're fighting... for something? For more 
+> than your survival? Can you tell me what it is? Do you even know? Is it freedom? 
+> Or truth? Perhaps peace? Could it be for love? Illusions, Mr. Anderson. Vagaries
+> of perception. Temporary constructs of a feeble human intellect trying desperately
+> to justify an existence that is without meaning or purpose. And all of them as 
+> artificial as the Matrix itself, although... only a human mind could invent 
+> something as insipid as love. You must be able to see it, Mr. Anderson. You must 
+> know it by now. You can't win. It's pointless to keep fighting. Why, Mr. Anderson?
+> Why? Why do you persist?"
+>
+> Neo: "Because I choose to."
+>
+> **— Matrix Revolutions, 2003**
+
+# What's different this time?
+
+- Better UI/UX.
+- More straightforward than my two previous attempts.
+- Works for all your app's download buttons.
+
+# Okay, fine. Show me.
+
+Let's create a barebones shiny app with a download button in the UI and the
+corresponding download handler in the server portion:
+
+# Modify download handler
+
+- on.exit
+- send custom msg
+
+# frontend
+
+- add on click handler
+- add custom msg handler
+- add spinner
+- disable btn
+
+# Works for all download buttons
+
+- add another download button & handler to app
+
+# Even in modules!
+
+- show module example

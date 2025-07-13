@@ -10,7 +10,75 @@
 <atom:link href="https://mwavu.com/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description>Kennedy Mwavu</description>
 <generator>quarto-1.4.553</generator>
-<lastBuildDate>Sat, 09 Nov 2024 21:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sat, 12 Jul 2025 21:00:00 GMT</lastBuildDate>
+<item>
+  <title>Downloading Spinners… Again!</title>
+  <link>https://mwavu.com/blog/posts/shiny/download-button-spinner-again/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<section id="why-do-i-keep-coming-back-to-this" class="level1">
+<h1>Why do I keep coming back to this?</h1>
+<blockquote class="blockquote">
+<p>Agent Smith: “Why, Mr.&nbsp;Anderson? Why, why? Why do you do it? Why, why get up? Why keep fighting? Do you believe you’re fighting… for something? For more than your survival? Can you tell me what it is? Do you even know? Is it freedom? Or truth? Perhaps peace? Could it be for love? Illusions, Mr.&nbsp;Anderson. Vagaries of perception. Temporary constructs of a feeble human intellect trying desperately to justify an existence that is without meaning or purpose. And all of them as artificial as the Matrix itself, although… only a human mind could invent something as insipid as love. You must be able to see it, Mr.&nbsp;Anderson. You must know it by now. You can’t win. It’s pointless to keep fighting. Why, Mr.&nbsp;Anderson? Why? Why do you persist?”</p>
+<p>Neo: “Because I choose to.”</p>
+<p><strong>— Matrix Revolutions, 2003</strong></p>
+</blockquote>
+</section>
+<section id="whats-different-this-time" class="level1">
+<h1>What’s different this time?</h1>
+<ul>
+<li>Better UI/UX.</li>
+<li>More straightforward than my two previous attempts.</li>
+<li>Works for all your app’s download buttons.</li>
+</ul>
+</section>
+<section id="okay-fine.-show-me." class="level1">
+<h1>Okay, fine. Show me.</h1>
+<p>Let’s create a barebones shiny app with a download button in the UI and the corresponding download handler in the server portion:</p>
+</section>
+<section id="modify-download-handler" class="level1">
+<h1>Modify download handler</h1>
+<ul>
+<li>on.exit</li>
+<li>send custom msg</li>
+</ul>
+</section>
+<section id="frontend" class="level1">
+<h1>frontend</h1>
+<ul>
+<li>add on click handler</li>
+<li>add custom msg handler</li>
+<li>add spinner</li>
+<li>disable btn</li>
+</ul>
+</section>
+<section id="works-for-all-download-buttons" class="level1">
+<h1>Works for all download buttons</h1>
+<ul>
+<li>add another download button &amp; handler to app</li>
+</ul>
+</section>
+<section id="even-in-modules" class="level1">
+<h1>Even in modules!</h1>
+<ul>
+<li>show module example</li>
+</ul>
+
+
+</section>
+
+ ]]></description>
+  <category>R</category>
+  <category>Shiny</category>
+  <category>UI/UX</category>
+  <guid>https://mwavu.com/blog/posts/shiny/download-button-spinner-again/</guid>
+  <pubDate>Sat, 12 Jul 2025 21:00:00 GMT</pubDate>
+  <media:content url="https://mwavu.com/blog/posts/shiny/download-button-spinner-again/thumbnail.png" medium="image" type="image/png" height="90" width="144"/>
+</item>
 <item>
   <title>Random tidings on SQLite &amp; {DBI}</title>
   <link>https://mwavu.com/blog/posts/random-sqlite-tidings/</link>
