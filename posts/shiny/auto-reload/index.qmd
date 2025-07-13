@@ -1,10 +1,10 @@
 ---
-title: "Autoreloading🔄 in Shiny"
-description: "Set up your dev environment to enable autoreloading"
+title: "Autoreloading in Shiny"
+subtitle: "Set up your dev environment to enable autoreloading"
 author: "Kennedy Mwavu"
 date: "2024-01-06"
 categories: [R, Shiny]
-draft: false
+image: showtime.jpg
 ---
 
 ::: {.callout-tip}
@@ -119,7 +119,7 @@ any JavaScript.
 Switch to the terminal and ensure you're in the root folder of your shiny app (`autoreload/`), then run:
 
 ```bash
-npm init -y
+
 ```
 
 This will setup a new npm package and create the `package.json` file.
@@ -135,7 +135,7 @@ We will use it to rerun our shiny app as needed.
 Install nodemon as a dev dependency:
 
 ```bash
-npm i -D nodemon
+
 ```
 
 Let's create `run_app.R` at the root directory of our project.
@@ -226,7 +226,7 @@ Everything is ready.
 In our project root folder, run this in the terminal:
 
 ```bash
-npm run dev
+
 ```
 
 This should fire up the shiny app. Now go ahead and make changes to any file within the directory and watch what happens.

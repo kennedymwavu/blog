@@ -1,11 +1,10 @@
 ---
 title: "Add downLoading spinners"
-description: "Show spinner when download is in progress"
+subtitle: "Show spinner when download is in progress"
 author: "Kennedy Mwavu"
 date: "2023-02-21"
 categories: [R, Shiny, UI/UX]
-image: "loader.webp"
-draft: false
+image: "dnld-spinner.gif"
 ---
 
 ## Demo
@@ -272,16 +271,16 @@ ui <- bslib::page(
     class = "bg-light",
 
     shiny::tags$div(
-    class = paste(
-      "container min-vh-100",
-      "d-flex justify-content-center align-items-center bg-white"
-    ),
+      class = paste(
+        "container min-vh-100",
+        "d-flex justify-content-center align-items-center bg-white"
+      ),
 
-    # module UI:
-    shiny::tags$div(
-      mod_dnld_ui("this")
+      # module UI:
+      shiny::tags$div(
+        mod_dnld_ui("this")
+      )
     )
-  )
   )
 )
 

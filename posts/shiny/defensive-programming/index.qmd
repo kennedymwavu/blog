@@ -1,10 +1,10 @@
 ---
 title: "Defensive Programming"
-description: "Say hello to your new friend: tryCatch()"
+subtitle: "Say hello to your new friend: tryCatch()"
 author: "Kennedy Mwavu"
 date: "2023-02-26"
 categories: [R, Shiny, UI/UX]
-image: "tc.png"
+image: "thumbnail.jpg"
 draft: false
 ---
 

@@ -8,6 +8,8 @@ freeze: false
 title-block-banner: true
 format:
   html:
+    author: "Kennedy Mwavu"
+    date-modified: last-modified
     comments:
       giscus:
         repo: kennedymwavu/blog-comments

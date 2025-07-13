@@ -1,10 +1,10 @@
 ---
 title: "Bootstrap icons in Shiny"
-description: "To my younger self :)"
+subtitle: "To my younger self :)"
 author: "Kennedy Mwavu"
 date: "2023-07-21"
 categories: [R, Shiny, UI/UX]
-draft: false
+image: did-you-do-it.png
 ---
 
 ## Introduction

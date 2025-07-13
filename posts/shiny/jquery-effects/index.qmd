@@ -1,10 +1,10 @@
 ---
 title: "JQuery Effects in Shiny"
-description: "Add some swag to `$(this)` shiny app"
+subtitle: "Add some swag to `$(this)` shiny app"
 author: "Kennedy Mwavu"
 date: "2023-07-20"
 categories: [R, Shiny, JavaScript, UI/UX]
-draft: false
+image: animated-renderUI-demo.gif
 ---
 
 ## Demo

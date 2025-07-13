@@ -111,10 +111,10 @@ font-style: inherit;">'your_table_name'</span>);</span></code></pre></div>
  ]]></description>
   <guid>https://mwavu.com/blog/posts/random-sqlite-tidings/</guid>
   <pubDate>Sat, 09 Nov 2024 21:00:00 GMT</pubDate>
+  <media:content url="https://mwavu.com/blog/posts/random-sqlite-tidings/thumbnail.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
   <title>Count sequential characters</title>
-  <dc:creator>Kennedy Mwavu</dc:creator>
   <link>https://mwavu.com/blog/posts/count-sequential-chars/</link>
   <description><![CDATA[ 
 
@@ -453,7 +453,7 @@ background-color: null;
 font-style: inherit;">csc</span>(</span>
 <span id="cb8-13">    <span class="at" style="color: #657422;
 background-color: null;
-font-style: inherit;">char_vec =</span> sample_strings, </span>
+font-style: inherit;">char_vec =</span> sample_strings,</span>
 <span id="cb8-14">    <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">str =</span> string</span>
@@ -650,10 +650,10 @@ font-style: inherit;">string =</span> string</span>
   <category>R</category>
   <guid>https://mwavu.com/blog/posts/count-sequential-chars/</guid>
   <pubDate>Fri, 19 Jul 2024 21:00:00 GMT</pubDate>
+  <media:content url="https://mwavu.com/blog/posts/count-sequential-chars/thumbnail.jpeg" medium="image" type="image/jpeg"/>
 </item>
 <item>
   <title>How I Ended Up With R</title>
-  <dc:creator>Kennedy Mwavu</dc:creator>
   <link>https://mwavu.com/blog/posts/how-i-ended-up-with-r/</link>
   <description><![CDATA[ 
 
@@ -809,9 +809,10 @@ Caution
   <category>R</category>
   <guid>https://mwavu.com/blog/posts/how-i-ended-up-with-r/</guid>
   <pubDate>Wed, 07 Feb 2024 21:00:00 GMT</pubDate>
+  <media:content url="https://mwavu.com/blog/posts/how-i-ended-up-with-r/thumbnail.avif" medium="image" type="image/avif"/>
 </item>
 <item>
-  <title>Autoreloading🔄 in Shiny</title>
+  <title>Autoreloading in Shiny</title>
   <dc:creator>Kennedy Mwavu</dc:creator>
   <link>https://mwavu.com/blog/posts/shiny/auto-reload/</link>
   <description><![CDATA[ 
@@ -1012,11 +1013,7 @@ font-style: inherit;">module =</span> \(input, output, session) {}</span>
 <section id="initialize-project" class="level2">
 <h2 class="anchored" data-anchor-id="initialize-project">Initialize project</h2>
 <p>Switch to the terminal and ensure you’re in the root folder of your shiny app (<code>autoreload/</code>), then run:</p>
-<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb8-1"><span class="ex" style="color: null;
-background-color: null;
-font-style: inherit;">npm</span> init <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">-y</span></span></code></pre></div>
+<div class="sourceCode" id="cb8" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"></code></pre></div>
 <p>This will setup a new npm package and create the <code>package.json</code> file.</p>
 <p>The <code>-y</code> flag accepts the default npm setup.</p>
 </section>
@@ -1025,11 +1022,7 @@ font-style: inherit;">-y</span></span></code></pre></div>
 <p>nodemon is a tool that helps develop Node.js based applications by automatically restarting the node application when file changes in the directory are detected.</p>
 <p>We will use it to rerun our shiny app as needed.</p>
 <p>Install nodemon as a dev dependency:</p>
-<div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><span class="ex" style="color: null;
-background-color: null;
-font-style: inherit;">npm</span> i <span class="at" style="color: #657422;
-background-color: null;
-font-style: inherit;">-D</span> nodemon</span></code></pre></div>
+<div class="sourceCode" id="cb9" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"></code></pre></div>
 <p>Let’s create <code>run_app.R</code> at the root directory of our project. This is more of an “entry point” to our shiny app.</p>
 <p>nodemon will rerun this file each time a change occurs.</p>
 <div class="code-with-filename">
@@ -1221,9 +1214,7 @@ font-style: inherit;">"^3.0.2"</span></span>
 <p>Everything is ready.</p>
 <p><img src="https://mwavu.com/blog/posts/shiny/auto-reload/showtime.jpg" class="img-fluid" alt="It's showtime meme"></p>
 <p>In our project root folder, run this in the terminal:</p>
-<div class="sourceCode" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><span class="ex" style="color: null;
-background-color: null;
-font-style: inherit;">npm</span> run dev</span></code></pre></div>
+<div class="sourceCode" id="cb11" style="background: #f1f3f5;"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"></code></pre></div>
 <p>This should fire up the shiny app. Now go ahead and make changes to any file within the directory and watch what happens.</p>
 <p>To stop npm, press <code>CTRL</code> + <code>C</code>.</p>
 <p>Happy development!</p>
@@ -1236,9 +1227,10 @@ font-style: inherit;">npm</span> run dev</span></code></pre></div>
   <category>Shiny</category>
   <guid>https://mwavu.com/blog/posts/shiny/auto-reload/</guid>
   <pubDate>Fri, 05 Jan 2024 21:00:00 GMT</pubDate>
+  <media:content url="https://mwavu.com/blog/posts/shiny/auto-reload/showtime.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
-  <title>Injecting 💉 tabPanelBodies into tabsetPanels</title>
+  <title>Injecting tabPanelBodies into tabsetPanels</title>
   <dc:creator>Kennedy Mwavu</dc:creator>
   <link>https://mwavu.com/blog/posts/shiny/injecting-tabpanelbodies-in-tabsetpanels/</link>
   <description><![CDATA[ 
@@ -1768,24 +1760,30 @@ background-color: null;
 font-style: inherit;">list</span>(</span>
 <span id="cb6-6">    <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"home"</span>, <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"generate_shifts"</span>, <span class="st" style="color: #20794D;
-background-color: null;
-font-style: inherit;">"leave_application"</span>,</span>
+font-style: inherit;">"home"</span>,</span>
 <span id="cb6-7">    <span class="st" style="color: #20794D;
 background-color: null;
-font-style: inherit;">"manage_employees"</span>, <span class="st" style="color: #20794D;
+font-style: inherit;">"generate_shifts"</span>,</span>
+<span id="cb6-8">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"leave_application"</span>,</span>
+<span id="cb6-9">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"manage_employees"</span>,</span>
+<span id="cb6-10">    <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"download_shifts"</span></span>
-<span id="cb6-8">  ),</span>
-<span id="cb6-9">  <span class="fu" style="color: #4758AB;
+<span id="cb6-11">  ),</span>
+<span id="cb6-12">  <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">list</span>(</span>
-<span id="cb6-10">    mod_home_ui, mod_generate_shifts_ui, mod_leave_application_ui,</span>
-<span id="cb6-11">    mod_manage_employees_ui, mod_download_shifts_ui</span>
-<span id="cb6-12">  )</span>
-<span id="cb6-13">)</span></code></pre></div>
+<span id="cb6-13">    mod_home_ui,</span>
+<span id="cb6-14">    mod_generate_shifts_ui,</span>
+<span id="cb6-15">    mod_leave_application_ui,</span>
+<span id="cb6-16">    mod_manage_employees_ui,</span>
+<span id="cb6-17">    mod_download_shifts_ui</span>
+<span id="cb6-18">  )</span>
+<span id="cb6-19">)</span></code></pre></div>
 <p>I digress. Back to the <code>lapply()</code>.</p>
 <p>We now no longer repeat ourselves. Yeeey!</p>
 <p>But our joy is not meant to last long: how do we pass this list of <code>tabPanelBody()</code>s to <code>tabsetPanel()</code>?</p>
@@ -1953,11 +1951,12 @@ font-style: inherit;">!!!</span>panel_bodies</span>
   <category>UI/UX</category>
   <guid>https://mwavu.com/blog/posts/shiny/injecting-tabpanelbodies-in-tabsetpanels/</guid>
   <pubDate>Wed, 03 Jan 2024 21:00:00 GMT</pubDate>
+  <media:content url="https://mwavu.com/blog/posts/shiny/injecting-tabpanelbodies-in-tabsetpanels/exhibit-1.gif" medium="image" type="image/gif"/>
 </item>
 <item>
   <title>The input in function(input, output, session)</title>
   <dc:creator>Kennedy Mwavu</dc:creator>
-  <link>https://mwavu.com/blog/posts/the-input-in-server-function/</link>
+  <link>https://mwavu.com/blog/posts/shiny/the-input-in-server-function/</link>
   <description><![CDATA[ 
 
 
@@ -2255,7 +2254,7 @@ font-style: inherit;">;</span></span></code></pre></div>
 <h2 class="anchored" data-anchor-id="reprex">Reprex</h2>
 <p>In the reprex below, I show how you can set the input id values to <code>NULL</code>.</p>
 <p>Also, I use <code>insertUI</code>/<code>removeUI</code> as stated earlier.</p>
-<p><img src="https://mwavu.com/blog/posts/the-input-in-server-function/reprex.gif" class="img-fluid" alt="Reprex showing the above"></p>
+<p><img src="https://mwavu.com/blog/posts/shiny/the-input-in-server-function/reprex.gif" class="img-fluid" alt="Reprex showing the above"></p>
 <div class="code-with-filename">
 <div class="code-with-filename-file">
 <pre><strong>global.R</strong></pre>
@@ -2652,7 +2651,7 @@ font-style: inherit;">;</span></span></code></pre></div>
 <p><code>$(this)</code> has been the <code>input</code> in <code>function(input, output, session)</code>.</p>
 <p>Me: At this point I can confidently say that I like JavaScript.</p>
 <p>JS:</p>
-<p><img src="https://mwavu.com/blog/posts/the-input-in-server-function/all-shall-love-me.png" class="img-fluid" alt="Galadriel from LOTR saying 'All shall love me and despair'"></p>
+<p><img src="https://mwavu.com/blog/posts/shiny/the-input-in-server-function/all-shall-love-me.png" class="img-fluid" alt="Galadriel from LOTR saying 'All shall love me and despair'"></p>
 
 
 </section>
@@ -2660,8 +2659,9 @@ font-style: inherit;">;</span></span></code></pre></div>
  ]]></description>
   <category>R</category>
   <category>Shiny</category>
-  <guid>https://mwavu.com/blog/posts/the-input-in-server-function/</guid>
+  <guid>https://mwavu.com/blog/posts/shiny/the-input-in-server-function/</guid>
   <pubDate>Sun, 23 Jul 2023 21:00:00 GMT</pubDate>
+  <media:content url="https://mwavu.com/blog/posts/shiny/the-input-in-server-function/reprex.gif" medium="image" type="image/gif"/>
 </item>
 <item>
   <title>Bootstrap icons in Shiny</title>
@@ -3429,6 +3429,7 @@ font-style: inherit;">FALSE</span>)</span>
   <category>UI/UX</category>
   <guid>https://mwavu.com/blog/posts/shiny/bootstrap-icons-in-shiny/</guid>
   <pubDate>Thu, 20 Jul 2023 21:00:00 GMT</pubDate>
+  <media:content url="https://mwavu.com/blog/posts/shiny/bootstrap-icons-in-shiny/did-you-do-it.png" medium="image" type="image/png" height="97" width="144"/>
 </item>
 <item>
   <title>JQuery Effects in Shiny</title>
@@ -4501,6 +4502,7 @@ font-style: inherit;">"animated"</span>)</span>
   <category>UI/UX</category>
   <guid>https://mwavu.com/blog/posts/shiny/jquery-effects/</guid>
   <pubDate>Wed, 19 Jul 2023 21:00:00 GMT</pubDate>
+  <media:content url="https://mwavu.com/blog/posts/shiny/jquery-effects/animated-renderUI-demo.gif" medium="image" type="image/gif"/>
 </item>
 <item>
   <title>Add downLoading spinners… using JS</title>
@@ -5105,6 +5107,7 @@ font-style: inherit;">library</span>(shiny)</span></code></pre></div>
   <category>UI/UX</category>
   <guid>https://mwavu.com/blog/posts/shiny/download-button-spinner-js/</guid>
   <pubDate>Sat, 27 May 2023 21:00:00 GMT</pubDate>
+  <media:content url="https://mwavu.com/blog/posts/shiny/download-button-spinner-js/dnld-spinner-js.gif" medium="image" type="image/gif"/>
 </item>
 <item>
   <title>Subset every nth element from a vector</title>
@@ -5341,7 +5344,7 @@ font-style: inherit;">TRUE</span>)]</span></code></pre></div>
   <category>R</category>
   <guid>https://mwavu.com/blog/posts/subset-every-nth-element-from-a-vector/</guid>
   <pubDate>Sat, 15 Apr 2023 21:00:00 GMT</pubDate>
-  <media:content url="https://mwavu.com/blog/posts/subset-every-nth-element-from-a-vector/nth.svg" medium="image" type="image/svg+xml"/>
+  <media:content url="https://mwavu.com/blog/posts/subset-every-nth-element-from-a-vector/gandalf.webp" medium="image" type="image/webp"/>
 </item>
 <item>
   <title>Defensive Programming</title>
@@ -5877,7 +5880,7 @@ font-style: inherit;">shinyApp</span>(ui, server)</span></code></pre></div>
   <category>UI/UX</category>
   <guid>https://mwavu.com/blog/posts/shiny/defensive-programming/</guid>
   <pubDate>Sat, 25 Feb 2023 21:00:00 GMT</pubDate>
-  <media:content url="https://mwavu.com/blog/posts/shiny/defensive-programming/tc.png" medium="image" type="image/png"/>
+  <media:content url="https://mwavu.com/blog/posts/shiny/defensive-programming/thumbnail.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
   <title>Add downLoading spinners</title>
@@ -6639,36 +6642,36 @@ background-color: null;
 font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">div</span>(</span>
-<span id="cb6-9">    <span class="at" style="color: #657422;
+<span id="cb6-9">      <span class="at" style="color: #657422;
 background-color: null;
 font-style: inherit;">class =</span> <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">paste</span>(</span>
-<span id="cb6-10">      <span class="st" style="color: #20794D;
+<span id="cb6-10">        <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"container min-vh-100"</span>,</span>
-<span id="cb6-11">      <span class="st" style="color: #20794D;
+<span id="cb6-11">        <span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"d-flex justify-content-center align-items-center bg-white"</span></span>
-<span id="cb6-12">    ),</span>
+<span id="cb6-12">      ),</span>
 <span id="cb6-13"></span>
-<span id="cb6-14">    <span class="co" style="color: #5E5E5E;
+<span id="cb6-14">      <span class="co" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;"># module UI:</span></span>
-<span id="cb6-15">    shiny<span class="sc" style="color: #5E5E5E;
+<span id="cb6-15">      shiny<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">::</span>tags<span class="sc" style="color: #5E5E5E;
 background-color: null;
 font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">div</span>(</span>
-<span id="cb6-16">      <span class="fu" style="color: #4758AB;
+<span id="cb6-16">        <span class="fu" style="color: #4758AB;
 background-color: null;
 font-style: inherit;">mod_dnld_ui</span>(<span class="st" style="color: #20794D;
 background-color: null;
 font-style: inherit;">"this"</span>)</span>
-<span id="cb6-17">    )</span>
-<span id="cb6-18">  )</span>
+<span id="cb6-17">      )</span>
+<span id="cb6-18">    )</span>
 <span id="cb6-19">  )</span>
 <span id="cb6-20">)</span>
 <span id="cb6-21"></span>
@@ -6703,7 +6706,7 @@ font-style: inherit;">shinyApp</span>(ui, server)</span></code></pre></div>
   <category>UI/UX</category>
   <guid>https://mwavu.com/blog/posts/shiny/download-button-spinner/</guid>
   <pubDate>Mon, 20 Feb 2023 21:00:00 GMT</pubDate>
-  <media:content url="https://mwavu.com/blog/posts/shiny/download-button-spinner/loader.webp" medium="image" type="image/webp"/>
+  <media:content url="https://mwavu.com/blog/posts/shiny/download-button-spinner/dnld-spinner.gif" medium="image" type="image/gif"/>
 </item>
 </channel>
 </rss>

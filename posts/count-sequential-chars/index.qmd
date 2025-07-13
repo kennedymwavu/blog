@@ -1,10 +1,9 @@
 ---
 title: "Count sequential characters"
-description: "This problem has eluded me for over a year!"
-author: "Kennedy Mwavu"
+subtitle: "Long have you hunted me. Long have I eluded you. No more."
 date: "2024-07-20"
 categories: [R]
-draft: false
+image: thumbnail.jpeg
 ---
 
 There is [this problem](https://x.com/JosiahParry/status/1646165797125931009) Josiah posted on twitter in April 12 2023:
@@ -133,7 +132,7 @@ sample_strings <- replicate(
 bench::mark(
   iterations = 100,
   csc = csc(
-    char_vec = sample_strings, 
+    char_vec = sample_strings,
     str = string
   )
 )

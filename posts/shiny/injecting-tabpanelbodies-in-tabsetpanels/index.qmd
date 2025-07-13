@@ -1,10 +1,10 @@
 ---
-title: "Injecting 💉 tabPanelBodies into tabsetPanels"
-description: "How to dynamically populate tabset panels with tabpanel bodies"
+title: "Injecting tabPanelBodies into tabsetPanels"
+subtitle: "How to dynamically populate tabset panels with tabpanel bodies"
 author: "Kennedy Mwavu"
 date: "2024-01-04"
 categories: [R, Shiny, UI/UX]
-draft: false
+image: exhibit-1.gif
 ---
 
 ## Context
@@ -132,12 +132,18 @@ panel_bodies <- Map(
     tabPanelBody(value = value, mod_ui(id = value))
   },
   list(
-    "home", "generate_shifts", "leave_application",
-    "manage_employees", "download_shifts"
+    "home",
+    "generate_shifts",
+    "leave_application",
+    "manage_employees",
+    "download_shifts"
   ),
   list(
-    mod_home_ui, mod_generate_shifts_ui, mod_leave_application_ui,
-    mod_manage_employees_ui, mod_download_shifts_ui
+    mod_home_ui,
+    mod_generate_shifts_ui,
+    mod_leave_application_ui,
+    mod_manage_employees_ui,
+    mod_download_shifts_ui
   )
 )
 ```

@@ -8,9 +8,8 @@
 
 <meta name="author" content="Kennedy Mwavu">
 <meta name="dcterms.date" content="2024-01-04">
-<meta name="description" content="How to dynamically populate tabset panels with tabpanel bodies">
 
-<title>Mwavu - Injecting 💉 tabPanelBodies into tabsetPanels</title>
+<title>Mwavu - Injecting tabPanelBodies into tabsetPanels</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -109,9 +108,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <link rel="stylesheet" href="../../../styles.css">
-<meta name="twitter:title" content="Mwavu - Injecting 💉 tabPanelBodies into tabsetPanels">
+<meta name="twitter:title" content="Mwavu - Injecting tabPanelBodies into tabsetPanels">
 <meta name="twitter:description" content="How to dynamically populate tabset panels with tabpanel bodies">
-<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mwavu.com/blog/posts/shiny/injecting-tabpanelbodies-in-tabsetpanels/exhibit-1.gif">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="floating nav-fixed">
@@ -156,13 +156,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Injecting 💉 tabPanelBodies into tabsetPanels</h1>
-                  <div>
-        <div class="description">
-          How to dynamically populate tabset panels with tabpanel bodies
-        </div>
-      </div>
-                          <div class="quarto-categories">
+      <h1 class="title">Injecting tabPanelBodies into tabsetPanels</h1>
+            <p class="subtitle lead">How to dynamically populate tabset panels with tabpanel bodies</p>
+                                <div class="quarto-categories">
                 <div class="quarto-category">R</div>
                 <div class="quarto-category">Shiny</div>
                 <div class="quarto-category">UI/UX</div>
@@ -187,6 +183,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </div>
     </div>
     
+      <div>
+      <div class="quarto-title-meta-heading">Modified</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date-modified">July 13, 2025</p>
+      </div>
+    </div>
       
     </div>
     
@@ -325,14 +327,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tabPanelBody</span>(<span class="at">value =</span> value, <span class="fu">mod_ui</span>(<span class="at">id =</span> value))</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  },</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"home"</span>, <span class="st">"generate_shifts"</span>, <span class="st">"leave_application"</span>,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"manage_employees"</span>, <span class="st">"download_shifts"</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  ),</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    mod_home_ui, mod_generate_shifts_ui, mod_leave_application_ui,</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    mod_manage_employees_ui, mod_download_shifts_ui</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"home"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"generate_shifts"</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"leave_application"</span>,</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"manage_employees"</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">"download_shifts"</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    mod_home_ui,</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    mod_generate_shifts_ui,</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    mod_leave_application_ui,</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    mod_manage_employees_ui,</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    mod_download_shifts_ui</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>I digress. Back to the <code>lapply()</code>.</p>
 <p>We now no longer repeat ourselves. Yeeey!</p>
 <p>But our joy is not meant to last long: how do we pass this list of <code>tabPanelBody()</code>s to <code>tabsetPanel()</code>?</p>

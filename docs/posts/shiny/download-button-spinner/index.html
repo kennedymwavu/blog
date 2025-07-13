@@ -8,7 +8,6 @@
 
 <meta name="author" content="Kennedy Mwavu">
 <meta name="dcterms.date" content="2023-02-21">
-<meta name="description" content="Show spinner when download is in progress">
 
 <title>Mwavu - Add downLoading spinners</title>
 <style>
@@ -111,7 +110,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link rel="stylesheet" href="../../../styles.css">
 <meta name="twitter:title" content="Mwavu - Add downLoading spinners">
 <meta name="twitter:description" content="Show spinner when download is in progress">
-<meta name="twitter:image" content="https://mwavu.com/blog/posts/shiny/download-button-spinner/loader.webp">
+<meta name="twitter:image" content="https://mwavu.com/blog/posts/shiny/download-button-spinner/dnld-spinner.gif">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
@@ -158,12 +157,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
       <h1 class="title">Add downLoading spinners</h1>
-                  <div>
-        <div class="description">
-          Show spinner when download is in progress
-        </div>
-      </div>
-                          <div class="quarto-categories">
+            <p class="subtitle lead">Show spinner when download is in progress</p>
+                                <div class="quarto-categories">
                 <div class="quarto-category">R</div>
                 <div class="quarto-category">Shiny</div>
                 <div class="quarto-category">UI/UX</div>
@@ -188,6 +183,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       </div>
     </div>
     
+      <div>
+      <div class="quarto-title-meta-heading">Modified</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date-modified">July 13, 2025</p>
+      </div>
+    </div>
       
     </div>
     
@@ -472,16 +473,16 @@ Mwavu
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">class =</span> <span class="st">"bg-light"</span>,</span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    shiny<span class="sc">::</span>tags<span class="sc">$</span><span class="fu">div</span>(</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">class =</span> <span class="fu">paste</span>(</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">"container min-vh-100"</span>,</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">"d-flex justify-content-center align-items-center bg-white"</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">class =</span> <span class="fu">paste</span>(</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">"container min-vh-100"</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>        <span class="st">"d-flex justify-content-center align-items-center bg-white"</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>      ),</span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># module UI:</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    shiny<span class="sc">::</span>tags<span class="sc">$</span><span class="fu">div</span>(</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mod_dnld_ui</span>(<span class="st">"this"</span>)</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>      <span class="co"># module UI:</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>      shiny<span class="sc">::</span>tags<span class="sc">$</span><span class="fu">div</span>(</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        <span class="fu">mod_dnld_ui</span>(<span class="st">"this"</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>

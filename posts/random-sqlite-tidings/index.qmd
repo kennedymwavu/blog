@@ -2,6 +2,7 @@
 title: "Random tidings on SQLite & {DBI}"
 subtitle: "SQLite, my precious! We loves it!"
 date: 2024-11-10
+image: thumbnail.jpg
 ---
 
 ## How to check if a table exists?

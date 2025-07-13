@@ -5,17 +5,23 @@
   background-color: transparent;
   border: 1px solid #ccc;
   border-radius: var(--bs-border-radius-lg);
-  opacity: 0.8;
   transition: all 0.25s ease-in-out;
 }
 
 .quarto-grid-item.card:hover {
-  opacity: 1;
   transform: scale(1.08);
 }
 
 .quarto-grid-item .listing-categories {
   padding-top: 10px;
+}
+
+.quarto-grid-item .listing-title {
+  font-weight: 700;
+}
+
+.quarto-grid-item .listing-subtitle {
+  font-size: 0.875em;
 }
 
 /*
