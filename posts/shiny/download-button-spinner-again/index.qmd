@@ -21,7 +21,7 @@ image: "thumbnail.png"
 >
 > Neo: "Because I choose to."
 >
-> **— Matrix Revolutions, 2003**
+> *— Matrix Revolutions, 2003*
 
 # What's different this time?
 

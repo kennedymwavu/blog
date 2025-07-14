@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/lowercase-from-now-on/index.html",
       "/posts/shiny/download-button-spinner-again/index.html",
       "/posts/shiny/get-shiny-input-values-on-frontend/index.html",
       "/posts/random-sqlite-tidings/index.html",

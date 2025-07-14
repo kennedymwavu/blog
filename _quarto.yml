@@ -4,7 +4,7 @@ project:
   resources:
     - CNAME
 website:
-  title: "Mwavu"
+  title: "Mwavu's Blog"
   site-url: https://mwavu.com/blog/
   description: "Kennedy Mwavu"
   favicon: me-colored.jpeg

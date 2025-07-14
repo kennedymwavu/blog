@@ -5,12 +5,41 @@
       xmlns:dc="http://purl.org/dc/elements/1.1/" 
       version="2.0">
 <channel>
-<title>Mwavu</title>
+<title>Mwavu&#39;s Blog</title>
 <link>https://mwavu.com/blog/</link>
 <atom:link href="https://mwavu.com/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description>Kennedy Mwavu</description>
 <generator>quarto-1.4.553</generator>
-<lastBuildDate>Sat, 12 Jul 2025 21:00:00 GMT</lastBuildDate>
+<lastBuildDate>Sun, 13 Jul 2025 21:00:00 GMT</lastBuildDate>
+<item>
+  <title>lowercase, from now on</title>
+  <link>https://mwavu.com/blog/posts/lowercase-from-now-on/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p><img src="https://mwavu.com/blog/posts/lowercase-from-now-on/thumbnail.jpg" class="img-fluid"></p>
+<blockquote class="blockquote">
+<p>bilbo: “i’m old, gandalf. i know i don’t look it, but i’m beginning to feel it in my heart. i feel thin — sort of stretched, like butter scraped over too much bread. i need a holiday — a very long holiday — and i don’t expect i shall return. in fact, i mean not to!”</p>
+<p><em>— lord of the rings: the fellowship of the ring, 2001</em></p>
+</blockquote>
+<section id="why" class="level1">
+<h1>why?</h1>
+<p>i enjoy writing in lowercase.</p>
+<p>no pressing caps lock or the shift key. just typing whatever i have in mind. if i get bored i’ll switch back, but as far as i can tell there’s no return ticket.</p>
+<p>and if this bothers you, well… you’ll get used to it :)</p>
+
+
+</section>
+
+ ]]></description>
+  <category>life</category>
+  <guid>https://mwavu.com/blog/posts/lowercase-from-now-on/</guid>
+  <pubDate>Sun, 13 Jul 2025 21:00:00 GMT</pubDate>
+  <media:content url="https://mwavu.com/blog/posts/lowercase-from-now-on/thumbnail.jpg" medium="image" type="image/jpeg"/>
+</item>
 <item>
   <title>Downloading Spinners… Again!</title>
   <link>https://mwavu.com/blog/posts/shiny/download-button-spinner-again/</link>
@@ -25,7 +54,7 @@
 <blockquote class="blockquote">
 <p>Agent Smith: “Why, Mr.&nbsp;Anderson? Why, why? Why do you do it? Why, why get up? Why keep fighting? Do you believe you’re fighting… for something? For more than your survival? Can you tell me what it is? Do you even know? Is it freedom? Or truth? Perhaps peace? Could it be for love? Illusions, Mr.&nbsp;Anderson. Vagaries of perception. Temporary constructs of a feeble human intellect trying desperately to justify an existence that is without meaning or purpose. And all of them as artificial as the Matrix itself, although… only a human mind could invent something as insipid as love. You must be able to see it, Mr.&nbsp;Anderson. You must know it by now. You can’t win. It’s pointless to keep fighting. Why, Mr.&nbsp;Anderson? Why? Why do you persist?”</p>
 <p>Neo: “Because I choose to.”</p>
-<p><strong>— Matrix Revolutions, 2003</strong></p>
+<p><em>— Matrix Revolutions, 2003</em></p>
 </blockquote>
 </section>
 <section id="whats-different-this-time" class="level1">
@@ -917,7 +946,7 @@ Caution
 </section>
 
  ]]></description>
-  <category>Story</category>
+  <category>life</category>
   <category>R</category>
   <guid>https://mwavu.com/blog/posts/how-i-ended-up-with-r/</guid>
   <pubDate>Wed, 07 Feb 2024 21:00:00 GMT</pubDate>
