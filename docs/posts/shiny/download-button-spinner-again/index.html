@@ -9,7 +9,7 @@
 <meta name="author" content="Kennedy Mwavu">
 <meta name="dcterms.date" content="2025-07-13">
 
-<title>Mwavu’s Blog - Downloading Spinners… Again!</title>
+<title>Mwavu’s Blog - downloading spinners… again!</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -74,8 +108,8 @@ ul.task-list li input[type="checkbox"] {
 
 
 <link rel="stylesheet" href="../../../styles.css">
-<meta name="twitter:title" content="Mwavu’s Blog - Downloading Spinners… Again!">
-<meta name="twitter:description" content="Why, Mr.&nbsp;Anderson? Why, why? Why do you do it? Why, why get up? Why keep fighting?">
+<meta name="twitter:title" content="Mwavu’s Blog - downloading spinners… again!">
+<meta name="twitter:description" content="why, mr. anderson? why? why do you persist?">
 <meta name="twitter:image" content="https://mwavu.com/blog/posts/shiny/download-button-spinner-again/thumbnail.png">
 <meta name="twitter:image-height" content="900">
 <meta name="twitter:image-width" content="1440">
@@ -124,12 +158,12 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default toc-left page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Downloading Spinners… Again!</h1>
-            <p class="subtitle lead">Why, Mr.&nbsp;Anderson? Why, why? Why do you do it? Why, why get up? Why keep fighting?</p>
+      <h1 class="title">downloading spinners… again!</h1>
+            <p class="subtitle lead">why, mr. anderson? why? why do you persist?</p>
                                 <div class="quarto-categories">
-                <div class="quarto-category">R</div>
-                <div class="quarto-category">Shiny</div>
-                <div class="quarto-category">UI/UX</div>
+                <div class="quarto-category">r</div>
+                <div class="quarto-category">shiny</div>
+                <div class="quarto-category">ui/ux</div>
               </div>
                   </div>
   </div>
@@ -154,7 +188,7 @@ ul.task-list li input[type="checkbox"] {
       <div>
       <div class="quarto-title-meta-heading">Modified</div>
       <div class="quarto-title-meta-contents">
-        <p class="date-modified">July 14, 2025</p>
+        <p class="date-modified">July 15, 2025</p>
       </div>
     </div>
       
@@ -168,13 +202,11 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#why-do-i-keep-coming-back-to-this" id="toc-why-do-i-keep-coming-back-to-this" class="nav-link active" data-scroll-target="#why-do-i-keep-coming-back-to-this">Why do I keep coming back to this?</a></li>
-  <li><a href="#whats-different-this-time" id="toc-whats-different-this-time" class="nav-link" data-scroll-target="#whats-different-this-time">What’s different this time?</a></li>
-  <li><a href="#okay-fine.-show-me." id="toc-okay-fine.-show-me." class="nav-link" data-scroll-target="#okay-fine.-show-me.">Okay, fine. Show me.</a></li>
-  <li><a href="#modify-download-handler" id="toc-modify-download-handler" class="nav-link" data-scroll-target="#modify-download-handler">Modify download handler</a></li>
-  <li><a href="#frontend" id="toc-frontend" class="nav-link" data-scroll-target="#frontend">frontend</a></li>
-  <li><a href="#works-for-all-download-buttons" id="toc-works-for-all-download-buttons" class="nav-link" data-scroll-target="#works-for-all-download-buttons">Works for all download buttons</a></li>
-  <li><a href="#even-in-modules" id="toc-even-in-modules" class="nav-link" data-scroll-target="#even-in-modules">Even in modules!</a></li>
+  <li><a href="#why-do-i-keep-coming-back-to-this" id="toc-why-do-i-keep-coming-back-to-this" class="nav-link active" data-scroll-target="#why-do-i-keep-coming-back-to-this">why do i keep coming back to this?</a></li>
+  <li><a href="#whats-different-this-time" id="toc-whats-different-this-time" class="nav-link" data-scroll-target="#whats-different-this-time">what’s different this time?</a></li>
+  <li><a href="#basic-app" id="toc-basic-app" class="nav-link" data-scroll-target="#basic-app">basic app</a></li>
+  <li><a href="#add-onclick-events-to-download-btns" id="toc-add-onclick-events-to-download-btns" class="nav-link" data-scroll-target="#add-onclick-events-to-download-btns">add onclick events to download btns</a></li>
+  <li><a href="#wrap-up" id="toc-wrap-up" class="nav-link" data-scroll-target="#wrap-up">wrap up</a></li>
   </ul>
 </nav>
 </nav>
@@ -190,52 +222,401 @@ ul.task-list li input[type="checkbox"] {
 
 
 <section id="why-do-i-keep-coming-back-to-this" class="level1">
-<h1>Why do I keep coming back to this?</h1>
+<h1>why do i keep coming back to this?</h1>
+<p><img src="thumbnail.png" class="img-fluid"></p>
 <blockquote class="blockquote">
-<p>Agent Smith: “Why, Mr.&nbsp;Anderson? Why, why? Why do you do it? Why, why get up? Why keep fighting? Do you believe you’re fighting… for something? For more than your survival? Can you tell me what it is? Do you even know? Is it freedom? Or truth? Perhaps peace? Could it be for love? Illusions, Mr.&nbsp;Anderson. Vagaries of perception. Temporary constructs of a feeble human intellect trying desperately to justify an existence that is without meaning or purpose. And all of them as artificial as the Matrix itself, although… only a human mind could invent something as insipid as love. You must be able to see it, Mr.&nbsp;Anderson. You must know it by now. You can’t win. It’s pointless to keep fighting. Why, Mr.&nbsp;Anderson? Why? Why do you persist?”</p>
-<p>Neo: “Because I choose to.”</p>
-<p><em>— Matrix Revolutions, 2003</em></p>
+<p>agent smith: “why, mr. anderson? why, why? why do you do it? why, why get up? why keep fighting? do you believe you’re fighting… for something? for more than your survival? can you tell me what it is? do you even know? is it freedom? or truth? perhaps peace? could it be for love? illusions, mr. anderson. vagaries of perception. temporary constructs of a feeble human intellect trying desperately to justify an existence that is without meaning or purpose. and all of them as artificial as the matrix itself, although… only a human mind could invent something as insipid as love. you must be able to see it, mr. anderson. you must know it by now. you can’t win. it’s pointless to keep fighting. why, mr. anderson? why? why do you persist?”</p>
+<p>neo: “because i choose to.”</p>
+<p><em>— matrix revolutions, 2003</em></p>
 </blockquote>
+<p>if interested to see how my thought process has changed over time, here are the previous articles:</p>
+<ul>
+<li><a href="../download-button-spinner/">download btn spinner, 2023-02-21</a></li>
+<li><a href="../download-button-spinner-js/">download btn spinner, 2023-05-28</a></li>
+</ul>
 </section>
 <section id="whats-different-this-time" class="level1">
-<h1>What’s different this time?</h1>
+<h1>what’s different this time?</h1>
 <ul>
-<li>Better UI/UX.</li>
-<li>More straightforward than my two previous attempts.</li>
-<li>Works for all your app’s download buttons.</li>
+<li>better ui/ux.</li>
+<li>more straightforward than my two previous attempts.</li>
+<li>works for all your app’s download buttons.</li>
+<li>even works for modules without you changing a single thing!</li>
 </ul>
 </section>
-<section id="okay-fine.-show-me." class="level1">
-<h1>Okay, fine. Show me.</h1>
-<p>Let’s create a barebones shiny app with a download button in the UI and the corresponding download handler in the server portion:</p>
+<section id="basic-app" class="level1">
+<h1>basic app</h1>
+<p>let’s create a barebones shiny app with a download button in the ui and the corresponding download handler in the server portion:</p>
+<div class="cell">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>app.R</strong></pre>
+</div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bslib)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">page</span>(</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">theme =</span> <span class="fu">bs_theme</span>(<span class="at">version =</span> <span class="dv">5</span>L),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">div</span>(</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">class =</span> <span class="st">"container"</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    tags<span class="sc">$</span><span class="fu">h3</span>(<span class="st">"downloading spinner"</span>),</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    tags<span class="sc">$</span><span class="fu">p</span>(<span class="st">"works for all download btns in your app &amp; modules..."</span>),</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">downloadButton</span>(</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">outputId =</span> <span class="st">"dnld"</span>,</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">class =</span> <span class="st">"btn-sm rounded-3"</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> \(input, output, session) {</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>dnld <span class="ot">&lt;-</span> <span class="fu">downloadHandler</span>(</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">filename =</span> \() {</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>      <span class="st">"iris.csv"</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">content =</span> \(file) {</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>      <span class="fu">Sys.sleep</span>(<span class="dv">3</span>) <span class="co"># &lt;-- simulate large file</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">write.csv</span>(iris, file)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>great! now when you run that and click the download button, you will have a bad user experience. to the user, the app is seemingly silent: no indication of a download in progress.</p>
 </section>
-<section id="modify-download-handler" class="level1">
-<h1>Modify download handler</h1>
+<section id="add-onclick-events-to-download-btns" class="level1">
+<h1>add onclick events to download btns</h1>
+<p>we’re going to write some js in <code>./public/main.js</code>.</p>
+<p>first, let’s ensure:</p>
 <ul>
-<li>on.exit</li>
-<li>send custom msg</li>
+<li>static resources are accessible in our shiny app via the <code>/static/</code> prefix. we’ll use <code>shiny::addResourcePath()</code></li>
+<li>the js file is loaded in our app using <code>tags$script()</code>.</li>
+</ul>
+<div class="cell">
+<div class="code-with-filename">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-with-filename-file">
+<pre><strong>app.R</strong></pre>
+</div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bslib)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># make static resources accessible via "/static":</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">addResourcePath</span>(<span class="at">prefix =</span> <span class="st">"static"</span>, <span class="at">directoryPath =</span> <span class="st">"./public"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">page</span>(</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">theme =</span> <span class="fu">bs_theme</span>(<span class="at">version =</span> <span class="dv">5</span>L),</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">div</span>(</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">class =</span> <span class="st">"container"</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    tags<span class="sc">$</span><span class="fu">h3</span>(<span class="st">"downloading spinner"</span>),</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    tags<span class="sc">$</span><span class="fu">p</span>(<span class="st">"works for all download btns in your app &amp; modules..."</span>),</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">downloadButton</span>(</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">outputId =</span> <span class="st">"dnld"</span>,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">class =</span> <span class="st">"btn-sm rounded-3"</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">script</span>(<span class="at">src =</span> <span class="st">"/static/main.js"</span>) <span class="co"># &lt;-- load js file</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> \(input, output, session) {</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>dnld <span class="ot">&lt;-</span> <span class="fu">downloadHandler</span>(</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">filename =</span> \() {</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>      <span class="st">"iris.csv"</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">content =</span> \(file) {</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>      <span class="fu">Sys.sleep</span>(<span class="dv">3</span>) <span class="co"># &lt;-- simulate large file</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>      <span class="fu">write.csv</span>(iris, file)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<p>now let’s write the js file:</p>
+<div class="cell">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>./public/main.js</strong></pre>
+</div>
+<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode js code-annotation-code code-with-copy code-annotated"><code class="sourceCode javascript"><a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-3-1" class="code-annotation-target"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="bu">document</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">"click"</span><span class="op">,</span> <span class="st">".shiny-download-link"</span><span class="op">,</span> <span class="kw">function</span> () {</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-3-2" class="code-annotation-target"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> btn <span class="op">=</span> <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-3-3" class="code-annotation-target"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> spinner <span class="op">=</span></span>
+<span id="annotated-cell-3-4"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&lt;span class="spinner-border spinner-border-sm" aria-hidden="true"&gt;&lt;/span&gt;'</span><span class="op">;</span></span>
+<span id="annotated-cell-3-5"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> text <span class="op">=</span> <span class="st">'&lt;span role="status"&gt; Downloading... &lt;/span&gt;'</span><span class="op">;</span></span>
+<span id="annotated-cell-3-6"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-3-7" class="code-annotation-target"><a href="#annotated-cell-3-7" aria-hidden="true" tabindex="-1"></a>  btn<span class="op">.</span><span class="fu">html</span>(spinner <span class="op">+</span> text)<span class="op">;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-3-8" class="code-annotation-target"><a href="#annotated-cell-3-8" aria-hidden="true" tabindex="-1"></a>  btn<span class="op">.</span><span class="fu">attr</span>(<span class="st">"aria-disabled"</span><span class="op">,</span> <span class="kw">true</span>)<span class="op">;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-3-9" class="code-annotation-target"><a href="#annotated-cell-3-9" aria-hidden="true" tabindex="-1"></a>  btn<span class="op">.</span><span class="fu">addClass</span>(<span class="st">"disabled"</span>)<span class="op">;</span></span>
+<span id="annotated-cell-3-10"><a href="#annotated-cell-3-10" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="1" data-code-annotation="1">all shiny download buttons have the css class “.shiny-download-link”. we attach a click event to all btns in our app with that class.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="2" data-code-annotation="2">selects the btn itself, as a jquery object. jquery objects have lots of useful methods.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="3,4,5" data-code-annotation="3">create a bootstrap 5 spinner + label. see <a href="https://getbootstrap.com/docs/5.3/components/spinners/">reference</a>. this is what will be shown when a dnld btn is clicked.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="7" data-code-annotation="4">change the inner html of the dnld btn. see <a href="https://api.jquery.com/html/">reference</a>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="8" data-code-annotation="5">set the <code>aria-disabled</code> attribute of the dnld btn to <code>true</code>. this indicates to assistive technologies like screen readers that an element is disabled but still focusable. read more about <a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-disabled">aria-disabled</a>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="9" data-code-annotation="6">disable the dnld btn. see <a href="https://getbootstrap.com/docs/5.3/components/buttons/#disabled-state">reference</a>.</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>now when you run the app and click the download button, it should show the spinner and the new label.</p>
+<p>but wait… it doesn’t revert back to the initial label once the download is complete.</p>
+<p>what we need to do is tell the browser when the download is complete, and change the inner html to what it was before.</p>
+<p>to inform the frontend that the download is complete, we’ll send a custom message from the server once <code>downloadHandler()</code> is done.</p>
+<p>in <code>app.R</code>, let’s create <code>reset_download_button()</code>:</p>
+<div class="cell">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>app.R</strong></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#' Reset Download Button</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param id String. Output ID of the download button to reset.</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param session Shiny session object. Defaults to the current reactive domain.</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#' @details</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#' This function sends a custom message of type "end-download" to the client,</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#' which should be handled by corresponding JavaScript code. The message</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">#' includes the namespaced button ID and inner HTML content.</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return NULL. Called for side effects.</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">#' @examples</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">#' \dontrun{</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">#' reset_download_button(id = "my_download")</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">#' }</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co">#' @kewords internal</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co">#' @noRd</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>reset_download_button <span class="ot">&lt;-</span> \(</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  id,</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">session =</span> shiny<span class="sc">::</span><span class="fu">getDefaultReactiveDomain</span>()</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  session<span class="sc">$</span><span class="fu">sendCustomMessage</span>(</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"end-download"</span>,</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>      <span class="at">id =</span> session<span class="sc">$</span><span class="fu">ns</span>(id),</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>      <span class="at">inner_html =</span> <span class="st">"&lt;i class='fas fa-download' aria-label='download icon' role='presentation'&gt;&lt;/i&gt; Download"</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<p>once <code>downloadHandler()</code> is done, we want to send a custom message of type “end-download” with 2 items:</p>
+<ol type="1">
+<li><code>id</code>: the namespace btn id.</li>
+<li><code>inner_html</code>: the new inner html to use for the dnld btn.</li>
+</ol>
+<p>let’s now update the server portion of our app to:</p>
+<div class="cell">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>app.R</strong></pre>
+</div>
+<div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> \(input, output, session) {</span>
+<span id="annotated-cell-5-2"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>dnld <span class="ot">&lt;-</span> <span class="fu">downloadHandler</span>(</span>
+<span id="annotated-cell-5-3"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">filename =</span> \() {</span>
+<span id="annotated-cell-5-4"><a href="#annotated-cell-5-4" aria-hidden="true" tabindex="-1"></a>      <span class="st">"iris.csv"</span></span>
+<span id="annotated-cell-5-5"><a href="#annotated-cell-5-5" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="annotated-cell-5-6"><a href="#annotated-cell-5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">content =</span> \(file) {</span>
+<span id="annotated-cell-5-7"><a href="#annotated-cell-5-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">on.exit</span>({</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-5-8" class="code-annotation-target"><a href="#annotated-cell-5-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">reset_download_button</span>(<span class="at">id =</span> <span class="st">"dnld"</span>, <span class="at">session =</span> session)</span>
+<span id="annotated-cell-5-9"><a href="#annotated-cell-5-9" aria-hidden="true" tabindex="-1"></a>      })</span>
+<span id="annotated-cell-5-10"><a href="#annotated-cell-5-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">Sys.sleep</span>(<span class="dv">3</span>) <span class="co"># &lt;-- simulate large file</span></span>
+<span id="annotated-cell-5-11"><a href="#annotated-cell-5-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">write.csv</span>(iris, file)</span>
+<span id="annotated-cell-5-12"><a href="#annotated-cell-5-12" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="annotated-cell-5-13"><a href="#annotated-cell-5-13" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="annotated-cell-5-14"><a href="#annotated-cell-5-14" aria-hidden="true" tabindex="-1"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="8" data-code-annotation="1">we use <code>on.exit()</code> so that the “end-download” message is sent even when <code>downloadHandler()</code> exits with an error.</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>here’s where <code>app.R</code> is at now:</p>
+<div class="cell">
+<div class="code-with-filename">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-with-filename-file">
+<pre><strong>app.R</strong></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(shiny)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bslib)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">addResourcePath</span>(<span class="at">prefix =</span> <span class="st">"/static"</span>, <span class="at">directoryPath =</span> <span class="st">"./public"</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#' Reset Download Button</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param id String. Output ID of the download button to reset.</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#' @param session Shiny session object. Defaults to the current reactive domain.</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#' @details</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#' This function sends a custom message of type "end-download" to the client,</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#' which should be handled by corresponding JavaScript code. The message</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#' includes the namespaced button ID and inner HTML content.</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">#' @return NULL. Called for side effects.</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">#' @examples</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">#' \dontrun{</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">#' reset_download_button(id = "my_download")</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">#' }</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">#'</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co">#' @kewords internal</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co">#' @noRd</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>reset_download_button <span class="ot">&lt;-</span> \(</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  id,</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">session =</span> shiny<span class="sc">::</span><span class="fu">getDefaultReactiveDomain</span>()</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>) {</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  session<span class="sc">$</span><span class="fu">sendCustomMessage</span>(</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">type =</span> <span class="st">"end-download"</span>,</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>      <span class="at">id =</span> session<span class="sc">$</span><span class="fu">ns</span>(id),</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>      <span class="at">inner_html =</span> <span class="st">"&lt;i class='fas fa-download' aria-label='download icon' role='presentation'&gt;&lt;/i&gt; Download"</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">page</span>(</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>  <span class="at">theme =</span> <span class="fu">bs_theme</span>(<span class="at">version =</span> <span class="dv">5</span>L),</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">div</span>(</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">class =</span> <span class="st">"container"</span>,</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>    tags<span class="sc">$</span><span class="fu">h3</span>(<span class="st">"downloading spinner"</span>),</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>    tags<span class="sc">$</span><span class="fu">p</span>(<span class="st">"works for all download btns in your app &amp; modules..."</span>),</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    <span class="fu">downloadButton</span>(</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>      <span class="at">outputId =</span> <span class="st">"dnld"</span>,</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>      <span class="at">class =</span> <span class="st">"btn-sm rounded-3"</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>  tags<span class="sc">$</span><span class="fu">script</span>(<span class="at">src =</span> <span class="st">"/static/main.js"</span>)</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> \(input, output, session) {</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>  output<span class="sc">$</span>dnld <span class="ot">&lt;-</span> <span class="fu">downloadHandler</span>(</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>    <span class="at">filename =</span> \() {</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>      <span class="st">"iris.csv"</span></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>    },</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">content =</span> \(file) {</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>      <span class="fu">on.exit</span>({</span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>        <span class="fu">reset_download_button</span>(<span class="at">id =</span> <span class="st">"dnld"</span>, <span class="at">session =</span> session)</span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>      })</span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>      <span class="fu">Sys.sleep</span>(<span class="dv">3</span>) <span class="co"># &lt;-- simulate large file</span></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>      <span class="fu">write.csv</span>(iris, file)</span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a><span class="fu">shinyApp</span>(ui, server)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<p>after sending the “end-download” custom message from the server, it must be handled on the client-side. let’s add this to <code>./public/main.js</code>:</p>
+<div class="cell">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>./public.main.js</strong></pre>
+</div>
+<div class="sourceCode cell-code" id="annotated-cell-7"><pre class="sourceCode js code-annotation-code code-with-copy code-annotated"><code class="sourceCode javascript"><a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-7-1" class="code-annotation-target"><a href="#annotated-cell-7-1" aria-hidden="true" tabindex="-1"></a>Shiny<span class="op">.</span><span class="fu">addCustomMessageHandler</span>(<span class="st">"end-download"</span><span class="op">,</span> <span class="kw">function</span> (msg) {</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-7-2" class="code-annotation-target"><a href="#annotated-cell-7-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> btn <span class="op">=</span> <span class="fu">$</span>(<span class="st">"#"</span> <span class="op">+</span> msg<span class="op">.</span><span class="at">id</span>)<span class="op">;</span></span>
+<span id="annotated-cell-7-3"><a href="#annotated-cell-7-3" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-7-4" class="code-annotation-target"><a href="#annotated-cell-7-4" aria-hidden="true" tabindex="-1"></a>  btn<span class="op">.</span><span class="fu">html</span>(msg<span class="op">.</span><span class="at">inner_html</span>)<span class="op">;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-7-5" class="code-annotation-target"><a href="#annotated-cell-7-5" aria-hidden="true" tabindex="-1"></a>  btn<span class="op">.</span><span class="fu">attr</span>(<span class="st">"aria-disabled"</span><span class="op">,</span> <span class="kw">false</span>)<span class="op">;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-7-6" class="code-annotation-target"><a href="#annotated-cell-7-6" aria-hidden="true" tabindex="-1"></a>  btn<span class="op">.</span><span class="fu">removeClass</span>(<span class="st">"disabled"</span>)<span class="op">;</span></span>
+<span id="annotated-cell-7-7"><a href="#annotated-cell-7-7" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="1" data-code-annotation="1">add a custom message handler for messages send from the server of type “end-download”. the custom handler is a callback which takes the message as a parameter.</span>
+</dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="2" data-code-annotation="2">grab the dnld btn id from the message and select the element with that id.</span>
+</dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="4" data-code-annotation="3">set inner html of the btn to the value of <code>inner_html</code> from the message.</span>
+</dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="5" data-code-annotation="4">set the <code>aria-disabled</code> attribute to <code>false</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="6" data-code-annotation="5">enable the button, making it clickable again.</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>here’s the full version of <code>main.js</code> now:</p>
+<div class="cell">
+<div class="code-with-filename">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-with-filename-file">
+<pre><strong>./public.main.js</strong></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">$</span>(<span class="bu">document</span>)<span class="op">.</span><span class="fu">on</span>(<span class="st">"click"</span><span class="op">,</span> <span class="st">".shiny-download-link"</span><span class="op">,</span> <span class="kw">function</span> () {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> btn <span class="op">=</span> <span class="fu">$</span>(<span class="kw">this</span>)<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> spinner <span class="op">=</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'&lt;span class="spinner-border spinner-border-sm" aria-hidden="true"&gt;&lt;/span&gt;'</span><span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> text <span class="op">=</span> <span class="st">'&lt;span role="status"&gt; Downloading... &lt;/span&gt;'</span><span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  btn<span class="op">.</span><span class="fu">html</span>(spinner <span class="op">+</span> text)<span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  btn<span class="op">.</span><span class="fu">attr</span>(<span class="st">"aria-disabled"</span><span class="op">,</span> <span class="kw">true</span>)<span class="op">;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  btn<span class="op">.</span><span class="fu">addClass</span>(<span class="st">"disabled"</span>)<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>Shiny<span class="op">.</span><span class="fu">addCustomMessageHandler</span>(<span class="st">"end-download"</span><span class="op">,</span> <span class="kw">function</span> (msg) {</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> btn <span class="op">=</span> <span class="fu">$</span>(<span class="st">"#"</span> <span class="op">+</span> msg<span class="op">.</span><span class="at">id</span>)<span class="op">;</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  btn<span class="op">.</span><span class="fu">html</span>(msg<span class="op">.</span><span class="at">inner_html</span>)<span class="op">;</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  btn<span class="op">.</span><span class="fu">attr</span>(<span class="st">"aria-disabled"</span><span class="op">,</span> <span class="kw">false</span>)<span class="op">;</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  btn<span class="op">.</span><span class="fu">removeClass</span>(<span class="st">"disabled"</span>)<span class="op">;</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>})<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+</div>
+<p>that’s it! now all you have to do for the rest of your app is to add an <code>on.exit()</code> call to <code>reset_download_button()</code> in each <code>downloadHandler()</code>.</p>
+<p>this will work for all your download buttons:</p>
+<ul>
+<li>dynamically rendered, eg. in <code>renderUI()</code> &amp; <code>insertUI()</code></li>
+<li>in shiny modules (that’s why we send the namespaced id in <code>reset_download_button()</code>, remember?)</li>
 </ul>
 </section>
-<section id="frontend" class="level1">
-<h1>frontend</h1>
-<ul>
-<li>add on click handler</li>
-<li>add custom msg handler</li>
-<li>add spinner</li>
-<li>disable btn</li>
-</ul>
-</section>
-<section id="works-for-all-download-buttons" class="level1">
-<h1>Works for all download buttons</h1>
-<ul>
-<li>add another download button &amp; handler to app</li>
-</ul>
-</section>
-<section id="even-in-modules" class="level1">
-<h1>Even in modules!</h1>
-<ul>
-<li>show module example</li>
-</ul>
+<section id="wrap-up" class="level1">
+<h1>wrap up</h1>
+<p>go fourth and improve the ui/ux for your users. make R great again!</p>
+<p><img src="./rise-my-glorious-creation.png" class="img-fluid"></p>
 
 
 </section>
@@ -664,7 +1045,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <table class="table">
 <tbody>
 <tr class="odd">
-<td>blog by <a href="https://github.com/kennedymwavu">Kennedy Mwavu</a></td>
+<td>blog by <a href="https://github.com/kennedymwavu">kennedy mwavu</a></td>
 </tr>
 </tbody>
 </table>

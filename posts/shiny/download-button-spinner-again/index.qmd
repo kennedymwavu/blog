@@ -1,55 +1,363 @@
 ---
-title: "Downloading Spinners... Again!"
-subtitle: "Why, Mr. Anderson? Why, why? Why do you do it? Why, why get up? Why keep fighting?"
+title: "downloading spinners... again!"
+subtitle: "why, mr. anderson? why? why do you persist?"
 date: "2025-07-13"
-categories: [R, Shiny, UI/UX]
+categories: [r, shiny, ui/ux]
 image: "thumbnail.png"
 ---
 
-# Why do I keep coming back to this?
+# why do i keep coming back to this?
 
-> Agent Smith: "Why, Mr. Anderson? Why, why? Why do you do it? Why, why get up? 
-> Why keep fighting? Do you believe you're fighting... for something? For more 
-> than your survival? Can you tell me what it is? Do you even know? Is it freedom? 
-> Or truth? Perhaps peace? Could it be for love? Illusions, Mr. Anderson. Vagaries
-> of perception. Temporary constructs of a feeble human intellect trying desperately
-> to justify an existence that is without meaning or purpose. And all of them as 
-> artificial as the Matrix itself, although... only a human mind could invent 
-> something as insipid as love. You must be able to see it, Mr. Anderson. You must 
-> know it by now. You can't win. It's pointless to keep fighting. Why, Mr. Anderson?
-> Why? Why do you persist?"
+![](thumbnail.png)
+
+> agent smith: "why, mr. anderson? why, why? why do you do it? why, why get up? 
+> why keep fighting? do you believe you're fighting... for something? for more 
+> than your survival? can you tell me what it is? do you even know? is it freedom? 
+> or truth? perhaps peace? could it be for love? illusions, mr. anderson. vagaries
+> of perception. temporary constructs of a feeble human intellect trying desperately
+> to justify an existence that is without meaning or purpose. and all of them as 
+> artificial as the matrix itself, although... only a human mind could invent 
+> something as insipid as love. you must be able to see it, mr. anderson. you must 
+> know it by now. you can't win. it's pointless to keep fighting. why, mr. anderson?
+> why? why do you persist?"
 >
-> Neo: "Because I choose to."
+> neo: "because i choose to."
 >
-> *— Matrix Revolutions, 2003*
+> *— matrix revolutions, 2003*
 
-# What's different this time?
+if interested to see how my thought process has changed over time,
+here are the previous articles:
 
-- Better UI/UX.
-- More straightforward than my two previous attempts.
-- Works for all your app's download buttons.
+- [download btn spinner, 2023-02-21](../download-button-spinner/)
+- [download btn spinner, 2023-05-28](../download-button-spinner-js/)
 
-# Okay, fine. Show me.
+# what's different this time?
 
-Let's create a barebones shiny app with a download button in the UI and the
+- better ui/ux.
+- more straightforward than my two previous attempts.
+- works for all your app's download buttons.
+- even works for modules without you changing a single thing!
+
+# basic app
+
+let's create a barebones shiny app with a download button in the ui and the
 corresponding download handler in the server portion:
 
-# Modify download handler
+```{r basic-app, eval=FALSE, filename="app.R"}
+library(shiny)
+library(bslib)
 
-- on.exit
-- send custom msg
+ui <- page(
+  theme = bs_theme(version = 5L),
+  tags$div(
+    class = "container",
+    tags$h3("downloading spinner"),
+    tags$p("works for all download btns in your app & modules..."),
+    downloadButton(
+      outputId = "dnld",
+      class = "btn-sm rounded-3"
+    )
+  )
+)
 
-# frontend
+server <- \(input, output, session) {
+  output$dnld <- downloadHandler(
+    filename = \() {
+      "iris.csv"
+    },
+    content = \(file) {
+      Sys.sleep(3) # <-- simulate large file
+      write.csv(iris, file)
+    }
+  )
+}
 
-- add on click handler
-- add custom msg handler
-- add spinner
-- disable btn
+shinyApp(ui, server)
+```
 
-# Works for all download buttons
+great! now when you run that and click the download button,
+you will have a bad user experience. to the user, the app
+is seemingly silent: no indication of a download in progress.
 
-- add another download button & handler to app
+# add onclick events to download btns
 
-# Even in modules!
+we're going to write some js in `./public/main.js`.
 
-- show module example
+first, let's ensure: 
+
+- static resources are accessible in our shiny app via the `/static/` prefix.
+we'll use `shiny::addResourcePath()`
+- the js file is loaded in our app using `tags$script()`.
+
+```{r static-resources, eval=FALSE, filename="app.R"}
+#| code-fold: true
+
+library(shiny)
+library(bslib)
+
+# make static resources accessible via "/static":
+addResourcePath(prefix = "static", directoryPath = "./public")
+
+ui <- page(
+  theme = bs_theme(version = 5L),
+  tags$div(
+    class = "container",
+    tags$h3("downloading spinner"),
+    tags$p("works for all download btns in your app & modules..."),
+    downloadButton(
+      outputId = "dnld",
+      class = "btn-sm rounded-3"
+    )
+  ),
+  tags$script(src = "/static/main.js") # <-- load js file
+)
+
+server <- \(input, output, session) {
+  output$dnld <- downloadHandler(
+    filename = \() {
+      "iris.csv"
+    },
+    content = \(file) {
+      Sys.sleep(3) # <-- simulate large file
+      write.csv(iris, file)
+    }
+  )
+}
+
+shinyApp(ui, server)
+```
+
+now let's write the js file:
+
+```{js on-click-dnld-btn, eval=FALSE, filename="./public/main.js"}
+$(document).on("click", ".shiny-download-link", function () { // <1>
+  const btn = $(this); // <2>
+  const spinner = // <3>
+    '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span>'; // <3>
+  const text = '<span role="status"> Downloading... </span>'; // <3>
+
+  btn.html(spinner + text); // <4>
+  btn.attr("aria-disabled", true); // <5>
+  btn.addClass("disabled"); // <6>
+});
+```
+
+1. all shiny download buttons have the css class ".shiny-download-link".
+    we attach a click event to all btns in our app with that class.
+1. selects the btn itself, as a jquery object. jquery objects have lots of useful
+    methods.
+1. create a bootstrap 5 spinner + label. see [reference](https://getbootstrap.com/docs/5.3/components/spinners/).
+    this is what will be shown when a dnld btn is clicked.
+1. change the inner html of the dnld btn. see [reference](https://api.jquery.com/html/).
+1. set the `aria-disabled` attribute of the dnld btn to `true`. this indicates to
+    assistive technologies like screen readers that an element is disabled but
+    still focusable. read more about [aria-disabled](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-disabled).
+1. disable the dnld btn. see [reference](https://getbootstrap.com/docs/5.3/components/buttons/#disabled-state).
+
+now when you run the app and click the download button, it should show
+the spinner and the new label.
+
+but wait... it doesn't revert back to the initial label once the download is
+complete.
+
+what we need to do is tell the browser when the download is complete, and
+change the inner html to what it was before.
+
+to inform the frontend that the download is complete, we'll send a custom message
+from the server once `downloadHandler()` is done.
+
+in `app.R`, let's create `reset_download_button()`:
+
+```{r reset-dnld-btn, eval=FALSE, filename="app.R"}
+#' Reset Download Button
+#'
+#' @param id String. Output ID of the download button to reset.
+#' @param session Shiny session object. Defaults to the current reactive domain.
+#'
+#' @details
+#' This function sends a custom message of type "end-download" to the client,
+#' which should be handled by corresponding JavaScript code. The message
+#' includes the namespaced button ID and inner HTML content.
+#'
+#' @return NULL. Called for side effects.
+#'
+#' @examples
+#' \dontrun{
+#' reset_download_button(id = "my_download")
+#' }
+#'
+#' @kewords internal
+#' @noRd
+reset_download_button <- \(
+  id,
+  session = shiny::getDefaultReactiveDomain()
+) {
+  session$sendCustomMessage(
+    type = "end-download",
+    list(
+      id = session$ns(id),
+      inner_html = "<i class='fas fa-download' aria-label='download icon' role='presentation'></i> Download"
+    )
+  )
+}
+```
+
+once `downloadHandler()` is done, we want to send a custom message of type
+"end-download" with 2 items:
+
+1. `id`: the namespace btn id.
+1. `inner_html`: the new inner html to use for the dnld btn.
+
+let's now update the server portion of our app to:
+
+```{r server-with-reset-dnld-btn, eval=FALSE, filename="app.R"} 
+server <- \(input, output, session) {
+  output$dnld <- downloadHandler(
+    filename = \() {
+      "iris.csv"
+    },
+    content = \(file) {
+      on.exit({
+        reset_download_button(id = "dnld", session = session) # <1>
+      })
+      Sys.sleep(3) # <-- simulate large file
+      write.csv(iris, file)
+    }
+  )
+}
+```
+
+1. we use `on.exit()` so that the "end-download" message is sent even
+    when `downloadHandler()` exits with an error.
+
+here's where `app.R` is at now:
+```{r use-reset-dnld-btn, eval=FALSE, filename="app.R"}
+#| code-fold: true
+
+library(shiny)
+library(bslib)
+
+addResourcePath(prefix = "/static", directoryPath = "./public")
+
+#' Reset Download Button
+#'
+#' @param id String. Output ID of the download button to reset.
+#' @param session Shiny session object. Defaults to the current reactive domain.
+#'
+#' @details
+#' This function sends a custom message of type "end-download" to the client,
+#' which should be handled by corresponding JavaScript code. The message
+#' includes the namespaced button ID and inner HTML content.
+#'
+#' @return NULL. Called for side effects.
+#'
+#' @examples
+#' \dontrun{
+#' reset_download_button(id = "my_download")
+#' }
+#'
+#' @kewords internal
+#' @noRd
+reset_download_button <- \(
+  id,
+  session = shiny::getDefaultReactiveDomain()
+) {
+  session$sendCustomMessage(
+    type = "end-download",
+    list(
+      id = session$ns(id),
+      inner_html = "<i class='fas fa-download' aria-label='download icon' role='presentation'></i> Download"
+    )
+  )
+}
+
+ui <- page(
+  theme = bs_theme(version = 5L),
+  tags$div(
+    class = "container",
+    tags$h3("downloading spinner"),
+    tags$p("works for all download btns in your app & modules..."),
+    downloadButton(
+      outputId = "dnld",
+      class = "btn-sm rounded-3"
+    )
+  ),
+  tags$script(src = "/static/main.js")
+)
+
+server <- \(input, output, session) {
+  output$dnld <- downloadHandler(
+    filename = \() {
+      "iris.csv"
+    },
+    content = \(file) {
+      on.exit({
+        reset_download_button(id = "dnld", session = session)
+      })
+      Sys.sleep(3) # <-- simulate large file
+      write.csv(iris, file)
+    }
+  )
+}
+
+shinyApp(ui, server)
+```
+
+after sending the "end-download" custom message from the server, it must be
+handled on the client-side. let's add this to `./public/main.js`:
+
+```{js handle-end-download, eval=FALSE, filename="./public.main.js"}
+Shiny.addCustomMessageHandler("end-download", function (msg) { // <1>
+  const btn = $("#" + msg.id); // <2>
+
+  btn.html(msg.inner_html); // <3>
+  btn.attr("aria-disabled", false); // <4>
+  btn.removeClass("disabled"); // <5>
+});
+```
+
+1. add a custom message handler for messages send from the server of type "end-download".
+    the custom handler is a callback which takes the message as a parameter.
+1. grab the dnld btn id from the message and select the element with that id.
+1. set inner html of the btn to the value of `inner_html` from the message.
+1. set the `aria-disabled` attribute to `false`.
+1. enable the button, making it clickable again.
+
+here's the full version of `main.js` now:
+
+```{js full-main-js, eval=FALSE, filename="./public.main.js"}
+#| code-fold: true
+$(document).on("click", ".shiny-download-link", function () {
+  const btn = $(this);
+  const spinner =
+    '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span>';
+  const text = '<span role="status"> Downloading... </span>';
+
+  btn.html(spinner + text);
+  btn.attr("aria-disabled", true);
+  btn.addClass("disabled");
+});
+
+Shiny.addCustomMessageHandler("end-download", function (msg) {
+  const btn = $("#" + msg.id);
+
+  btn.html(msg.inner_html);
+  btn.attr("aria-disabled", false);
+  btn.removeClass("disabled");
+});
+```
+
+that's it! now all you have to do for the rest of your app is to add
+an `on.exit()` call to `reset_download_button()` in each `downloadHandler()`.
+
+this will work for all your download buttons:
+
+- dynamically rendered, eg. in `renderUI()` & `insertUI()`
+- in shiny modules (that's why we send the namespaced id in 
+  `reset_download_button()`, remember?)
+
+# wrap up
+
+go fourth and improve the ui/ux for your users. make R great again!
+
+![](./rise-my-glorious-creation.png)

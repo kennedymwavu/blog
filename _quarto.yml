@@ -10,7 +10,7 @@ website:
   favicon: me-colored.jpeg
   page-footer: |
     ----
-    blog by [Kennedy Mwavu](https://github.com/kennedymwavu)
+    blog by [kennedy mwavu](https://github.com/kennedymwavu)
     ----
   navbar:
     title: Home

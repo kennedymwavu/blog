@@ -41,7 +41,7 @@
   <media:content url="https://mwavu.com/blog/posts/lowercase-from-now-on/thumbnail.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
-  <title>Downloading Spinners… Again!</title>
+  <title>downloading spinners… again!</title>
   <link>https://mwavu.com/blog/posts/shiny/download-button-spinner-again/</link>
   <description><![CDATA[ 
 
@@ -50,60 +50,1097 @@
 
 
 <section id="why-do-i-keep-coming-back-to-this" class="level1">
-<h1>Why do I keep coming back to this?</h1>
+<h1>why do i keep coming back to this?</h1>
+<p><img src="https://mwavu.com/blog/posts/shiny/download-button-spinner-again/thumbnail.png" class="img-fluid"></p>
 <blockquote class="blockquote">
-<p>Agent Smith: “Why, Mr.&nbsp;Anderson? Why, why? Why do you do it? Why, why get up? Why keep fighting? Do you believe you’re fighting… for something? For more than your survival? Can you tell me what it is? Do you even know? Is it freedom? Or truth? Perhaps peace? Could it be for love? Illusions, Mr.&nbsp;Anderson. Vagaries of perception. Temporary constructs of a feeble human intellect trying desperately to justify an existence that is without meaning or purpose. And all of them as artificial as the Matrix itself, although… only a human mind could invent something as insipid as love. You must be able to see it, Mr.&nbsp;Anderson. You must know it by now. You can’t win. It’s pointless to keep fighting. Why, Mr.&nbsp;Anderson? Why? Why do you persist?”</p>
-<p>Neo: “Because I choose to.”</p>
-<p><em>— Matrix Revolutions, 2003</em></p>
+<p>agent smith: “why, mr. anderson? why, why? why do you do it? why, why get up? why keep fighting? do you believe you’re fighting… for something? for more than your survival? can you tell me what it is? do you even know? is it freedom? or truth? perhaps peace? could it be for love? illusions, mr. anderson. vagaries of perception. temporary constructs of a feeble human intellect trying desperately to justify an existence that is without meaning or purpose. and all of them as artificial as the matrix itself, although… only a human mind could invent something as insipid as love. you must be able to see it, mr. anderson. you must know it by now. you can’t win. it’s pointless to keep fighting. why, mr. anderson? why? why do you persist?”</p>
+<p>neo: “because i choose to.”</p>
+<p><em>— matrix revolutions, 2003</em></p>
 </blockquote>
+<p>if interested to see how my thought process has changed over time, here are the previous articles:</p>
+<ul>
+<li><a href="../download-button-spinner/">download btn spinner, 2023-02-21</a></li>
+<li><a href="../download-button-spinner-js/">download btn spinner, 2023-05-28</a></li>
+</ul>
 </section>
 <section id="whats-different-this-time" class="level1">
-<h1>What’s different this time?</h1>
+<h1>what’s different this time?</h1>
 <ul>
-<li>Better UI/UX.</li>
-<li>More straightforward than my two previous attempts.</li>
-<li>Works for all your app’s download buttons.</li>
+<li>better ui/ux.</li>
+<li>more straightforward than my two previous attempts.</li>
+<li>works for all your app’s download buttons.</li>
+<li>even works for modules without you changing a single thing!</li>
 </ul>
 </section>
-<section id="okay-fine.-show-me." class="level1">
-<h1>Okay, fine. Show me.</h1>
-<p>Let’s create a barebones shiny app with a download button in the UI and the corresponding download handler in the server portion:</p>
+<section id="basic-app" class="level1">
+<h1>basic app</h1>
+<p>let’s create a barebones shiny app with a download button in the ui and the corresponding download handler in the server portion:</p>
+<div class="cell">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>app.R</strong></pre>
+</div>
+<div class="sourceCode cell-code" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(shiny)</span>
+<span id="cb1-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(bslib)</span>
+<span id="cb1-3"></span>
+<span id="cb1-4">ui <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">page</span>(</span>
+<span id="cb1-5">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">theme =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">bs_theme</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">version =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>L),</span>
+<span id="cb1-6">  tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">div</span>(</span>
+<span id="cb1-7">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">class =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"container"</span>,</span>
+<span id="cb1-8">    tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">h3</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"downloading spinner"</span>),</span>
+<span id="cb1-9">    tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">p</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"works for all download btns in your app &amp; modules..."</span>),</span>
+<span id="cb1-10">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">downloadButton</span>(</span>
+<span id="cb1-11">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">outputId =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"dnld"</span>,</span>
+<span id="cb1-12">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">class =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"btn-sm rounded-3"</span></span>
+<span id="cb1-13">    )</span>
+<span id="cb1-14">  )</span>
+<span id="cb1-15">)</span>
+<span id="cb1-16"></span>
+<span id="cb1-17">server <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> \(input, output, session) {</span>
+<span id="cb1-18">  output<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>dnld <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">downloadHandler</span>(</span>
+<span id="cb1-19">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">filename =</span> \() {</span>
+<span id="cb1-20">      <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"iris.csv"</span></span>
+<span id="cb1-21">    },</span>
+<span id="cb1-22">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">content =</span> \(file) {</span>
+<span id="cb1-23">      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Sys.sleep</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># &lt;-- simulate large file</span></span>
+<span id="cb1-24">      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">write.csv</span>(iris, file)</span>
+<span id="cb1-25">    }</span>
+<span id="cb1-26">  )</span>
+<span id="cb1-27">}</span>
+<span id="cb1-28"></span>
+<span id="cb1-29"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">shinyApp</span>(ui, server)</span></code></pre></div>
+</div>
+</div>
+<p>great! now when you run that and click the download button, you will have a bad user experience. to the user, the app is seemingly silent: no indication of a download in progress.</p>
 </section>
-<section id="modify-download-handler" class="level1">
-<h1>Modify download handler</h1>
+<section id="add-onclick-events-to-download-btns" class="level1">
+<h1>add onclick events to download btns</h1>
+<p>we’re going to write some js in <code>./public/main.js</code>.</p>
+<p>first, let’s ensure:</p>
 <ul>
-<li>on.exit</li>
-<li>send custom msg</li>
+<li>static resources are accessible in our shiny app via the <code>/static/</code> prefix. we’ll use <code>shiny::addResourcePath()</code></li>
+<li>the js file is loaded in our app using <code>tags$script()</code>.</li>
+</ul>
+<div class="cell">
+<div class="code-with-filename">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-with-filename-file">
+<pre><strong>app.R</strong></pre>
+</div>
+<div class="sourceCode cell-code" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(shiny)</span>
+<span id="cb2-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(bslib)</span>
+<span id="cb2-3"></span>
+<span id="cb2-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># make static resources accessible via "/static":</span></span>
+<span id="cb2-5"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">addResourcePath</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">prefix =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"static"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">directoryPath =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"./public"</span>)</span>
+<span id="cb2-6"></span>
+<span id="cb2-7">ui <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">page</span>(</span>
+<span id="cb2-8">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">theme =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">bs_theme</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">version =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>L),</span>
+<span id="cb2-9">  tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">div</span>(</span>
+<span id="cb2-10">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">class =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"container"</span>,</span>
+<span id="cb2-11">    tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">h3</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"downloading spinner"</span>),</span>
+<span id="cb2-12">    tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">p</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"works for all download btns in your app &amp; modules..."</span>),</span>
+<span id="cb2-13">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">downloadButton</span>(</span>
+<span id="cb2-14">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">outputId =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"dnld"</span>,</span>
+<span id="cb2-15">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">class =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"btn-sm rounded-3"</span></span>
+<span id="cb2-16">    )</span>
+<span id="cb2-17">  ),</span>
+<span id="cb2-18">  tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">script</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">src =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"/static/main.js"</span>) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># &lt;-- load js file</span></span>
+<span id="cb2-19">)</span>
+<span id="cb2-20"></span>
+<span id="cb2-21">server <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> \(input, output, session) {</span>
+<span id="cb2-22">  output<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>dnld <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">downloadHandler</span>(</span>
+<span id="cb2-23">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">filename =</span> \() {</span>
+<span id="cb2-24">      <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"iris.csv"</span></span>
+<span id="cb2-25">    },</span>
+<span id="cb2-26">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">content =</span> \(file) {</span>
+<span id="cb2-27">      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Sys.sleep</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># &lt;-- simulate large file</span></span>
+<span id="cb2-28">      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">write.csv</span>(iris, file)</span>
+<span id="cb2-29">    }</span>
+<span id="cb2-30">  )</span>
+<span id="cb2-31">}</span>
+<span id="cb2-32"></span>
+<span id="cb2-33"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">shinyApp</span>(ui, server)</span></code></pre></div>
+</details>
+</div>
+</div>
+<p>now let’s write the js file:</p>
+<div class="cell">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>./public/main.js</strong></pre>
+</div>
+<div class="sourceCode cell-code" id="annotated-cell-3" style="background: #f1f3f5;"><pre class="sourceCode js code-annotation-code code-with-copy code-annotated"><code class="sourceCode javascript"><a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-3-1" class="code-annotation-target"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">$</span>(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">document</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">on</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"click"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">".shiny-download-link"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">function</span> () {</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-3-2" class="code-annotation-target">  <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">const</span> btn <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">$</span>(<span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">this</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-3-3" class="code-annotation-target">  <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">const</span> spinner <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span></span>
+<span id="annotated-cell-3-4">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'&lt;span class="spinner-border spinner-border-sm" aria-hidden="true"&gt;&lt;/span&gt;'</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="annotated-cell-3-5">  <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">const</span> text <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'&lt;span role="status"&gt; Downloading... &lt;/span&gt;'</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="annotated-cell-3-6"></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-3-7" class="code-annotation-target">  btn<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">html</span>(spinner <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> text)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-3-8" class="code-annotation-target">  btn<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">attr</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"aria-disabled"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">true</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-3-9" class="code-annotation-target">  btn<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">addClass</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"disabled"</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="annotated-cell-3-10">})<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="1" data-code-annotation="1">all shiny download buttons have the css class “.shiny-download-link”. we attach a click event to all btns in our app with that class.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="2" data-code-annotation="2">selects the btn itself, as a jquery object. jquery objects have lots of useful methods.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="3,4,5" data-code-annotation="3">create a bootstrap 5 spinner + label. see <a href="https://getbootstrap.com/docs/5.3/components/spinners/">reference</a>. this is what will be shown when a dnld btn is clicked.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="7" data-code-annotation="4">change the inner html of the dnld btn. see <a href="https://api.jquery.com/html/">reference</a>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="8" data-code-annotation="5">set the <code>aria-disabled</code> attribute of the dnld btn to <code>true</code>. this indicates to assistive technologies like screen readers that an element is disabled but still focusable. read more about <a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-disabled">aria-disabled</a>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="9" data-code-annotation="6">disable the dnld btn. see <a href="https://getbootstrap.com/docs/5.3/components/buttons/#disabled-state">reference</a>.</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>now when you run the app and click the download button, it should show the spinner and the new label.</p>
+<p>but wait… it doesn’t revert back to the initial label once the download is complete.</p>
+<p>what we need to do is tell the browser when the download is complete, and change the inner html to what it was before.</p>
+<p>to inform the frontend that the download is complete, we’ll send a custom message from the server once <code>downloadHandler()</code> is done.</p>
+<p>in <code>app.R</code>, let’s create <code>reset_download_button()</code>:</p>
+<div class="cell">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>app.R</strong></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' Reset Download Button</span></span>
+<span id="cb3-2"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#'</span></span>
+<span id="cb3-3"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' @param id String. Output ID of the download button to reset.</span></span>
+<span id="cb3-4"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' @param session Shiny session object. Defaults to the current reactive domain.</span></span>
+<span id="cb3-5"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#'</span></span>
+<span id="cb3-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' @details</span></span>
+<span id="cb3-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' This function sends a custom message of type "end-download" to the client,</span></span>
+<span id="cb3-8"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' which should be handled by corresponding JavaScript code. The message</span></span>
+<span id="cb3-9"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' includes the namespaced button ID and inner HTML content.</span></span>
+<span id="cb3-10"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#'</span></span>
+<span id="cb3-11"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' @return NULL. Called for side effects.</span></span>
+<span id="cb3-12"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#'</span></span>
+<span id="cb3-13"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' @examples</span></span>
+<span id="cb3-14"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' \dontrun{</span></span>
+<span id="cb3-15"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' reset_download_button(id = "my_download")</span></span>
+<span id="cb3-16"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' }</span></span>
+<span id="cb3-17"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#'</span></span>
+<span id="cb3-18"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' @kewords internal</span></span>
+<span id="cb3-19"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' @noRd</span></span>
+<span id="cb3-20">reset_download_button <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> \(</span>
+<span id="cb3-21">  id,</span>
+<span id="cb3-22">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">session =</span> shiny<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">getDefaultReactiveDomain</span>()</span>
+<span id="cb3-23">) {</span>
+<span id="cb3-24">  session<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sendCustomMessage</span>(</span>
+<span id="cb3-25">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">type =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"end-download"</span>,</span>
+<span id="cb3-26">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(</span>
+<span id="cb3-27">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">id =</span> session<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ns</span>(id),</span>
+<span id="cb3-28">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">inner_html =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"&lt;i class='fas fa-download' aria-label='download icon' role='presentation'&gt;&lt;/i&gt; Download"</span></span>
+<span id="cb3-29">    )</span>
+<span id="cb3-30">  )</span>
+<span id="cb3-31">}</span></code></pre></div>
+</div>
+</div>
+<p>once <code>downloadHandler()</code> is done, we want to send a custom message of type “end-download” with 2 items:</p>
+<ol type="1">
+<li><code>id</code>: the namespace btn id.</li>
+<li><code>inner_html</code>: the new inner html to use for the dnld btn.</li>
+</ol>
+<p>let’s now update the server portion of our app to:</p>
+<div class="cell">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>app.R</strong></pre>
+</div>
+<div class="sourceCode cell-code" id="annotated-cell-5" style="background: #f1f3f5;"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-5-1">server <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> \(input, output, session) {</span>
+<span id="annotated-cell-5-2">  output<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>dnld <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">downloadHandler</span>(</span>
+<span id="annotated-cell-5-3">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">filename =</span> \() {</span>
+<span id="annotated-cell-5-4">      <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"iris.csv"</span></span>
+<span id="annotated-cell-5-5">    },</span>
+<span id="annotated-cell-5-6">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">content =</span> \(file) {</span>
+<span id="annotated-cell-5-7">      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">on.exit</span>({</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-5-8" class="code-annotation-target">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">reset_download_button</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">id =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"dnld"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">session =</span> session)</span>
+<span id="annotated-cell-5-9">      })</span>
+<span id="annotated-cell-5-10">      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Sys.sleep</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># &lt;-- simulate large file</span></span>
+<span id="annotated-cell-5-11">      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">write.csv</span>(iris, file)</span>
+<span id="annotated-cell-5-12">    }</span>
+<span id="annotated-cell-5-13">  )</span>
+<span id="annotated-cell-5-14">}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="8" data-code-annotation="1">we use <code>on.exit()</code> so that the “end-download” message is sent even when <code>downloadHandler()</code> exits with an error.</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>here’s where <code>app.R</code> is at now:</p>
+<div class="cell">
+<div class="code-with-filename">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-with-filename-file">
+<pre><strong>app.R</strong></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4" style="background: #f1f3f5;"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(shiny)</span>
+<span id="cb4-2"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">library</span>(bslib)</span>
+<span id="cb4-3"></span>
+<span id="cb4-4"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">addResourcePath</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">prefix =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"/static"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">directoryPath =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"./public"</span>)</span>
+<span id="cb4-5"></span>
+<span id="cb4-6"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' Reset Download Button</span></span>
+<span id="cb4-7"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#'</span></span>
+<span id="cb4-8"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' @param id String. Output ID of the download button to reset.</span></span>
+<span id="cb4-9"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' @param session Shiny session object. Defaults to the current reactive domain.</span></span>
+<span id="cb4-10"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#'</span></span>
+<span id="cb4-11"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' @details</span></span>
+<span id="cb4-12"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' This function sends a custom message of type "end-download" to the client,</span></span>
+<span id="cb4-13"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' which should be handled by corresponding JavaScript code. The message</span></span>
+<span id="cb4-14"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' includes the namespaced button ID and inner HTML content.</span></span>
+<span id="cb4-15"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#'</span></span>
+<span id="cb4-16"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' @return NULL. Called for side effects.</span></span>
+<span id="cb4-17"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#'</span></span>
+<span id="cb4-18"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' @examples</span></span>
+<span id="cb4-19"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' \dontrun{</span></span>
+<span id="cb4-20"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' reset_download_button(id = "my_download")</span></span>
+<span id="cb4-21"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' }</span></span>
+<span id="cb4-22"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#'</span></span>
+<span id="cb4-23"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' @kewords internal</span></span>
+<span id="cb4-24"><span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">#' @noRd</span></span>
+<span id="cb4-25">reset_download_button <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> \(</span>
+<span id="cb4-26">  id,</span>
+<span id="cb4-27">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">session =</span> shiny<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">::</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">getDefaultReactiveDomain</span>()</span>
+<span id="cb4-28">) {</span>
+<span id="cb4-29">  session<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">sendCustomMessage</span>(</span>
+<span id="cb4-30">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">type =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"end-download"</span>,</span>
+<span id="cb4-31">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">list</span>(</span>
+<span id="cb4-32">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">id =</span> session<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">ns</span>(id),</span>
+<span id="cb4-33">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">inner_html =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"&lt;i class='fas fa-download' aria-label='download icon' role='presentation'&gt;&lt;/i&gt; Download"</span></span>
+<span id="cb4-34">    )</span>
+<span id="cb4-35">  )</span>
+<span id="cb4-36">}</span>
+<span id="cb4-37"></span>
+<span id="cb4-38">ui <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">page</span>(</span>
+<span id="cb4-39">  <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">theme =</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">bs_theme</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">version =</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">5</span>L),</span>
+<span id="cb4-40">  tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">div</span>(</span>
+<span id="cb4-41">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">class =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"container"</span>,</span>
+<span id="cb4-42">    tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">h3</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"downloading spinner"</span>),</span>
+<span id="cb4-43">    tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">p</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"works for all download btns in your app &amp; modules..."</span>),</span>
+<span id="cb4-44">    <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">downloadButton</span>(</span>
+<span id="cb4-45">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">outputId =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"dnld"</span>,</span>
+<span id="cb4-46">      <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">class =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"btn-sm rounded-3"</span></span>
+<span id="cb4-47">    )</span>
+<span id="cb4-48">  ),</span>
+<span id="cb4-49">  tags<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">script</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">src =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"/static/main.js"</span>)</span>
+<span id="cb4-50">)</span>
+<span id="cb4-51"></span>
+<span id="cb4-52">server <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> \(input, output, session) {</span>
+<span id="cb4-53">  output<span class="sc" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">$</span>dnld <span class="ot" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">&lt;-</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">downloadHandler</span>(</span>
+<span id="cb4-54">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">filename =</span> \() {</span>
+<span id="cb4-55">      <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"iris.csv"</span></span>
+<span id="cb4-56">    },</span>
+<span id="cb4-57">    <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">content =</span> \(file) {</span>
+<span id="cb4-58">      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">on.exit</span>({</span>
+<span id="cb4-59">        <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">reset_download_button</span>(<span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">id =</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"dnld"</span>, <span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">session =</span> session)</span>
+<span id="cb4-60">      })</span>
+<span id="cb4-61">      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">Sys.sleep</span>(<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">3</span>) <span class="co" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;"># &lt;-- simulate large file</span></span>
+<span id="cb4-62">      <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">write.csv</span>(iris, file)</span>
+<span id="cb4-63">    }</span>
+<span id="cb4-64">  )</span>
+<span id="cb4-65">}</span>
+<span id="cb4-66"></span>
+<span id="cb4-67"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">shinyApp</span>(ui, server)</span></code></pre></div>
+</details>
+</div>
+</div>
+<p>after sending the “end-download” custom message from the server, it must be handled on the client-side. let’s add this to <code>./public/main.js</code>:</p>
+<div class="cell">
+<div class="code-with-filename">
+<div class="code-with-filename-file">
+<pre><strong>./public.main.js</strong></pre>
+</div>
+<div class="sourceCode cell-code" id="annotated-cell-7" style="background: #f1f3f5;"><pre class="sourceCode js code-annotation-code code-with-copy code-annotated"><code class="sourceCode javascript"><a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-7-1" class="code-annotation-target">Shiny<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">addCustomMessageHandler</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"end-download"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">function</span> (msg) {</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-7-2" class="code-annotation-target">  <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">const</span> btn <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">$</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#"</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> msg<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">id</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="annotated-cell-7-3"></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-7-4" class="code-annotation-target">  btn<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">html</span>(msg<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">inner_html</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-7-5" class="code-annotation-target">  btn<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">attr</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"aria-disabled"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">false</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-7" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-7-6" class="code-annotation-target">  btn<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">removeClass</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"disabled"</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="annotated-cell-7-7">})<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div>
+</div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-7" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="1" data-code-annotation="1">add a custom message handler for messages send from the server of type “end-download”. the custom handler is a callback which takes the message as a parameter.</span>
+</dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="2" data-code-annotation="2">grab the dnld btn id from the message and select the element with that id.</span>
+</dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="4" data-code-annotation="3">set inner html of the btn to the value of <code>inner_html</code> from the message.</span>
+</dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="5" data-code-annotation="4">set the <code>aria-disabled</code> attribute to <code>false</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-7" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-7" data-code-lines="6" data-code-annotation="5">enable the button, making it clickable again.</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>here’s the full version of <code>main.js</code> now:</p>
+<div class="cell">
+<div class="code-with-filename">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-with-filename-file">
+<pre><strong>./public.main.js</strong></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5" style="background: #f1f3f5;"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb5-1"><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">$</span>(<span class="bu" style="color: null;
+background-color: null;
+font-style: inherit;">document</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">on</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"click"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">".shiny-download-link"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">function</span> () {</span>
+<span id="cb5-2">  <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">const</span> btn <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">$</span>(<span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">this</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb5-3">  <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">const</span> spinner <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span></span>
+<span id="cb5-4">    <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'&lt;span class="spinner-border spinner-border-sm" aria-hidden="true"&gt;&lt;/span&gt;'</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb5-5">  <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">const</span> text <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">'&lt;span role="status"&gt; Downloading... &lt;/span&gt;'</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb5-6"></span>
+<span id="cb5-7">  btn<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">html</span>(spinner <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> text)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb5-8">  btn<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">attr</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"aria-disabled"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">true</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb5-9">  btn<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">addClass</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"disabled"</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb5-10">})<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb5-11"></span>
+<span id="cb5-12">Shiny<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">addCustomMessageHandler</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"end-download"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">function</span> (msg) {</span>
+<span id="cb5-13">  <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">const</span> btn <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">$</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"#"</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> msg<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">id</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb5-14"></span>
+<span id="cb5-15">  btn<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">html</span>(msg<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">inner_html</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb5-16">  btn<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">attr</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"aria-disabled"</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">,</span> <span class="kw" style="color: #003B4F;
+background-color: null;
+font-style: inherit;">false</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb5-17">  btn<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">.</span><span class="fu" style="color: #4758AB;
+background-color: null;
+font-style: inherit;">removeClass</span>(<span class="st" style="color: #20794D;
+background-color: null;
+font-style: inherit;">"disabled"</span>)<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span>
+<span id="cb5-18">})<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">;</span></span></code></pre></div>
+</details>
+</div>
+</div>
+<p>that’s it! now all you have to do for the rest of your app is to add an <code>on.exit()</code> call to <code>reset_download_button()</code> in each <code>downloadHandler()</code>.</p>
+<p>this will work for all your download buttons:</p>
+<ul>
+<li>dynamically rendered, eg. in <code>renderUI()</code> &amp; <code>insertUI()</code></li>
+<li>in shiny modules (that’s why we send the namespaced id in <code>reset_download_button()</code>, remember?)</li>
 </ul>
 </section>
-<section id="frontend" class="level1">
-<h1>frontend</h1>
-<ul>
-<li>add on click handler</li>
-<li>add custom msg handler</li>
-<li>add spinner</li>
-<li>disable btn</li>
-</ul>
-</section>
-<section id="works-for-all-download-buttons" class="level1">
-<h1>Works for all download buttons</h1>
-<ul>
-<li>add another download button &amp; handler to app</li>
-</ul>
-</section>
-<section id="even-in-modules" class="level1">
-<h1>Even in modules!</h1>
-<ul>
-<li>show module example</li>
-</ul>
+<section id="wrap-up" class="level1">
+<h1>wrap up</h1>
+<p>go fourth and improve the ui/ux for your users. make R great again!</p>
+<p><img src="https://mwavu.com/blog/posts/shiny/download-button-spinner-again/rise-my-glorious-creation.png" class="img-fluid"></p>
 
 
 </section>
 
  ]]></description>
-  <category>R</category>
-  <category>Shiny</category>
-  <category>UI/UX</category>
+  <category>r</category>
+  <category>shiny</category>
+  <category>ui/ux</category>
   <guid>https://mwavu.com/blog/posts/shiny/download-button-spinner-again/</guid>
   <pubDate>Sat, 12 Jul 2025 21:00:00 GMT</pubDate>
   <media:content url="https://mwavu.com/blog/posts/shiny/download-button-spinner-again/thumbnail.png" medium="image" type="image/png" height="90" width="144"/>
