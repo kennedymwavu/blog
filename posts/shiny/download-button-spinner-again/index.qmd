@@ -4,6 +4,7 @@ subtitle: "why, mr. anderson? why? why do you persist?"
 date: "2025-07-13"
 categories: [r, shiny, ui/ux]
 image: "thumbnail.png"
+order: 2
 ---
 
 # why do i keep coming back to this?

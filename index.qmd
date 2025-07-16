@@ -1,7 +1,9 @@
 ---
 listing:
   contents: posts/**/*.qmd
-  sort: "date desc"
+  sort:
+    - "date desc"
+    - "order"
   feed: true
   type: grid
   image-height: "200px"

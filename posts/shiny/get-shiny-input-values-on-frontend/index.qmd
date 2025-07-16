@@ -4,6 +4,7 @@ subtitle: "Cut that unnecessary trip to the server!"
 date: "2025-07-13"
 categories: [R, Shiny, UI/UX]
 image: "thumbnail.png"
+order: 1
 ---
 
 # Problem
