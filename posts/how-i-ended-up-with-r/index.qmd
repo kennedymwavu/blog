@@ -2,7 +2,7 @@
 title: "How I Ended Up With R"
 subtitle: "I would rather share one lifetime with you than face all the ages of this world alone."
 date: "2024-02-08"
-categories: [life, R]
+categories: [life, r]
 image: thumbnail.avif
 ---
 

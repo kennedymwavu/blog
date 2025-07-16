@@ -2,7 +2,7 @@
 title: "Count sequential characters"
 subtitle: "Long have you hunted me. Long have I eluded you. No more."
 date: "2024-07-20"
-categories: [R]
+categories: [r]
 image: thumbnail.jpeg
 ---
 

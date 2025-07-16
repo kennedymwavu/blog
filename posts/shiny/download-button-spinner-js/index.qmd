@@ -3,7 +3,7 @@ title: "Add downLoading spinners... using JS"
 subtitle: "Show spinner when download is in progress"
 author: "Kennedy Mwavu"
 date: "2023-05-28"
-categories: [R, Shiny, JavaScript, UI/UX]
+categories: [r, shiny, javascript, ui/ux]
 image: dnld-spinner-js.gif
 ---
 

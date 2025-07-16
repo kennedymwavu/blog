@@ -158,7 +158,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div class="quarto-title column-body">
       <h1 class="title">Random tidings on SQLite &amp; {DBI}</h1>
             <p class="subtitle lead">SQLite, my precious! We loves it!</p>
-                      </div>
+                                <div class="quarto-categories">
+                <div class="quarto-category">r</div>
+                <div class="quarto-category">sqlite</div>
+              </div>
+                  </div>
   </div>
     
   
@@ -181,7 +185,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div>
       <div class="quarto-title-meta-heading">Modified</div>
       <div class="quarto-title-meta-contents">
-        <p class="date-modified">July 13, 2025</p>
+        <p class="date-modified">July 16, 2025</p>
       </div>
     </div>
       
@@ -230,9 +234,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="foreign-keys" class="level2">
 <h2 class="anchored" data-anchor-id="foreign-keys">Foreign keys</h2>
-<p>Foreign keys are disabled by default in sqlite. The have to be enabled on each connection.</p>
+<p>Foreign keys are disabled by default in sqlite. They have to be enabled on each connection.</p>
 <p>Reference: <a href="https://www.sqlite.org/foreignkeys.html">Foreign Keys</a>.</p>
-<p>That implies to use foreign keys with {pool}, you need to set the variable at the connection level. Hence, you cannot use the {pool} object itself.</p>
+<p>That implies to use foreign keys with <code>{pool}</code>, you need to set the variable at the connection level. Hence, you cannot use the <code>{pool}</code> object itself.</p>
 <p>Reference: <a href="https://shiny.posit.co/r/articles/build/pool-advanced/">Advanced Usage of Pool</a>.</p>
 </section>
 <section id="timestamps" class="level2">
@@ -247,12 +251,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="running-an-sql-script" class="level2">
 <h2 class="anchored" data-anchor-id="running-an-sql-script">Running an SQL script</h2>
-<p>{RSQLite} does not allow running multiple SQL statements at once. As such, if you have an SQL script, you have to split it into individual statements and run them one after the other.</p>
+<p><code>{RSQLite}</code> does not allow running multiple SQL statements at once. As such, if you have an SQL script, you have to split it into individual statements and run them one after the other.</p>
 <p>Reference: <a href="https://github.com/r-dbi/RSQLite/issues/313">Statements after the first dbExecute are ignored</a>.</p>
 </section>
 <section id="query-parameterization" class="level2">
 <h2 class="anchored" data-anchor-id="query-parameterization">Query parameterization</h2>
-<p>{DBI} currently has no way to parameterize queries across relational databases. Hence, if you’re writing a query to be run on multiple SQL backends, you need to change the parameterization for depending on the format used for each of the databases.</p>
+<p><code>{DBI}</code> currently has no way to parameterize queries across all relational databases. Hence, if you’re writing a query to be run on multiple SQL backends, you need to change the parameterization for depending on the format used for each of the databases.</p>
 <p>Reference: <a href="https://dbi.r-dbi.org/reference/dbBind.html#details">Parameterize Queries Across Relational DBs</a>.</p>
 
 

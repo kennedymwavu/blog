@@ -3,7 +3,7 @@ title: "Autoreloading in Shiny"
 subtitle: "Set up your dev environment to enable autoreloading"
 author: "Kennedy Mwavu"
 date: "2024-01-06"
-categories: [R, Shiny]
+categories: [r, shiny]
 image: showtime.jpg
 ---
 

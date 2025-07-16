@@ -3,7 +3,7 @@ title: "The `input` in function(input, output, session)"
 subtitle: "Here's what I know about it so far"
 author: "Kennedy Mwavu"
 date: "2023-07-24"
-categories: [R, Shiny]
+categories: [r, shiny]
 image: reprex.gif
 ---
 

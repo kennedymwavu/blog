@@ -41,50 +41,6 @@
   <media:content url="https://mwavu.com/blog/posts/lowercase-from-now-on/thumbnail.jpg" medium="image" type="image/jpeg"/>
 </item>
 <item>
-  <title>Get shiny’s input values on the frontend</title>
-  <link>https://mwavu.com/blog/posts/shiny/get-shiny-input-values-on-frontend/</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<section id="problem" class="level1">
-<h1>Problem</h1>
-<p>You have a radio button group with two options:</p>
-<ul>
-<li>csv</li>
-<li>pdf</li>
-</ul>
-<p>You also have an action button whose label you want to change depending on the selected radio button option:</p>
-<ul>
-<li>“Download CSV”, or,</li>
-<li>“Download PDF”</li>
-</ul>
-</section>
-<section id="old-way" class="level1">
-<h1>Old way</h1>
-<p>young me would do it this way</p>
-</section>
-<section id="better-way" class="level1">
-<h1>Better way</h1>
-<p>you already have everything on the frontend. use that!</p>
-<ul>
-<li>Shiny.shinyapp.$inputValues.input-value-id</li>
-</ul>
-
-
-</section>
-
- ]]></description>
-  <category>R</category>
-  <category>Shiny</category>
-  <category>UI/UX</category>
-  <guid>https://mwavu.com/blog/posts/shiny/get-shiny-input-values-on-frontend/</guid>
-  <pubDate>Sat, 12 Jul 2025 21:00:00 GMT</pubDate>
-  <media:content url="https://mwavu.com/blog/posts/shiny/get-shiny-input-values-on-frontend/thumbnail.png" medium="image" type="image/png" height="118" width="144"/>
-</item>
-<item>
   <title>downloading spinners… again!</title>
   <link>https://mwavu.com/blog/posts/shiny/download-button-spinner-again/</link>
   <description><![CDATA[ 
@@ -115,6 +71,7 @@
 <li>works for all your app’s download buttons.</li>
 <li>even works for modules without you changing a single thing!</li>
 </ul>
+<p>tl;dr: <a href="https://github.com/kennedymwavu/r-shiny-demo-collection/tree/main/show-downloading-spinner">just wanna see the code</a></p>
 </section>
 <section id="basic-app" class="level1">
 <h1>basic app</h1>
@@ -1184,6 +1141,7 @@ font-style: inherit;">;</span></span></code></pre></div>
  ]]></description>
   <category>r</category>
   <category>shiny</category>
+  <category>javascript</category>
   <category>ui/ux</category>
   <guid>https://mwavu.com/blog/posts/shiny/download-button-spinner-again/</guid>
   <pubDate>Sat, 12 Jul 2025 21:00:00 GMT</pubDate>
@@ -1258,9 +1216,9 @@ font-style: inherit;">'your_table_name'</span>);</span></code></pre></div>
 </section>
 <section id="foreign-keys" class="level2">
 <h2 class="anchored" data-anchor-id="foreign-keys">Foreign keys</h2>
-<p>Foreign keys are disabled by default in sqlite. The have to be enabled on each connection.</p>
+<p>Foreign keys are disabled by default in sqlite. They have to be enabled on each connection.</p>
 <p>Reference: <a href="https://www.sqlite.org/foreignkeys.html">Foreign Keys</a>.</p>
-<p>That implies to use foreign keys with {pool}, you need to set the variable at the connection level. Hence, you cannot use the {pool} object itself.</p>
+<p>That implies to use foreign keys with <code>{pool}</code>, you need to set the variable at the connection level. Hence, you cannot use the <code>{pool}</code> object itself.</p>
 <p>Reference: <a href="https://shiny.posit.co/r/articles/build/pool-advanced/">Advanced Usage of Pool</a>.</p>
 </section>
 <section id="timestamps" class="level2">
@@ -1275,18 +1233,20 @@ font-style: inherit;">'your_table_name'</span>);</span></code></pre></div>
 </section>
 <section id="running-an-sql-script" class="level2">
 <h2 class="anchored" data-anchor-id="running-an-sql-script">Running an SQL script</h2>
-<p>{RSQLite} does not allow running multiple SQL statements at once. As such, if you have an SQL script, you have to split it into individual statements and run them one after the other.</p>
+<p><code>{RSQLite}</code> does not allow running multiple SQL statements at once. As such, if you have an SQL script, you have to split it into individual statements and run them one after the other.</p>
 <p>Reference: <a href="https://github.com/r-dbi/RSQLite/issues/313">Statements after the first dbExecute are ignored</a>.</p>
 </section>
 <section id="query-parameterization" class="level2">
 <h2 class="anchored" data-anchor-id="query-parameterization">Query parameterization</h2>
-<p>{DBI} currently has no way to parameterize queries across relational databases. Hence, if you’re writing a query to be run on multiple SQL backends, you need to change the parameterization for depending on the format used for each of the databases.</p>
+<p><code>{DBI}</code> currently has no way to parameterize queries across all relational databases. Hence, if you’re writing a query to be run on multiple SQL backends, you need to change the parameterization for depending on the format used for each of the databases.</p>
 <p>Reference: <a href="https://dbi.r-dbi.org/reference/dbBind.html#details">Parameterize Queries Across Relational DBs</a>.</p>
 
 
 </section>
 
  ]]></description>
+  <category>r</category>
+  <category>sqlite</category>
   <guid>https://mwavu.com/blog/posts/random-sqlite-tidings/</guid>
   <pubDate>Sat, 09 Nov 2024 21:00:00 GMT</pubDate>
   <media:content url="https://mwavu.com/blog/posts/random-sqlite-tidings/thumbnail.jpg" medium="image" type="image/jpeg"/>
@@ -1825,7 +1785,7 @@ font-style: inherit;">string =</span> string</span>
 </section>
 
  ]]></description>
-  <category>R</category>
+  <category>r</category>
   <guid>https://mwavu.com/blog/posts/count-sequential-chars/</guid>
   <pubDate>Fri, 19 Jul 2024 21:00:00 GMT</pubDate>
   <media:content url="https://mwavu.com/blog/posts/count-sequential-chars/thumbnail.jpeg" medium="image" type="image/jpeg"/>
@@ -1984,7 +1944,7 @@ Caution
 
  ]]></description>
   <category>life</category>
-  <category>R</category>
+  <category>r</category>
   <guid>https://mwavu.com/blog/posts/how-i-ended-up-with-r/</guid>
   <pubDate>Wed, 07 Feb 2024 21:00:00 GMT</pubDate>
   <media:content url="https://mwavu.com/blog/posts/how-i-ended-up-with-r/thumbnail.avif" medium="image" type="image/avif"/>
@@ -2401,8 +2361,8 @@ font-style: inherit;">"^3.0.2"</span></span>
 </section>
 
  ]]></description>
-  <category>R</category>
-  <category>Shiny</category>
+  <category>r</category>
+  <category>shiny</category>
   <guid>https://mwavu.com/blog/posts/shiny/auto-reload/</guid>
   <pubDate>Fri, 05 Jan 2024 21:00:00 GMT</pubDate>
   <media:content url="https://mwavu.com/blog/posts/shiny/auto-reload/showtime.jpg" medium="image" type="image/jpeg"/>
@@ -3124,9 +3084,8 @@ font-style: inherit;">!!!</span>panel_bodies</span>
 </section>
 
  ]]></description>
-  <category>R</category>
-  <category>Shiny</category>
-  <category>UI/UX</category>
+  <category>r</category>
+  <category>shiny</category>
   <guid>https://mwavu.com/blog/posts/shiny/injecting-tabpanelbodies-in-tabsetpanels/</guid>
   <pubDate>Wed, 03 Jan 2024 21:00:00 GMT</pubDate>
   <media:content url="https://mwavu.com/blog/posts/shiny/injecting-tabpanelbodies-in-tabsetpanels/exhibit-1.gif" medium="image" type="image/gif"/>
@@ -3835,8 +3794,8 @@ font-style: inherit;">;</span></span></code></pre></div>
 </section>
 
  ]]></description>
-  <category>R</category>
-  <category>Shiny</category>
+  <category>r</category>
+  <category>shiny</category>
   <guid>https://mwavu.com/blog/posts/shiny/the-input-in-server-function/</guid>
   <pubDate>Sun, 23 Jul 2023 21:00:00 GMT</pubDate>
   <media:content url="https://mwavu.com/blog/posts/shiny/the-input-in-server-function/reprex.gif" medium="image" type="image/gif"/>
@@ -4602,9 +4561,9 @@ font-style: inherit;">FALSE</span>)</span>
 </section>
 
  ]]></description>
-  <category>R</category>
-  <category>Shiny</category>
-  <category>UI/UX</category>
+  <category>r</category>
+  <category>shiny</category>
+  <category>ui/ux</category>
   <guid>https://mwavu.com/blog/posts/shiny/bootstrap-icons-in-shiny/</guid>
   <pubDate>Thu, 20 Jul 2023 21:00:00 GMT</pubDate>
   <media:content url="https://mwavu.com/blog/posts/shiny/bootstrap-icons-in-shiny/did-you-do-it.png" medium="image" type="image/png" height="97" width="144"/>
@@ -5674,10 +5633,10 @@ font-style: inherit;">"animated"</span>)</span>
 </section>
 
  ]]></description>
-  <category>R</category>
-  <category>Shiny</category>
-  <category>JavaScript</category>
-  <category>UI/UX</category>
+  <category>r</category>
+  <category>shiny</category>
+  <category>javascript</category>
+  <category>ui/ux</category>
   <guid>https://mwavu.com/blog/posts/shiny/jquery-effects/</guid>
   <pubDate>Wed, 19 Jul 2023 21:00:00 GMT</pubDate>
   <media:content url="https://mwavu.com/blog/posts/shiny/jquery-effects/animated-renderUI-demo.gif" medium="image" type="image/gif"/>
@@ -6279,10 +6238,10 @@ font-style: inherit;">library</span>(shiny)</span></code></pre></div>
 </section>
 
  ]]></description>
-  <category>R</category>
-  <category>Shiny</category>
-  <category>JavaScript</category>
-  <category>UI/UX</category>
+  <category>r</category>
+  <category>shiny</category>
+  <category>javascript</category>
+  <category>ui/ux</category>
   <guid>https://mwavu.com/blog/posts/shiny/download-button-spinner-js/</guid>
   <pubDate>Sat, 27 May 2023 21:00:00 GMT</pubDate>
   <media:content url="https://mwavu.com/blog/posts/shiny/download-button-spinner-js/dnld-spinner-js.gif" medium="image" type="image/gif"/>
@@ -6519,7 +6478,7 @@ font-style: inherit;">TRUE</span>)]</span></code></pre></div>
 </section>
 
  ]]></description>
-  <category>R</category>
+  <category>r</category>
   <guid>https://mwavu.com/blog/posts/subset-every-nth-element-from-a-vector/</guid>
   <pubDate>Sat, 15 Apr 2023 21:00:00 GMT</pubDate>
   <media:content url="https://mwavu.com/blog/posts/subset-every-nth-element-from-a-vector/gandalf.webp" medium="image" type="image/webp"/>
@@ -7053,9 +7012,9 @@ font-style: inherit;">shinyApp</span>(ui, server)</span></code></pre></div>
 </section>
 
  ]]></description>
-  <category>R</category>
-  <category>Shiny</category>
-  <category>UI/UX</category>
+  <category>r</category>
+  <category>shiny</category>
+  <category>ui/ux</category>
   <guid>https://mwavu.com/blog/posts/shiny/defensive-programming/</guid>
   <pubDate>Sat, 25 Feb 2023 21:00:00 GMT</pubDate>
   <media:content url="https://mwavu.com/blog/posts/shiny/defensive-programming/thumbnail.jpg" medium="image" type="image/jpeg"/>
@@ -7879,9 +7838,9 @@ font-style: inherit;">shinyApp</span>(ui, server)</span></code></pre></div>
 </section>
 
  ]]></description>
-  <category>R</category>
-  <category>Shiny</category>
-  <category>UI/UX</category>
+  <category>r</category>
+  <category>shiny</category>
+  <category>ui/ux</category>
   <guid>https://mwavu.com/blog/posts/shiny/download-button-spinner/</guid>
   <pubDate>Mon, 20 Feb 2023 21:00:00 GMT</pubDate>
   <media:content url="https://mwavu.com/blog/posts/shiny/download-button-spinner/dnld-spinner.gif" medium="image" type="image/gif"/>

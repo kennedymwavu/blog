@@ -3,7 +3,7 @@ title: "Defensive Programming"
 subtitle: "Say hello to your new friend: tryCatch()"
 author: "Kennedy Mwavu"
 date: "2023-02-26"
-categories: [R, Shiny, UI/UX]
+categories: [r, shiny, ui/ux]
 image: "thumbnail.jpg"
 draft: false
 ---

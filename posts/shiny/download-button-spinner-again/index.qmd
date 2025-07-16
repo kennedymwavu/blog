@@ -2,7 +2,7 @@
 title: "downloading spinners... again!"
 subtitle: "why, mr. anderson? why? why do you persist?"
 date: "2025-07-13"
-categories: [r, shiny, ui/ux]
+categories: [r, shiny, javascript, ui/ux]
 image: "thumbnail.png"
 order: 2
 ---
@@ -38,6 +38,8 @@ here are the previous articles:
 - more straightforward than my two previous attempts.
 - works for all your app's download buttons.
 - even works for modules without you changing a single thing!
+
+tl;dr: [just wanna see the code](https://github.com/kennedymwavu/r-shiny-demo-collection/tree/main/show-downloading-spinner)
 
 # basic app
 

@@ -3,7 +3,7 @@ title: "Injecting tabPanelBodies into tabsetPanels"
 subtitle: "How to dynamically populate tabset panels with tabpanel bodies"
 author: "Kennedy Mwavu"
 date: "2024-01-04"
-categories: [R, Shiny, UI/UX]
+categories: [r, shiny]
 image: exhibit-1.gif
 ---
 

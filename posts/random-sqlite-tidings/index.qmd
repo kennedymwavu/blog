@@ -2,6 +2,7 @@
 title: "Random tidings on SQLite & {DBI}"
 subtitle: "SQLite, my precious! We loves it!"
 date: 2024-11-10
+categories: [r, sqlite]
 image: thumbnail.jpg
 ---
 
@@ -29,12 +30,12 @@ Please note that PRAGMA feature was added in SQLite version 3.16.0 (2017-01-02):
 
 ## Foreign keys
 
-Foreign keys are disabled by default in sqlite. The have to be enabled on each connection.
+Foreign keys are disabled by default in sqlite. They have to be enabled on each connection.
 
 Reference: [Foreign Keys](https://www.sqlite.org/foreignkeys.html).
 
-That implies to use foreign keys with {pool}, you need to set the variable at the connection
-level. Hence, you cannot use the {pool} object itself.
+That implies to use foreign keys with `{pool}`, you need to set the variable at the connection
+level. Hence, you cannot use the `{pool}` object itself.
 
 Reference: [Advanced Usage of Pool](https://shiny.posit.co/r/articles/build/pool-advanced/).
 
@@ -52,7 +53,7 @@ Reference: [Type affinity](https://www.sqlite.org/datatype3.html#type_affinity).
 
 ## Running an SQL script
 
-{RSQLite} does not allow running multiple SQL statements at once.
+`{RSQLite}` does not allow running multiple SQL statements at once.
 As such, if you have an SQL script, you have to split it into individual 
 statements and run them one after the other.
 
@@ -60,7 +61,7 @@ Reference: [Statements after the first dbExecute are ignored](https://github.com
 
 ## Query parameterization
 
-{DBI} currently has no way to parameterize queries across relational databases.
+`{DBI}` currently has no way to parameterize queries across all relational databases.
 Hence, if you're writing a query to be run on multiple SQL backends,
 you need to change the parameterization for depending on the format used
 for each of the databases.

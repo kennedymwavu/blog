@@ -3,7 +3,7 @@ title: "Subset every nth element from a vector"
 subtitle: "Hobbits are amazing creatures. You can learn all there is to know about their ways in a month, and yet after a hundred years, they can still surprise you."
 author: "Kennedy Mwavu"
 date: "2023-04-16"
-categories: [R]
+categories: [r]
 image: gandalf.webp
 ---
 
