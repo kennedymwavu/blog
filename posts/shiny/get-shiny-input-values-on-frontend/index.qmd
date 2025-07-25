@@ -1,0 +1,440 @@
+---
+title: "get shiny input values on the frontend"
+subtitle: "cut unnecessary trips to the server"
+date: "2025-07-25"
+categories: [r, shiny, javascript, ui/ux]
+image: "thumbnail.png"
+order: 1
+---
+
+tl;dr: `Shiny.shinyapp.$inputValues["inputValueId"]`
+
+# intro
+
+there are some actions which can be performed purely on the frontend 
+without an extra trip to your server.
+
+let's focus on this example:
+
+> you have two radio buttons: csv, and pdf. beside them, you have
+> a download button. when clicked:
+>
+> - if csv option is the chosen one, the label on the download
+> button becomes "Downloading..."
+> - if it's the pdf option, the label on the download button becomes
+> "Rendering PDF..."
+
+this can [and should] be performed on the frontend. a fairly small
+amount of jquery gets the job done. no unnecessary trip to the server.
+
+anyone who reads my posts is now like "oh, no! not him yapping about 
+download buttons again :("
+
+![](./even-harder.jpeg){alt="the meme 'even harder' but with the 
+caption 'stop talking about download buttons' and 'you know what? i'm gonna
+talk about them even harder"}
+
+# reprex
+
+let's setup a minimal reprex first.
+
+```{r reprex, eval = FALSE, filename = "app.R"}
+library(shiny)
+library(bslib)
+
+ui <- page(
+  version = bs_theme(version = 5L),
+  title = "shiny input values",
+  lang = "en",
+  tags$div(
+    class = "container",
+    tags$h3("get shiny input values on the frontend"),
+    tableOutput(outputId = "iris"),
+    radioButtons(
+      inputId = "filetype",
+      label = NULL,
+      choices = c(CSV = "csv", PDF = "pdf"),
+      selected = "csv",
+      inline = TRUE
+    ),
+    downloadButton(
+      outputId = "download_file",
+      label = "Download",
+      class = "btn-sm btn-outline-dark"
+    )
+  )
+)
+
+server <- \(input, output, session) {
+  output$iris <- renderTable(head(iris))
+
+  output$download_file <- downloadHandler(
+    filename = \() {
+      paste0("iris.", input$filetype)
+    },
+    content = \(file_path) {
+      Sys.sleep(3) # <-- simulate long download
+
+      switch(
+        EXPR = input$filetype,
+        csv = write.csv(x = head(iris), file = file_path),
+        pdf = file.copy(from = "iris.pdf", to = file_path)
+      )
+    }
+  )
+}
+
+shinyApp(ui, server)
+```
+
+since we aren't going to do real rendering for the pdf, copy 
+[this pdf](./iris.pdf) to the same dir as `app.R`.
+
+the reprex is complete!
+
+# downloading spinners
+
+obviously, we have to do this. it's courteous to let your users know
+that something is happening.
+
+after the download button is clicked, we want it's label to be
+dependent on the value of `input$filetype`. the easiest way to do
+this is:
+
+1. when app starts, send a custom message to the frontend with two
+items:
+    - input ID of the radio buttons, and
+    - input ID of the download button
+2. on the frontend: 
+    - add a custom handler for that message, and 
+    - attach an on-click event to the download button
+
+## send custom message
+
+we'll use the `session` object in `\(input, output, session)` to send
+a custom message to the frontend once our app starts.
+
+```{r custom-message, eval = FALSE, filename = "app.R"}
+session$sendCustomMessage(
+  type = "update-download-button",
+  list(
+    radioButtonId = session$ns("filetype"),
+    downloadButtonId = session$ns("download_file")
+  )
+)
+```
+
+note:
+
+- used camelCase for the item labels since it's what i mostly use
+  when writing js.
+- namespaced the element IDs via `session$ns()`. ensures this will 
+  work even in shiny modules.
+
+now `app.R` looks like this:
+
+```{r custom-message-full, eval = FALSE, filename = "app.R"}
+#| code-fold: true
+
+library(shiny)
+library(bslib)
+
+ui <- page(
+  version = bs_theme(version = 5L),
+  title = "shiny input values",
+  lang = "en",
+  tags$div(
+    class = "container",
+    tags$h3("get shiny input values on the frontend"),
+    tableOutput(outputId = "iris"),
+    radioButtons(
+      inputId = "filetype",
+      label = NULL,
+      choices = c(CSV = "csv", PDF = "pdf"),
+      selected = "csv",
+      inline = TRUE
+    ),
+    downloadButton(
+      outputId = "download_file",
+      label = "Download",
+      class = "btn-sm btn-outline-dark"
+    )
+  )
+)
+
+server <- \(input, output, session) {
+  session$sendCustomMessage(
+    type = "update-download-button",
+    list(
+      radioButtonId = session$ns("filetype"),
+      downloadButtonId = session$ns("download_file")
+    )
+  )
+
+  output$iris <- renderTable(head(iris))
+
+  output$download_file <- downloadHandler(
+    filename = \() {
+      paste0("iris.", input$filetype)
+    },
+    content = \(file_path) {
+      Sys.sleep(3) # <-- simulate long download
+
+      switch(
+        EXPR = input$filetype,
+        csv = write.csv(x = head(iris), file = file_path),
+        pdf = file.copy(from = "iris.pdf", to = file_path)
+      )
+    }
+  )
+}
+
+shinyApp(ui, server)
+```
+
+## custom message handler
+
+create a new file in `./public/main.js`:
+
+```{js custom-message-handler, filename = "./public/main.js"}
+Shiny.addCustomMessageHandler("update-download-button", function (msg) {
+  const downloadButton = $("#" + msg.downloadButtonId);
+
+  downloadButton.on("click", function () {
+    const fileType = Shiny.shinyapp.$inputValues[msg.radioButtonId];
+    const text = fileType === "csv" ? "Downloading..." : "Rendering PDF...";
+    const spinner =
+      '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span>' +
+      `<span role="status"> ${text} </span>`;
+
+    downloadButton.html(spinner);
+    downloadButton.attr("aria-disabled", true);
+    downloadButton.addClass("disabled");
+  });
+});
+```
+
+`Shiny.shinyapp.$inputValues["inputValueId"]` is how you access shiny input values
+on the frontend. it's the equivalent of `input$inputValueId` on the server.
+
+to include this js file in your app:
+
+- ensure that the `./public/` dir is added as a resource path:
+  ```{r add-resource-path, eval = FALSE, filename = "app.R"}
+  addResourcePath(prefix = "static", directoryPath = "public")
+  ```
+- use `tags$script()` at the end of your ui.
+  ```{r tags-script, eval = FALSE, filename = "app.R"}
+  tags$script(src = "/static/main.js")
+  ```
+
+after this, `app.R` will now be:
+
+```{r include-script, eval = FALSE, filename = "app.R"}
+#| code-fold: true
+
+library(shiny)
+library(bslib)
+
+addResourcePath(prefix = "static", directoryPath = "public")
+
+ui <- page(
+  version = bs_theme(version = 5L),
+  title = "shiny input values",
+  lang = "en",
+  tags$div(
+    class = "container",
+    tags$h3("get shiny input values on the frontend"),
+    tableOutput(outputId = "iris"),
+    radioButtons(
+      inputId = "filetype",
+      label = NULL,
+      choices = c(CSV = "csv", PDF = "pdf"),
+      selected = "csv",
+      inline = TRUE
+    ),
+    downloadButton(
+      outputId = "download_file",
+      label = "Download",
+      class = "btn-sm btn-outline-dark"
+    )
+  ),
+  tags$script(src = "/static/main.js")
+)
+
+server <- \(input, output, session) {
+  session$sendCustomMessage(
+    type = "update-download-button",
+    list(
+      radioButtonId = session$ns("filetype"),
+      downloadButtonId = session$ns("download_file")
+    )
+  )
+
+  output$iris <- renderTable(head(iris))
+
+  output$download_file <- downloadHandler(
+    filename = \() {
+      paste0("iris.", input$filetype)
+    },
+    content = \(file_path) {
+      Sys.sleep(3) # <-- simulate long download
+
+      switch(
+        EXPR = input$filetype,
+        csv = write.csv(x = head(iris), file = file_path),
+        pdf = file.copy(from = "iris.pdf", to = file_path)
+      )
+    }
+  )
+}
+
+shinyApp(ui, server)
+```
+
+now when the download button is clicked, its label is updated
+depending on the value of `input$filetype`.
+
+final step: once the download is done, remove the spinner and revert
+back to the original label of the download button.
+
+to do that:
+
+- send a custom message once `downloadHandler()` exits.
+- add a handler for that message on the frontend.
+
+```{r end-download-message, eval = FALSE, filename = "app.R"}
+on.exit({
+  session$sendCustomMessage(
+    type = "end-download",
+    list(
+      downloadButtonId = session$ns("download_file")
+    )
+  )
+})
+```
+
+this updates `app.R` to this:
+
+```{r final-app, eval = FALSE, filename = "app.R"}
+#| code-fold: true
+
+library(shiny)
+library(bslib)
+
+addResourcePath(prefix = "static", directoryPath = "public")
+
+ui <- page(
+  version = bs_theme(version = 5L),
+  title = "shiny input values",
+  lang = "en",
+  tags$div(
+    class = "container",
+    tags$h3("get shiny input values on the frontend"),
+    tableOutput(outputId = "iris"),
+    radioButtons(
+      inputId = "filetype",
+      label = NULL,
+      choices = c(CSV = "csv", PDF = "pdf"),
+      selected = "csv",
+      inline = TRUE
+    ),
+    downloadButton(
+      outputId = "download_file",
+      label = "Download",
+      class = "btn-sm btn-outline-dark"
+    )
+  ),
+  tags$script(src = "/static/main.js")
+)
+
+server <- \(input, output, session) {
+  session$sendCustomMessage(
+    type = "update-download-button",
+    list(
+      radioButtonId = session$ns("filetype"),
+      downloadButtonId = session$ns("download_file")
+    )
+  )
+
+  output$iris <- renderTable(head(iris))
+
+  output$download_file <- downloadHandler(
+    filename = \() {
+      paste0("iris.", input$filetype)
+    },
+    content = \(file_path) {
+      on.exit({
+        session$sendCustomMessage(
+          type = "end-download",
+          list(
+            downloadButtonId = session$ns("download_file")
+          )
+        )
+      })
+
+      Sys.sleep(3) # <-- simulate long download
+
+      switch(
+        EXPR = input$filetype,
+        csv = write.csv(x = head(iris), file = file_path),
+        pdf = file.copy(from = "iris.pdf", to = file_path)
+      )
+    }
+  )
+}
+
+shinyApp(ui, server)
+```
+
+in `./public/main.js` we'll add the handler:
+
+```{js end-download-js, filename = "./public/main.js"}
+Shiny.addCustomMessageHandler("end-download", function (msg) {
+  const downloadButton = $("#" + msg.downloadButtonId);
+  const innerHtml =
+    '<i class="fas fa-download" role="presentation" aria-label="download icon"></i> Download ';
+
+  downloadButton.html(innerHtml);
+  downloadButton.attr("aria-disabled", false);
+  downloadButton.removeClass("disabled");
+});
+```
+
+the final `./public/main.js` is now:
+
+```{js final-js, filename = "./public/main.js"}
+//| code-fold: true
+
+Shiny.addCustomMessageHandler("update-download-button", function (msg) {
+  const downloadButton = $("#" + msg.downloadButtonId);
+
+  downloadButton.on("click", function () {
+    const fileType = Shiny.shinyapp.$inputValues[msg.radioButtonId];
+    const text = fileType === "csv" ? "Downloading..." : "Rendering PDF...";
+    const spinner =
+      '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span>' +
+      `<span role="status"> ${text} </span>`;
+
+    downloadButton.html(spinner);
+    downloadButton.attr("aria-disabled", true);
+    downloadButton.addClass("disabled");
+  });
+});
+
+Shiny.addCustomMessageHandler("end-download", function (msg) {
+  const downloadButton = $("#" + msg.downloadButtonId);
+  const innerHtml =
+    '<i class="fas fa-download" role="presentation" aria-label="download icon"></i> Download ';
+
+  downloadButton.html(innerHtml);
+  downloadButton.attr("aria-disabled", false);
+  downloadButton.removeClass("disabled");
+});
+```
+
+# conclusion
+
+![](./thumbnail.png){alt="atwood's law: any application that can be written in javascript
+will eventually be written in javascript"}
+
