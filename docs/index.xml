@@ -691,23 +691,6 @@ font-style: inherit;">;</span></span>
 background-color: null;
 font-style: inherit;">;</span></span></code></pre></div>
 </div>
-<script>
-Shiny.addCustomMessageHandler("update-download-button", function (msg) {
-  const downloadButton = $("#" + msg.downloadButtonId);
-
-  downloadButton.on("click", function () {
-    const fileType = Shiny.shinyapp.$inputValues[msg.radioButtonId];
-    const text = fileType === "csv" ? "Downloading..." : "Rendering PDF...";
-    const spinner =
-      '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span>' +
-      `<span role="status"> ${text} </span>`;
-
-    downloadButton.html(spinner);
-    downloadButton.attr("aria-disabled", true);
-    downloadButton.addClass("disabled");
-  });
-});
-</script>
 </div>
 <p><code>Shiny.shinyapp.$inputValues["inputValueId"]</code> is how you access shiny input values on the frontend. it’s the equivalent of <code>input$inputValueId</code> on the server.</p>
 <p>to include this js file in your app:</p>
@@ -1418,17 +1401,6 @@ font-style: inherit;">;</span></span>
 background-color: null;
 font-style: inherit;">;</span></span></code></pre></div>
 </div>
-<script>
-Shiny.addCustomMessageHandler("end-download", function (msg) {
-  const downloadButton = $("#" + msg.downloadButtonId);
-  const innerHtml =
-    '<i class="fas fa-download" role="presentation" aria-label="download icon"></i> Download ';
-
-  downloadButton.html(innerHtml);
-  downloadButton.attr("aria-disabled", false);
-  downloadButton.removeClass("disabled");
-});
-</script>
 </div>
 <p>the final <code>./public/main.js</code> is now:</p>
 <div class="cell">
@@ -1647,33 +1619,6 @@ background-color: null;
 font-style: inherit;">;</span></span></code></pre></div>
 </details>
 </div>
-<script>
-Shiny.addCustomMessageHandler("update-download-button", function (msg) {
-  const downloadButton = $("#" + msg.downloadButtonId);
-
-  downloadButton.on("click", function () {
-    const fileType = Shiny.shinyapp.$inputValues[msg.radioButtonId];
-    const text = fileType === "csv" ? "Downloading..." : "Rendering PDF...";
-    const spinner =
-      '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span>' +
-      `<span role="status"> ${text} </span>`;
-
-    downloadButton.html(spinner);
-    downloadButton.attr("aria-disabled", true);
-    downloadButton.addClass("disabled");
-  });
-});
-
-Shiny.addCustomMessageHandler("end-download", function (msg) {
-  const downloadButton = $("#" + msg.downloadButtonId);
-  const innerHtml =
-    '<i class="fas fa-download" role="presentation" aria-label="download icon"></i> Download ';
-
-  downloadButton.html(innerHtml);
-  downloadButton.attr("aria-disabled", false);
-  downloadButton.removeClass("disabled");
-});
-</script>
 </div>
 </section>
 </section>

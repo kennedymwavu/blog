@@ -196,7 +196,7 @@ shinyApp(ui, server)
 
 create a new file in `./public/main.js`:
 
-```{js custom-message-handler, filename = "./public/main.js"}
+```{js custom-message-handler, eval = FALSE, filename = "./public/main.js"}
 Shiny.addCustomMessageHandler("update-download-button", function (msg) {
   const downloadButton = $("#" + msg.downloadButtonId);
 
@@ -389,7 +389,7 @@ shinyApp(ui, server)
 
 in `./public/main.js` we'll add the handler:
 
-```{js end-download-js, filename = "./public/main.js"}
+```{js end-download-js, eval = FALSE, filename = "./public/main.js"}
 Shiny.addCustomMessageHandler("end-download", function (msg) {
   const downloadButton = $("#" + msg.downloadButtonId);
   const innerHtml =
@@ -403,7 +403,7 @@ Shiny.addCustomMessageHandler("end-download", function (msg) {
 
 the final `./public/main.js` is now:
 
-```{js final-js, filename = "./public/main.js"}
+```{js final-js, eval = FALSE, filename = "./public/main.js"}
 //| code-fold: true
 
 Shiny.addCustomMessageHandler("update-download-button", function (msg) {
