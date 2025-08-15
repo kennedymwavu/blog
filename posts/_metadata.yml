@@ -10,8 +10,3 @@ format:
   html:
     author: "Kennedy Mwavu"
     date-modified: last-modified
-    comments:
-      giscus:
-        repo: kennedymwavu/blog-comments
-        category: Announcements
-        theme: dark
