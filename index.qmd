@@ -5,8 +5,8 @@ listing:
     - "date desc"
     - "order"
   feed: true
-  type: grid
-  image-height: "200px"
+  type: default
+  image-height: "250px"
   categories: true
   sort-ui: true
   filter-ui: true
