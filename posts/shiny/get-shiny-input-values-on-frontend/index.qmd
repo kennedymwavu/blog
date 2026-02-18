@@ -134,8 +134,6 @@ note:
 now `app.R` looks like this:
 
 ```{r custom-message-full, eval = FALSE, filename = "app.R"}
-#| code-fold: true
-
 library(shiny)
 library(bslib)
 
@@ -231,8 +229,6 @@ to include this js file in your app:
 after this, `app.R` will now be:
 
 ```{r include-script, eval = FALSE, filename = "app.R"}
-#| code-fold: true
-
 library(shiny)
 library(bslib)
 
@@ -317,8 +313,6 @@ on.exit({
 this updates `app.R` to this:
 
 ```{r final-app, eval = FALSE, filename = "app.R"}
-#| code-fold: true
-
 library(shiny)
 library(bslib)
 

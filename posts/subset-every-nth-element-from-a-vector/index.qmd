@@ -31,8 +31,9 @@ Let me explain.
 
 Take a look at `letters`:
 
-```{r}
-letters
+```bash 
+[1] "a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s"
+[20] "t" "u" "v" "w" "x" "y" "z"
 ```
 
 How do you get the elements "b", "d", "f", "h", "j", ... ie. values at the indices `2, 4, 6, 8, ...`?
@@ -51,9 +52,13 @@ Let's go through my thought process.
 
 This was definitely the first option that came to mind:
 
-```{r}
+```r
 indices <- seq(from = 2, to = length(letters), by = 2)
 letters[indices]
+```
+
+```bash
+[1] "b" "d" "f" "h" "j" "l" "n" "p" "r" "t" "v" "x" "z"
 ```
 
 Pretty good, but... 
@@ -75,9 +80,13 @@ $$
 
 Back to our problem: I basically want all indices which are divisible by $2$ *ie.* Leave a remainder of zero. 
 
-```{r}
+```r
 indices <- !seq_along(letters) %% 2
 letters[indices]
+```
+
+```bash
+[1] "b" "d" "f" "h" "j" "l" "n" "p" "r" "t" "v" "x" "z"
 ```
 
 That works but... It's quite obfuscated for such a simple problem.
@@ -97,8 +106,12 @@ This time round, it swept me off  my feet completely.
 
 The solution was as simple as this:
 
-```{r}
+```r
 letters[c(FALSE, TRUE)]
+```
+
+```r
+[1] "b" "d" "f" "h" "j" "l" "n" "p" "r" "t" "v" "x" "z"
 ```
 
 Tell me that isn't elegant! 
@@ -125,28 +138,41 @@ Now that we have the best solution (as far as we know), let's generalize it.
 
 What if you wanted to subset every 9th element? Repeat `TRUE` & `FALSE` the required number of times:
 
-```{r}
+```r
 # Subset every 9th element:
 letters[c(rep(FALSE, times = 8), TRUE)]
 ```
+
+```r
+[1] "i" "r"
+```
+
 We repeat `FALSE` $8$ times because we want every $9$th index to be retrieved.
 
 Taking $9$ as our `i`:
 
-```{r}
+```r
 i <- 9
 letters[c(rep(FALSE, times = i - 1), TRUE)]
+```
+
+```r
+[1] "i" "r"
 ```
 
 ### $(i + n)^{th}$ element
 
 Extending the above logic, let's assume `i` is $9$ and `n` is $10$. So it's like saying we want to subset every $(9 + 10)^{th} = 19^{th}$ element.
 
-```{r}
+```r
 i <- 9
 n <- 10
 # So we repeat FALSE "i + n - 1" times:
 letters[c(rep(FALSE, times = i + n - 1), TRUE)]
+```
+
+```r
+[1] "s"
 ```
 
 

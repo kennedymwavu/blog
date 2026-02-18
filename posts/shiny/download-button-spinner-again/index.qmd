@@ -93,8 +93,6 @@ we'll use `shiny::addResourcePath()`
 - the js file is loaded in our app using `tags$script()`.
 
 ```{r static-resources, eval=FALSE, filename="app.R"}
-#| code-fold: true
-
 library(shiny)
 library(bslib)
 
@@ -235,8 +233,6 @@ server <- \(input, output, session) {
 
 here's where `app.R` is at now:
 ```{r use-reset-dnld-btn, eval=FALSE, filename="app.R"}
-#| code-fold: true
-
 library(shiny)
 library(bslib)
 
@@ -329,7 +325,6 @@ Shiny.addCustomMessageHandler("end-download", function (msg) { // <1>
 here's the full version of `main.js` now:
 
 ```{js full-main-js, eval=FALSE, filename="./public.main.js"}
-#| code-fold: true
 $(document).on("click", ".shiny-download-link", function () {
   const btn = $(this);
   const spinner =
