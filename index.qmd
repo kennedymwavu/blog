@@ -6,7 +6,6 @@ listing:
     - "order"
   feed: true
   type: default
-  image-height: "250px"
   categories: true
   sort-ui: true
   filter-ui: true
@@ -15,6 +14,7 @@ listing:
     - title
     - subtitle
     - image
+    - categories
 page-layout: full
 toc: false
 comments: false
